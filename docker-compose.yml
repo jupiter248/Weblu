@@ -1,0 +1,13 @@
+services:
+  weblu-sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1435:1433"
+    environment:
+      - ACCEPT_EULA=${ACCEPT_EULA}
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    volumes:
+      - weblu-sql-server-volume:/var/opt/mssql
+volumes:
+    weblu-sql-server-volume:
+      external: false # set to false if you want Docker Compose to create a new volume

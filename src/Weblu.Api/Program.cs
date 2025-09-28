@@ -1,12 +1,18 @@
+using DotNetEnv;
+using Weblu.Infrastructure.Extensions;
+
+Env.Load(Path.Combine("../../.env")); // This loads .env into Environment variables
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConnectToDatabase();
+
 var app = builder.Build();
 
+app.Services.ApplyMigrations();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -16,6 +22,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 
 app.Run();
