@@ -9,6 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.ConnectToDatabase();
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
