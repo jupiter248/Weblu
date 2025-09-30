@@ -12,7 +12,7 @@ namespace Weblu.Application.Dtos.ServiceDtos
         public required string Slug { get; set; }
         public required string Description { get; set; }
         public required string ShortDescription { get; set; }
-        public TimeSpan BaseDuration { get; set; }
+        public int DurationInDays { get; set; }
         public decimal BasePrice { get; set; }
         public bool IsActive { get; set; }
         public DateTimeOffset? ActivatedAt { get; set; }
