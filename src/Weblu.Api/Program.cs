@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using DotNetEnv;
+using Weblu.Api.Middlewares;
 using Weblu.Infrastructure.Extensions;
 
 Env.Load(Path.Combine("../../.env")); // This loads .env into Environment variables
@@ -21,6 +22,15 @@ builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
+var supportedCultures = new[] { "en", "fa" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture("en")
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+app.UseRequestLocalization(localizationOptions);
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
+
 app.Services.ApplyMigrations();
 
 // Configure the HTTP request pipeline.
@@ -31,5 +41,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapControllers();
 
 app.Run();

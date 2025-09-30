@@ -11,6 +11,11 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Update="./Localization/Resources/Errors.resx" />
+    <EmbeddedResource Update="./Localization/Resources/Errors.fa.resx" />
+  </ItemGroup>
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>

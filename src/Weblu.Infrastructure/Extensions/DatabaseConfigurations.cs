@@ -8,7 +8,7 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Extensions
 {
-    public static class Configurations
+    public static class DatabaseConfigurations
     {
         public static void ConnectToDatabase(this IServiceCollection services)
         {
