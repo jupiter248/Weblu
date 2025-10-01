@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Mappers;
+using Weblu.Application.Services;
 
 namespace Weblu.Application.Extensions
 {
@@ -11,6 +13,7 @@ namespace Weblu.Application.Extensions
     {
         public static void AddApplication(this IServiceCollection services)
         {
+            services.AddScoped<IServiceService, ServiceService>();
             services.AddAutoMapper(typeof(MappingProfile));
         }
     }

@@ -19,7 +19,7 @@ namespace Weblu.Infrastructure.Extensions
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            
             services.AddSingleton<IErrorService, ErrorService>();
 
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLoggerService<>));

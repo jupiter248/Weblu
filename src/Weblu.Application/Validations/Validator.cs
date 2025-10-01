@@ -20,7 +20,7 @@ namespace Weblu.Application.Validations
                 // Group errors by property and get localized error messages
                 var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-                throw new Exceptions.ValidationException("VALIDATION_ERROR", CommonErrorCodes.ValidationError, errors);
+                throw new Exceptions.ValidationException(CommonErrorCodes.ValidationError, errors);
             }
         }
     }

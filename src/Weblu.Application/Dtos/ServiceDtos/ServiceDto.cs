@@ -12,11 +12,11 @@ namespace Weblu.Application.Dtos.ServiceDtos
         public required string Slug { get; set; }
         public required string Description { get; set; }
         public required string ShortDescription { get; set; }
-        public int DurationInDays { get; set; }
+        public int BaseDurationInDays { get; set; }
         public decimal BasePrice { get; set; }
         public bool IsActive { get; set; }
-        public DateTimeOffset? ActivatedAt { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.UtcNow;
+        public string? ActivatedAt { get; set; }
+        public string? UpdatedAt { get; set; }
+        public string CreatedAt { get; private set; }
     }
 }

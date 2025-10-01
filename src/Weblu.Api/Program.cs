@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using DotNetEnv;
 using Serilog;
 using Weblu.Api.Middlewares;
+using Weblu.Application.Extensions;
 using Weblu.Infrastructure.Extensions;
 
 Env.Load(Path.Combine("../../.env")); // This loads .env into Environment variables
@@ -34,6 +35,8 @@ builder.Services
 
 builder.Services.ConnectToDatabase();
 builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
+
 
 var app = builder.Build();
 

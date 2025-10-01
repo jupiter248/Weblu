@@ -7,7 +7,7 @@ namespace Weblu.Application.Exceptions
 {
     public class NotFoundException : AppException
     {
-        public NotFoundException(string message, string errorCode) : base(message, errorCode, 404, null)
+        public NotFoundException(string errorCode) : base(errorCode, 404, null)
         {
         }
     }

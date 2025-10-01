@@ -23,7 +23,7 @@ namespace Weblu.Application.Helpers
             int minute = persianCalendar.GetMinute(dateTime);
             int second = persianCalendar.GetSecond(dateTime);
 
-            return $"{year}/{month}/{day} {hour}:{minute}:{second}";
+            return $"{year:D4}/{month:D2}/{day:D2} {hour:D2}:{minute:D2}:{second:D2}";
         }
     }
 }

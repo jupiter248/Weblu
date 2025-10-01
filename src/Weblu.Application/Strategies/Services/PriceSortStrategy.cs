@@ -23,7 +23,7 @@ namespace Weblu.Application.Strategies.Services
             }
             else
             {
-                return [];
+                return services;
             }
         }
     }

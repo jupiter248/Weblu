@@ -14,12 +14,12 @@ namespace Weblu.Domain.Entities
         public required string Slug { get; set; }
         public required string Description { get; set; }
         public required string ShortDescription { get; set; }
-        public TimeSpan BaseDuration { get; set; }
+        public int BaseDurationInDays { get; set; }
         public decimal BasePrice { get; set; }
         public bool IsActive { get; set; }
         public DateTimeOffset? ActivatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
         
         // Features
         // Methods

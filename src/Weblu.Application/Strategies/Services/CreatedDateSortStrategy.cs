@@ -15,15 +15,15 @@ namespace Weblu.Application.Strategies.Services
         {
             if (serviceParameters.CreatedDateSort == CreatedDateSort.Newest)
             {
-                return services.OrderByDescending(s => s.BasePrice).ToList();
+                return services.OrderByDescending(s => s.CreatedAt).ToList();
             }
             else if (serviceParameters.CreatedDateSort == CreatedDateSort.Oldest)
             {
-                return services.OrderBy(s => s.BasePrice).ToList();
+                return services.OrderBy(s => s.CreatedAt).ToList();
             }
             else
             {
-                return [];
+                return services;    
             }
         }
     }

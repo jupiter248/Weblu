@@ -11,8 +11,7 @@ namespace Weblu.Application.Exceptions
         public string ErrorCode { get; set; } = string.Empty;
         public List<string>? Details { get; set; } = [];
 
-        public AppException(string message, string errorCode, int statusCode, List<string>? details)
-            : base(message)
+        public AppException( string errorCode, int statusCode, List<string>? details)
         {
             ErrorCode = errorCode;
             StatusCode = statusCode;

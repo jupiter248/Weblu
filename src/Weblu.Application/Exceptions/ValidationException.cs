@@ -7,7 +7,7 @@ namespace Weblu.Application.Exceptions
 {
     public class ValidationException : AppException
     {
-        public ValidationException(string message, string errorCode, List<string>? details) : base(message, errorCode, 422, details)
+        public ValidationException( string errorCode, List<string>? details) : base(errorCode, 422, details)
         {
         }
     }

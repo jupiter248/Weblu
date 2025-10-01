@@ -15,15 +15,15 @@ namespace Weblu.Application.Strategies.Services
         {
             if (serviceParameters.DurationSort == DurationSort.LongestDuration)
             {
-                return services.OrderByDescending(s => s.BasePrice).ToList();
+                return services.OrderByDescending(s => s.BaseDurationInDays).ToList();
             }
             else if (serviceParameters.DurationSort == DurationSort.ShortestDuration)
             {
-                return services.OrderBy(s => s.BasePrice).ToList();
+                return services.OrderBy(s => s.BaseDurationInDays).ToList();
             }
             else
             {
-                return [];
+                return services;
             }
         }
     }
