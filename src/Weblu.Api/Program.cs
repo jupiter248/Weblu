@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using DotNetEnv;
+using Serilog;
 using Weblu.Api.Middlewares;
 using Weblu.Infrastructure.Extensions;
 
@@ -9,6 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.Seq("http://localhost:5341") // Seq running in Docker
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services
     .AddControllers()

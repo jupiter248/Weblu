@@ -8,6 +8,19 @@ services:
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
     volumes:
       - weblu-sql-server-volume:/var/opt/mssql
+  seq:
+    image: datalust/seq:latest
+    container_name: seq
+    restart: always
+    ports:
+      - "5341:80"
+    environment:
+      - ACCEPT_EULA=${ACCEPT_EULA}
+      - SEQ_FIRSTRUN_ADMINPASSWORD=${SEQ_FIRSTRUN_ADMINPASSWORD}
+    volumes:
+      - seq-data:/data
+
 volumes:
-    weblu-sql-server-volume:
-      external: false # set to false if you want Docker Compose to create a new volume
+  weblu-sql-server-volume:
+  seq-data:
+    external: false # set to false if you want Docker Compose to create a new volume
