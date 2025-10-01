@@ -12,6 +12,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        // This disables the default automatic 400 response
+        options.SuppressModelStateInvalidFilter = true;
+    })
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
