@@ -1,2 +1,38 @@
 <root>
+    //Commons
+    <data name="VALIDATION_ERROR" xml:space="preserve">
+        <value>Validation error.</value>
+    </data>
+    
+    // Services
+    <data name="SERVICE_NOT_FOUND" xml:space="preserve">
+        <value>Service not found.</value>
+    </data>
+    <data name="SERVICE_TITLE_REQUIRED" xml:space="preserve">
+        <value>Service title must have value.</value>
+    </data>
+    <data name="SERVICE_TITLE_MAX_LENGTH" xml:space="preserve">
+        <value>Service title must be less than 200 character</value>
+    </data>
+    <data name="SERVICE_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>Service description must have value.</value>
+    </data>
+    <data name="SERVICE_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>Service description must be less than 500 character.</value>
+    </data>
+    <data name="SERVICE_SHORT_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>Service short description must have value.</value>
+    </data>
+    <data name="SERVICE_SHORT_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>Service short description must be less than 350 character.</value>
+    </data>
+    <data name="SERVICE_BASE_DURATION_REQUIRED" xml:space="preserve">
+        <value>Service base duration must have value.</value>
+    </data>
+    <data name="SERVICE_BASE_PRICE_REQUIRED" xml:space="preserve">
+        <value>Service base price must have value.</value>
+    </data>
+    <data name="SERVICE_IS_ACTIVE_REQUIRED" xml:space="preserve">
+        <value>Service IsActive must have value.</value>
+    </data>
 </root>

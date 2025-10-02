@@ -44,7 +44,7 @@ namespace Weblu.Api.Middlewares
                 var response = new ErrorResponse
                 {
                     StatusCode = ex.StatusCode,
-                    Message = _errorService.GetMessage(ex.Message),  // <-- Localize here
+                    Message = _errorService.GetMessage(ex.ErrorCode),  // <-- Localize here
                     ErrorCode = ex.ErrorCode,
                     Details = details
                 };

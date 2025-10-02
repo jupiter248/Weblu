@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Dtos.ServiceDtos;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Validations;
+using Weblu.Application.Validations.Services;
 using Weblu.Domain.Parameters;
 
 namespace Weblu.Api.Controllers
@@ -33,12 +35,14 @@ namespace Weblu.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> AddService([FromBody] AddServiceDto addServiceDto)
         {
+            Validator.ValidateAndThrow(addServiceDto, new AddServiceValidator());
             ServiceDto serviceDto = await _serviceService.AddServiceAsync(addServiceDto);
             return CreatedAtAction(nameof(GetServiceById), new { serviceId = serviceDto.Id }, new { message = "Service added successfully", service = serviceDto });
         }
         [HttpPut("{serviceId:int}")]
         public async Task<IActionResult> UpdateService(int serviceId, [FromBody] UpdateServiceDto updateServiceDto)
         {
+            Validator.ValidateAndThrow(updateServiceDto, new UpdateServiceValidator());
             ServiceDto serviceDto = await _serviceService.UpdateServiceAsync(serviceId, updateServiceDto);
             return Ok(
                 new
