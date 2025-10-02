@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Weblu.Application.Dtos.ServiceDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Services;
@@ -17,10 +18,12 @@ namespace Weblu.Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ServiceService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly ILogger<ServiceService> _logger;
+        public ServiceService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<ServiceService> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
         public async Task<ServiceDto> AddServiceAsync(AddServiceDto addServiceDto)
         {
@@ -37,6 +40,7 @@ namespace Weblu.Application.Services
 
         public async Task DeleteServiceAsync(int serviceId)
         {
+            _logger.LogInformation($"Deleting service {serviceId}");
             Service? service = await _unitOfWork.Services.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             _unitOfWork.Services.DeleteService(service);
             await _unitOfWork.CommitAsync();
@@ -68,7 +72,7 @@ namespace Weblu.Application.Services
                     service.ActivatedAt = DateTimeOffset.Now;
                 }
             }
-            else if(!service.IsActive)
+            else if (!service.IsActive)
             {
                 service.ActivatedAt = DateTimeOffset.MinValue;
             }

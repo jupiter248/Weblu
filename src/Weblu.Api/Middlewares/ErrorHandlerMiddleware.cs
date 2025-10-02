@@ -53,8 +53,7 @@ namespace Weblu.Api.Middlewares
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unhandled exception occurred.");
-
+                _logger.LogError(ex, "Unhandled exception occurred while processing request {Path}" , context.Request.Path);
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = 500;
 

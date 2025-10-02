@@ -17,6 +17,6 @@ namespace Weblu.Application.Dtos.ServiceDtos
         public bool IsActive { get; set; }
         public string? ActivatedAt { get; set; }
         public string? UpdatedAt { get; set; }
-        public string CreatedAt { get; private set; }
+        public required string CreatedAt { get; set; }
     }
 }
