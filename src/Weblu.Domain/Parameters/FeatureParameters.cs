@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Domain.Enums.Common.Parameters;
-using Weblu.Domain.Enums.Services.Parameters;
 
 namespace Weblu.Domain.Parameters
 {
-    public class ServiceParameters
+    public class FeatureParameters
     {
-        public PriceSort PriceSort { get; set; }
-        public DurationSort DurationSort { get; set; }
         public CreatedDateSort CreatedDateSort { get; set; }
+
     }
 }

@@ -14,6 +14,9 @@ namespace Weblu.Infrastructure.Repositories
         private IServiceRepository? _serviceRepo;
         public IServiceRepository Services => _serviceRepo ??= new ServiceRepository(_context);
 
+        private IFeatureRepository? _featureRepo;
+        public IFeatureRepository Features => _featureRepo ??= new FeatureRepository(_context);
+
         public async Task<int> CommitAsync()
         {
             return await _context.SaveChangesAsync();

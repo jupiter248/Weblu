@@ -14,6 +14,8 @@ namespace Weblu.Application.Extensions
         public static void AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IServiceService, ServiceService>();
+            services.AddScoped<IFeatureService, FeatureService>();
+            
             services.AddAutoMapper(typeof(MappingProfile));
         }
     }

@@ -16,10 +16,12 @@ namespace Weblu.Infrastructure.Extensions
         public static void AddInfrastructure(this IServiceCollection services)
         {
             services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<IFeatureRepository, FeatureRepository>();
+
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
+
             services.AddSingleton<IErrorService, ErrorService>();
 
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLoggerService<>));

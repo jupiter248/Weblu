@@ -14,5 +14,7 @@ namespace Weblu.Infrastructure.Data
         }
 
         public DbSet<Service> Services { get; set; }
+        public DbSet<Feature> Features { get; set; }
+
     }
 }

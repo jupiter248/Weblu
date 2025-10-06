@@ -1,4 +1,4 @@
-namespace Weblu.Domain.Enums.Services.Parameters
+namespace Weblu.Domain.Enums.Common.Parameters
 {
     public enum CreatedDateSort
     {

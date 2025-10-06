@@ -8,6 +8,7 @@ namespace Weblu.Domain.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IServiceRepository Services { get; }
+        IFeatureRepository Features { get; }
         Task<int> CommitAsync();
     }
 }
