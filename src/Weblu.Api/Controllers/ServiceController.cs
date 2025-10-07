@@ -42,7 +42,7 @@ namespace Weblu.Api.Controllers
         [HttpPut("{serviceId:int}")]
         public async Task<IActionResult> UpdateService(int serviceId, [FromBody] UpdateServiceDto updateServiceDto)
         {
-            Validator.ValidateAndThrow(updateServiceDto, new UpdateServiceValidator());
+            Validator.ValidateAndThrow(updateServiceDto, new UpdateServiceValidator ());
             ServiceDto serviceDto = await _serviceService.UpdateServiceAsync(serviceId, updateServiceDto);
             return Ok(
                 new
