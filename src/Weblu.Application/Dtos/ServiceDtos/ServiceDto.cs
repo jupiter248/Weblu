@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Application.Dtos.FeatureDtos;
 
 namespace Weblu.Application.Dtos.ServiceDtos
 {
@@ -18,5 +19,6 @@ namespace Weblu.Application.Dtos.ServiceDtos
         public string? ActivatedAt { get; set; }
         public string? UpdatedAt { get; set; }
         public required string CreatedAt { get; set; }
+        public List<FeatureDto>? Features { get; set; }
     }
 }

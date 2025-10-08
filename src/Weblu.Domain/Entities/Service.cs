@@ -20,8 +20,7 @@ namespace Weblu.Domain.Entities
         public DateTimeOffset? ActivatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
-        
-        // Features
+        public List<Feature> Features { get; set; } = new List<Feature>();
         // Methods
         // Images  
     }

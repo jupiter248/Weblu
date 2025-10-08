@@ -17,5 +17,7 @@ namespace Weblu.Domain.Errors.Services
         public const string ServiceBaseDurationRequired = "SERVICE_BASE_DURATION_REQUIRED";
         public const string ServiceBasePriceRequired = "SERVICE_BASE_PRICE_REQUIRED";
         public const string ServiceIsActiveRequired = "SERVICE_IS_ACTIVE_REQUIRED";
+        public const string FeatureAlreadyAddedToService = "FEATURE_ALREADY_ADDED_TO_SERVICE";
+
     }
 }

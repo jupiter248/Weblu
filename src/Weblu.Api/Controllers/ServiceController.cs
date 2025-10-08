@@ -42,7 +42,7 @@ namespace Weblu.Api.Controllers
         [HttpPut("{serviceId:int}")]
         public async Task<IActionResult> UpdateService(int serviceId, [FromBody] UpdateServiceDto updateServiceDto)
         {
-            Validator.ValidateAndThrow(updateServiceDto, new UpdateServiceValidator ());
+            Validator.ValidateAndThrow(updateServiceDto, new UpdateServiceValidator());
             ServiceDto serviceDto = await _serviceService.UpdateServiceAsync(serviceId, updateServiceDto);
             return Ok(
                 new
@@ -57,6 +57,18 @@ namespace Weblu.Api.Controllers
         {
             await _serviceService.DeleteServiceAsync(serviceId);
             return NoContent();
+        }
+        [HttpPost("{serviceId:int}/feature{featureId:int}")]
+        public async Task<IActionResult> AddFeatureToService(int serviceId, int featureId)
+        {
+            await _serviceService.AddFeatureToServiceAsync(serviceId, featureId);
+            return Ok(new { message = "Feature added successfully" });
+        }
+        [HttpDelete("{serviceId:int}/feature{featureId:int}")]
+        public async Task<IActionResult> DeleteFeatureFromService(int serviceId, int featureId)
+        {
+            await _serviceService.DeleteFeatureFromServiceAsync(serviceId, featureId);
+            return Ok(new { message = "Feature deleted successfully" });
         }
     }
 }

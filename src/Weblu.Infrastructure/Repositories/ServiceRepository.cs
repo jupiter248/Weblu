@@ -47,7 +47,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<Service?> GetServiceByIdAsync(int serviceId)
         {
-            Service? service = await _context.Services.FirstOrDefaultAsync(s => s.Id == serviceId);
+            Service? service = await _context.Services.Include(f => f.Features).FirstOrDefaultAsync(s => s.Id == serviceId);
             if (service == null)
             {
                 return null;

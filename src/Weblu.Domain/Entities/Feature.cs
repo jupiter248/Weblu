@@ -14,5 +14,6 @@ namespace Weblu.Domain.Entities
         public required string Description { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
+        public List<Service> Services { get; set; } = new List<Service>();
     }
 }

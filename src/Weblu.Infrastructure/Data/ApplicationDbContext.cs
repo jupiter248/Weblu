@@ -16,5 +16,15 @@ namespace Weblu.Infrastructure.Data
         public DbSet<Service> Services { get; set; }
         public DbSet<Feature> Features { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Service>()
+                .HasMany(f => f.Features)
+                .WithMany(s => s.Services);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
 }

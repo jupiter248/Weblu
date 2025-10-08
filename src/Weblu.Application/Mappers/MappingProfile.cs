@@ -18,7 +18,9 @@ namespace Weblu.Application.Mappers
             CreateMap<Service, ServiceDto>()
                     .ForMember(dest => dest.ActivatedAt, opt => opt.MapFrom(src => src.ActivatedAt.HasValue ? src.ActivatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
-                    .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
+                    .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
+                    .ForMember(dest => dest.Features, opt => opt.MapFrom(src => src.Features));
+
             CreateMap<AddServiceDto, Service>()
                     .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()));
             CreateMap<UpdateServiceDto, Service>()
