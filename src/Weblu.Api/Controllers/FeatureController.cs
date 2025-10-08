@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Dtos.FeatureDtos;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Validations;
+using Weblu.Application.Validations.Features;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Parameters;
 
@@ -34,6 +36,7 @@ namespace Weblu.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFeature([FromBody] AddFeatureDto addFeatureDto)
         {
+            Validator.ValidateAndThrow(addFeatureDto, new AddFeatureValidator());
             FeatureDto featureDto = await _featureService.AddFeatureAsync(addFeatureDto);
             return CreatedAtAction(nameof(GetFeatureById), new { featureId = featureDto.Id }, new
             {
@@ -44,6 +47,7 @@ namespace Weblu.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateFeature(int featureId, [FromBody] UpdateFeatureDto updateFeatureDto)
         {
+            Validator.ValidateAndThrow(updateFeatureDto, new UpdateFeatureValidator());
             FeatureDto featureDto = await _featureService.UpdateFeatureAsync(featureId, updateFeatureDto);
             return Ok(new
             {
@@ -57,8 +61,5 @@ namespace Weblu.Api.Controllers
             await _featureService.DeleteFeatureAsync(featureId);
             return NoContent();
         }
-
-
-
     }
 }

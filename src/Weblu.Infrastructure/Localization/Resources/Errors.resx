@@ -35,4 +35,21 @@
     <data name="SERVICE_IS_ACTIVE_REQUIRED" xml:space="preserve">
         <value>Service IsActive must have value.</value>
     </data>
+
+    // Features
+    <data name="FEATURE_NOT_FOUND" xml:space="preserve">
+        <value>Feature not found.</value>
+    </data>
+    <data name="FEATURE_NAME_REQUIRED" xml:space="preserve">
+        <value>Feature name must have value.</value>
+    </data>
+    <data name="FEATURE_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>Feature name must be less than 50 character</value>
+    </data>
+    <data name="FEATURE_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>Feature description must have value.</value>
+    </data>
+    <data name="FEATURE_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>Feature description must be less than 150 character.</value>
+    </data>
 </root>

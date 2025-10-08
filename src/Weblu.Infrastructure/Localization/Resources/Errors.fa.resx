@@ -35,4 +35,21 @@
     <data name="SERVICE_IS_ACTIVE_REQUIRED" xml:space="preserve">
         <value>وضعیت فعال بودن سرویس الزامی است.</value>
     </data>
+
+    // Features
+    <data name="FEATURE_NOT_FOUND" xml:space="preserve">
+        <value>ویژگی مورد نظر یافت نشد.</value>
+    </data>
+    <data name="FEATURE_NAME_REQUIRED" xml:space="preserve">
+        <value>نام ویژگی باید مقدار داشته باشد.</value>
+    </data>
+    <data name="FEATURE_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>طول نام ویژگی باید کمتر از ۵۰ کاراکتر باشد.</value>
+    </data>
+    <data name="FEATURE_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>توضیحات ویژگی باید مقدار داشته باشد.</value>
+    </data>
+    <data name="FEATURE_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>طول توضیحات ویژگی باید کمتر از ۱۵۰ کاراکتر باشد.</value>
+    </data>
 </root>
