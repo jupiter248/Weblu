@@ -51,5 +51,22 @@
     </data>
     <data name="FEATURE_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
         <value>طول توضیحات ویژگی باید کمتر از ۱۵۰ کاراکتر باشد.</value>
+    </data>\
+
+    // Methods
+    <data name="METHOD_NOT_FOUND" xml:space="preserve">
+        <value>متد یافت نشد.</value>
+    </data>
+    <data name="METHOD_NAME_REQUIRED" xml:space="preserve">
+        <value>نام متد باید دارای مقدار باشد.</value>
+    </data>
+    <data name="METHOD_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>نام متد باید کمتر از ۵۰ کاراکتر باشد.</value>
+    </data>
+    <data name="METHOD_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>توضیحات متد باید دارای مقدار باشد.</value>
+    </data>
+    <data name="METHOD_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>توضیحات متد باید کمتر از ۱۵۰ کاراکتر باشد.</value>
     </data>
 </root>

@@ -52,4 +52,21 @@
     <data name="FEATURE_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
         <value>Feature description must be less than 150 character.</value>
     </data>
+
+    // Methods
+    <data name="METHOD_NOT_FOUND" xml:space="preserve">
+        <value>Method not found.</value>
+    </data>
+    <data name="METHOD_NAME_REQUIRED" xml:space="preserve">
+        <value>Method name must have value.</value>
+    </data>
+    <data name="METHOD_NAME_MAX_LENGTH" xml:space="preserve">
+        <value>Method name must be less than 50 character</value>
+    </data>
+    <data name="METHOD_DESCRIPTION_REQUIRED" xml:space="preserve">
+        <value>Method description must have value.</value>
+    </data>
+    <data name="METHOD_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+        <value>Method description must be less than 150 character.</value>
+    </data>
 </root>
