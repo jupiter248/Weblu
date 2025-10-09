@@ -44,7 +44,7 @@ namespace Weblu.Api.Controllers
                 feature = featureDto
             });
         }
-        [HttpPut]
+        [HttpPut("{featureId:int}")]
         public async Task<IActionResult> UpdateFeature(int featureId, [FromBody] UpdateFeatureDto updateFeatureDto)
         {
             Validator.ValidateAndThrow(updateFeatureDto, new UpdateFeatureValidator());

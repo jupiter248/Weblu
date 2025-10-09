@@ -57,7 +57,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public void UpdateMethod(Method method)
         {
-            _context.Methods.Remove(method);
+            _context.Methods.Update(method);
         }
     }
 }
