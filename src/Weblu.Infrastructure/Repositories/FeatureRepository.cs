@@ -41,8 +41,8 @@ namespace Weblu.Infrastructure.Repositories
         {
             List<Feature> features = await _context.Features.ToListAsync();
 
-            var CreatedDateSortQuery = new FeatureQueryHandler(new CreatedDateSortStrategy());
-            features = CreatedDateSortQuery.ExecuteServiceQuery(features, featureParameters);
+            var createdDateSortQuery = new FeatureQueryHandler(new CreatedDateSortStrategy());
+            features = createdDateSortQuery.ExecuteServiceQuery(features, featureParameters);
             
             return features;
         }

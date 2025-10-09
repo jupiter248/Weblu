@@ -17,6 +17,8 @@ namespace Weblu.Infrastructure.Extensions
         {
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IFeatureRepository, FeatureRepository>();
+            services.AddScoped<IMethodRepository, MethodRepository>();
+
 
 
 

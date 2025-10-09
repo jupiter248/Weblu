@@ -15,6 +15,8 @@ namespace Weblu.Infrastructure.Data
 
         public DbSet<Service> Services { get; set; }
         public DbSet<Feature> Features { get; set; }
+        public DbSet<Method> Methods { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
