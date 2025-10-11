@@ -70,5 +70,17 @@ namespace Weblu.Api.Controllers
             await _serviceService.DeleteFeatureFromServiceAsync(serviceId, featureId);
             return Ok(new { message = "Feature deleted successfully" });
         }
+        [HttpPost("{serviceId:int}/method{methodId:int}")]
+        public async Task<IActionResult> AddMethodToService(int serviceId, int methodId)
+        {
+            await _serviceService.AddMethodToService(serviceId, methodId);
+            return Ok(new { message = "Method added successfully" });
+        }
+        [HttpDelete("{serviceId:int}/method{methodId:int}")]
+        public async Task<IActionResult> DeleteMethodFromService(int serviceId, int methodId)
+        {
+            await _serviceService.DeleteMethodFromService(serviceId, methodId);
+            return Ok(new { message = "Method deleted successfully" });
+        }
     }
 }

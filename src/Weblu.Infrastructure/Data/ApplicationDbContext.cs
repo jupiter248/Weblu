@@ -25,6 +25,10 @@ namespace Weblu.Infrastructure.Data
                 .HasMany(f => f.Features)
                 .WithMany(s => s.Services);
 
+            modelBuilder.Entity<Service>()
+                .HasMany(m => m.Methods)
+                .WithMany(s => s.Services);
+
             base.OnModelCreating(modelBuilder);
         }
 

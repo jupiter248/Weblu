@@ -17,5 +17,9 @@ namespace Weblu.Application.Interfaces.Services
         // Features
         Task AddFeatureToServiceAsync(int serviceId, int featureId);
         Task DeleteFeatureFromServiceAsync(int serviceId, int featureId);
+        // Methods
+        Task AddMethodToService(int serviceId, int methodId);
+        Task DeleteMethodFromService(int serviceId, int methodId);
+
     }
 }

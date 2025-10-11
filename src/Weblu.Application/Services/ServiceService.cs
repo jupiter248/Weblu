@@ -9,6 +9,7 @@ using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Errors.Features;
+using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Errors.Services;
 using Weblu.Domain.Interfaces;
 using Weblu.Domain.Parameters;
@@ -40,6 +41,18 @@ namespace Weblu.Application.Services
             await _unitOfWork.CommitAsync();
         }
 
+        public async Task AddMethodToService(int serviceId, int methodId)
+        {
+            Service? service = await _unitOfWork.Services.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            Method? method = await _unitOfWork.Methods.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
+            if (service.Methods.Any(m => m.Id == methodId))
+            {
+                throw new ConflictException(ServiceErrorCodes.MethodAlreadyAddedToService);
+            }
+            service.Methods.Add(method);
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task<ServiceDto> AddServiceAsync(AddServiceDto addServiceDto)
         {
             Service newService = _mapper.Map<Service>(addServiceDto);
@@ -58,8 +71,26 @@ namespace Weblu.Application.Services
             Service? service = await _unitOfWork.Services.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             Feature? feature = await _unitOfWork.Features.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
 
-            service.Features.Remove(feature);
+            if (!service.Features.Any(m => m.Id == featureId))
+            {
+                throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
+            }
 
+            service.Features.Remove(feature);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task DeleteMethodFromService(int serviceId, int methodId)
+        {
+            Service? service = await _unitOfWork.Services.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            Method? method = await _unitOfWork.Methods.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
+
+            if (!service.Methods.Any(m => m.Id == methodId))
+            {
+                throw new NotFoundException(MethodErrorCodes.MethodNotFound);
+            }
+
+            service.Methods.Remove(method);
             await _unitOfWork.CommitAsync();
         }
 

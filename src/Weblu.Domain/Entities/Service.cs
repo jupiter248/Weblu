@@ -21,7 +21,8 @@ namespace Weblu.Domain.Entities
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
         public List<Feature> Features { get; set; } = new List<Feature>();
-        // Methods
+        public List<Method> Methods { get; set; } = new List<Method>();
+
         // Images  
     }
 }
