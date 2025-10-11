@@ -17,7 +17,10 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IFeatureService, FeatureService>();
             services.AddScoped<IMethodService, MethodService>();
 
-            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddAutoMapper(typeof(ServiceProfile));
+            services.AddAutoMapper(typeof(FeatureProfile));
+            services.AddAutoMapper(typeof(MethodProfile));
+
         }
     }
 }
