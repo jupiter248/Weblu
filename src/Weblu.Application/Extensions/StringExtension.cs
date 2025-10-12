@@ -10,17 +10,17 @@ namespace Weblu.Application.Extensions
 {
     public static class StringExtension
     {
-    public static string RemoveAccents(this string text)  
-        {  
-            if (string.IsNullOrWhiteSpace(text))  
-                return text;  
-  
-            text = text.Normalize(NormalizationForm.FormD);  
-            char[] chars = text  
-                .Where(c => CharUnicodeInfo.GetUnicodeCategory(c)   
-                != UnicodeCategory.NonSpacingMark).ToArray();  
-  
-            return new string(chars).Normalize(NormalizationForm.FormC);  
+        public static string RemoveAccents(this string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return text;
+
+            text = text.Normalize(NormalizationForm.FormD);
+            char[] chars = text
+                .Where(c => CharUnicodeInfo.GetUnicodeCategory(c)
+                != UnicodeCategory.NonSpacingMark).ToArray();
+
+            return new string(chars).Normalize(NormalizationForm.FormC);
         }
 
 

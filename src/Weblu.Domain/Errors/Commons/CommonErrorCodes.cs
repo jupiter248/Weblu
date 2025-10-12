@@ -8,5 +8,6 @@ namespace Weblu.Domain.Errors.Commons
     public class CommonErrorCodes
     {
         public const string ValidationError = "VALIDATION_ERROR";
+        public const string MediumInvalid = "MEDIUM_INVALID";
     }
 }
