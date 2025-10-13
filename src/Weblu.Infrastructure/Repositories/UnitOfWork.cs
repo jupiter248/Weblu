@@ -20,6 +20,9 @@ namespace Weblu.Infrastructure.Repositories
         private IMethodRepository? _methodRepository;
         public IMethodRepository Methods => _methodRepository ??= new MethodRepository(_context);
 
+        private IImageRepository? _imageRepository;
+        public IImageRepository Images => _imageRepository ??= new ImageRepository(_context);
+
         public async Task<int> CommitAsync()
         {
             return await _context.SaveChangesAsync();

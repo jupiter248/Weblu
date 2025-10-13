@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace Weblu.Domain.Enums.Common.Media
 {
-    public enum MediumType
+    public enum MediaParentEntityType
     {
-        picture,
-        video
+        service,
+        profile,
+        portfolio,
     }
 }

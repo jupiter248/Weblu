@@ -10,6 +10,8 @@ namespace Weblu.Domain.Interfaces
         IServiceRepository Services { get; }
         IFeatureRepository Features { get; }
         IMethodRepository Methods { get; }
+        IImageRepository Images { get; }
+
 
         Task<int> CommitAsync();
     }

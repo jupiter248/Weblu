@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace Weblu.Domain.Entities
         public required string Description { get; set; }
         public required string ShortDescription { get; set; }
         public int BaseDurationInDays { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal BasePrice { get; set; }
         public bool IsActive { get; set; }
         public DateTimeOffset? ActivatedAt { get; set; }
