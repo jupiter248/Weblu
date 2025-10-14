@@ -9,7 +9,7 @@ namespace Weblu.Application.Interfaces.Strategies
 {
     public interface IImageQueryStrategy
     {
-        List<ImageMedia> Query(List<ImageMedia> images, ImageMediaParameters imageMediaParameters);
+        List<ImageMedia> Query(List<ImageMedia> images, ImageParameters imageParameters);
 
     }
 }

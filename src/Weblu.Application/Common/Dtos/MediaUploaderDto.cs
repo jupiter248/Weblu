@@ -11,7 +11,5 @@ namespace Weblu.Application.Common.Dtos
     {
         public required IFormFile Media { get; set; }
         public required MediaType MediaType { get; set; } // like picture , video and ...
-        public required MediaParentEntityType MediaParentEntityType { get; set; } // Like service , profile and ...
-
     }
 }

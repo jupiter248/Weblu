@@ -12,7 +12,7 @@ namespace Weblu.Application.Helpers
 {
     public static class MediaManager
     {
-        public static async Task UploadMedia(IWebHostEnvironment webHost, MediaUploaderDto mediaUploaderDto)
+        public static async Task<string> UploadMedia(IWebHostEnvironment webHost, MediaUploaderDto mediaUploaderDto)
         {
             IFormFile media = mediaUploaderDto.Media;
             if (media.Length < 0 || media == null)
@@ -32,21 +32,16 @@ namespace Weblu.Application.Helpers
                 Directory.CreateDirectory(mediaTypeFolder);
             }
 
-            var mediaParentEntityTypeFolder = Path.Combine(webHost.WebRootPath, $"uploads/{mediaUploaderDto.MediaType}/{mediaUploaderDto.MediaParentEntityType}");
-            if (!Path.Exists(mediaParentEntityTypeFolder))
-            {
-                Directory.CreateDirectory(mediaParentEntityTypeFolder);
-            }
-
-            var mediaName = $"{Guid.NewGuid()}-{Path.GetFileName(media.FileName)}";
-            var mediaPath = Path.Combine(webHost.WebRootPath, $"uploads/{mediaUploaderDto.MediaType}/{mediaUploaderDto.MediaParentEntityType}", mediaName);
+            string mediaName = $"{Guid.NewGuid()}-{Path.GetFileName(media.FileName)}";
+            string mediaPath = Path.Combine(webHost.WebRootPath, $"uploads/{mediaUploaderDto.MediaType}", mediaName);
 
             using (var stream = new FileStream(mediaPath, FileMode.Create))
             {
                 await media.CopyToAsync(stream);
             }
+            return mediaName;
         }
-        public static async Task DeleteMedia(IWebHostEnvironment webHost, string mediaPath)
+        public static async Task    DeleteMedia(IWebHostEnvironment webHost, string mediaPath)
         {
             var fullPath = Path.Combine(webHost.WebRootPath, mediaPath);
             if (File.Exists(fullPath))

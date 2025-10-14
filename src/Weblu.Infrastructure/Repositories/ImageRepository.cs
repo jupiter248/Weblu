@@ -28,12 +28,12 @@ namespace Weblu.Infrastructure.Repositories
             _context.ImageMedia.Remove(image);
         }
 
-        public async Task<List<ImageMedia>> GetAllImagesAsync(ImageMediaParameters imageMediaParameters)
+        public async Task<List<ImageMedia>> GetAllImagesAsync(ImageParameters imageParameters)
         {
             List<ImageMedia> imageMedia = await _context.ImageMedia.ToListAsync();
 
             var addedDateSort = new ImageQueryHandler(new AddedDateSortStrategy());
-            imageMedia = addedDateSort.ExecuteServiceQuery(imageMedia, imageMediaParameters);
+            imageMedia = addedDateSort.ExecuteServiceQuery(imageMedia, imageParameters);
 
             return imageMedia;
         }

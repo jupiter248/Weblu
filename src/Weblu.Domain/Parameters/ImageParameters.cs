@@ -6,7 +6,7 @@ using Weblu.Domain.Enums.Common.Parameters;
 
 namespace Weblu.Domain.Parameters
 {
-    public class ImageMediaParameters
+    public class ImageParameters
     {
         public CreatedDateSort AddedDateSort { get; set; }
     }
