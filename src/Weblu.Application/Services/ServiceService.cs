@@ -79,7 +79,7 @@ namespace Weblu.Application.Services
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<ServiceDto> AddServiceAsync(AddServiceDto addServiceDto)
+        public async Task<ServiceDetailDto> AddServiceAsync(AddServiceDto addServiceDto)
         {
             Service newService = _mapper.Map<Service>(addServiceDto);
             if (newService.IsActive)
@@ -88,7 +88,7 @@ namespace Weblu.Application.Services
             }
             await _unitOfWork.Services.AddServiceAsync(newService);
             await _unitOfWork.CommitAsync();
-            ServiceDto serviceDto = _mapper.Map<ServiceDto>(newService);
+            ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(newService);
             return serviceDto;
         }
 
@@ -141,14 +141,14 @@ namespace Weblu.Application.Services
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<ServiceDto>> GetAllServicesAsync(ServiceParameters serviceParameters)
+        public async Task<List<ServiceSummaryDto>> GetAllServicesAsync(ServiceParameters serviceParameters)
         {
             List<Service> services = await _unitOfWork.Services.GetAllServicesAsync(serviceParameters);
-            List<ServiceDto> serviceDtos = _mapper.Map<List<ServiceDto>>(services);
+            List<ServiceSummaryDto> serviceDtos = _mapper.Map<List<ServiceSummaryDto>>(services);
             return serviceDtos;
         }
 
-        public async Task<ServiceDto> GetServiceByIdAsync(int serviceId)
+        public async Task<ServiceDetailDto> GetServiceByIdAsync(int serviceId)
         {
             Service? service = await _unitOfWork.Services.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             List<ServiceImageDto> imageDtos = new List<ServiceImageDto>();
@@ -156,12 +156,12 @@ namespace Weblu.Application.Services
             {
                 imageDtos.Add(_mapper.Map<ServiceImageDto>(item.Image));
             }
-            ServiceDto serviceDto = _mapper.Map<ServiceDto>(service);
+            ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(service);
             serviceDto.Images = imageDtos;
             return serviceDto;
         }
 
-        public async Task<ServiceDto> UpdateServiceAsync(int serviceId, UpdateServiceDto updateServiceDto)
+        public async Task<ServiceDetailDto> UpdateServiceAsync(int serviceId, UpdateServiceDto updateServiceDto)
         {
             Service? service = await _unitOfWork.Services.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             service = _mapper.Map(updateServiceDto, service);
@@ -179,7 +179,7 @@ namespace Weblu.Application.Services
             }
             _unitOfWork.Services.UpdateService(service);
             await _unitOfWork.CommitAsync();
-            ServiceDto serviceDto = _mapper.Map<ServiceDto>(service);
+            ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(service);
             return serviceDto;
         }
     }

@@ -23,27 +23,27 @@ namespace Weblu.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllServices([FromQuery] ServiceParameters serviceParameters)
         {
-            List<ServiceDto> serviceDtos = await _serviceService.GetAllServicesAsync(serviceParameters);
+            List<ServiceSummaryDto> serviceDtos = await _serviceService.GetAllServicesAsync(serviceParameters);
             return Ok(serviceDtos);
         }
         [HttpGet("{serviceId:int}")]
         public async Task<IActionResult> GetServiceById(int serviceId)
         {
-            ServiceDto serviceDto = await _serviceService.GetServiceByIdAsync(serviceId);
+            ServiceDetailDto serviceDto = await _serviceService.GetServiceByIdAsync(serviceId);
             return Ok(serviceDto);
         }
         [HttpPost]
         public async Task<IActionResult> AddService([FromBody] AddServiceDto addServiceDto)
         {
             Validator.ValidateAndThrow(addServiceDto, new AddServiceValidator());
-            ServiceDto serviceDto = await _serviceService.AddServiceAsync(addServiceDto);
+            ServiceDetailDto serviceDto = await _serviceService.AddServiceAsync(addServiceDto);
             return CreatedAtAction(nameof(GetServiceById), new { serviceId = serviceDto.Id }, new { message = "Service added successfully", service = serviceDto });
         }
         [HttpPut("{serviceId:int}")]
         public async Task<IActionResult> UpdateService(int serviceId, [FromBody] UpdateServiceDto updateServiceDto)
         {
             Validator.ValidateAndThrow(updateServiceDto, new UpdateServiceValidator());
-            ServiceDto serviceDto = await _serviceService.UpdateServiceAsync(serviceId, updateServiceDto);
+            ServiceDetailDto serviceDto = await _serviceService.UpdateServiceAsync(serviceId, updateServiceDto);
             return Ok(
                 new
                 {

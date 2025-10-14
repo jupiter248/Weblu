@@ -8,7 +8,7 @@ using Weblu.Application.Dtos.MethodDtos;
 
 namespace Weblu.Application.Dtos.ServiceDtos
 {
-    public class ServiceDto
+    public class ServiceDetailDto
     {
         public int Id { get; set; }
         public required string Title { get; set; }

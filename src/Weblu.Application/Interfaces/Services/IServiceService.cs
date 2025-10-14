@@ -9,10 +9,10 @@ namespace Weblu.Application.Interfaces.Services
 {
     public interface IServiceService
     {
-        Task<List<ServiceDto>> GetAllServicesAsync(ServiceParameters serviceParameters);
-        Task<ServiceDto> GetServiceByIdAsync(int serviceId);
-        Task<ServiceDto> AddServiceAsync(AddServiceDto addServiceDto);
-        Task<ServiceDto> UpdateServiceAsync(int serviceId, UpdateServiceDto updateServiceDto);
+        Task<List<ServiceSummaryDto>> GetAllServicesAsync(ServiceParameters serviceParameters);
+        Task<ServiceDetailDto> GetServiceByIdAsync(int serviceId);
+        Task<ServiceDetailDto> AddServiceAsync(AddServiceDto addServiceDto);
+        Task<ServiceDetailDto> UpdateServiceAsync(int serviceId, UpdateServiceDto updateServiceDto);
         Task DeleteServiceAsync(int serviceId);
         // Features
         Task AddFeatureToServiceAsync(int serviceId, int featureId);
