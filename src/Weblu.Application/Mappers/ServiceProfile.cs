@@ -12,7 +12,7 @@ namespace Weblu.Application.Mappers
 {
     public class ServiceProfile : Profile
     {
-        protected ServiceProfile()
+        public ServiceProfile()
         {
             CreateMap<Service, ServiceDto>()
                     .ForMember(dest => dest.ActivatedAt, opt => opt.MapFrom(src => src.ActivatedAt.HasValue ? src.ActivatedAt.Value.ToShamsi() : null))

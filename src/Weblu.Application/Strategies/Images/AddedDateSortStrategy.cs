@@ -11,13 +11,13 @@ namespace Weblu.Application.Strategies.Images
 {
     public class AddedDateSortStrategy : IImageQueryStrategy
     {
-        public List<ImageMedia> Query(List<ImageMedia> images, ImageMediaParameters imageMediaParameters)
+        public List<ImageMedia> Query(List<ImageMedia> images, ImageParameters imageParameters)
         {
-            if (imageMediaParameters.AddedDateSort == CreatedDateSort.Newest)
+            if (imageParameters.AddedDateSort == CreatedDateSort.Newest)
             {
                 return images.OrderByDescending(s => s.AddedAt).ToList();
             }
-            else if (imageMediaParameters.AddedDateSort == CreatedDateSort.Oldest)
+            else if (imageParameters.AddedDateSort == CreatedDateSort.Oldest)
             {
                 return images.OrderBy(s => s.AddedAt).ToList();
             }
