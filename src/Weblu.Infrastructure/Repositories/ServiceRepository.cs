@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Strategies.Services;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Interfaces;
 using Weblu.Domain.Parameters;
 using Weblu.Infrastructure.Data;
@@ -47,7 +48,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<Service?> GetServiceByIdAsync(int serviceId)
         {
-            Service? service = await _context.Services.Include(f => f.Features).Include(m => m.Methods).FirstOrDefaultAsync(s => s.Id == serviceId);
+            Service? service = await _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).Include(f => f.Features).Include(m => m.Methods).FirstOrDefaultAsync(s => s.Id == serviceId);
             if (service == null)
             {
                 return null;

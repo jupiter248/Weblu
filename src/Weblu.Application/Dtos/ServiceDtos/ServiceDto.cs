@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Dtos.FeatureDtos;
+using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Dtos.MethodDtos;
 
 namespace Weblu.Application.Dtos.ServiceDtos
@@ -22,6 +23,8 @@ namespace Weblu.Application.Dtos.ServiceDtos
         public required string CreatedAt { get; set; }
         public List<FeatureDto>? Features { get; set; }
         public List<MethodDto>? Methods { get; set; }
+        public List<ServiceImageDto>? Images { get; set; }
+
 
     }
 }

@@ -6,7 +6,10 @@ using AutoMapper;
 using Weblu.Application.Dtos.ServiceDtos;
 using Weblu.Application.Extensions;
 using Weblu.Application.Helpers;
+using Weblu.Application.Services;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.Media;
+using Weblu.Domain.Entities.Services;
 
 namespace Weblu.Application.Mappers
 {
@@ -22,6 +25,9 @@ namespace Weblu.Application.Mappers
                     .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()));
             CreateMap<UpdateServiceDto, Service>()
                     .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()));
+
+            CreateMap<ImageMedia, ServiceImageDto>()
+                    .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.AddedAt.ToShamsi()));
         }
 
     }

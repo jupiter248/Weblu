@@ -20,6 +20,9 @@ namespace Weblu.Application.Interfaces.Services
         // Methods
         Task AddMethodToService(int serviceId, int methodId);
         Task DeleteMethodFromService(int serviceId, int methodId);
+        // Images
+        Task AddImageToService(int serviceId, int imageId, AddServiceImageDto addServiceImageDto);
+        Task DeleteImageToService(int serviceId, int imageId);
 
     }
 }

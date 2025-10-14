@@ -11,6 +11,7 @@ using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Interfaces;

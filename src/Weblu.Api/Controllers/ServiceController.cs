@@ -82,5 +82,17 @@ namespace Weblu.Api.Controllers
             await _serviceService.DeleteMethodFromService(serviceId, methodId);
             return Ok(new { message = "Method deleted successfully" });
         }
+        [HttpPost("{serviceId:int}/image{imageId:int}")]
+        public async Task<IActionResult> AddImageToService(int serviceId, int imageId, [FromBody] AddServiceImageDto addServiceImageDto)
+        {
+            await _serviceService.AddImageToService(serviceId, imageId, addServiceImageDto);
+            return Ok(new { message = "Image added successfully" });
+        }
+        [HttpDelete("{serviceId:int}/image{imageId:int}")]
+        public async Task<IActionResult> DeleteImageFromService(int serviceId, int imageId)
+        {
+            await _serviceService.DeleteImageToService(serviceId, imageId);
+            return Ok(new { message = "Image deleted successfully" });
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Strategies.Images;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Interfaces;
 using Weblu.Domain.Parameters;
 using Weblu.Infrastructure.Data;

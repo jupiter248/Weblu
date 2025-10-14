@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Interfaces.Strategies;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Enums.Services.Parameters;
 using Weblu.Domain.Parameters;
 

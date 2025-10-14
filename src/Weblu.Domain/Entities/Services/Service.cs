@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Domain.Entities.Media;
 
-namespace Weblu.Domain.Entities
+namespace Weblu.Domain.Entities.Services
 {
     public class Service
     {
@@ -24,6 +25,8 @@ namespace Weblu.Domain.Entities
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
         public List<Feature> Features { get; set; } = new List<Feature>();
         public List<Method> Methods { get; set; } = new List<Method>();
+        public List<ServiceImage> ServiceImages { get; set; } = new List<ServiceImage>();
+
 
         // Images  
     }

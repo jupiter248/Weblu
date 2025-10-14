@@ -7,6 +7,7 @@ using Weblu.Application.Dtos.MethodDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Interfaces;
 using Weblu.Domain.Parameters;

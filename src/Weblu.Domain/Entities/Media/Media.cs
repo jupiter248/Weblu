@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Weblu.Domain.Entities
+namespace Weblu.Domain.Entities.Media
 {
     public abstract class Media
     {

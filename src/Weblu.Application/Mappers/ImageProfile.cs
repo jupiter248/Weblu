@@ -6,6 +6,7 @@ using AutoMapper;
 using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.Media;
 
 namespace Weblu.Application.Mappers
 {

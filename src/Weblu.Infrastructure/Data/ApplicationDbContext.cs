@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.Media;
+using Weblu.Domain.Entities.Services;
 
 namespace Weblu.Infrastructure.Data
 {
@@ -18,6 +20,7 @@ namespace Weblu.Infrastructure.Data
         public DbSet<Method> Methods { get; set; }
         public DbSet<Media> Media { get; set; }
         public DbSet<ImageMedia> ImageMedia { get; set; }
+        public DbSet<ServiceImage> ServiceImages { get; set; }
 
 
 

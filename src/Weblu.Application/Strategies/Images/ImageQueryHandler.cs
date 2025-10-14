@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Weblu.Application.Interfaces.Strategies;
 using Weblu.Domain.Parameters;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.Media;
 
 
 

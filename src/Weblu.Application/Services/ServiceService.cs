@@ -4,11 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Dtos.ServiceDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.Media;
+using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Errors.Features;
+using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Errors.Services;
 using Weblu.Domain.Interfaces;
@@ -38,6 +42,28 @@ namespace Weblu.Application.Services
                 throw new ConflictException(ServiceErrorCodes.FeatureAlreadyAddedToService);
             }
             service.Features.Add(feature);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task AddImageToService(int serviceId, int imageId, AddServiceImageDto addServiceImageDto)
+        {
+            Service? service = await _unitOfWork.Services.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            ImageMedia? image = await _unitOfWork.Images.GetImageItemByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            if (service.ServiceImages.Any(f => f.ImageId == imageId && f.ServiceId == serviceId))
+            {
+                throw new ConflictException(ServiceErrorCodes.ImageAlreadyAddedToService);
+            }
+
+            ServiceImage serviceImage = new ServiceImage()
+            {
+                Image = image,
+                ImageId = image.Id,
+                Service = service,
+                ServiceId = service.Id,
+                IsThumbnail = addServiceImageDto.IsThumbnail
+            };
+
+            service.ServiceImages.Add(serviceImage);
             await _unitOfWork.CommitAsync();
         }
 
@@ -80,6 +106,19 @@ namespace Weblu.Application.Services
             await _unitOfWork.CommitAsync();
         }
 
+        public async Task DeleteImageToService(int serviceId, int imageId)
+        {
+            Service? service = await _unitOfWork.Services.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            ImageMedia? image = await _unitOfWork.Images.GetImageItemByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            ServiceImage? serviceImage = service.ServiceImages.FirstOrDefault(f => f.ImageId == imageId && f.ServiceId == serviceId);
+            if (serviceImage == null)
+            {
+                throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            }
+            service.ServiceImages.Remove(serviceImage);
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task DeleteMethodFromService(int serviceId, int methodId)
         {
             Service? service = await _unitOfWork.Services.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
@@ -112,7 +151,13 @@ namespace Weblu.Application.Services
         public async Task<ServiceDto> GetServiceByIdAsync(int serviceId)
         {
             Service? service = await _unitOfWork.Services.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            List<ServiceImageDto> imageDtos = new List<ServiceImageDto>();
+            foreach (var item in service.ServiceImages)
+            {
+                imageDtos.Add(_mapper.Map<ServiceImageDto>(item.Image));
+            }
             ServiceDto serviceDto = _mapper.Map<ServiceDto>(service);
+            serviceDto.Images = imageDtos;
             return serviceDto;
         }
 
