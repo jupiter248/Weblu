@@ -9,6 +9,6 @@ namespace Weblu.Application.Dtos.ImageDtos
     public class AddImageDto
     {
         public required IFormFile Image { get; set; }
-        public required string AltText { get; set; }
+        public string? AltText { get; set; }
     }
 }

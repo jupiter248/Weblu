@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Dtos.ServiceDtos;
+using Weblu.Application.Dtos.ServiceDtos.ServiceImageDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Domain.Entities;
@@ -52,6 +53,10 @@ namespace Weblu.Application.Services
             if (service.ServiceImages.Any(f => f.ImageId == imageId && f.ServiceId == serviceId))
             {
                 throw new ConflictException(ServiceErrorCodes.ImageAlreadyAddedToService);
+            }
+            if (service.ServiceImages.Any(t => t.IsThumbnail && addServiceImageDto.IsThumbnail))
+            {
+                throw new ConflictException(ServiceErrorCodes.ServiceHasThumbnailImage);
             }
 
             ServiceImage serviceImage = new ServiceImage()
@@ -154,7 +159,8 @@ namespace Weblu.Application.Services
             List<ServiceImageDto> imageDtos = new List<ServiceImageDto>();
             foreach (var item in service.ServiceImages)
             {
-                imageDtos.Add(_mapper.Map<ServiceImageDto>(item.Image));
+                imageDtos.Add(_mapper.Map<ServiceImageDto>(item));
+
             }
             ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(service);
             serviceDto.Images = imageDtos;

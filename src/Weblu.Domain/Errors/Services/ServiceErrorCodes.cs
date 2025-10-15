@@ -20,6 +20,8 @@ namespace Weblu.Domain.Errors.Services
         public const string FeatureAlreadyAddedToService = "FEATURE_ALREADY_ADDED_TO_SERVICE";
         public const string MethodAlreadyAddedToService = "METHOD_ALREADY_ADDED_TO_SERVICE";
         public const string ImageAlreadyAddedToService = "IMAGE_ALREADY_ADDED_TO_SERVICE";
+        public const string ServiceHasThumbnailImage = "SERVICE_HAS_THUMBNAIL_IMAGE";
+
 
 
 

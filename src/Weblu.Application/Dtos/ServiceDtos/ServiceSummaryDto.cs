@@ -12,5 +12,6 @@ namespace Weblu.Application.Dtos.ServiceDtos
         public required string Slug { get; set; }
         public required string Description { get; set; }
         public bool IsActive { get; set; }
+        public string? ThumbnailPictureUrl { get; set; }
     }
 }

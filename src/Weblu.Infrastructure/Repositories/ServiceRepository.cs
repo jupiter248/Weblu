@@ -32,7 +32,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<Service>> GetAllServicesAsync(ServiceParameters serviceParameters)
         {
-            var services = await _context.Services.ToListAsync();
+            var services = await _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).ToListAsync();
 
             var priceSortQuery = new ServiceQueryHandler(new PriceSortStrategy());
             services = priceSortQuery.ExecuteServiceQuery(services, serviceParameters);

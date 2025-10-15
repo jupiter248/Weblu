@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Weblu.Application.Dtos.FeatureDtos;
 using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Dtos.MethodDtos;
+using Weblu.Application.Dtos.ServiceDtos.ServiceImageDtos;
 
 namespace Weblu.Application.Dtos.ServiceDtos
 {

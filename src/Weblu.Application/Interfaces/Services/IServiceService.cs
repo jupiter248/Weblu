@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Dtos.ServiceDtos;
+using Weblu.Application.Dtos.ServiceDtos.ServiceImageDtos;
 using Weblu.Domain.Parameters;
 
 namespace Weblu.Application.Interfaces.Services
