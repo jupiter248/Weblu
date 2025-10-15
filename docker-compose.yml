@@ -1,4 +1,19 @@
 services:
+  weblu-api:
+    container_name: weblu-api
+    build:
+      context: .
+      dockerfile: dockerfile
+    dns:
+      - 8.8.8.8
+    ports:
+      - "5000:8080"
+    env_file:
+      - .env
+    depends_on:
+      - weblu-sqlserver
+    volumes:
+      - ./src/Weblu.Api/wwwroot:/app/wwwroot
   weblu-sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     ports:

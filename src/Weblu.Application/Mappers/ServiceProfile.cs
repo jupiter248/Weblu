@@ -19,7 +19,7 @@ namespace Weblu.Application.Mappers
                 public ServiceProfile()
                 {
                         CreateMap<Service, ServiceSummaryDto>()
-                            .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.ServiceImages.FirstOrDefault(i => i.IsThumbnail).Image.Url));
+                            .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.ServiceImages.FirstOrDefault(i => i.IsThumbnail).Image.Url ?? string.Empty));
                         CreateMap<Service, ServiceDetailDto>()
                                 .ForMember(dest => dest.ActivatedAt, opt => opt.MapFrom(src => src.ActivatedAt.HasValue ? src.ActivatedAt.Value.ToShamsi() : null))
                                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
