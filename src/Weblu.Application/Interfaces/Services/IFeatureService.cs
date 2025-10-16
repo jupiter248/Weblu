@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Dtos.FeatureDtos;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Parameters;
 
 namespace Weblu.Application.Interfaces.Services
 {

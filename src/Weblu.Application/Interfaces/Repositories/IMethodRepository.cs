@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Services;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Parameters;
 
-namespace Weblu.Domain.Interfaces
+namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IMethodRepository
     {

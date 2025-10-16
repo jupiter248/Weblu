@@ -6,7 +6,7 @@ using Weblu.Application.Interfaces.Strategies;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Enums.Common.Parameters;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Parameters;
 
 namespace Weblu.Application.Strategies.Images
 {

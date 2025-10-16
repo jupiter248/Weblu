@@ -9,8 +9,8 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Errors.Features;
-using Weblu.Domain.Interfaces;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Parameters;
 
 namespace Weblu.Application.Services
 {

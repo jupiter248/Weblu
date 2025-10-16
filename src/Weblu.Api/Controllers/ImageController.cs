@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Interfaces.Services;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Parameters;
 
 namespace Weblu.Api.Controllers
 {

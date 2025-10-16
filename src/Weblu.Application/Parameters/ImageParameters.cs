@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Domain.Enums.Common.Parameters;
 
-namespace Weblu.Domain.Parameters
+namespace Weblu.Application.Parameters
 {
-    public class MethodParameters
+    public class ImageParameters
     {
-        public CreatedDateSort CreatedDateSort { get; set; }
+        public CreatedDateSort AddedDateSort { get; set; }
     }
 }

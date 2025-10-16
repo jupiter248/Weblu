@@ -8,7 +8,7 @@ using Weblu.Application.Dtos.ServiceDtos.ServiceImageDtos;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Services;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Parameters;
 
 namespace Weblu.Api.Controllers
 {

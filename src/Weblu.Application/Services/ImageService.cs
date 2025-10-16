@@ -14,9 +14,8 @@ using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.Images;
-using Weblu.Domain.Interfaces;
-using Weblu.Domain.Parameters;
-
+using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Parameters;
 namespace Weblu.Application.Services
 {
     public class ImageService : IImageService

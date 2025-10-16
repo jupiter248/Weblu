@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Dtos.FeatureDtos;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Strategies.Features;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Services;
-using Weblu.Domain.Interfaces;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Parameters;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories

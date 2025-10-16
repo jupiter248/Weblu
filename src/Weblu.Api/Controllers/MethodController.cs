@@ -7,7 +7,7 @@ using Weblu.Application.Dtos.MethodDtos;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Methods;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Parameters;
 
 namespace Weblu.Api.Controllers
 {

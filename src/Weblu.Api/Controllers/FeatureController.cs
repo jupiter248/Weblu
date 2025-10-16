@@ -8,7 +8,7 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Features;
 using Weblu.Domain.Entities;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Parameters;
 
 namespace Weblu.Api.Controllers
 {

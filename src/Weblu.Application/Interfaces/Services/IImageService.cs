@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Domain.Entities;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Parameters;
 
 namespace Weblu.Application.Interfaces.Services
 {

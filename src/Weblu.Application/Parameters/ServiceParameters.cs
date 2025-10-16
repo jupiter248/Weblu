@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Domain.Enums.Services.Parameters;
 
-namespace Weblu.Domain.Parameters
+namespace Weblu.Application.Parameters
 {
     public class ServiceParameters
     {

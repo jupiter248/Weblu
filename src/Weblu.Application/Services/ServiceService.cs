@@ -16,8 +16,8 @@ using Weblu.Domain.Errors.Features;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Errors.Services;
-using Weblu.Domain.Interfaces;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Parameters;
 
 namespace Weblu.Application.Services
 {

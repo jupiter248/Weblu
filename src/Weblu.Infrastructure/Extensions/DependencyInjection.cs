@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Interfaces;
-using Weblu.Domain.Interfaces;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Infrastructure.Localization;
 using Weblu.Infrastructure.Repositories;
 using Weblu.Infrastructure.Services;

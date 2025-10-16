@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Strategies.Methods;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Services;
-using Weblu.Domain.Interfaces;
-using Weblu.Domain.Parameters;
+using Weblu.Application.Parameters;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
