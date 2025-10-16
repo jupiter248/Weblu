@@ -36,6 +36,7 @@ builder.Services
 builder.Services.ConnectToDatabase();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
+builder.Services.ConfigureIdentity();
 
 
 var app = builder.Build();
@@ -49,7 +50,7 @@ app.UseRequestLocalization(localizationOptions);
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
-app.Services.ApplyMigrations();
+await app.Services.ApplyMigrations();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -60,5 +61,9 @@ if (app.Environment.IsDevelopment())
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.Run();

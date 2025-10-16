@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Identity;
 
 namespace Weblu.Infrastructure.Extensions
 {
@@ -20,13 +22,17 @@ namespace Weblu.Infrastructure.Extensions
                 }
             );
         }
-        public static void ApplyMigrations(this IServiceProvider serviceProvider)
+        public static async Task ApplyMigrations(this IServiceProvider serviceProvider)
         {
             using (var scope = serviceProvider.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var dbContext = services.GetRequiredService<ApplicationDbContext>();
+                var userManager = services.GetRequiredService<UserManager<AppUser>>();
                 dbContext.Database.Migrate();
+                await SeedEntities.SeedRolesWithClaimsAsync(dbContext, services);
+                await SeedEntities.SeedUserAndAdmin(dbContext, userManager);
+
             }
         }
     }
