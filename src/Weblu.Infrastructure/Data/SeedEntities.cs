@@ -27,6 +27,7 @@ namespace Weblu.Infrastructure.Data
                 Email = "mmazimifar7@gmail.com",
                 FirstName = "Admin",
                 LastName = "Admin",
+                PhoneNumber = "989031883414"
             };
             await _userManager.CreateAsync(admin, "24881385" ?? string.Empty);
             await _userManager.AddToRoleAsync(admin, "Admin");
@@ -37,6 +38,7 @@ namespace Weblu.Infrastructure.Data
                 Email = "User@gmail.com",
                 FirstName = "User",
                 LastName = "User",
+                PhoneNumber = "989031883414"
             };
             await _userManager.CreateAsync(user, "24881385" ?? string.Empty);
             await _userManager.AddToRoleAsync(user, "User");

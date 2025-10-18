@@ -9,7 +9,7 @@ namespace Weblu.Application.Common.Interfaces
 {
     public interface ITokenService
     {
-        public Task<TokenRequestDto> RefreshToken(TokenRequestDto addTokenRequestDto);
+        public Task<TokenDto> RefreshToken(TokenRequestDto addTokenRequestDto);
         public Task RevokeToken(RevokeRequestDto revokeRequestDto , string userId);
 
     }

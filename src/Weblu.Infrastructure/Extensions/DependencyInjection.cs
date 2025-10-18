@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Infrastructure.Identity.Services;
 using Weblu.Infrastructure.Localization;
 using Weblu.Infrastructure.Logger;
 using Weblu.Infrastructure.Repositories;
@@ -22,15 +23,16 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
-            services.AddScoped<ITokenService , TokenService>();
-
-
-
 
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+
+
+
+            services.AddScoped<IAuthService , AuthService>();
+            services.AddScoped<ITokenService , TokenService>();
             services.AddSingleton<IErrorService, ErrorService>();
 
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLoggerService<>));

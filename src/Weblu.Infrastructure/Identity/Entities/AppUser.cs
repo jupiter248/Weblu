@@ -14,7 +14,7 @@ namespace Weblu.Infrastructure.Identity.Entities
         [AllowNull]
         public override required string PhoneNumber { get => base.PhoneNumber!; set => base.PhoneNumber = value; }
         [AllowNull]
-        public override required string UserName { get => base.PhoneNumber!; set => base.PhoneNumber = value; }
+        public override required string UserName { get => base.UserName!; set => base.UserName = value; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;

@@ -23,7 +23,7 @@ namespace Weblu.Infrastructure.Token
             _unitOfWork = unitOfWork;
             _userManager = userManager;
         }
-        public async Task<TokenRequestDto> RefreshToken(TokenRequestDto addTokenRequestDto)
+        public async Task<TokenDto> RefreshToken(TokenRequestDto addTokenRequestDto)
         {
             RefreshToken refreshToken = await _unitOfWork.RefreshTokens.GetRefreshTokenByTokenAsync(addTokenRequestDto.RefreshToken) ?? throw new NotFoundException("");
             if (refreshToken.IsUsed || refreshToken.IsRevoked)
@@ -54,12 +54,12 @@ namespace Weblu.Infrastructure.Token
             await _unitOfWork.RefreshTokens.AddRefreshTokenAsync(newRefreshToken);
             await _unitOfWork.CommitAsync();
 
-            TokenRequestDto tokenRequestDto = new TokenRequestDto()
+            TokenDto tokenDto = new TokenDto()
             {
                 AccessToken = newAccessToken,
                 RefreshToken = newRefreshTokenValue
             };
-            return tokenRequestDto;
+            return tokenDto;
         }
 
         public async Task RevokeToken(RevokeRequestDto revokeRequestDto, string userId)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Mappers;
 using Weblu.Application.Services;
@@ -18,6 +19,7 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IMethodService, MethodService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+
 
 
 
