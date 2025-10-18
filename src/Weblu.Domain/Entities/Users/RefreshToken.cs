@@ -14,6 +14,5 @@ namespace Weblu.Domain.Entities.Users
         public required DateTimeOffset ExpiresAt { get; set; }
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
         public string UserId { get; set; } = null!;
-
     }
 }

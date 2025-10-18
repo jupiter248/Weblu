@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.RefreshTokenDtos;
 using Weblu.Application.Dtos.TokenDtos;
 using Weblu.Application.Exceptions;
@@ -13,7 +14,7 @@ using Weblu.Infrastructure.Identity.Entities;
 
 namespace Weblu.Infrastructure.Token
 {
-    public class TokenService
+    public class TokenService : ITokenService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<AppUser> _userManager;
@@ -47,7 +48,7 @@ namespace Weblu.Infrastructure.Token
             {
                 Token = newRefreshTokenValue,
                 UserId = appUser.Id,
-                ExpiresAt = DateTime.UtcNow.AddMonths(7)
+                ExpiresAt = DateTimeOffset.Now.AddMonths(1)
             };
 
             await _unitOfWork.RefreshTokens.AddRefreshTokenAsync(newRefreshToken);

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Weblu.Application.Common.Interfaces;
 
-namespace Weblu.Infrastructure.Services
+namespace Weblu.Infrastructure.Logger
 {
     public class AppLoggerService<T> : IAppLogger<T>
     {

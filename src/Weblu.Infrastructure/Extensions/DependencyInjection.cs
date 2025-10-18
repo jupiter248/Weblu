@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Infrastructure.Localization;
+using Weblu.Infrastructure.Logger;
 using Weblu.Infrastructure.Repositories;
-using Weblu.Infrastructure.Services;
 using Weblu.Infrastructure.Token;
 
 namespace Weblu.Infrastructure.Extensions
@@ -22,7 +22,7 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
-            services.AddScoped<TokenService>();
+            services.AddScoped<ITokenService , TokenService>();
 
 
 
