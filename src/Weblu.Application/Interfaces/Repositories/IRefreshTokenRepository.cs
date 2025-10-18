@@ -8,6 +8,11 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IRefreshTokenRepository
     {
+        public Task AddRefreshTokenAsync(RefreshToken refreshToken);
         public void UpdateRefreshToken(RefreshToken refreshToken);
+        public Task<List<RefreshToken>> GetAllRefreshTokenAsync();
+        public Task<RefreshToken?> GetRefreshTokenByTokenAsync(string refreshToken);
+
+
     }
 }

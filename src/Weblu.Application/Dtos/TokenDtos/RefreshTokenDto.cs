@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Weblu.Domain.Entities.Users
+namespace Weblu.Application.Dtos.TokenDtos
 {
-    public class RefreshToken
+    public class RefreshTokenDto
     {
         public int Id { get; set; }
         public string Token { get; set; } = string.Empty;
         public bool IsUsed { get; set; }
         public bool IsRevoked { get; set; }
-        public required DateTimeOffset ExpiresAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
+        public required string ExpiresAt { get; set; }
+        public required string CreatedAt { get; set; } 
         public string UserId { get; set; } = null!;
-
+        public string UserName { get; set; } = null!;
     }
 }

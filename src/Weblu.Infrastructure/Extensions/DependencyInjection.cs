@@ -8,6 +8,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Infrastructure.Localization;
 using Weblu.Infrastructure.Repositories;
 using Weblu.Infrastructure.Services;
+using Weblu.Infrastructure.Token;
 
 namespace Weblu.Infrastructure.Extensions
 {
@@ -19,6 +20,10 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IMethodRepository, MethodRepository>();
             services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+
+            services.AddScoped<TokenService>();
+
 
 
 

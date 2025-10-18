@@ -44,7 +44,7 @@ namespace Weblu.Infrastructure.Token
 
             return tokenHandler.WriteToken(token);
         }
-        public string GenerateRefreshToken()
+        public static string GenerateRefreshToken()
         {
             Byte[] randomBytes = new byte[64];
             using var rng = RandomNumberGenerator.Create();
