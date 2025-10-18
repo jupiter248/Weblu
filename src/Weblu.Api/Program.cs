@@ -41,6 +41,8 @@ builder.Services.ConfigureIdentity();
 
 var app = builder.Build();
 
+await app.Services.ApplyMigrations();
+
 var supportedCultures = new[] { "en", "fa" };
 var localizationOptions = new RequestLocalizationOptions()
     .SetDefaultCulture("en")
@@ -50,7 +52,6 @@ app.UseRequestLocalization(localizationOptions);
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
-await app.Services.ApplyMigrations();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -1,12 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Weblu.Application.Exceptions;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Identity;
+using Weblu.Infrastructure.Identity.Entities;
 
 namespace Weblu.Infrastructure.Extensions
 {
@@ -35,6 +40,27 @@ namespace Weblu.Infrastructure.Extensions
             .AddSignInManager<SignInManager<AppUser>>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+        }
+        public static void ConfigureJwt(this IServiceCollection services)
+        {
+           services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Environment.GetEnvironmentVariable("JWT_Issuer"),
+                    ValidAudience = Environment.GetEnvironmentVariable("JWT_Audience"),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Key") ?? throw new NotFoundException("Jwt key not found")))
+                };
+            });
         }
     }
 }

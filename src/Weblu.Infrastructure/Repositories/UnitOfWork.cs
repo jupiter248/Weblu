@@ -22,6 +22,8 @@ namespace Weblu.Infrastructure.Repositories
 
         private IImageRepository? _imageRepository;
         public IImageRepository Images => _imageRepository ??= new ImageRepository(_context);
+        private IRefreshTokenRepository? _refreshTokenRepository;
+        public IRefreshTokenRepository RefreshTokens => _refreshTokenRepository ??= new RefreshTokenRepository(_context);
 
         public async Task<int> CommitAsync()
         {

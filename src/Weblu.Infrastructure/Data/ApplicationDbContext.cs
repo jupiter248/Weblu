@@ -7,7 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Services;
+using Weblu.Domain.Entities.Users;
 using Weblu.Infrastructure.Identity;
+using Weblu.Infrastructure.Identity.Entities;
 
 namespace Weblu.Infrastructure.Data
 {
@@ -23,6 +25,8 @@ namespace Weblu.Infrastructure.Data
         public DbSet<Media> Media { get; set; }
         public DbSet<ImageMedia> ImageMedia { get; set; }
         public DbSet<ServiceImage> ServiceImages { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
 
 
 
@@ -36,6 +40,11 @@ namespace Weblu.Infrastructure.Data
             modelBuilder.Entity<Service>()
                 .HasMany(m => m.Methods)
                 .WithMany(s => s.Services);
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(t => t.RefreshTokens)
+                .WithOne()
+                .HasForeignKey(u => u.UserId);
 
             base.OnModelCreating(modelBuilder);
         }

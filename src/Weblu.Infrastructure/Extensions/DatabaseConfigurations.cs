@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Identity;
+using Weblu.Infrastructure.Identity.Entities;
 
 namespace Weblu.Infrastructure.Extensions
 {
@@ -29,10 +30,10 @@ namespace Weblu.Infrastructure.Extensions
                 var services = scope.ServiceProvider;
                 var dbContext = services.GetRequiredService<ApplicationDbContext>();
                 var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                 dbContext.Database.Migrate();
-                await SeedEntities.SeedRolesWithClaimsAsync(dbContext, services);
+                await SeedEntities.SeedRolesWithClaimsAsync(dbContext, services , roleManager);
                 await SeedEntities.SeedUserAndAdmin(dbContext, userManager);
-
             }
         }
     }

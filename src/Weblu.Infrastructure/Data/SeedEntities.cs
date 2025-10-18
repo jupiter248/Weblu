@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Models;
 using Weblu.Infrastructure.Identity;
+using Weblu.Infrastructure.Identity.Entities;
 
 namespace Weblu.Infrastructure.Data
 {
@@ -40,14 +41,13 @@ namespace Weblu.Infrastructure.Data
             await _userManager.CreateAsync(user, "24881385" ?? string.Empty);
             await _userManager.AddToRoleAsync(user, "User");
         }
-        public static async Task SeedRolesWithClaimsAsync(ApplicationDbContext _context, IServiceProvider serviceProvider)
+        public static async Task SeedRolesWithClaimsAsync(ApplicationDbContext _context, IServiceProvider serviceProvider , RoleManager<IdentityRole> roleManager)
         {
             if (_context.Roles.Any())
             {
                 System.Console.WriteLine("Database already seeded");
                 return;
             }
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             var rolesWithClaims = new Dictionary<string, List<string>>
             {
