@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using DotNetEnv;
 using Serilog;
 using Weblu.Api.Middlewares;
+using Weblu.Api.Extensions;
 using Weblu.Application.Extensions;
 using Weblu.Infrastructure.Extensions;
 
@@ -10,28 +11,11 @@ Env.Load(Path.Combine("../../.env")); // This loads .env into Environment variab
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwaggerGen();
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Information()
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .WriteTo.Seq("http://localhost:5341") // Seq running in Docker
-    .CreateLogger();
+builder.Host.ApplySerilog();
 
-builder.Host.UseSerilog();
-
-builder.Services
-    .AddControllers()
-    .ConfigureApiBehaviorOptions(options =>
-    {
-        // This disables the default automatic 400 response
-        options.SuppressModelStateInvalidFilter = true;
-    })
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    });
+builder.Services.AddControllersConfigurations();
 
 builder.Services.ConnectToDatabase();
 builder.Services.AddInfrastructure();
@@ -43,12 +27,7 @@ var app = builder.Build();
 
 await app.Services.ApplyMigrations();
 
-var supportedCultures = new[] { "en", "fa" };
-var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture("en")
-    .AddSupportedCultures(supportedCultures)
-    .AddSupportedUICultures(supportedCultures);
-app.UseRequestLocalization(localizationOptions);
+app.AddLocalizations();
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 

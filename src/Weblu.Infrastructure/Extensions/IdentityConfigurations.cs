@@ -34,7 +34,7 @@ namespace Weblu.Infrastructure.Extensions
 
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyz0123456789._@";
-                options.User.RequireUniqueEmail = true;
+                options.User.RequireUniqueEmail = false;
 
             }).AddRoles<IdentityRole>()
             .AddSignInManager<SignInManager<AppUser>>()
