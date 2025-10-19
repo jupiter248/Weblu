@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using Weblu.Application.Exceptions;
+using Weblu.Domain.Errors.Tokens;
 using Weblu.Infrastructure.Identity;
 using Weblu.Infrastructure.Identity.Entities;
 
@@ -17,7 +18,7 @@ namespace Weblu.Infrastructure.Token
     {
         public static string GenerateAccessToken(AppUser user, IList<string> roles)
         {
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Key") ?? throw new NotFoundException("Jwt key not found")));
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Key") ?? throw new NotFoundException(TokenErrorCodes.JwtKeyNoFound)));
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),

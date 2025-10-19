@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.AuthDtos;
+using Weblu.Application.Validations;
+using Weblu.Application.Validations.Auth;
 using Weblu.Domain.Enums.Users;
 
 namespace Weblu.Api.Controllers
@@ -21,6 +23,7 @@ namespace Weblu.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
+            Validator.ValidateAndThrow(registerDto, new RegisterValidator());
             AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto, UserType.User);
             return Ok(new
             {
@@ -29,9 +32,10 @@ namespace Weblu.Api.Controllers
             });
         }
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto registerDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            AuthResponseDto authResponseDto = await _authService.LoginAsync(registerDto);
+            Validator.ValidateAndThrow(loginDto, new LoginValidator());
+            AuthResponseDto authResponseDto = await _authService.LoginAsync(loginDto);
             return Ok(new
             {
                 message = "User logged in successfully.",

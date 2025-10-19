@@ -51,7 +51,7 @@
     </data>
     <data name="FEATURE_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
         <value>طول توضیحات ویژگی باید کمتر از ۱۵۰ کاراکتر باشد.</value>
-    </data>\
+    </data>
 
     // Methods
     <data name="METHOD_NOT_FOUND" xml:space="preserve">
@@ -69,4 +69,122 @@
     <data name="METHOD_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
         <value>توضیحات متد باید کمتر از ۱۵۰ کاراکتر باشد.</value>
     </data>
+
+    // Images
+    <data name="IMAGE_NOT_FOUND" xml:space="preserve">
+    <value>تصویر یافت نشد.</value>
+    </data>
+
+    <data name="MEDIUM_FILE_INVALID" xml:space="preserve">
+    <value>فایل تصویر معتبر نیست.</value>
+    </data>
+
+    <data name="MEDIUM_ALT_TEXT_LENGTH" xml:space="preserve">
+    <value>طول متن جایگزین از حد مجاز بیشتر است.</value>
+    </data>
+
+    <data name="MEDIUM_ALT_TEXT_REQUIRED" xml:space="preserve">
+    <value>متن جایگزین برای تصویر الزامی است.</value>
+    </data>
+
+    <data name="MEDIUM_FILE_REQUIRED" xml:space="preserve">
+    <value>بارگذاری یک فایل تصویر الزامی است.</value>
+    </data>
+
+    <data name="MEDIUM_FILE_SIZE" xml:space="preserve">
+    <value>اندازه فایل تصویر از حد مجاز بیشتر است.</value>
+    </data>
+
+    // Auth
+    <data name="USERNAME_ALREADY_USED" xml:space="preserve">
+    <value>این نام کاربری قبلاً استفاده شده است.</value>
+    </data>
+
+    <data name="PHONE_NUMBER_ALREADY_USED" xml:space="preserve">
+    <value>این شماره تلفن قبلاً استفاده شده است.</value>
+    </data>
+
+    <data name="USER_CREATION_FAILED" xml:space="preserve">
+    <value>ایجاد کاربر با شکست مواجه شد.</value>
+    </data>
+
+    <data name="ROLE_ADDING_FAILED" xml:space="preserve">
+    <value>افزودن نقش به کاربر با شکست مواجه شد.</value>
+    </data>
+
+    <data name="INCORRECT_PASSWORD" xml:space="preserve">
+    <value>رمز عبور نادرست است.</value>
+    </data>
+
+    <!-- خطاهای اعتبارسنجی -->
+    <data name="USERNAME_REQUIRED" xml:space="preserve">
+    <value>نام کاربری الزامی است.</value>
+    </data>
+
+    <data name="USERNAME_MAX_LENGTH" xml:space="preserve">
+    <value>طول نام کاربری از حد مجاز بیشتر است.</value>
+    </data>
+
+    <data name="USER_FIRST_NAME_MAX_LENGTH" xml:space="preserve">
+    <value>طول نام از حد مجاز بیشتر است.</value>
+    </data>
+
+    <data name="USER_FIRST_NAME_REQUIRED" xml:space="preserve">
+    <value>نام الزامی است.</value>
+    </data>
+
+    <data name="USER_LAST_NAME_MAX_LENGTH" xml:space="preserve">
+    <value>طول نام خانوادگی از حد مجاز بیشتر است.</value>
+    </data>
+
+    <data name="USER_LAST_NAME_REQUIRED" xml:space="preserve">
+    <value>نام خانوادگی الزامی است.</value>
+    </data>
+
+    <data name="PHONE_REQUIRED" xml:space="preserve">
+    <value>شماره تلفن الزامی است.</value>
+    </data>
+
+    <data name="INVALID_PHONE" xml:space="preserve">
+    <value>فرمت شماره تلفن نادرست است.</value>
+    </data>
+
+    <data name="PASSWORD_REQUIRED" xml:space="preserve">
+    <value>رمز عبور الزامی است.</value>
+    </data>
+
+    <data name="PASSWORD_LENGTH" xml:space="preserve">
+    <value>طول رمز عبور باید حداقل مقدار مجاز را داشته باشد.</value>
+    </data>
+
+    //Users
+    <data name="USER_NOT_FOUND" xml:space="preserve">
+    <value>کاربر یافت نشد.</value>
+    </data>
+
+    <data name="ROLE_NOT_FOUND" xml:space="preserve">
+    <value>نقش یافت نشد.</value>
+    </data>
+
+    //Tokens
+    <data name="JWT_KEY_NOT_FOUND" xml:space="preserve">
+    <value>کلید JWT یافت نشد.</value>
+    </data>
+
+    <data name="REFRESH_TOKEN_NOT_FOUND" xml:space="preserve">
+    <value>توکن رفرش یافت نشد.</value>
+    </data>
+
+    <data name="REFRESH_TOKEN_REVOKED" xml:space="preserve">
+    <value>توکن رفرش باطل شده است.</value>
+    </data>
+
+    <data name="REFRESH_TOKEN_USED" xml:space="preserve">
+    <value>توکن رفرش قبلاً استفاده شده است.</value>
+    </data>
+
+    <data name="REFRESH_TOKEN_EXPIRED" xml:space="preserve">
+    <value>توکن رفرش منقضی شده است.</value>
+    </data>
+    
 </root>

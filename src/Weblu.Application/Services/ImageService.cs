@@ -16,6 +16,7 @@ using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.Images;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
+using Microsoft.AspNetCore.Http.HttpResults;
 namespace Weblu.Application.Services
 {
     public class ImageService : IImageService
@@ -33,6 +34,10 @@ namespace Weblu.Application.Services
         }
         public async Task<ImageDto> AddImageAsync(AddImageDto addImageDto)
         {
+            if (addImageDto.Image.Length < 0)
+            {
+                throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
+            }
             IFormFile image = addImageDto.Image;
             string imageName = await MediaManager.UploadMedia(
                     _webHost,

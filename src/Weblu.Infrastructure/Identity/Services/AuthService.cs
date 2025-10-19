@@ -11,6 +11,8 @@ using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Domain.Entities.Users;
 using Weblu.Domain.Enums.Users;
+using Weblu.Domain.Errors.Auth;
+using Weblu.Domain.Errors.Users;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Token;
 
@@ -29,11 +31,11 @@ namespace Weblu.Infrastructure.Identity.Services
         }
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
-            AppUser appUser = await _userManager.FindByNameAsync(loginDto.Username) ?? throw new NotFoundException("");
+            AppUser appUser = await _userManager.FindByNameAsync(loginDto.Username) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             SignInResult checkPass = await _signInManager.CheckPasswordSignInAsync(appUser, loginDto.Password, true);
             if (!checkPass.Succeeded)
             {
-                throw new UnauthorizedException("");
+                throw new UnauthorizedException(AuthErrorCodes.IncorrectPassword);
             }
             IList<string> roles = await _userManager.GetRolesAsync(appUser);
 
@@ -68,12 +70,12 @@ namespace Weblu.Infrastructure.Identity.Services
             AppUser? foundByUsername = await _userManager.FindByNameAsync(registerDto.Username);
             if (foundByUsername != null)
             {
-                throw new ConflictException("");
+                throw new ConflictException(AuthErrorCodes.UsernameAlreadyUsed);
             }
             AppUser? foundByPhone = await _userManager.Users.FirstOrDefaultAsync(e => e.PhoneNumber == registerDto.PhoneNumber);
             if (foundByPhone != null)
             {
-                throw new ConflictException("");
+                throw new ConflictException(AuthErrorCodes.PhoneNumberAlreadyUsed);
             }
 
             AppUser newUser = new AppUser()
@@ -87,7 +89,7 @@ namespace Weblu.Infrastructure.Identity.Services
             IdentityResult userCreated = await _userManager.CreateAsync(newUser, registerDto.Password);
             if (!userCreated.Succeeded)
             {
-                throw new UnauthorizedException("");
+                throw new UnauthorizedException(AuthErrorCodes.UserCreationFailed);
             }
 
             IdentityResult roleAdded = new IdentityResult();
@@ -103,7 +105,7 @@ namespace Weblu.Infrastructure.Identity.Services
 
             if (!roleAdded.Succeeded)
             {
-                throw new UnauthorizedException("");
+                throw new UnauthorizedException(AuthErrorCodes.RoleAddingFailed);
             }
 
             IList<string> roles = await _userManager.GetRolesAsync(newUser);

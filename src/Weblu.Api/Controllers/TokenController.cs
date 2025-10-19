@@ -9,6 +9,7 @@ using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.RefreshTokenDtos;
 using Weblu.Application.Dtos.TokenDtos;
 using Weblu.Application.Exceptions;
+using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Api.Controllers
 {
@@ -34,10 +35,10 @@ namespace Weblu.Api.Controllers
         [HttpPost("revoke")]
         public async Task<IActionResult> RevokeToken([FromBody] RevokeRequestDto revokeRequestDto)
         {
-            string? userId = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            string? userId = User.FindFirstValue(JwtRegisteredClaimNames.Name);
             if (string.IsNullOrEmpty(userId))
             {
-                throw new NotFoundException("");
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
             await _tokenService.RevokeToken(revokeRequestDto, userId);
             return Ok(new
