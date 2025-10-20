@@ -83,7 +83,7 @@ namespace Weblu.Infrastructure.Identity.Services
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 PhoneNumber = registerDto.PhoneNumber,
-                UserName = registerDto.Username
+                UserName = registerDto.Username.ToLower()
             };
 
             IdentityResult userCreated = await _userManager.CreateAsync(newUser, registerDto.Password);

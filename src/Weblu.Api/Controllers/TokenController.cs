@@ -4,11 +4,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.RefreshTokenDtos;
 using Weblu.Application.Dtos.TokenDtos;
 using Weblu.Application.Exceptions;
+using Weblu.Application.Helpers;
 using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Api.Controllers
@@ -32,10 +34,11 @@ namespace Weblu.Api.Controllers
                 tokens = tokenDto
             });
         }
+        [Authorize]
         [HttpPost("revoke")]
         public async Task<IActionResult> RevokeToken([FromBody] RevokeRequestDto revokeRequestDto)
         {
-            string? userId = User.FindFirstValue(JwtRegisteredClaimNames.Name);
+            string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);

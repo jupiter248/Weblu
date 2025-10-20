@@ -21,6 +21,8 @@ builder.Services.ConnectToDatabase();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJwt();
+
 
 
 var app = builder.Build();
