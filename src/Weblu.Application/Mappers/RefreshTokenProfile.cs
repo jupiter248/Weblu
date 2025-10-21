@@ -9,9 +9,9 @@ using Weblu.Domain.Entities.Users;
 
 namespace Weblu.Application.Mappers
 {
-    public class RefreshTokenMapper : Profile
+    public class RefreshTokenProfile : Profile
     {
-        public RefreshTokenMapper()
+        public RefreshTokenProfile()
         {
             CreateMap<RefreshToken, RefreshTokenDto>()
                 .ForMember(dest => dest.ExpiresAt, opt => opt.MapFrom(src => src.ExpiresAt.ToShamsi()))

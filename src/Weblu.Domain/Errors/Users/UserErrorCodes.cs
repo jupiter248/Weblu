@@ -9,6 +9,7 @@ namespace Weblu.Domain.Errors.Users
     {
         public const string UserNotFound = "USER_NOT_FOUND";
         public const string RoleNotFound = "ROLE_NOT_FOUND";
-
+        public const string UserUpdateForbidden = "USER_UPDATE_FORBIDDEN";
+        public const string UserDeleteForbidden = "USER_UPDATE_FORBIDDEN";
     }
 }

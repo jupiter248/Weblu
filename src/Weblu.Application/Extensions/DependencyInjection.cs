@@ -27,7 +27,7 @@ namespace Weblu.Application.Extensions
             services.AddAutoMapper(typeof(FeatureProfile));
             services.AddAutoMapper(typeof(MethodProfile));
             services.AddAutoMapper(typeof(ImageProfile));
-            services.AddAutoMapper(typeof(RefreshTokenMapper));
+            services.AddAutoMapper(typeof(RefreshTokenProfile));
 
 
 
