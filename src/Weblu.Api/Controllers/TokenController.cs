@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Interfaces;
+using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.RefreshTokenDtos;
 using Weblu.Application.Dtos.TokenDtos;
 using Weblu.Application.Exceptions;
@@ -28,11 +29,11 @@ namespace Weblu.Api.Controllers
         public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDto tokenRequestDto)
         {
             TokenDto tokenDto = await _tokenService.RefreshToken(tokenRequestDto);
-            return Ok(new
-            {
-                message = "Tokens refreshed successfully",
-                tokens = tokenDto
-            });
+            return Ok(ApiResponse<TokenDto>.Success
+            (
+                "Token refreshed successfully.",
+                tokenDto
+            ));
         }
         [Authorize]
         [HttpPost("revoke")]
@@ -44,10 +45,10 @@ namespace Weblu.Api.Controllers
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
             await _tokenService.RevokeToken(revokeRequestDto, userId);
-            return Ok(new
-            {
-                message = "Tokens revoked successfully",
-            });
+            return Ok(ApiResponse.Success
+            (
+                "Tokens revoked successfully"
+            ));
         }
     }
 }

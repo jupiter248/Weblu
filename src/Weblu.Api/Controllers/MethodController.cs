@@ -8,6 +8,7 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Methods;
 using Weblu.Application.Parameters;
+using Weblu.Application.Common.Responses;
 
 namespace Weblu.Api.Controllers
 {
@@ -37,28 +38,31 @@ namespace Weblu.Api.Controllers
         {
             Validator.ValidateAndThrow(addMethodDto, new AddMethodValidator());
             MethodDto methodDto = await _methodService.AddMethodAsync(addMethodDto);
-            return CreatedAtAction(nameof(GetMethodById), new { methodId = methodDto.Id }, new
-            {
-                message = "Method added successfully.",
-                method = methodDto
-            });
+            return CreatedAtAction(nameof(GetMethodById), new { methodId = methodDto.Id }, ApiResponse<MethodDto>.Success
+            (
+                "Method added successfully.",
+                methodDto
+            ));
         }
         [HttpPut("{methodId:int}")]
         public async Task<IActionResult> UpdateMethod(int methodId, [FromBody] UpdateMethodDto updateMethodDto)
         {
             Validator.ValidateAndThrow(updateMethodDto, new UpdateMethodValidator());
             MethodDto methodDto = await _methodService.UpdateMethodAsync(methodId, updateMethodDto);
-            return Ok(new
-            {
-                message = "Method added successfully.",
-                method = methodDto
-            });
+            return Ok(ApiResponse<MethodDto>.Success
+            (
+                "Method updated successfully.",
+                 methodDto
+            ));
         }
         [HttpDelete("{methodId:int}")]
         public async Task<IActionResult> DeleteMethod(int methodId)
         {
             await _methodService.DeleteMethodAsync(methodId);
-            return NoContent();
+            return Ok(ApiResponse.Success
+            (
+                "Method deleted successfully."
+            ));
         }
     }
 }

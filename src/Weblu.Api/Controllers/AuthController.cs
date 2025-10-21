@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Interfaces;
+using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.AuthDtos;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Auth;
@@ -25,22 +26,22 @@ namespace Weblu.Api.Controllers
         {
             Validator.ValidateAndThrow(registerDto, new RegisterValidator());
             AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto, UserType.User);
-            return Ok(new
-            {
-                message = "User created successfully.",
-                user = authResponseDto
-            });
+            return Ok(ApiResponse<AuthResponseDto>.Success
+            (
+                "User created successfully.",
+                authResponseDto
+            ));
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             Validator.ValidateAndThrow(loginDto, new LoginValidator());
             AuthResponseDto authResponseDto = await _authService.LoginAsync(loginDto);
-            return Ok(new
-            {
-                message = "User logged in successfully.",
-                user = authResponseDto
-            });
+            return Ok(ApiResponse<AuthResponseDto>.Success
+            (
+                "User logged in successfully.",
+                authResponseDto
+            ));
         }
     }
 }

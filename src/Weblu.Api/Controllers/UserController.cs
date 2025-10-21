@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.UserDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
@@ -44,20 +45,30 @@ namespace Weblu.Api.Controllers
         {
             Validator.ValidateAndThrow(updateUserDto, new UpdateUserValidator());
             UserDto userDto = await _userService.UpdateUserAsync(userId, updateUserDto);
-            return Ok(userDto);
+            return Ok(ApiResponse<UserDto>.Success
+            (
+                "User updated successfully.",
+                userDto
+            ));
         }
         [HttpPut("{userId}/change-password")]
         public async Task<IActionResult> ChangeUserPassword(string userId, [FromBody] ChangePasswordDto changePasswordDto)
         {
             Validator.ValidateAndThrow(changePasswordDto, new ChangeUserPasswordValidator());
             await _userService.ChangeUserPasswordAsync(userId, changePasswordDto);
-            return NoContent();
+            return Ok(ApiResponse.Success
+            (
+                "User password changed successfully."
+            ));
         }
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteUser(string userId)
         {
             await _userService.DeleteUserAsync(userId);
-            return NoContent();
+            return Ok(ApiResponse.Success
+            (
+                "User deleted successfully."
+            ));
         }
     }
 }

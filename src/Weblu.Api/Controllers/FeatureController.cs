@@ -9,6 +9,7 @@ using Weblu.Application.Validations;
 using Weblu.Application.Validations.Features;
 using Weblu.Domain.Entities;
 using Weblu.Application.Parameters;
+using Weblu.Application.Common.Responses;
 
 namespace Weblu.Api.Controllers
 {
@@ -38,28 +39,31 @@ namespace Weblu.Api.Controllers
         {
             Validator.ValidateAndThrow(addFeatureDto, new AddFeatureValidator());
             FeatureDto featureDto = await _featureService.AddFeatureAsync(addFeatureDto);
-            return CreatedAtAction(nameof(GetFeatureById), new { featureId = featureDto.Id }, new
-            {
-                message = "Feature added successfully.",
-                feature = featureDto
-            });
+            return CreatedAtAction(nameof(GetFeatureById), new { featureId = featureDto.Id }, ApiResponse<FeatureDto>.Success
+            (
+                "Feature created successfully.",
+                featureDto
+            ));
         }
         [HttpPut("{featureId:int}")]
         public async Task<IActionResult> UpdateFeature(int featureId, [FromBody] UpdateFeatureDto updateFeatureDto)
         {
             Validator.ValidateAndThrow(updateFeatureDto, new UpdateFeatureValidator());
             FeatureDto featureDto = await _featureService.UpdateFeatureAsync(featureId, updateFeatureDto);
-            return Ok(new
-            {
-                message = "Feature added successfully.",
-                feature = featureDto
-            });
+            return Ok(ApiResponse<FeatureDto>.Success
+            (
+                "Feature updated successfully.",
+                featureDto
+            ));
         }
         [HttpDelete("{featureId:int}")]
         public async Task<IActionResult> DeleteFeature(int featureId)
         {
             await _featureService.DeleteFeatureAsync(featureId);
-            return NoContent();
+            return Ok(ApiResponse.Success
+            (
+                "Feature deleted successfully."
+            ));
         }
     }
 }

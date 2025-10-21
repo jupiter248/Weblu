@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
@@ -34,17 +35,20 @@ namespace Weblu.Api.Controllers
         public async Task<IActionResult> AddImage([FromForm] AddImageDto addImageDto)
         {
             ImageDto imageDto = await _imageService.AddImageAsync(addImageDto);
-            return CreatedAtAction(nameof(GetImageById), new { imageId = imageDto.Id }, new
-            {
-                message = "Image added successfully",
-                image = imageDto
-            });
+            return CreatedAtAction(nameof(GetImageById), new { imageId = imageDto.Id }, ApiResponse<ImageDto>.Success
+            (
+                "Image uploaded successfully.",
+                imageDto
+            ));
         }
         [HttpDelete("{imageId:int}")]
         public async Task<IActionResult> DeleteImage(int imageId)
         {
             await _imageService.DeleteImageAsync(imageId);
-            return Ok(new { message = "Image deleted successfully" });
+            return Ok(ApiResponse.Success
+            (
+                "Image deleted successfully."
+            ));
         }
     }
 }
