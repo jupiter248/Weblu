@@ -7,6 +7,8 @@ using Weblu.Application.Dtos.UserDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Validations;
+using Weblu.Application.Validations.Users;
 using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Api.Controllers
@@ -40,8 +42,16 @@ namespace Weblu.Api.Controllers
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(string userId, [FromBody] UpdateUserDto updateUserDto)
         {
+            Validator.ValidateAndThrow(updateUserDto, new UpdateUserValidator());
             UserDto userDto = await _userService.UpdateUserAsync(userId, updateUserDto);
             return Ok(userDto);
+        }
+        [HttpPut("{userId}/change-password")]
+        public async Task<IActionResult> ChangeUserPassword(string userId, [FromBody] ChangePasswordDto changePasswordDto)
+        {
+            Validator.ValidateAndThrow(changePasswordDto, new ChangeUserPasswordValidator());
+            await _userService.ChangeUserPasswordAsync(userId, changePasswordDto);
+            return NoContent();
         }
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteUser(string userId)

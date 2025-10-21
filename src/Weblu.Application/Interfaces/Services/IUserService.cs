@@ -12,6 +12,8 @@ namespace Weblu.Application.Interfaces.Services
         public Task<UserDto> GetCurrentUserAsync(string userId);
         public Task<UserDto> UpdateUserAsync(string userId, UpdateUserDto updateUserDto);
         public Task DeleteUserAsync(string userId);
+        public Task ChangeUserPasswordAsync(string userId, ChangePasswordDto changePasswordDto);
+
 
     }
 }

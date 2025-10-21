@@ -28,6 +28,34 @@ namespace Weblu.Infrastructure.Identity.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public async Task ChangeUserPasswordAsync(string userId, ChangePasswordDto changePasswordDto)
+        {
+            var authorizedUser = _httpContextAccessor.HttpContext?.User;
+            string? authorizedUserId = authorizedUser?.GetUserId();
+
+            if (authorizedUser == null)
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            if (authorizedUserId != userId || !authorizedUser.IsInRole(UserType.User.ToString()))
+            {
+                throw new BadRequestException(UserErrorCodes.UserDeleteForbidden);
+            }
+            AppUser currentUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+
+            bool checkOldPass = await _userManager.CheckPasswordAsync(currentUser, changePasswordDto.OldPassword);
+            if (!checkOldPass)
+            {
+                throw new UnauthorizedException(UserErrorCodes.OldPasswordIsIncorrect);
+            }
+
+            IdentityResult result = await _userManager.ChangePasswordAsync(currentUser, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
+            if (!result.Succeeded)
+            {
+                throw new UnauthorizedException(UserErrorCodes.UserChangePasswordFailed);
+            }
+        }
+
         public async Task DeleteUserAsync(string userId)
         {
             var authorizedUser = _httpContextAccessor.HttpContext?.User;
