@@ -18,7 +18,8 @@ namespace Weblu.Application.Mappers
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
             CreateMap<AddMethodDto, Method>();
-            CreateMap<UpdateMethodDto, Method>();
+            CreateMap<UpdateMethodDto, Method>()
+                    .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
         }
     }
 }

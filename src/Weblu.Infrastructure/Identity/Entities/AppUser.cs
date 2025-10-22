@@ -20,5 +20,7 @@ namespace Weblu.Infrastructure.Identity.Entities
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
         public DateTimeOffset? UpdatedAt { get; set; }
         public List<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+        public List<UserProfile> UserProfile { get; set; } = new List<UserProfile>();
+
     }
 }

@@ -61,9 +61,7 @@ namespace Weblu.Application.Services
         {
             Method? method = await _unitOfWork.Methods.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
             method = _mapper.Map(updateMethodDto, method);
-
-            method.UpdatedAt = DateTimeOffset.Now;
-
+            
             _unitOfWork.Methods.UpdateMethod(method);
             await _unitOfWork.CommitAsync();
 

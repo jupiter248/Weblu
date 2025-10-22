@@ -26,10 +26,8 @@ namespace Weblu.Infrastructure.Data
         public DbSet<ImageMedia> ImageMedia { get; set; }
         public DbSet<ServiceImage> ServiceImages { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
-
-
-
-
+        public DbSet<ProfileMedia> ProfileMedia { get; set; }
+        // public DbSet<UserProfile> UserProfiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,6 +43,11 @@ namespace Weblu.Infrastructure.Data
                 .HasMany(t => t.RefreshTokens)
                 .WithOne()
                 .HasForeignKey(u => u.UserId);
+
+            // modelBuilder.Entity<AppUser>()
+            //     .HasMany(p => UserProfiles)
+            //     .WithOne()
+            //     .HasForeignKey(u => u.UserId);
 
             base.OnModelCreating(modelBuilder);
         }

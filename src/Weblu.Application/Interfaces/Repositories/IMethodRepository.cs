@@ -10,11 +10,11 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IMethodRepository
     {
-        public Task<List<Method>> GetAllMethodsAsync(MethodParameters methodParameters);
-        public Task<Method?> GetMethodByIdAsync(int methodId);
-        public Task<bool> MethodExistsAsync(int methodId);
-        public Task AddMethodAsync(Method method);
-        public void UpdateMethod(Method method);
-        public void DeleteMethod(Method method);
+        Task<List<Method>> GetAllMethodsAsync(MethodParameters methodParameters);
+        Task<Method?> GetMethodByIdAsync(int methodId);
+        Task<bool> MethodExistsAsync(int methodId);
+        Task AddMethodAsync(Method method);
+        void UpdateMethod(Method method);
+        void DeleteMethod(Method method);
     }
 }

@@ -24,6 +24,7 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IMethodRepository, MethodRepository>();
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

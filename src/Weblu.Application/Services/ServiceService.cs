@@ -171,7 +171,6 @@ namespace Weblu.Application.Services
         {
             Service? service = await _unitOfWork.Services.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             service = _mapper.Map(updateServiceDto, service);
-            service.UpdatedAt = DateTimeOffset.Now;
             if (service.IsActive)
             {
                 if (service.ActivatedAt == DateTimeOffset.MinValue)
