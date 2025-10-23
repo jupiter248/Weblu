@@ -60,21 +60,29 @@ namespace Weblu.Application.Services
 
             ProfileDto profileDto = _mapper.Map<ProfileDto>(profileModel);
             return profileDto;
-            }
-
-        public Task DeleteProfileAsync(int profileId)
-        {
-            throw new NotImplementedException();
         }
 
-        public Task<List<ProfileDto>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters)
+        public async Task DeleteProfileAsync(int profileId)
         {
-            throw new NotImplementedException();
+            ProfileMedia image = await _unitOfWork.Profiles.GetProfileByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+
+            _unitOfWork.Profiles.DeleteProfile(image);
+            await MediaManager.DeleteMedia(_webHost, image.Url);
+            await _unitOfWork.CommitAsync();
+       }
+
+        public async Task<List<ProfileDto>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters)
+        {
+            List<ProfileMedia> images = await _unitOfWork.Profiles.GetAllProfilesAsync(profileMediaParameters);
+            List<ProfileDto> imageDtos = _mapper.Map<List<ProfileDto>>(images);
+            return imageDtos;
         }
 
-        public Task<ProfileDto> GetProfileByIdAsync(int profileId)
+        public async Task<ProfileDto> GetProfileByIdAsync(int profileId)
         {
-            throw new NotImplementedException();
+            ProfileMedia image = await _unitOfWork.Profiles.GetProfileByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            ProfileDto imageDto = _mapper.Map<ProfileDto>(image);
+            return imageDto;
         }
     }
 }
