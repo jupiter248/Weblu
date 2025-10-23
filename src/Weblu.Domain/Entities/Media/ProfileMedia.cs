@@ -11,6 +11,5 @@ namespace Weblu.Domain.Entities.Media
         public int Width { get; set; }
         public int Height { get; set; }
         public long FileSize { get; set; }
-        public List<UserProfile> UserProfiles { get; set; } = new List<UserProfile>();
     }
 }

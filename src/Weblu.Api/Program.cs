@@ -23,7 +23,15 @@ builder.Services.AddApplication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwt();
 
-
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("HelloConnection", policy =>
+    {
+        policy.AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowAnyOrigin();
+    });
+});
 
 var app = builder.Build();
 
@@ -42,8 +50,8 @@ if (app.Environment.IsDevelopment())
 }
 app.UseStaticFiles();
 app.UseHttpsRedirection();
+app.UseCors("HelloConnection");
 app.MapControllers();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
