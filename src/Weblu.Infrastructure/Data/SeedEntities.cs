@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Models;
+using Weblu.Domain.Enums.Users;
 using Weblu.Infrastructure.Identity;
 using Weblu.Infrastructure.Identity.Entities;
 
@@ -23,25 +24,25 @@ namespace Weblu.Infrastructure.Data
             //Add a user and an admin
             AppUser admin = new AppUser()
             {
-                UserName = "Admin",
+                UserName = "admin",
                 Email = "mmazimifar7@gmail.com",
                 FirstName = "Admin",
                 LastName = "Admin",
                 PhoneNumber = "989031883414"
             };
-            await _userManager.CreateAsync(admin, "24881385" ?? string.Empty);
-            await _userManager.AddToRoleAsync(admin, "Admin");
+            IdentityResult adminCreated = await _userManager.CreateAsync(admin, "@Admin248");
+            IdentityResult adminRoleAdded = await _userManager.AddToRoleAsync(admin, UserType.Admin.ToString());
 
             AppUser user = new AppUser()
             {
-                UserName = "User",
-                Email = "User@gmail.com",
+                UserName = "user",
+                Email = "mmazimifar77@gmail.com",
                 FirstName = "User",
                 LastName = "User",
                 PhoneNumber = "989939987914"
             };
-            await _userManager.CreateAsync(user, "24881385" ?? string.Empty);
-            await _userManager.AddToRoleAsync(user, "User");
+            IdentityResult userCreated =  await _userManager.CreateAsync(user, "@User248");
+            IdentityResult userRoleAdded = await _userManager.AddToRoleAsync(user, UserType.User.ToString());
         }
         public static async Task SeedRolesWithClaimsAsync(ApplicationDbContext _context, IServiceProvider serviceProvider , RoleManager<IdentityRole> roleManager)
         {
