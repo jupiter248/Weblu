@@ -9,7 +9,7 @@ using Weblu.Domain.Entities.Media;
 
 namespace Weblu.Application.Interfaces.Services
 {
-    public interface IProfileUserService
+    public interface IProfileImageService
     {
         Task<List<ProfileDto>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters);
         Task<ProfileDto> GetProfileByIdAsync(int profileId);

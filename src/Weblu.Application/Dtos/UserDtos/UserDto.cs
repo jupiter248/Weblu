@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Application.Dtos.ProfileDtos;
 using Weblu.Application.Dtos.TokenDtos;
 
 namespace Weblu.Application.Dtos.UserDtos
@@ -17,6 +18,6 @@ namespace Weblu.Application.Dtos.UserDtos
         public List<string> Roles { get; set; } = new List<string>();
         public required string CreatedAt { get; set; }
         public string? UpdatedAt { get; set; }
-        // public List<RefreshTokenDto>? RefreshTokens { get; set; }
+        public List<ProfileDto>? Profiles { get; set; }
     }
 }

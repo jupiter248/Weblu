@@ -11,10 +11,10 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class UserProfileRepository : IUserProfileRepository
+    public class ProfileImageRepository : IProfileImageRepository
     {
         public readonly ApplicationDbContext _context;
-        public UserProfileRepository(ApplicationDbContext context)
+        public ProfileImageRepository(ApplicationDbContext context)
         {
             _context = context;
         }

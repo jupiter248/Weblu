@@ -7,7 +7,7 @@ using Weblu.Domain.Entities.Media;
 
 namespace Weblu.Application.Interfaces.Repositories
 {
-    public interface IUserProfileRepository
+    public interface IProfileImageRepository
     {
         Task<List<ProfileMedia>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters);
         Task<ProfileMedia?> GetProfileByIdAsync(int profileId);

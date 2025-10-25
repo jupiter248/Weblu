@@ -12,8 +12,8 @@ using Weblu.Infrastructure.Data;
 namespace Weblu.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251018081712_AddedRefreshToken")]
-    partial class AddedRefreshToken
+    [Migration("20251025082409_AddedRelationsBetweenUserAndProfile")]
+    partial class AddedRelationsBetweenUserAndProfile
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -359,11 +359,11 @@ namespace Weblu.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("IsRevoked")
                         .HasColumnType("bit");
@@ -434,6 +434,7 @@ namespace Weblu.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
@@ -449,6 +450,7 @@ namespace Weblu.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -476,6 +478,40 @@ namespace Weblu.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("ImageMedia");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Media.ProfileMedia", b =>
+                {
+                    b.HasBaseType("Weblu.Domain.Entities.Media.Media");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("OwnerType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Media", t =>
+                        {
+                            t.Property("Height")
+                                .HasColumnName("ProfileMedia_Height");
+
+                            t.Property("Width")
+                                .HasColumnName("ProfileMedia_Width");
+                        });
+
+                    b.HasDiscriminator().HasValue("ProfileMedia");
                 });
 
             modelBuilder.Entity("FeatureService", b =>
@@ -587,6 +623,15 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Media.ProfileMedia", b =>
+                {
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
+                        .WithMany("Profiles")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Services.Service", b =>
                 {
                     b.Navigation("ServiceImages");
@@ -594,6 +639,8 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("Weblu.Infrastructure.Identity.Entities.AppUser", b =>
                 {
+                    b.Navigation("Profiles");
+
                     b.Navigation("RefreshTokens");
                 });
 

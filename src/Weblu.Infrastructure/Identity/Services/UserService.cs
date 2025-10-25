@@ -76,7 +76,7 @@ namespace Weblu.Infrastructure.Identity.Services
 
         public async Task<List<UserDto>> GetAllUsersAsync()
         {
-            List<AppUser> users = await _userManager.Users.ToListAsync();
+            List<AppUser> users = await _userManager.Users.Include(p => p.Profiles).ToListAsync();
             List<UserDto> userDtos = _mapper.Map<List<UserDto>>(users);
             foreach (UserDto userDto in userDtos)
             {
@@ -91,7 +91,7 @@ namespace Weblu.Infrastructure.Identity.Services
 
         public async Task<UserDto> GetCurrentUserAsync(string userId)
         {
-            AppUser user = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            AppUser user = await _userManager.Users.Include(p => p.Profiles).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             IList<string> roles = await _userManager.GetRolesAsync(user);
             UserDto userDto = _mapper.Map<UserDto>(user);
             userDto.Roles.AddRange(roles);

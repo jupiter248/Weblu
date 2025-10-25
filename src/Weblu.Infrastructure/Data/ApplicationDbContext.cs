@@ -42,12 +42,14 @@ namespace Weblu.Infrastructure.Data
             modelBuilder.Entity<AppUser>()
                 .HasMany(t => t.RefreshTokens)
                 .WithOne()
-                .HasForeignKey(u => u.UserId);
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // modelBuilder.Entity<AppUser>()
-            //     .HasMany(p => UserProfiles)
-            //     .WithOne()
-            //     .HasForeignKey(u => u.UserId);
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.Profiles)
+                .WithOne()
+                .HasForeignKey(u => u.OwnerId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }

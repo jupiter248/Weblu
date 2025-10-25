@@ -16,16 +16,18 @@ using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Enums.Common;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Entities.Media;
+using Microsoft.AspNetCore.Identity;
+using Weblu.Domain.Errors.Users;
 
 
 namespace Weblu.Application.Services
 {
-    public class ProfileUserService : IProfileUserService
+    public class ProfileImageService : IProfileImageService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHost;
         private readonly IMapper _mapper;
-        public ProfileUserService(IUnitOfWork unitOfWork, IWebHostEnvironment webHost, IMapper mapper)
+        public ProfileImageService(IUnitOfWork unitOfWork, IWebHostEnvironment webHost, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _webHost = webHost;
@@ -34,6 +36,19 @@ namespace Weblu.Application.Services
 
         public async Task<ProfileDto> AddProfileAsync(AddProfileDto addProfileDto)
         {
+            if (addProfileDto.OwnerType == ProfileMediaType.User)
+            {
+                bool appUserExists = await _unitOfWork.Users.UserExistsAsync(addProfileDto.OwnerId);
+                if (!appUserExists)
+                {
+                    throw new NotFoundException(UserErrorCodes.UserNotFound);
+                }
+            }
+            if (addProfileDto.OwnerType == ProfileMediaType.Contributor)
+            {
+            }
+
+
             if (addProfileDto.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
@@ -44,7 +59,7 @@ namespace Weblu.Application.Services
                     new MediaUploaderDto
                     {
                         Media = image,
-                        MediaType = MediaType.picture
+                        MediaType = MediaType.profile
                     }
             );
 
@@ -53,6 +68,9 @@ namespace Weblu.Application.Services
                 Name = imageName,
                 AltText = addProfileDto.AltText,
                 Url = $"uploads/{MediaType.picture}/{imageName}",
+                OwnerId = addProfileDto.OwnerId,
+                OwnerType = addProfileDto.OwnerType,
+                IsMain = addProfileDto.IsMain
             };
 
             await _unitOfWork.Profiles.AddProfileAsync(profileModel);
@@ -69,7 +87,7 @@ namespace Weblu.Application.Services
             _unitOfWork.Profiles.DeleteProfile(image);
             await MediaManager.DeleteMedia(_webHost, image.Url);
             await _unitOfWork.CommitAsync();
-       }
+        }
 
         public async Task<List<ProfileDto>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters)
         {

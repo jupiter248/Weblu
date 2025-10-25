@@ -12,9 +12,11 @@ namespace Weblu.Application.Mappers
     public class ProfileMediaProfile : Profile
     {
         public ProfileMediaProfile()
-        {   
+        {
             CreateMap<ProfileMedia, ProfileDto>()
-                .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.AddedAt.ToShamsi()));
-        }        
+                .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.AddedAt.ToShamsi()))
+                .ForMember(dest => dest.OwnerType, opt => opt.MapFrom(src => src.OwnerType.ToString()));
+
+        }
     }
 }

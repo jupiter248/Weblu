@@ -14,6 +14,9 @@ namespace Weblu.Application.Dtos.ProfileDtos
         public int Width { get; set; }
         public int Height { get; set; }
         public long Size { get; set; }
+        public required string OwnerId { get; set; }
+        public required string OwnerType { get; set; }
+        public bool IsMain { get; set; }
         public required string AddedAt { get; set; }
     }
 }

@@ -487,8 +487,20 @@ namespace Weblu.Infrastructure.Migrations
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("OwnerType")
+                        .HasColumnType("int");
+
                     b.Property<int>("Width")
                         .HasColumnType("int");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Media", t =>
                         {
@@ -611,6 +623,15 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Media.ProfileMedia", b =>
+                {
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
+                        .WithMany("Profiles")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Services.Service", b =>
                 {
                     b.Navigation("ServiceImages");
@@ -618,6 +639,8 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("Weblu.Infrastructure.Identity.Entities.AppUser", b =>
                 {
+                    b.Navigation("Profiles");
+
                     b.Navigation("RefreshTokens");
                 });
 

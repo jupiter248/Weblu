@@ -12,8 +12,8 @@ using Weblu.Infrastructure.Data;
 namespace Weblu.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251018194635_UpdatedUserTable")]
-    partial class UpdatedUserTable
+    [Migration("20251025083103_AddedIsMainToProfileMedia")]
+    partial class AddedIsMainToProfileMedia
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -480,6 +480,43 @@ namespace Weblu.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("ImageMedia");
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Media.ProfileMedia", b =>
+                {
+                    b.HasBaseType("Weblu.Domain.Entities.Media.Media");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("OwnerType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Media", t =>
+                        {
+                            t.Property("Height")
+                                .HasColumnName("ProfileMedia_Height");
+
+                            t.Property("Width")
+                                .HasColumnName("ProfileMedia_Width");
+                        });
+
+                    b.HasDiscriminator().HasValue("ProfileMedia");
+                });
+
             modelBuilder.Entity("FeatureService", b =>
                 {
                     b.HasOne("Weblu.Domain.Entities.Services.Feature", null)
@@ -589,6 +626,15 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Media.ProfileMedia", b =>
+                {
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
+                        .WithMany("Profiles")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Services.Service", b =>
                 {
                     b.Navigation("ServiceImages");
@@ -596,6 +642,8 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("Weblu.Infrastructure.Identity.Entities.AppUser", b =>
                 {
+                    b.Navigation("Profiles");
+
                     b.Navigation("RefreshTokens");
                 });
 

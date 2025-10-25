@@ -12,8 +12,8 @@ using Weblu.Infrastructure.Data;
 namespace Weblu.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251016101101_AddedIdentityUesrTables")]
-    partial class AddedIdentityUesrTables
+    [Migration("20251025064154_FixedProfileMediaTable")]
+    partial class FixedProfileMediaTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -351,7 +351,42 @@ namespace Weblu.Infrastructure.Migrations
                     b.ToTable("ServiceImages");
                 });
 
-            modelBuilder.Entity("Weblu.Infrastructure.Identity.AppUser", b =>
+            modelBuilder.Entity("Weblu.Domain.Entities.Users.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("Weblu.Infrastructure.Identity.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -399,6 +434,7 @@ namespace Weblu.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
@@ -414,6 +450,7 @@ namespace Weblu.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -441,6 +478,43 @@ namespace Weblu.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("ImageMedia");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Media.ProfileMedia", b =>
+                {
+                    b.HasBaseType("Weblu.Domain.Entities.Media.Media");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OwnerType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Media", t =>
+                        {
+                            t.Property("Height")
+                                .HasColumnName("ProfileMedia_Height");
+
+                            t.Property("Width")
+                                .HasColumnName("ProfileMedia_Width");
+                        });
+
+                    b.HasDiscriminator().HasValue("ProfileMedia");
                 });
 
             modelBuilder.Entity("FeatureService", b =>
@@ -484,7 +558,7 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Weblu.Infrastructure.Identity.AppUser", null)
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -493,7 +567,7 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Weblu.Infrastructure.Identity.AppUser", null)
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -508,7 +582,7 @@ namespace Weblu.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Weblu.Infrastructure.Identity.AppUser", null)
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -517,7 +591,7 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Weblu.Infrastructure.Identity.AppUser", null)
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -543,9 +617,32 @@ namespace Weblu.Infrastructure.Migrations
                     b.Navigation("Service");
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Users.RefreshToken", b =>
+                {
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Media.ProfileMedia", b =>
+                {
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
+                        .WithMany("Profiles")
+                        .HasForeignKey("AppUserId");
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Services.Service", b =>
                 {
                     b.Navigation("ServiceImages");
+                });
+
+            modelBuilder.Entity("Weblu.Infrastructure.Identity.Entities.AppUser", b =>
+                {
+                    b.Navigation("Profiles");
+
+                    b.Navigation("RefreshTokens");
                 });
 
             modelBuilder.Entity("Weblu.Domain.Entities.Media.ImageMedia", b =>
