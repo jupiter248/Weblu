@@ -9,6 +9,7 @@ using Weblu.Application.Dtos.TokenDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Users;
 
 namespace Weblu.Application.Services
@@ -22,9 +23,9 @@ namespace Weblu.Application.Services
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
-        public async Task<List<RefreshTokenDto>> GetAllRefreshTokensAsync()
+        public async Task<List<RefreshTokenDto>> GetAllRefreshTokensAsync(RefreshTokenParameters refreshTokenParameters)
         {
-            List<RefreshToken> refreshTokens = await _unitOfWork.RefreshTokens.GetAllRefreshTokenAsync();
+            List<RefreshToken> refreshTokens = await _unitOfWork.RefreshTokens.GetAllRefreshTokenAsync(refreshTokenParameters);
             List<RefreshTokenDto> refreshTokenDtos = _mapper.Map<List<RefreshTokenDto>>(refreshTokens);
             return refreshTokenDtos;
         }

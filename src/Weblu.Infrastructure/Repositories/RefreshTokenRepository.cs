@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Parameters;
+using Weblu.Application.Strategies.RefreshTokens;
 using Weblu.Domain.Entities.Users;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Token;
@@ -22,9 +24,13 @@ namespace Weblu.Infrastructure.Repositories
             await _context.RefreshTokens.AddAsync(refreshToken);
         }
 
-        public async Task<List<RefreshToken>> GetAllRefreshTokenAsync()
+        public async Task<List<RefreshToken>> GetAllRefreshTokenAsync(RefreshTokenParameters refreshTokenParameters)
         {
             List<RefreshToken> refreshTokens = await _context.RefreshTokens.ToListAsync();
+
+            var filterByUserId = new RefreshTokenQueryHandler(new FilterByUserIdStrategy());
+            refreshTokens = filterByUserId.ExecuteServiceQuery(refreshTokens, refreshTokenParameters);
+
             return refreshTokens;
         }
 

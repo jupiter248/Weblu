@@ -54,7 +54,7 @@ namespace Weblu.Infrastructure.Token
             {
                 Token = newRefreshTokenValue,
                 UserId = appUser.Id,
-                ExpiresAt = DateTimeOffset.Now.AddMonths(1)
+                ExpiresAt = refreshToken.ExpiresAt
             };
 
             await _unitOfWork.RefreshTokens.AddRefreshTokenAsync(newRefreshToken);

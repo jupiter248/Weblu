@@ -45,7 +45,7 @@ namespace Weblu.Infrastructure.Identity.Services
             RefreshToken refreshToken = new RefreshToken()
             {
                 Token = newRefreshToken,
-                ExpiresAt = DateTimeOffset.Now.AddMonths(1),
+                ExpiresAt = DateTimeOffset.Now.AddDays(30),
                 UserId = appUser.Id
             };
             await _unitOfWork.RefreshTokens.AddRefreshTokenAsync(refreshToken);
@@ -116,7 +116,7 @@ namespace Weblu.Infrastructure.Identity.Services
             RefreshToken refreshToken = new RefreshToken()
             {
                 Token = newRefreshToken,
-                ExpiresAt = DateTimeOffset.Now.AddMonths(1),
+                ExpiresAt = DateTimeOffset.Now.AddDays(30),
                 UserId = newUser.Id
             };
             await _unitOfWork.RefreshTokens.AddRefreshTokenAsync(refreshToken);
@@ -132,7 +132,6 @@ namespace Weblu.Infrastructure.Identity.Services
                 PhoneNumber = newUser.PhoneNumber,
                 Username = newUser.UserName
             };
-
             return authResponseDto;
         }
     }
