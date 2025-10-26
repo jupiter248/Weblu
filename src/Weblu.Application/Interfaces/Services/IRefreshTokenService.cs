@@ -11,6 +11,8 @@ namespace Weblu.Application.Interfaces.Services
 {
     public interface IRefreshTokenService
     {
-        public Task<List<RefreshTokenDto>> GetAllRefreshTokensAsync(RefreshTokenParameters refreshTokenParameters);
+        Task<List<RefreshTokenDto>> GetAllRefreshTokensAsync(RefreshTokenParameters refreshTokenParameters);
+        Task<RefreshTokenDto> UpdateRefreshToken(int refreshTokenId, UpdateRefreshTokenDto updateRefreshTokenDto);
+        Task<RefreshTokenDto> GetRefreshTokenByToken(string refreshToken);
     }
 }

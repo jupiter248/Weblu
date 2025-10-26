@@ -31,7 +31,26 @@ namespace Weblu.Infrastructure.Repositories
             var filterByUserId = new RefreshTokenQueryHandler(new FilterByUserIdStrategy());
             refreshTokens = filterByUserId.ExecuteServiceQuery(refreshTokens, refreshTokenParameters);
 
+            var createdDateSort = new RefreshTokenQueryHandler(new CreatedDateSortStrategy());
+            refreshTokens = createdDateSort.ExecuteServiceQuery(refreshTokens, refreshTokenParameters);
+
+            var usedStatus = new RefreshTokenQueryHandler(new UsedStatusStrategy());
+            refreshTokens = usedStatus.ExecuteServiceQuery(refreshTokens, refreshTokenParameters);
+
+            var revokedStatus = new RefreshTokenQueryHandler(new RevokedStatusStrategy());
+            refreshTokens = revokedStatus.ExecuteServiceQuery(refreshTokens, refreshTokenParameters);
+
             return refreshTokens;
+        }
+
+        public async Task<RefreshToken?> GetRefreshTokenByIdAsync(int refreshTokenId)
+        {
+            RefreshToken? refreshTokenModel = await _context.RefreshTokens.FirstOrDefaultAsync(r => r.Id == refreshTokenId);
+            if (refreshTokenModel == null)
+            {
+                return null;
+            }
+            return refreshTokenModel;
         }
 
         public async Task<RefreshToken?> GetRefreshTokenByTokenAsync(string refreshToken)

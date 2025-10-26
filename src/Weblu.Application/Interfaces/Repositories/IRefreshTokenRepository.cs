@@ -13,6 +13,8 @@ namespace Weblu.Application.Interfaces.Repositories
         void UpdateRefreshToken(RefreshToken refreshToken);
         Task<List<RefreshToken>> GetAllRefreshTokenAsync(RefreshTokenParameters refreshTokenParameters);
         Task<RefreshToken?> GetRefreshTokenByTokenAsync(string refreshToken);
+        Task<RefreshToken?> GetRefreshTokenByIdAsync(int refreshTokenId);
+
 
 
     }
