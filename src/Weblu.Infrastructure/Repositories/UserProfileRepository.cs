@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.Profiles;
 using Weblu.Domain.Entities.Media;
+using Weblu.Domain.Enums.Common.Media;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
@@ -45,8 +46,8 @@ namespace Weblu.Infrastructure.Repositories
             {
                 return null;
             }
-            return profile; 
-       }
+            return profile;
+        }
 
         public async Task<bool> ProfileExistsAsync(int profileId)
         {
@@ -61,6 +62,16 @@ namespace Weblu.Infrastructure.Repositories
         public void UpdateProfile(ProfileMedia profile)
         {
             _context.ProfileMedia.Update(profile);
+        }
+
+        public async Task<bool> UserHasMainProfileAsync(string userId)
+        {
+            bool userHasMainProfile = await _context.ProfileMedia.AnyAsync(u => u.OwnerId == userId && u.IsMain && u.OwnerType == ProfileMediaType.User);
+            if (!userHasMainProfile)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

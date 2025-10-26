@@ -48,6 +48,11 @@ namespace Weblu.Application.Services
             {
             }
 
+            bool userHasMainProfile = await _unitOfWork.Profiles.UserHasMainProfileAsync(addProfileDto.OwnerId);
+            if (userHasMainProfile)
+            {
+                throw new ConflictException(UserErrorCodes.UserAlreadyAddedMainProfileImage);
+            }
 
             if (addProfileDto.Image.Length < 0)
             {

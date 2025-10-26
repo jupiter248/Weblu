@@ -12,6 +12,7 @@ namespace Weblu.Application.Interfaces.Repositories
         Task<List<ProfileMedia>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters);
         Task<ProfileMedia?> GetProfileByIdAsync(int profileId);
         Task<bool> ProfileExistsAsync(int profileId);
+        Task<bool> UserHasMainProfileAsync(string userId);
         Task AddProfileAsync(ProfileMedia profile);
         void UpdateProfile(ProfileMedia profile);
         void DeleteProfile(ProfileMedia profile);

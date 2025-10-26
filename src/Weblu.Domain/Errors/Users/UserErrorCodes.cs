@@ -17,5 +17,6 @@ namespace Weblu.Domain.Errors.Users
         public const string OldPasswordLength = "OLD_PASSWORD_LENGTH";
         public const string NewPasswordRequired = "NEW_PASSWORD_REQUIRED";
         public const string NewPasswordLength = "NEW_PASSWORD_LENGTH";
+        public const string UserAlreadyAddedMainProfileImage = "USER_ALREADY_ADDED_MAIN_PROFILE_IMAGE";
     }
 }

@@ -26,8 +26,5 @@ namespace Weblu.Domain.Entities.Services
         public List<Feature> Features { get; set; } = new List<Feature>();
         public List<Method> Methods { get; set; } = new List<Method>();
         public List<ServiceImage> ServiceImages { get; set; } = new List<ServiceImage>();
-
-
-        // Images  
     }
 }

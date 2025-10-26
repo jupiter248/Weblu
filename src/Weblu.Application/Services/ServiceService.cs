@@ -160,7 +160,6 @@ namespace Weblu.Application.Services
             foreach (var item in service.ServiceImages)
             {
                 imageDtos.Add(_mapper.Map<ServiceImageDto>(item));
-
             }
             ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(service);
             serviceDto.Images = imageDtos;
