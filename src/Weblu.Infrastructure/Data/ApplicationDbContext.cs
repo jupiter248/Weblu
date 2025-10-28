@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Media;
+using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Entities.Users;
 using Weblu.Infrastructure.Identity;
@@ -27,7 +29,10 @@ namespace Weblu.Infrastructure.Data
         public DbSet<ServiceImage> ServiceImages { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<ProfileMedia> ProfileMedia { get; set; }
-        // public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Portfolio> Portfolios { get; set; }
+        public DbSet<PortfolioCategory> PortfolioCategories { get; set; }
+        public DbSet<PortfolioImage> PortfolioImages { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +43,14 @@ namespace Weblu.Infrastructure.Data
             modelBuilder.Entity<Service>()
                 .HasMany(m => m.Methods)
                 .WithMany(s => s.Services);
+
+            modelBuilder.Entity<Portfolio>()
+                .HasMany(f => f.Features)
+                .WithMany(s => s.Portfolios);
+
+            modelBuilder.Entity<Portfolio>()
+                .HasMany(m => m.Methods)
+                .WithMany(s => s.Portfolios);
 
             modelBuilder.Entity<AppUser>()
                 .HasMany(t => t.RefreshTokens)

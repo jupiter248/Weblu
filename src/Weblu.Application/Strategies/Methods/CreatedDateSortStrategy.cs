@@ -7,6 +7,7 @@ using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Application.Parameters;
+using Weblu.Domain.Entities.Common;
 
 namespace Weblu.Application.Strategies.Methods
 {
