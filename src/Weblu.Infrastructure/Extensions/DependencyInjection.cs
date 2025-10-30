@@ -27,15 +27,16 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IProfileImageRepository, ProfileImageRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPortfolioCategoryRepository, PortfolioCategoryRepository>();
 
 
 
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddSingleton<IErrorService, ErrorService>();
             services.AddScoped<IUserService, UserService>();
 
+            services.AddSingleton<IErrorService, ErrorService>();
 
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLoggerService<>));
             services.AddAutoMapper(typeof(UserProfile));

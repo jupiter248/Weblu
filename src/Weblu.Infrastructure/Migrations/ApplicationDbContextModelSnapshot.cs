@@ -384,37 +384,6 @@ namespace Weblu.Infrastructure.Migrations
                     b.ToTable("PortfolioCategories");
                 });
 
-            modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.PortfolioImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ImageMediaId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsThumbnail")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PortfolioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
-
-                    b.HasIndex("ImageMediaId");
-
-                    b.HasIndex("PortfolioId");
-
-                    b.ToTable("PortfolioImages");
-                });
-
             modelBuilder.Entity("Weblu.Domain.Entities.Services.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -776,29 +745,6 @@ namespace Weblu.Infrastructure.Migrations
                     b.Navigation("PortfolioCategory");
                 });
 
-            modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.PortfolioImage", b =>
-                {
-                    b.HasOne("Weblu.Domain.Entities.Portfolios.PortfolioImage", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Weblu.Domain.Entities.Media.ImageMedia", null)
-                        .WithMany("PortfolioImages")
-                        .HasForeignKey("ImageMediaId");
-
-                    b.HasOne("Weblu.Domain.Entities.Portfolios.Portfolio", "Portfolio")
-                        .WithMany("PortfolioImages")
-                        .HasForeignKey("PortfolioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
-
-                    b.Navigation("Portfolio");
-                });
-
             modelBuilder.Entity("Weblu.Domain.Entities.Services.ServiceImage", b =>
                 {
                     b.HasOne("Weblu.Domain.Entities.Media.ImageMedia", "Image")
@@ -836,11 +782,6 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.Portfolio", b =>
-                {
-                    b.Navigation("PortfolioImages");
-                });
-
             modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.PortfolioCategory", b =>
                 {
                     b.Navigation("Portfolios");
@@ -860,8 +801,6 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("Weblu.Domain.Entities.Media.ImageMedia", b =>
                 {
-                    b.Navigation("PortfolioImages");
-
                     b.Navigation("ServiceImages");
                 });
 #pragma warning restore 612, 618

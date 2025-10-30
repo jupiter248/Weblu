@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Weblu.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class FixedProfileMediaTable : Migration
+    public partial class FixedPortfolioImageTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -84,6 +84,22 @@ namespace Weblu.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Methods", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PortfolioCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PortfolioCategories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,18 +246,19 @@ namespace Weblu.Infrastructure.Migrations
                     ProfileMedia_Width = table.Column<int>(type: "int", nullable: true),
                     ProfileMedia_Height = table.Column<int>(type: "int", nullable: true),
                     FileSize = table.Column<long>(type: "bigint", nullable: true),
-                    OwnerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     OwnerType = table.Column<int>(type: "int", nullable: true),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    IsMain = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Media", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Media_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_Media_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -264,6 +281,35 @@ namespace Weblu.Infrastructure.Migrations
                         name: "FK_RefreshTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Portfolios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GithubUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LiveUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ActivatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    PortfolioCategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Portfolios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Portfolios_PortfolioCategories_PortfolioCategoryId",
+                        column: x => x.PortfolioCategoryId,
+                        principalTable: "PortfolioCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -343,6 +389,54 @@ namespace Weblu.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "FeaturePortfolio",
+                columns: table => new
+                {
+                    FeaturesId = table.Column<int>(type: "int", nullable: false),
+                    PortfoliosId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FeaturePortfolio", x => new { x.FeaturesId, x.PortfoliosId });
+                    table.ForeignKey(
+                        name: "FK_FeaturePortfolio_Features_FeaturesId",
+                        column: x => x.FeaturesId,
+                        principalTable: "Features",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FeaturePortfolio_Portfolios_PortfoliosId",
+                        column: x => x.PortfoliosId,
+                        principalTable: "Portfolios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MethodPortfolio",
+                columns: table => new
+                {
+                    MethodsId = table.Column<int>(type: "int", nullable: false),
+                    PortfoliosId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MethodPortfolio", x => new { x.MethodsId, x.PortfoliosId });
+                    table.ForeignKey(
+                        name: "FK_MethodPortfolio_Methods_MethodsId",
+                        column: x => x.MethodsId,
+                        principalTable: "Methods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MethodPortfolio_Portfolios_PortfoliosId",
+                        column: x => x.PortfoliosId,
+                        principalTable: "Portfolios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -383,19 +477,34 @@ namespace Weblu.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FeaturePortfolio_PortfoliosId",
+                table: "FeaturePortfolio",
+                column: "PortfoliosId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FeatureService_ServicesId",
                 table: "FeatureService",
                 column: "ServicesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Media_AppUserId",
+                name: "IX_Media_OwnerId",
                 table: "Media",
-                column: "AppUserId");
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MethodPortfolio_PortfoliosId",
+                table: "MethodPortfolio",
+                column: "PortfoliosId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MethodService_ServicesId",
                 table: "MethodService",
                 column: "ServicesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Portfolios_PortfolioCategoryId",
+                table: "Portfolios",
+                column: "PortfolioCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",
@@ -432,7 +541,13 @@ namespace Weblu.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "FeaturePortfolio");
+
+            migrationBuilder.DropTable(
                 name: "FeatureService");
+
+            migrationBuilder.DropTable(
+                name: "MethodPortfolio");
 
             migrationBuilder.DropTable(
                 name: "MethodService");
@@ -450,6 +565,9 @@ namespace Weblu.Infrastructure.Migrations
                 name: "Features");
 
             migrationBuilder.DropTable(
+                name: "Portfolios");
+
+            migrationBuilder.DropTable(
                 name: "Methods");
 
             migrationBuilder.DropTable(
@@ -457,6 +575,9 @@ namespace Weblu.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Services");
+
+            migrationBuilder.DropTable(
+                name: "PortfolioCategories");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

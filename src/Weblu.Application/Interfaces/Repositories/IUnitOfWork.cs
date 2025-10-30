@@ -14,6 +14,8 @@ namespace Weblu.Application.Interfaces.Repositories
         IRefreshTokenRepository RefreshTokens { get; }
         IProfileImageRepository Profiles { get; }
         IUserRepository Users { get; }
+        IPortfolioCategoryRepository PortfolioCategories { get; }
+
 
 
 

@@ -31,6 +31,9 @@ namespace Weblu.Infrastructure.Repositories
 
         private IUserRepository? _userRepository;
         public IUserRepository Users => _userRepository ??= new UserRepository(_context);
+        
+        private IPortfolioCategoryRepository? _portfolioCategoryRepository;
+        public IPortfolioCategoryRepository PortfolioCategories => _portfolioCategoryRepository ??= new PortfolioCategoryRepository(_context);
 
         public async Task<int> CommitAsync()
         {

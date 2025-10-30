@@ -31,7 +31,7 @@ namespace Weblu.Infrastructure.Data
         public DbSet<ProfileMedia> ProfileMedia { get; set; }
         public DbSet<Portfolio> Portfolios { get; set; }
         public DbSet<PortfolioCategory> PortfolioCategories { get; set; }
-        public DbSet<PortfolioImage> PortfolioImages { get; set; }
+        // public DbSet<PortfolioImage> PortfolioImages { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

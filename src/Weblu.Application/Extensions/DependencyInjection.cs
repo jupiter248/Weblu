@@ -20,6 +20,8 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IProfileImageService, ProfileImageService>();
+            services.AddScoped<IPortfolioCategoryService, PortfolioCategoryService>();
+
 
 
 
@@ -30,6 +32,8 @@ namespace Weblu.Application.Extensions
             services.AddAutoMapper(typeof(MethodProfile));
             services.AddAutoMapper(typeof(ImageProfile));
             services.AddAutoMapper(typeof(RefreshTokenProfile));
+            services.AddAutoMapper(typeof(PortfolioProfile));
+
 
 
 
