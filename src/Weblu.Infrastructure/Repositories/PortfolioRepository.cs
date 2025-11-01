@@ -34,12 +34,16 @@ namespace Weblu.Infrastructure.Repositories
 
             var createdDateSort = new PortfolioQueryStrategy(new CreatedDateSortStrategy());
             portfolios = createdDateSort.ExecuteServiceQuery(portfolios, portfolioParameters);
+
+            var filteredByCategoryId = new PortfolioQueryStrategy(new FilteredByCategoryIdStrategy());
+            portfolios = filteredByCategoryId.ExecuteServiceQuery(portfolios, portfolioParameters);
+
             return portfolios;
         }
 
         public async Task<Portfolio?> GetPortfolioByIdAsync(int portfolioId)
         {
-            Portfolio? portfolio = await _context.Portfolios.Include(c => c.PortfolioCategory).FirstOrDefaultAsync(p => p.Id == portfolioId);
+            Portfolio? portfolio = await _context.Portfolios.Include(c => c.PortfolioCategory).Include(f => f.Features).Include(m => m.Methods).FirstOrDefaultAsync(p => p.Id == portfolioId);
             if (portfolio == null)
             {
                 return null;

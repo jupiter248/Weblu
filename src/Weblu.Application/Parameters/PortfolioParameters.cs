@@ -9,5 +9,6 @@ namespace Weblu.Application.Parameters
     public class PortfolioParameters
     {
         public CreatedDateSort CreatedDateSort { get; set; }
+        public int? CategoryId { get; set; }
     }
 }

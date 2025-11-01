@@ -21,6 +21,8 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IProfileImageService, ProfileImageService>();
             services.AddScoped<IPortfolioCategoryService, PortfolioCategoryService>();
+            services.AddScoped<IPortfolioService, PortfolioService>();
+
 
 
 

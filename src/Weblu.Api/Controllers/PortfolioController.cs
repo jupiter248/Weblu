@@ -1,0 +1,87 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Weblu.Application.Common.Responses;
+using Weblu.Application.Dtos.PortfolioDtos;
+using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Parameters;
+using Weblu.Application.Validations;
+using Weblu.Application.Validations.Portfolios;
+
+namespace Weblu.Api.Controllers
+{
+    [ApiController]
+    [Route("api/portfolio")]
+    public class PortfolioController : ControllerBase
+    {
+        private readonly IPortfolioService _portfolioService;
+        public PortfolioController(IPortfolioService portfolioService)
+        {
+            _portfolioService = portfolioService;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllPortfolios([FromQuery] PortfolioParameters portfolioParameters)
+        {
+            List<PortfolioSummaryDto> portfolioSummaryDtos = await _portfolioService.GetAllPortfolioAsync(portfolioParameters);
+            return Ok(portfolioSummaryDtos);
+        }
+        [HttpGet("{portfolioId:int}")]
+        public async Task<IActionResult> GetPortfolioById(int portfolioId)
+        {
+            PortfolioDetailDto portfolioDetailDto = await _portfolioService.GetPortfolioByIdAsync(portfolioId);
+            return Ok(portfolioDetailDto);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddPortfolio([FromBody] AddPortfolioDto addPortfolioDto)
+        {
+            Validator.ValidateAndThrow(addPortfolioDto, new AddPortfolioValidator());
+            PortfolioDetailDto portfolioDetailDto = await _portfolioService.AddPortfolioAsync(addPortfolioDto);
+            return CreatedAtAction(nameof(GetPortfolioById), new { portfolioId = portfolioDetailDto.Id }, ApiResponse<PortfolioDetailDto>.Success("Portfolio created successfully", portfolioDetailDto));
+        }
+        [HttpPut("{portfolioId:int}")]
+        public async Task<IActionResult> UpdatePortfolio(int portfolioId, [FromBody] UpdatePortfolioDto updatePortfolioDto)
+        {
+            Validator.ValidateAndThrow(updatePortfolioDto, new UpdatePortfolioValidator());
+            PortfolioDetailDto portfolioDetailDto = await _portfolioService.UpdatePortfolioAsync(portfolioId, updatePortfolioDto);
+            return Ok(
+                ApiResponse<PortfolioDetailDto>.Success
+                (
+                    "Portfolio updated successfully",
+                    portfolioDetailDto
+                )
+            );
+        }
+        [HttpDelete("{portfolioId:int}")]
+        public async Task<IActionResult> DeletePortfolio(int portfolioId)
+        {
+            await _portfolioService.DeletePortfolioAsync(portfolioId);
+            return NoContent();
+        }
+        [HttpPost("{portfolioId:int}/feature{featureId:int}")]
+        public async Task<IActionResult> AddFeatureToPortfolio(int portfolioId, int featureId)
+        {
+            await _portfolioService.AddFeatureToPortfolioAsync(portfolioId, featureId);
+            return Ok(ApiResponse.Success("Feature added successfully"));
+        }
+        [HttpDelete("{portfolioId:int}/feature{featureId:int}")]
+        public async Task<IActionResult> DeleteFeatureFromPortfolio(int portfolioId, int featureId)
+        {
+            await _portfolioService.DeleteFeatureFromPortfolioAsync(portfolioId, featureId);
+            return Ok(ApiResponse.Success("Feature deleted successfully"));
+        }
+        [HttpPost("{portfolioId:int}/method{methodId:int}")]
+        public async Task<IActionResult> AddMethodToPortfolio(int portfolioId, int methodId)
+        {
+            await _portfolioService.AddMethodToPortfolioAsync(portfolioId, methodId);
+            return Ok(ApiResponse.Success("Method added successfully"));
+        }
+        [HttpDelete("{portfolioId:int}/method{methodId:int}")]
+        public async Task<IActionResult> DeleteMethodFromPortfolio(int portfolioId, int methodId)
+        {
+            await _portfolioService.DeleteMethodFromPortfolioAsync(portfolioId, methodId);
+            return Ok(ApiResponse.Success("Method deleted successfully"));
+        }
+    }
+}
