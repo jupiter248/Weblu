@@ -26,14 +26,17 @@ namespace Weblu.Infrastructure.Repositories
         private IRefreshTokenRepository? _refreshTokenRepository;
         public IRefreshTokenRepository RefreshTokens => _refreshTokenRepository ??= new RefreshTokenRepository(_context);
 
-        private IProfileImageRepository? _ProfileImageRepository;
-        public IProfileImageRepository Profiles => _ProfileImageRepository ??= new ProfileImageRepository(_context);
+        private IProfileImageRepository? _profileImageRepository;
+        public IProfileImageRepository Profiles => _profileImageRepository ??= new ProfileImageRepository(_context);
 
         private IUserRepository? _userRepository;
         public IUserRepository Users => _userRepository ??= new UserRepository(_context);
-        
+
         private IPortfolioCategoryRepository? _portfolioCategoryRepository;
         public IPortfolioCategoryRepository PortfolioCategories => _portfolioCategoryRepository ??= new PortfolioCategoryRepository(_context);
+
+        private IPortfolioRepository? _portfolioRepository;
+        public IPortfolioRepository Portfolios => _portfolioRepository ??= new PortfolioRepository(_context);
 
         public async Task<int> CommitAsync()
         {
