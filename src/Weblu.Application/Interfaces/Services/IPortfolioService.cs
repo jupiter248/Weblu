@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Dtos.PortfolioDtos;
+using Weblu.Application.Dtos.PortfolioDtos.PortfolioImageDtos;
 using Weblu.Application.Parameters;
 
 namespace Weblu.Application.Interfaces.Services
@@ -20,6 +21,8 @@ namespace Weblu.Application.Interfaces.Services
         // Feature
         Task AddFeatureToPortfolioAsync(int portfolioId, int featureId);
         Task DeleteFeatureFromPortfolioAsync(int portfolioId, int featureId);
-        // Image 
+        // Images
+        Task AddImageToPortfolioAsync(int portfolioId, int imageId, AddPortfolioImageDto addPortfolioImageDto);
+        Task DeleteImageFromPortfolioAsync(int portfolioId, int imageId);
     }
 }

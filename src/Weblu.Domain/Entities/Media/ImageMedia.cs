@@ -13,6 +13,6 @@ namespace Weblu.Domain.Entities.Media
         public int Width { get; set; }
         public int Height { get; set; }
         public List<ServiceImage> ServiceImages { get; set; } = new List<ServiceImage>();
-        // public List<PortfolioImage> PortfolioImages { get; set; } = new List<PortfolioImage>();
+        public List<PortfolioImage> PortfolioImages { get; set; } = new List<PortfolioImage>();
     }
 }

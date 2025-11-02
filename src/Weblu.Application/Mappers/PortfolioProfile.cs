@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Weblu.Application.Dtos.PortfolioCategory;
 using Weblu.Application.Dtos.PortfolioDtos;
+using Weblu.Application.Dtos.PortfolioDtos.PortfolioImageDtos;
 using Weblu.Application.Extensions;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Portfolios;
@@ -15,7 +16,9 @@ namespace Weblu.Application.Mappers
     {
         public PortfolioProfile()
         {
-            CreateMap<Portfolio, PortfolioSummaryDto>();
+            CreateMap<Portfolio, PortfolioSummaryDto>() 
+                            .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.PortfolioImages.FirstOrDefault(i => i.IsThumbnail).ImageMedia.Url ?? string.Empty));
+
             CreateMap<Portfolio, PortfolioDetailDto>()
                     .ForMember(dest => dest.ActivatedAt, opt => opt.MapFrom(src => src.ActivatedAt.HasValue ? src.ActivatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
@@ -39,6 +42,15 @@ namespace Weblu.Application.Mappers
             CreateMap<UpdatePortfolioCategoryDto, PortfolioCategory>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
 
+            CreateMap<PortfolioImage, PortfolioImageDto>()
+                    .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.ImageMedia.AddedAt.ToShamsi()))
+                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ImageMedia.Name))
+                    .ForMember(dest => dest.AltText, opt => opt.MapFrom(src => src.ImageMedia.AltText))
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ImageMedia.Id))
+                    .ForMember(dest => dest.Url, opt => opt.MapFrom(src => src.ImageMedia.Url))
+                    .ForMember(dest => dest.Width, opt => opt.MapFrom(src => src.ImageMedia.Width))
+                    .ForMember(dest => dest.Height, opt => opt.MapFrom(src => src.ImageMedia.Height))
+                    .ForMember(dest => dest.IsThumbnail, opt => opt.MapFrom(src => src.IsThumbnail));
         }
     }
 }

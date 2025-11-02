@@ -1,16 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using AutoMapper;
+using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Dtos.PortfolioDtos;
+using Weblu.Application.Dtos.PortfolioDtos.PortfolioImageDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Errors.Features;
+using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Errors.Portfolios;
 
@@ -37,6 +42,33 @@ namespace Weblu.Application.Services
             }
 
             portfolio.Features.Add(feature);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task AddImageToPortfolioAsync(int portfolioId, int imageId, AddPortfolioImageDto addPortfolioImageDto)
+        {
+            Portfolio portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            ImageMedia imageMedia = await _unitOfWork.Images.GetImageItemByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+
+            if (portfolio.PortfolioImages.Any(p => p.ImageMediaId == imageMedia.Id  ))
+            {
+                throw new ConflictException(PortfolioErrorCodes.ImageAlreadyAddedToPortfolio);
+            }
+            if (portfolio.PortfolioImages.Any(p => p.IsThumbnail && addPortfolioImageDto.IsThumbnail))
+            {
+                throw new ConflictException(PortfolioErrorCodes.PortfolioHasThumbnailImage);
+            }
+
+            PortfolioImage newImage = new PortfolioImage()
+            {
+                ImageMedia = imageMedia,
+                ImageMediaId = imageMedia.Id,
+                Portfolio = portfolio,
+                PortfolioId = portfolio.Id,
+                IsThumbnail = addPortfolioImageDto.IsThumbnail
+            };
+
+            portfolio.PortfolioImages.Add(newImage);
             await _unitOfWork.CommitAsync();
         }
 
@@ -79,6 +111,21 @@ namespace Weblu.Application.Services
             await _unitOfWork.CommitAsync();
         }
 
+        public async Task DeleteImageFromPortfolioAsync(int portfolioId, int imageId)
+        {
+            Portfolio portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            ImageMedia imageMedia = await _unitOfWork.Images.GetImageItemByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+
+            PortfolioImage? portfolioImage = portfolio.PortfolioImages.FirstOrDefault(i => i.ImageMediaId == imageMedia.Id && i.PortfolioId == portfolio.Id);
+            if (portfolioImage == null)
+            {
+                throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            }
+
+            portfolio.PortfolioImages.Remove(portfolioImage);
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task DeleteMethodFromPortfolioAsync(int portfolioId, int methodId)
         {
             Portfolio portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
@@ -111,7 +158,13 @@ namespace Weblu.Application.Services
         public async Task<PortfolioDetailDto> GetPortfolioByIdAsync(int portfolioId)
         {
             Portfolio portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            List<ImageDto> imageDtos = new List<ImageDto>();
+            foreach (PortfolioImage item in portfolio.PortfolioImages)
+            {
+                imageDtos.Add(_mapper.Map<PortfolioImageDto>(item));
+            }
             PortfolioDetailDto portfolioDetailDto = _mapper.Map<PortfolioDetailDto>(portfolio);
+            portfolioDetailDto.Images = imageDtos;
             return portfolioDetailDto;
         }
 

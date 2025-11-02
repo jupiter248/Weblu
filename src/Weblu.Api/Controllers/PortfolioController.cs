@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.PortfolioDtos;
+using Weblu.Application.Dtos.PortfolioDtos.PortfolioImageDtos;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
@@ -82,6 +83,18 @@ namespace Weblu.Api.Controllers
         {
             await _portfolioService.DeleteMethodFromPortfolioAsync(portfolioId, methodId);
             return Ok(ApiResponse.Success("Method deleted successfully"));
+        }
+        [HttpPost("{portfolioId:int}/image{imageId:int}")]
+        public async Task<IActionResult> AddImageToPortfolio(int portfolioId, int imageId, [FromBody] AddPortfolioImageDto addPortfolioImageDto)
+        {
+            await _portfolioService.AddImageToPortfolioAsync(portfolioId, imageId, addPortfolioImageDto);
+            return Ok(ApiResponse.Success("Image added successfully"));
+        }
+        [HttpDelete("{portfolioId:int}/image{imageId:int}")]
+        public async Task<IActionResult> DeleteImageFromPortfolio(int portfolioId, int imageId)
+        {
+            await _portfolioService.DeleteImageFromPortfolioAsync(portfolioId, imageId);
+            return Ok(ApiResponse.Success("Image deleted successfully"));
         }
     }
 }

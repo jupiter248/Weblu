@@ -19,6 +19,7 @@ namespace Weblu.Domain.Errors.Portfolios
         public const string InvalidGithubUrl = "PORTFOLIO_INVALID_GITHUB_URL";
         public const string InvalidLiveUrl = "PORTFOLIO_INVALID_LIVE_URL";
         public const string InvalidCategoryId = "PORTFOLIO_INVALID_CATEGORY_ID";
-
+        public const string ImageAlreadyAddedToPortfolio = "IMAGE_ALREADY_ADDED_TO_PORTFOLIO";
+        public const string PortfolioHasThumbnailImage = "PORTFOLIO_HAS_THUMBNAIL_IMAGE";
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Dtos.FeatureDtos;
+using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Dtos.MethodDtos;
 
 namespace Weblu.Application.Dtos.PortfolioDtos
@@ -25,6 +26,6 @@ namespace Weblu.Application.Dtos.PortfolioDtos
         public required string PortfolioCategoryName { get; set; }
         public List<MethodDto>? Methods { get; set; }
         public List<FeatureDto>? Features { get; set; }
-        // Images
+        public List<ImageDto>? Images { get; set; }
     }
 }
