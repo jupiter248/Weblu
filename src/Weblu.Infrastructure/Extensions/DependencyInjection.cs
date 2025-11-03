@@ -29,6 +29,8 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPortfolioCategoryRepository, PortfolioCategoryRepository>();
             services.AddScoped<IPortfolioRepository, PortfolioRepository>();
+            services.AddScoped<IContributorRepository, ContributorRepository>();
+
 
 
 

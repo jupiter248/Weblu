@@ -32,6 +32,7 @@ namespace Weblu.Infrastructure.Data
         public DbSet<Portfolio> Portfolios { get; set; }
         public DbSet<PortfolioCategory> PortfolioCategories { get; set; }
         public DbSet<PortfolioImage> PortfolioImages { get; set; }
+        public DbSet<Contributor> Contributors { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -50,6 +51,10 @@ namespace Weblu.Infrastructure.Data
 
             modelBuilder.Entity<Portfolio>()
                 .HasMany(m => m.Methods)
+                .WithMany(s => s.Portfolios);
+
+            modelBuilder.Entity<Portfolio>()
+                .HasMany(m => m.Contributors)
                 .WithMany(s => s.Portfolios);
 
             modelBuilder.Entity<AppUser>()

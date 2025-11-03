@@ -27,7 +27,7 @@ namespace Weblu.Domain.Entities.Portfolios
         public List<Feature> Features { get; set; } = new List<Feature>();
         public List<Method> Methods { get; set; } = new List<Method>();
         public List<PortfolioImage> PortfolioImages { get; set; } = new List<PortfolioImage>();
-        // Contributors 
+        public List<Contributor> Contributors { get; set; } = new List<Contributor>();
 
     }
 }

@@ -18,11 +18,8 @@ namespace Weblu.Infrastructure.Repositories
         public async Task<bool> UserExistsAsync(string userId)
         {
             bool userExists = await _context.Users.AnyAsync(u => u.Id == userId);
-            if (userExists == false)
-            {
-                return false;
-            }
-            return true;
+
+            return userExists;
         }
     }
 }

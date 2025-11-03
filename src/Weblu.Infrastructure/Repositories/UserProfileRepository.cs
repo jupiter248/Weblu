@@ -52,11 +52,8 @@ namespace Weblu.Infrastructure.Repositories
         public async Task<bool> ProfileExistsAsync(int profileId)
         {
             bool profileMediaExists = await _context.ProfileMedia.AnyAsync(i => i.Id == profileId);
-            if (!profileMediaExists)
-            {
-                return false;
-            }
-            return true;
+
+            return profileMediaExists;
         }
 
         public void UpdateProfile(ProfileMedia profile)

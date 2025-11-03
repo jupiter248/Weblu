@@ -38,6 +38,9 @@ namespace Weblu.Infrastructure.Repositories
         private IPortfolioRepository? _portfolioRepository;
         public IPortfolioRepository Portfolios => _portfolioRepository ??= new PortfolioRepository(_context);
 
+        private IContributorRepository? _contributorRepository;
+        public IContributorRepository Contributors => _contributorRepository ??= new ContributorRepository(_context);
+
         public async Task<int> CommitAsync()
         {
             return await _context.SaveChangesAsync();

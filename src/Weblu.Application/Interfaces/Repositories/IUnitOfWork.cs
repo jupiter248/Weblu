@@ -16,6 +16,8 @@ namespace Weblu.Application.Interfaces.Repositories
         IUserRepository Users { get; }
         IPortfolioCategoryRepository PortfolioCategories { get; }
         IPortfolioRepository Portfolios { get; }
+        IContributorRepository Contributors { get; }
+
 
 
 
