@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Application.Dtos.ContributorDtos;
 using Weblu.Application.Dtos.FeatureDtos;
 using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Dtos.MethodDtos;
 
 namespace Weblu.Application.Dtos.PortfolioDtos
 {
-    public class    PortfolioDetailDto
+    public class PortfolioDetailDto
     {
         public int Id { get; set; }
         public required string Title { get; set; }
@@ -27,5 +28,7 @@ namespace Weblu.Application.Dtos.PortfolioDtos
         public List<MethodDto>? Methods { get; set; }
         public List<FeatureDto>? Features { get; set; }
         public List<ImageDto>? Images { get; set; }
+        public List<ContributorDto>? Contributors { get; set; }
+
     }
 }

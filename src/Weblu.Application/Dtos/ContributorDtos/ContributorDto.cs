@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Weblu.Domain.Entities.Portfolios;
+using Weblu.Application.Dtos.PortfolioDtos;
 
-namespace Weblu.Domain.Entities.Common
+namespace Weblu.Application.Dtos.ContributorDtos
 {
-    public class Contributor
+    public class ContributorDto
     {
         public int Id { get; set; }
         public required string FirstName { get; set; }
@@ -17,10 +17,9 @@ namespace Weblu.Domain.Entities.Common
         public string? GithubUrl { get; set; }
         public string? LinkedInUrl { get; set; }
         public string? ProfileImageUrl { get; set; }
-        public string? ProfileImageAltText { get; set; }
         public bool IsActive { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
-        public List<Portfolio> Portfolios { get; set; } = new List<Portfolio>();
+        public string? UpdatedAt { get; set; }
+        public required string CreatedAt { get; set; }
+        public List<PortfolioSummaryDto>? Portfolios { get; set; }
     }
 }

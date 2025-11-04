@@ -43,7 +43,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<Portfolio?> GetPortfolioByIdAsync(int portfolioId)
         {
-            Portfolio? portfolio = await _context.Portfolios.Include(c => c.PortfolioCategory).Include(f => f.Features).Include(m => m.Methods).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).FirstOrDefaultAsync(p => p.Id == portfolioId);
+            Portfolio? portfolio = await _context.Portfolios.Include(c => c.PortfolioCategory).Include(c => c.Contributors).Include(f => f.Features).Include(m => m.Methods).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).FirstOrDefaultAsync(p => p.Id == portfolioId);
             if (portfolio == null)
             {
                 return null;

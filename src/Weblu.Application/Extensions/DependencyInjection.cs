@@ -22,6 +22,8 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IProfileImageService, ProfileImageService>();
             services.AddScoped<IPortfolioCategoryService, PortfolioCategoryService>();
             services.AddScoped<IPortfolioService, PortfolioService>();
+            services.AddScoped<IContributorService, ContributorService>();
+
 
 
 
