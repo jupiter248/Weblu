@@ -10,5 +10,6 @@ namespace Weblu.Application.Parameters
     {
         public CreatedDateSort CreatedDateSort { get; set; }
         public int? CategoryId { get; set; }
+        public int? ContributorId { get; set; }
     }
 }

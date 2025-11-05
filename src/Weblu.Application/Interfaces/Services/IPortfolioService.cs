@@ -24,5 +24,9 @@ namespace Weblu.Application.Interfaces.Services
         // Images
         Task AddImageToPortfolioAsync(int portfolioId, int imageId, AddPortfolioImageDto addPortfolioImageDto);
         Task DeleteImageFromPortfolioAsync(int portfolioId, int imageId);
+        // Contributors
+        Task AddContributorToPortfolioAsync(int portfolioId, int contributorId);
+        Task DeleteContributorFromPortfolioAsync(int portfolioId, int contributorId);
+
     }
 }

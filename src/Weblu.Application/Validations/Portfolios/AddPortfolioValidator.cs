@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Weblu.Application.Dtos.PortfolioDtos;
+using Weblu.Application.Helpers;
 using Weblu.Domain.Errors.Portfolios;
 
 namespace Weblu.Application.Validations.Portfolios
@@ -31,12 +32,12 @@ namespace Weblu.Application.Validations.Portfolios
                     .WithMessage(PortfolioErrorCodes.ShortDescriptionTooLong);
 
             RuleFor(x => x.GithubUrl)
-                .Must(BeAValidUrl)
+                .Must(UrlValidator.BeAValidUrl)
                 .When(x => !string.IsNullOrWhiteSpace(x.GithubUrl))
                 .WithMessage(PortfolioErrorCodes.InvalidGithubUrl);
 
             RuleFor(x => x.LiveUrl)
-                .Must(BeAValidUrl)
+                .Must(UrlValidator.BeAValidUrl)
                 .When(x => !string.IsNullOrWhiteSpace(x.LiveUrl))
                 .WithMessage(PortfolioErrorCodes.InvalidLiveUrl);
 
@@ -44,10 +45,6 @@ namespace Weblu.Application.Validations.Portfolios
                 .GreaterThan(0)
                 .WithMessage(PortfolioErrorCodes.InvalidCategoryId);
         }
-        private bool BeAValidUrl(string? url)
-        {
-            return Uri.TryCreate(url, UriKind.Absolute, out var uri)
-                && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
-        }
+
     }
 }

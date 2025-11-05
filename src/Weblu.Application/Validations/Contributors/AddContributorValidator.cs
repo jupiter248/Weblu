@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Weblu.Application.Dtos.ContributorDtos;
+using Weblu.Application.Helpers;
 using Weblu.Domain.Errors.Contributors;
 
 namespace Weblu.Application.Validations.Contributors
@@ -29,6 +30,16 @@ namespace Weblu.Application.Validations.Contributors
 
             RuleFor(r => r.Email)
             .EmailAddress().WithMessage(ContributorErrorCodes.ContributorEmailInvalid);
+
+            RuleFor(g => g.GithubUrl)
+            .Must(UrlValidator.BeAValidUrl)
+            .When(x => !string.IsNullOrWhiteSpace(x.GithubUrl))
+            .WithMessage(ContributorErrorCodes.ContributorGithubUrlInvalid);
+
+            RuleFor(g => g.LinkedInUrl)
+            .Must(UrlValidator.BeAValidUrl)
+            .When(x => !string.IsNullOrWhiteSpace(x.GithubUrl))
+            .WithMessage(ContributorErrorCodes.ContributorLinkedInUrlInvalid);
         }
     }
 }

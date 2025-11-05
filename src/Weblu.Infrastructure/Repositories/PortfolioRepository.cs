@@ -30,13 +30,16 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<Portfolio>> GetAllPortfolioAsync(PortfolioParameters portfolioParameters)
         {
-            List<Portfolio> portfolios = await _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).ToListAsync();
+            List<Portfolio> portfolios = await _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).Include(c => c.Contributors).ToListAsync();
 
             var createdDateSort = new PortfolioQueryStrategy(new CreatedDateSortStrategy());
             portfolios = createdDateSort.ExecuteServiceQuery(portfolios, portfolioParameters);
 
             var filteredByCategoryId = new PortfolioQueryStrategy(new FilteredByCategoryIdStrategy());
             portfolios = filteredByCategoryId.ExecuteServiceQuery(portfolios, portfolioParameters);
+
+            var filteredByContributorId = new PortfolioQueryStrategy(new FilteredByContributorIdStrategy());
+            portfolios = filteredByContributorId.ExecuteServiceQuery(portfolios, portfolioParameters);
 
             return portfolios;
         }

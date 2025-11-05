@@ -20,6 +20,6 @@ namespace Weblu.Application.Dtos.ContributorDtos
         public bool IsActive { get; set; }
         public string? UpdatedAt { get; set; }
         public required string CreatedAt { get; set; }
-        public List<PortfolioSummaryDto>? Portfolios { get; set; }
+        // public List<PortfolioSummaryDto>? Portfolios { get; set; }
     }
 }

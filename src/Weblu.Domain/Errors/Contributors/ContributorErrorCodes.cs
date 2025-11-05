@@ -16,6 +16,9 @@ namespace Weblu.Domain.Errors.Contributors
         public const string ContributorRoleMaxLength = "CONTRIBUTOR_ROLE_MAX_LENGTH";
         public const string ContributorBioMaxLength = "CONTRIBUTOR_BIO_MAX_LENGTH";
         public const string ContributorEmailInvalid = "CONTRIBUTOR_EMAIL_INVALID";
+        public const string ContributorGithubUrlInvalid = "CONTRIBUTOR_GITHUB_URL_INVALID";
+        public const string ContributorLinkedInUrlInvalid = "CONTRIBUTOR_LINKED_IN_URL_INVALID";
+
 
 
     }

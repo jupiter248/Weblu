@@ -10,6 +10,7 @@ namespace Weblu.Domain.Errors.Portfolios
         public const string PortfolioNotFound = "PORTFOLIO_NOT_FOUND"; 
         public const string MethodAlreadyAddedToPortfolio = "METHOD_ALREADY_ADDED_TOT_PORTFOLIO"; 
         public const string FeatureAlreadyAddedToPortfolio = "FEATURE_ALREADY_ADDED_TOT_PORTFOLIO"; 
+        public const string ContributorAlreadyAddedToPortfolio = "CONTRIBUTOR_ALREADY_ADDED_TOT_PORTFOLIO"; 
         public const string TitleRequired = "PORTFOLIO_TITLE_REQUIRED";
         public const string TitleTooLong = "PORTFOLIO_TITLE_TOO_LONG";
         public const string DescriptionRequired = "PORTFOLIO_DESCRIPTION_REQUIRED";

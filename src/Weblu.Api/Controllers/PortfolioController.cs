@@ -96,5 +96,17 @@ namespace Weblu.Api.Controllers
             await _portfolioService.DeleteImageFromPortfolioAsync(portfolioId, imageId);
             return Ok(ApiResponse.Success("Image deleted successfully"));
         }
+        [HttpPost("{portfolioId:int}/contributor{contributorId:int}")]
+        public async Task<IActionResult> AddContributorToPortfolio(int portfolioId, int contributorId)
+        {
+            await _portfolioService.AddContributorToPortfolioAsync(portfolioId, contributorId);
+            return Ok(ApiResponse.Success("Contributor added successfully"));
+        }
+        [HttpDelete("{portfolioId:int}/contributor{contributorId:int}")]
+        public async Task<IActionResult> DeleteContributorFromPortfolio(int portfolioId, int contributorId)
+        {
+            await _portfolioService.DeleteContributorFromPortfolioAsync(portfolioId, contributorId);
+            return Ok(ApiResponse.Success("Contributor deleted successfully"));
+        }
     }
 }

@@ -14,6 +14,7 @@ using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Portfolios;
+using Weblu.Domain.Errors.Contributors;
 using Weblu.Domain.Errors.Features;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Methods;
@@ -31,6 +32,21 @@ namespace Weblu.Application.Services
             _mapper = mapper;
 
         }
+
+        public async Task AddContributorToPortfolioAsync(int portfolioId, int contributorId)
+        {
+            Portfolio portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            Contributor contributor = await _unitOfWork.Contributors.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+
+            if (portfolio.Contributors.Any(m => m.Id == contributorId))
+            {
+                throw new ConflictException(PortfolioErrorCodes.ContributorAlreadyAddedToPortfolio);
+            }
+
+            portfolio.Contributors.Add(contributor);
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task AddFeatureToPortfolioAsync(int portfolioId, int featureId)
         {
             Portfolio portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
@@ -50,7 +66,7 @@ namespace Weblu.Application.Services
             Portfolio portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             ImageMedia imageMedia = await _unitOfWork.Images.GetImageItemByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
-            if (portfolio.PortfolioImages.Any(p => p.ImageMediaId == imageMedia.Id  ))
+            if (portfolio.PortfolioImages.Any(p => p.ImageMediaId == imageMedia.Id))
             {
                 throw new ConflictException(PortfolioErrorCodes.ImageAlreadyAddedToPortfolio);
             }
@@ -95,6 +111,18 @@ namespace Weblu.Application.Services
 
             PortfolioDetailDto portfolioDetailDto = _mapper.Map<PortfolioDetailDto>(portfolio);
             return portfolioDetailDto;
+        }
+
+        public async Task DeleteContributorFromPortfolioAsync(int portfolioId, int contributorId)
+        {
+            Portfolio portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            Contributor contributor = await _unitOfWork.Contributors.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+            if (!portfolio.Contributors.Any(c => c.Id == contributorId))
+            {
+                throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+            }
+            portfolio.Contributors.Remove(contributor);
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task DeleteFeatureFromPortfolioAsync(int portfolioId, int featureId)
