@@ -79,6 +79,11 @@ namespace Weblu.Application.Services
         public async Task<ContributorDto> UpdateProfileImageContributorAsync(int currentContributorId, UpdateProfileImageContributorDto updateProfileImage)
         {
             Contributor contributor = await _unitOfWork.Contributors.GetContributorByIdAsync(currentContributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+
+            if (!string.IsNullOrEmpty(contributor.ProfileImageUrl))
+            {
+                await MediaManager.DeleteMedia(_webHost, contributor.ProfileImageUrl);
+            }
             if (updateProfileImage.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
@@ -93,7 +98,7 @@ namespace Weblu.Application.Services
                     }
             );
 
-            contributor.ProfileImageUrl = $"uploads/{MediaType.picture}/{imageName}";
+            contributor.ProfileImageUrl = $"uploads/{MediaType.profile}/{imageName}";
             contributor.ProfileImageAltText = updateProfileImage.AltText;
 
             _unitOfWork.Contributors.UpdateContributor(contributor);

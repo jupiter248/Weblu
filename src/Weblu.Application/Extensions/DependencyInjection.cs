@@ -37,6 +37,8 @@ namespace Weblu.Application.Extensions
             services.AddAutoMapper(typeof(ImageProfile));
             services.AddAutoMapper(typeof(RefreshTokenProfile));
             services.AddAutoMapper(typeof(PortfolioProfile));
+            services.AddAutoMapper(typeof(ContributorProfile));
+
 
 
 

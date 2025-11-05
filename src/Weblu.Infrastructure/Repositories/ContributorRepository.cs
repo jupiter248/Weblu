@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
+using Weblu.Application.Strategies.Contributors;
 using Weblu.Domain.Entities.Common;
 using Weblu.Infrastructure.Data;
 
@@ -38,6 +39,9 @@ namespace Weblu.Infrastructure.Repositories
         {
             List<Contributor> contributors = await _context.Contributors.Include(p => p.Portfolios).ToListAsync();
 
+            var createdDateSortStrategy = new ContributorQueryStrategy(new CreatedDateSortStrategy());
+            contributors = createdDateSortStrategy.ExecuteServiceQuery(contributors, contributorParameters);
+            
             return contributors;
         }
 

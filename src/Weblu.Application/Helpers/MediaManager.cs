@@ -41,7 +41,7 @@ namespace Weblu.Application.Helpers
             }
             return mediaName;
         }
-        public static async Task    DeleteMedia(IWebHostEnvironment webHost, string mediaPath)
+        public static async Task DeleteMedia(IWebHostEnvironment webHost, string mediaPath)
         {
             var fullPath = Path.Combine(webHost.WebRootPath, mediaPath);
             if (File.Exists(fullPath))

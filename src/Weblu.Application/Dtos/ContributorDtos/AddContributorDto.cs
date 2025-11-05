@@ -15,6 +15,5 @@ namespace Weblu.Application.Dtos.ContributorDtos
         public string? GithubUrl { get; set; }
         public string? LinkedInUrl { get; set; }
         public bool IsActive { get; set; }
-
     }
 }
