@@ -9,6 +9,7 @@ using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Entities.Services;
+using Weblu.Domain.Entities.Tickets;
 using Weblu.Domain.Entities.Users;
 using Weblu.Infrastructure.Identity;
 using Weblu.Infrastructure.Identity.Entities;
@@ -33,6 +34,9 @@ namespace Weblu.Infrastructure.Data
         public DbSet<PortfolioCategory> PortfolioCategories { get; set; }
         public DbSet<PortfolioImage> PortfolioImages { get; set; }
         public DbSet<Contributor> Contributors { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketMessage> TicketMessages { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -69,6 +73,11 @@ namespace Weblu.Infrastructure.Data
                 .HasForeignKey(u => u.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<AppUser>()
+                .HasMany(t => t.Tickets)
+                .WithOne()
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
             base.OnModelCreating(modelBuilder);
         }
 

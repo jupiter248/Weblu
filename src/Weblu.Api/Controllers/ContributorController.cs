@@ -58,7 +58,7 @@ namespace Weblu.Api.Controllers
                 "Contributor deleted successfully."
             ));
         }
-        [HttpPut("{contributorId:int}/image-profile")]
+        [HttpPut("{contributorId:int}/profile-image")]
         public async Task<IActionResult> UpdateImageProfile(int contributorId, [FromForm] UpdateProfileImageContributorDto updateProfileImageContributorDto)
         {
             Validator.ValidateAndThrow(updateProfileImageContributorDto, new UpdateContributorProfileImageValidator());

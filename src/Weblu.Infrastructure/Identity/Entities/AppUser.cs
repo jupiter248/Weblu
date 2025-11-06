@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Weblu.Domain.Entities.Media;
+using Weblu.Domain.Entities.Tickets;
 using Weblu.Domain.Entities.Users;
 
 namespace Weblu.Infrastructure.Identity.Entities
@@ -22,6 +23,7 @@ namespace Weblu.Infrastructure.Identity.Entities
         public DateTimeOffset? UpdatedAt { get; set; }
         public List<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
         public List<ProfileMedia> Profiles { get; set; } = new List<ProfileMedia>();
+        public List<Ticket> Tickets { get; set; } = new List<Ticket>();
 
     }
 }

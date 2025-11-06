@@ -17,6 +17,9 @@ namespace Weblu.Application.Interfaces.Repositories
         IPortfolioCategoryRepository PortfolioCategories { get; }
         IPortfolioRepository Portfolios { get; }
         IContributorRepository Contributors { get; }
+        ITicketRepository Tickets { get; }
+        ITicketMessageRepository TicketMessages { get; }
+
 
 
 

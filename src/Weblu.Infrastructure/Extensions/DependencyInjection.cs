@@ -30,6 +30,9 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IPortfolioCategoryRepository, PortfolioCategoryRepository>();
             services.AddScoped<IPortfolioRepository, PortfolioRepository>();
             services.AddScoped<IContributorRepository, ContributorRepository>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<ITicketMessageRepository, TicketMessageRepository>();
+
 
 
 
