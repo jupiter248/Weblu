@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Identity.Entities;
 
 namespace Weblu.Infrastructure.Repositories
 {

@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Tickets;
 using Weblu.Infrastructure.Data;
 
@@ -15,24 +17,36 @@ namespace Weblu.Infrastructure.Repositories
         {
             _context = context;
         }
-        public Task AddTicketMessageAsync(TicketMessage message)
+        public async Task AddTicketMessageAsync(TicketMessage message)
         {
-            throw new NotImplementedException();
+            await _context.TicketMessages.AddAsync(message);
         }
 
         public void DeleteTicketMessage(TicketMessage message)
         {
-            throw new NotImplementedException();
+            _context.TicketMessages.Remove(message);
         }
 
-        public Task<TicketMessage> GetTicketMessageByIdAsync(int messageId)
+        public async Task<List<TicketMessage>> GetAllTicketMessagesAsync(int ticketId, TicketMessageParameters ticketMessageParameters)
         {
-            throw new NotImplementedException();
+            List<TicketMessage> ticketMessages = await _context.TicketMessages.Where(t => t.TicketId == ticketId).ToListAsync();
+
+            return ticketMessages;
+        }
+
+        public async Task<TicketMessage?> GetTicketMessageByIdAsync(int messageId)
+        {
+            TicketMessage? ticketMessage = await _context.TicketMessages.FirstOrDefaultAsync(m => m.Id == messageId);
+            if (ticketMessage == null)
+            {
+                return null;
+            }
+            return ticketMessage;
         }
 
         public void UpdateTicketMessage(TicketMessage message)
         {
-            throw new NotImplementedException();
+            _context.TicketMessages.Update(message);
         }
     }
 }

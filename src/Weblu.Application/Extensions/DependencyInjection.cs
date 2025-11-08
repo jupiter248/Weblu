@@ -23,6 +23,9 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IPortfolioCategoryService, PortfolioCategoryService>();
             services.AddScoped<IPortfolioService, PortfolioService>();
             services.AddScoped<IContributorService, ContributorService>();
+            services.AddScoped<ITicketService, TicketService>();
+            services.AddScoped<ITicketMessageService, TicketMessageService>();
+
 
 
 
@@ -38,6 +41,9 @@ namespace Weblu.Application.Extensions
             services.AddAutoMapper(typeof(RefreshTokenProfile));
             services.AddAutoMapper(typeof(PortfolioProfile));
             services.AddAutoMapper(typeof(ContributorProfile));
+            services.AddAutoMapper(typeof(TicketProfile));
+            services.AddAutoMapper(typeof(TicketMessageProfile));
+
 
 
 

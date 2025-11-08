@@ -98,6 +98,27 @@ namespace Weblu.Infrastructure.Identity.Services
             return userDto;
         }
 
+        public async Task<string?> GetUsernameAsync(string senderId)
+        {
+            AppUser? appUser = await _userManager.FindByIdAsync(senderId);
+            if (appUser == null)
+            {
+                return null;
+            }
+            return appUser.UserName;
+        }
+
+        public async Task<bool> IsAdminAsync(string senderId)
+        {
+            AppUser? appUser = await _userManager.FindByIdAsync(senderId);
+            if (appUser == null)
+            {
+                return false;
+            }
+            bool isAdmin = await _userManager.IsInRoleAsync(appUser, UserType.Admin.ToString());
+            return isAdmin;
+        }
+
         public async Task<UserDto> UpdateUserAsync(string userId, UpdateUserDto updateUserDto)
         {
             var authorizedUser = _httpContextAccessor.HttpContext?.User;

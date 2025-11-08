@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Tickets;
@@ -16,29 +17,36 @@ namespace Weblu.Infrastructure.Repositories
         {
             _context = context;
         }
-        public Task AddTicketAsync(Ticket ticket)
+        public async Task AddTicketAsync(Ticket ticket)
         {
-            throw new NotImplementedException();
+            await _context.Tickets.AddAsync(ticket);
         }
 
         public void DeleteTicket(Ticket ticket)
         {
-            throw new NotImplementedException();
+            _context.Tickets.Remove(ticket);
         }
 
-        public Task<List<Ticket>> GetAllTicketsAsync(TicketParameters ticketParameters)
+        public async Task<List<Ticket>> GetAllTicketsAsync(TicketParameters ticketParameters)
         {
-            throw new NotImplementedException();
+            List<Ticket> tickets = await _context.Tickets.ToListAsync();
+
+            return tickets;
         }
 
-        public Task<Ticket> GetTicketByIdAsync(int ticketId)
+        public async Task<Ticket?> GetTicketByIdAsync(int ticketId)
         {
-            throw new NotImplementedException();
+            Ticket? ticket = await _context.Tickets.Include(m => m.Messages).FirstOrDefaultAsync(t => t.Id == ticketId);
+            if (ticket == null)
+            {
+                return null;
+            }
+            return ticket;
         }
 
         public void UpdateTicket(Ticket ticket)
         {
-            throw new NotImplementedException();
+            _context.Tickets.Update(ticket);
         }
     }
 }

@@ -5,6 +5,5 @@ namespace Weblu.Domain.Enums.Tickets
         Low,
         Normal,
         High
-
     }
 }
