@@ -6,6 +6,7 @@ using Weblu.Application.Interfaces.Strategies;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Tickets;
 using Weblu.Domain.Enums.Tickets;
+using Weblu.Domain.Enums.Tickets.Parameters;
 
 namespace Weblu.Application.Strategies.Tickets
 {
@@ -13,15 +14,15 @@ namespace Weblu.Application.Strategies.Tickets
     {
         public IQueryable<Ticket> Query(IQueryable<Ticket> tickets, TicketParameters ticketParameters)
         {
-            if (ticketParameters.TicketStatus == TicketStatus.Open)
+            if (ticketParameters.TicketStatus == TicketStatusSort.Open)
             {
                 return tickets.Where(t => t.Status == TicketStatus.Open);
             }
-            else if (ticketParameters.TicketStatus == TicketStatus.InProgress)
+            else if (ticketParameters.TicketStatus == TicketStatusSort.InProgress)
             {
                 return tickets.Where(t => t.Status == TicketStatus.InProgress);
             }
-            else if (ticketParameters.TicketStatus == TicketStatus.Closed)
+            else if (ticketParameters.TicketStatus == TicketStatusSort.Closed)
             {
                 return tickets.Where(t => t.Status == TicketStatus.Closed);
             }
