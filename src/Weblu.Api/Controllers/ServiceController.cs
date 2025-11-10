@@ -60,37 +60,37 @@ namespace Weblu.Api.Controllers
             await _serviceService.DeleteServiceAsync(serviceId);
             return NoContent();
         }
-        [HttpPost("{serviceId:int}/feature{featureId:int}")]
+        [HttpPost("{serviceId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> AddFeatureToService(int serviceId, int featureId)
         {
             await _serviceService.AddFeatureToServiceAsync(serviceId, featureId);
             return Ok(ApiResponse.Success("Feature added successfully"));
         }
-        [HttpDelete("{serviceId:int}/feature{featureId:int}")]
+        [HttpDelete("{serviceId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> DeleteFeatureFromService(int serviceId, int featureId)
         {
             await _serviceService.DeleteFeatureFromServiceAsync(serviceId, featureId);
             return Ok(ApiResponse.Success("Feature deleted successfully"));
         }
-        [HttpPost("{serviceId:int}/method{methodId:int}")]
+        [HttpPost("{serviceId:int}/method/{methodId:int}")]
         public async Task<IActionResult> AddMethodToService(int serviceId, int methodId)
         {
             await _serviceService.AddMethodToService(serviceId, methodId);
             return Ok(ApiResponse.Success("Method added successfully"));
         }
-        [HttpDelete("{serviceId:int}/method{methodId:int}")]
+        [HttpDelete("{serviceId:int}/method/{methodId:int}")]
         public async Task<IActionResult> DeleteMethodFromService(int serviceId, int methodId)
         {
             await _serviceService.DeleteMethodFromService(serviceId, methodId);
             return Ok(ApiResponse.Success("Method deleted successfully"));
         }
-        [HttpPost("{serviceId:int}/image{imageId:int}")]
+        [HttpPost("{serviceId:int}/image/{imageId:int}")]
         public async Task<IActionResult> AddImageToService(int serviceId, int imageId, [FromBody] AddServiceImageDto addServiceImageDto)
         {
             await _serviceService.AddImageToService(serviceId, imageId, addServiceImageDto);
             return Ok(ApiResponse.Success("Image added successfully"));
         }
-        [HttpDelete("{serviceId:int}/image{imageId:int}")]
+        [HttpDelete("{serviceId:int}/image/{imageId:int}")]
         public async Task<IActionResult> DeleteImageFromService(int serviceId, int imageId)
         {
             await _serviceService.DeleteImageToService(serviceId, imageId);

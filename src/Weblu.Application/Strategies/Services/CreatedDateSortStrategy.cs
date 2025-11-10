@@ -12,15 +12,15 @@ namespace Weblu.Application.Strategies.Services
 {
     public class CreatedDateSortStrategy : IServiceQueryStrategy
     {
-        public List<Service> Query(List<Service> services, ServiceParameters serviceParameters)
+        public IQueryable<Service> Query(IQueryable<Service> services, ServiceParameters serviceParameters)
         {
             if (serviceParameters.CreatedDateSort == CreatedDateSort.Newest)
             {
-                return services.OrderByDescending(s => s.CreatedAt).ToList();
+                return services.OrderByDescending(s => s.CreatedAt);
             }
             else if (serviceParameters.CreatedDateSort == CreatedDateSort.Oldest)
             {
-                return services.OrderBy(s => s.CreatedAt).ToList();
+                return services.OrderBy(s => s.CreatedAt);
             }
             else
             {

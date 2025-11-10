@@ -12,15 +12,15 @@ namespace Weblu.Application.Strategies.Services
 {
     public class PriceSortStrategy : IServiceQueryStrategy
     {
-        public List<Service> Query(List<Service> services, ServiceParameters serviceParameters)
+        public IQueryable<Service> Query(IQueryable<Service> services, ServiceParameters serviceParameters)
         {
             if (serviceParameters.PriceSort == PriceSort.HighestPrice)
             {
-                return services.OrderByDescending(s => s.BasePrice).ToList();
+                return services.OrderByDescending(s => s.BasePrice);
             }
             else if (serviceParameters.PriceSort == PriceSort.LowestPrice)
             {
-                return services.OrderBy(s => s.BasePrice).ToList();
+                return services.OrderBy(s => s.BasePrice);
             }
             else
             {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
+using Weblu.Application.Strategies.Tickets;
 using Weblu.Domain.Entities.Tickets;
 using Weblu.Infrastructure.Data;
 
@@ -29,9 +30,18 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<Ticket>> GetAllTicketsAsync(TicketParameters ticketParameters)
         {
-            List<Ticket> tickets = await _context.Tickets.ToListAsync();
+            var tickets = _context.Tickets.AsQueryable();
 
-            return tickets;
+            var createdDateSortQuery = new TicketQueryHandler(new CreatedDateSortStrategy());
+            tickets = createdDateSortQuery.ExecuteServiceQuery(tickets, ticketParameters);
+
+            var statusQuery = new TicketQueryHandler(new StatusStrategy());
+            tickets = statusQuery.ExecuteServiceQuery(tickets, ticketParameters);
+
+            var priorityQuery = new TicketQueryHandler(new PriorityStrategy());
+            tickets = priorityQuery.ExecuteServiceQuery(tickets, ticketParameters);
+
+            return await tickets.ToListAsync();
         }
 
         public async Task<Ticket?> GetTicketByIdAsync(int ticketId)

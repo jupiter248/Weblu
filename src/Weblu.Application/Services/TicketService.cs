@@ -104,6 +104,8 @@ namespace Weblu.Application.Services
         {
             Ticket ticket = await _unitOfWork.Tickets.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
             ticket = _mapper.Map(updateTicketStatusDto, ticket);
+            _unitOfWork.Tickets.UpdateTicket(ticket);
+            await _unitOfWork.CommitAsync();
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;
         }

@@ -59,7 +59,7 @@ namespace Weblu.Application.Services
             }
             bool isAdmin = await _userService.IsAdminAsync(senderId);
             Ticket ticket = await _unitOfWork.Tickets.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
-            if (ticket.UserId != senderId || !isAdmin)
+            if (ticket.UserId != senderId && !isAdmin)
             {
                 throw new UnauthorizedException(TicketMessageErrorCodes.TicketMessageReplyForbidden);
             }

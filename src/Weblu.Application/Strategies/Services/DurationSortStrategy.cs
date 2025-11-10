@@ -12,15 +12,15 @@ namespace Weblu.Application.Strategies.Services
 {
     public class DurationSortStrategy : IServiceQueryStrategy
     {
-        public List<Service> Query(List<Service> services, ServiceParameters serviceParameters)
+        public IQueryable<Service> Query(IQueryable<Service> services, ServiceParameters serviceParameters)
         {
             if (serviceParameters.DurationSort == DurationSort.LongestDuration)
             {
-                return services.OrderByDescending(s => s.BaseDurationInDays).ToList();
+                return services.OrderByDescending(s => s.BaseDurationInDays);
             }
             else if (serviceParameters.DurationSort == DurationSort.ShortestDuration)
             {
-                return services.OrderBy(s => s.BaseDurationInDays).ToList();
+                return services.OrderBy(s => s.BaseDurationInDays);
             }
             else
             {

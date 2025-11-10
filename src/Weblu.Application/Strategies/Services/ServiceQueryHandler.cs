@@ -16,7 +16,7 @@ namespace Weblu.Application.Strategies.Services
         {
             _serviceQueryStrategy = serviceQueryStrategy;
         }
-        public List<Service> ExecuteServiceQuery(List<Service> services, ServiceParameters serviceParameters)
+        public IQueryable<Service> ExecuteServiceQuery(IQueryable<Service> services, ServiceParameters serviceParameters)
         {
             return _serviceQueryStrategy.Query(services, serviceParameters);
         }

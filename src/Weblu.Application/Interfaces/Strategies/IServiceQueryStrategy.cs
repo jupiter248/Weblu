@@ -10,6 +10,6 @@ namespace Weblu.Application.Interfaces.Strategies
 {
     public interface IServiceQueryStrategy
     {
-        List<Service> Query(List<Service> services, ServiceParameters serviceParameters);
+        IQueryable<Service> Query(IQueryable<Service> services, ServiceParameters serviceParameters);
     }
 }

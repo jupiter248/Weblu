@@ -60,49 +60,49 @@ namespace Weblu.Api.Controllers
             await _portfolioService.DeletePortfolioAsync(portfolioId);
             return NoContent();
         }
-        [HttpPost("{portfolioId:int}/feature{featureId:int}")]
+        [HttpPost("{portfolioId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> AddFeatureToPortfolio(int portfolioId, int featureId)
         {
             await _portfolioService.AddFeatureToPortfolioAsync(portfolioId, featureId);
             return Ok(ApiResponse.Success("Feature added successfully"));
         }
-        [HttpDelete("{portfolioId:int}/feature{featureId:int}")]
+        [HttpDelete("{portfolioId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> DeleteFeatureFromPortfolio(int portfolioId, int featureId)
         {
             await _portfolioService.DeleteFeatureFromPortfolioAsync(portfolioId, featureId);
             return Ok(ApiResponse.Success("Feature deleted successfully"));
         }
-        [HttpPost("{portfolioId:int}/method{methodId:int}")]
+        [HttpPost("{portfolioId:int}/method/{methodId:int}")]
         public async Task<IActionResult> AddMethodToPortfolio(int portfolioId, int methodId)
         {
             await _portfolioService.AddMethodToPortfolioAsync(portfolioId, methodId);
             return Ok(ApiResponse.Success("Method added successfully"));
         }
-        [HttpDelete("{portfolioId:int}/method{methodId:int}")]
+        [HttpDelete("{portfolioId:int}/method/{methodId:int}")]
         public async Task<IActionResult> DeleteMethodFromPortfolio(int portfolioId, int methodId)
         {
             await _portfolioService.DeleteMethodFromPortfolioAsync(portfolioId, methodId);
             return Ok(ApiResponse.Success("Method deleted successfully"));
         }
-        [HttpPost("{portfolioId:int}/image{imageId:int}")]
+        [HttpPost("{portfolioId:int}/image/{imageId:int}")]
         public async Task<IActionResult> AddImageToPortfolio(int portfolioId, int imageId, [FromBody] AddPortfolioImageDto addPortfolioImageDto)
         {
             await _portfolioService.AddImageToPortfolioAsync(portfolioId, imageId, addPortfolioImageDto);
             return Ok(ApiResponse.Success("Image added successfully"));
         }
-        [HttpDelete("{portfolioId:int}/image{imageId:int}")]
+        [HttpDelete("{portfolioId:int}/image/{imageId:int}")]
         public async Task<IActionResult> DeleteImageFromPortfolio(int portfolioId, int imageId)
         {
             await _portfolioService.DeleteImageFromPortfolioAsync(portfolioId, imageId);
             return Ok(ApiResponse.Success("Image deleted successfully"));
         }
-        [HttpPost("{portfolioId:int}/contributor{contributorId:int}")]
+        [HttpPost("{portfolioId:int}/contributor/{contributorId:int}")]
         public async Task<IActionResult> AddContributorToPortfolio(int portfolioId, int contributorId)
         {
             await _portfolioService.AddContributorToPortfolioAsync(portfolioId, contributorId);
             return Ok(ApiResponse.Success("Contributor added successfully"));
         }
-        [HttpDelete("{portfolioId:int}/contributor{contributorId:int}")]
+        [HttpDelete("{portfolioId:int}/contributor/{contributorId:int}")]
         public async Task<IActionResult> DeleteContributorFromPortfolio(int portfolioId, int contributorId)
         {
             await _portfolioService.DeleteContributorFromPortfolioAsync(portfolioId, contributorId);
