@@ -11,6 +11,6 @@ namespace Weblu.Application.Interfaces.Strategies
 {
     public interface IFeatureQueryStrategy
     {
-        List<Feature> Query(List<Feature> features, FeatureParameters featureParameters);
+        IQueryable<Feature> Query(IQueryable<Feature> features, FeatureParameters featureParameters);
     }
 }

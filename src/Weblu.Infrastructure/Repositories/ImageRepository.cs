@@ -31,12 +31,12 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<ImageMedia>> GetAllImagesAsync(ImageParameters imageParameters)
         {
-            List<ImageMedia> imageMedia = await _context.ImageMedia.ToListAsync();
+            IQueryable<ImageMedia> imageMedia = _context.ImageMedia.AsQueryable();
 
             var addedDateSort = new ImageQueryHandler(new AddedDateSortStrategy());
             imageMedia = addedDateSort.ExecuteServiceQuery(imageMedia, imageParameters);
 
-            return imageMedia;
+            return await imageMedia.ToListAsync();
         }
 
         public async Task<ImageMedia?> GetImageItemByIdAsync(int imageId)

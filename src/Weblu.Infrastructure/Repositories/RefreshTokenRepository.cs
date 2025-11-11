@@ -26,7 +26,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<RefreshToken>> GetAllRefreshTokenAsync(RefreshTokenParameters refreshTokenParameters)
         {
-            List<RefreshToken> refreshTokens = await _context.RefreshTokens.ToListAsync();
+            IQueryable<RefreshToken> refreshTokens = _context.RefreshTokens.AsQueryable();
 
             var filterByUserId = new RefreshTokenQueryHandler(new FilterByUserIdStrategy());
             refreshTokens = filterByUserId.ExecuteServiceQuery(refreshTokens, refreshTokenParameters);
@@ -40,7 +40,7 @@ namespace Weblu.Infrastructure.Repositories
             var revokedStatus = new RefreshTokenQueryHandler(new RevokedStatusStrategy());
             refreshTokens = revokedStatus.ExecuteServiceQuery(refreshTokens, refreshTokenParameters);
 
-            return refreshTokens;
+            return await refreshTokens.ToListAsync();
         }
 
         public async Task<RefreshToken?> GetRefreshTokenByIdAsync(int refreshTokenId)

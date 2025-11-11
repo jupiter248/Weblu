@@ -15,7 +15,7 @@ namespace Weblu.Application.Strategies.Profiles
         {
             _profileMediaQueryStrategy = profileQueryStrategy;
         }
-        public List<ProfileMedia> ExecuteServiceQuery(List<ProfileMedia> images, ProfileMediaParameters imageParameters)
+        public IQueryable<ProfileMedia> ExecuteServiceQuery(IQueryable<ProfileMedia> images, ProfileMediaParameters imageParameters)
         {
             return _profileMediaQueryStrategy.Query(images, imageParameters);
         }

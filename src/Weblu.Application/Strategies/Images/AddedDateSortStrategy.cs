@@ -12,15 +12,15 @@ namespace Weblu.Application.Strategies.Images
 {
     public class AddedDateSortStrategy : IImageQueryStrategy
     {
-        public List<ImageMedia> Query(List<ImageMedia> images, ImageParameters imageParameters)
+        public IQueryable<ImageMedia> Query(IQueryable<ImageMedia> images, ImageParameters imageParameters)
         {
             if (imageParameters.AddedDateSort == CreatedDateSort.Newest)
             {
-                return images.OrderByDescending(s => s.AddedAt).ToList();
+                return images.OrderByDescending(s => s.AddedAt);
             }
             else if (imageParameters.AddedDateSort == CreatedDateSort.Oldest)
             {
-                return images.OrderBy(s => s.AddedAt).ToList();
+                return images.OrderBy(s => s.AddedAt);
             }
             else
             {

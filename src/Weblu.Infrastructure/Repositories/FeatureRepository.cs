@@ -41,12 +41,12 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<Feature>> GetAllFeaturesAsync(FeatureParameters featureParameters)
         {
-            List<Feature> features = await _context.Features.ToListAsync();
+            IQueryable<Feature> features = _context.Features.AsQueryable();
 
             var createdDateSortQuery = new FeatureQueryHandler(new CreatedDateSortStrategy());
             features = createdDateSortQuery.ExecuteServiceQuery(features, featureParameters);
             
-            return features;
+            return await features.ToListAsync();
         }
 
         public async Task<Feature?> GetFeatureByIdAsync(int featureId)

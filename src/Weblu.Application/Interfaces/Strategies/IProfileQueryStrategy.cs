@@ -9,6 +9,6 @@ namespace Weblu.Application.Interfaces.Strategies
 {
     public interface IProfileQueryStrategy
     {
-        List<ProfileMedia> Query(List<ProfileMedia> profiles, ProfileMediaParameters profileMediaParameters);
+        IQueryable<ProfileMedia> Query(IQueryable<ProfileMedia> profiles, ProfileMediaParameters profileMediaParameters);
     }
 }

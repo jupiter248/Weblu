@@ -11,15 +11,15 @@ namespace Weblu.Application.Strategies.Portfolios
 {
     public class CreatedDateSortStrategy : IPortfolioQueryStrategy
     {
-        public List<Portfolio> Query(List<Portfolio> portfolios, PortfolioParameters portfolioParameters)
+        public IQueryable<Portfolio> Query(IQueryable<Portfolio> portfolios, PortfolioParameters portfolioParameters)
         {
             if (portfolioParameters.CreatedDateSort == CreatedDateSort.Newest)
             {
-                return portfolios.OrderByDescending(s => s.CreatedAt).ToList();
+                return portfolios.OrderByDescending(s => s.CreatedAt);
             }
             else if (portfolioParameters.CreatedDateSort == CreatedDateSort.Oldest)
             {
-                return portfolios.OrderBy(s => s.CreatedAt).ToList();
+                return portfolios.OrderBy(s => s.CreatedAt);
             }
             else
             {

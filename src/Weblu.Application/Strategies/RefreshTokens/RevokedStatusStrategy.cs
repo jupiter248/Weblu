@@ -11,15 +11,15 @@ namespace Weblu.Application.Strategies.RefreshTokens
 {
     public class RevokedStatusStrategy : IRefreshTokenQueryStrategy
     {
-        public List<RefreshToken> Query(List<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters)
+        public IQueryable<RefreshToken> Query(IQueryable<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters)
         {
             if (refreshTokenParameters.RevokedStatus == RevokedStatus.Revoked)
             {
-                return refreshTokens.Where(u => u.IsRevoked == true).ToList();
+                return refreshTokens.Where(u => u.IsRevoked == true);
             }
             else if (refreshTokenParameters.RevokedStatus == RevokedStatus.Active)
             {
-                return refreshTokens.Where(u => u.IsUsed == false).ToList();
+                return refreshTokens.Where(u => u.IsUsed == false);
             }
             else
             {

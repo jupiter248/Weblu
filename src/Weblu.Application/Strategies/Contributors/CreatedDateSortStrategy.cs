@@ -11,15 +11,15 @@ namespace Weblu.Application.Strategies.Contributors
 {
     public class CreatedDateSortStrategy : IContributorQueryStrategy
     {
-        public List<Contributor> Query(List<Contributor> contributors, ContributorParameters contributorParameters)
+        public IQueryable<Contributor> Query(IQueryable<Contributor> contributors, ContributorParameters contributorParameters)
         {
             if (contributorParameters.CreatedDateSort == CreatedDateSort.Newest)
             {
-                return contributors.OrderByDescending(c => c.CreatedAt).ToList();
+                return contributors.OrderByDescending(c => c.CreatedAt);
             }
             else if (contributorParameters.CreatedDateSort == CreatedDateSort.Oldest)
             {
-                return contributors.OrderBy(c => c.CreatedAt).ToList();
+                return contributors.OrderBy(c => c.CreatedAt);
             }
             else
             {

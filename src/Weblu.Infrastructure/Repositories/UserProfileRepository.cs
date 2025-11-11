@@ -31,12 +31,12 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<ProfileMedia>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters)
         {
-            List<ProfileMedia> profiles = await _context.ProfileMedia.ToListAsync();
+            IQueryable<ProfileMedia> profiles = _context.ProfileMedia.AsQueryable();
 
             var addedDateSort = new ProfileMediaQueryHandler(new AddedDateSortStrategy());
             profiles = addedDateSort.ExecuteServiceQuery(profiles, profileMediaParameters);
 
-            return profiles;
+            return await profiles.ToListAsync();
         }
 
         public async Task<ProfileMedia?> GetProfileByIdAsync(int profileId)

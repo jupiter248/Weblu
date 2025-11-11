@@ -15,7 +15,7 @@ namespace Weblu.Application.Strategies.Contributors
         {
             _contributorQueryStrategy = contributorQueryStrategy;
         }
-        public List<Contributor> ExecuteServiceQuery(List<Contributor> contributors, ContributorParameters contributorParameters)
+        public IQueryable<Contributor> ExecuteServiceQuery(IQueryable<Contributor> contributors, ContributorParameters contributorParameters)
         {
             return _contributorQueryStrategy.Query(contributors, contributorParameters);
         }

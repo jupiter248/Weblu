@@ -9,6 +9,6 @@ namespace Weblu.Application.Interfaces.Strategies
 {
     public interface IPortfolioQueryStrategy
     {
-        List<Portfolio> Query(List<Portfolio> portfolios, PortfolioParameters portfolioParameters);
+        IQueryable<Portfolio> Query(IQueryable<Portfolio> portfolios, PortfolioParameters portfolioParameters);
     }
 }

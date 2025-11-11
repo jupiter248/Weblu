@@ -43,7 +43,7 @@ namespace Weblu.Infrastructure.Repositories
             var createdSortQuery = new ServiceQueryHandler(new CreatedDateSortStrategy());
             services = createdSortQuery.ExecuteServiceQuery(services, serviceParameters);
 
-            return services.ToList();
+            return await services.ToListAsync();
         }
 
         public async Task<Service?> GetServiceByIdAsync(int serviceId)

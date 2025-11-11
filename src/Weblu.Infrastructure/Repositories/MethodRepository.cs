@@ -32,12 +32,12 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<Method>> GetAllMethodsAsync(MethodParameters methodParameters)
         {
-            List<Method> methods = await _context.Methods.ToListAsync();
+            IQueryable<Method> methods = _context.Methods.AsQueryable();
 
             var createdDateSortQuery = new MethodQueryHandler(new CreatedDateSortStrategy());
             methods = createdDateSortQuery.ExecuteServiceQuery(methods, methodParameters);
 
-            return methods;
+            return await methods.ToListAsync();
 
         }
 

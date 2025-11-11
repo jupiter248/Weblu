@@ -37,12 +37,12 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<Contributor>> GetAllContributorsAsync(ContributorParameters contributorParameters)
         {
-            List<Contributor> contributors = await _context.Contributors.ToListAsync();
+            IQueryable<Contributor> contributors = _context.Contributors.AsQueryable();
 
             var createdDateSortStrategy = new ContributorQueryStrategy(new CreatedDateSortStrategy());
             contributors = createdDateSortStrategy.ExecuteServiceQuery(contributors, contributorParameters);
 
-            return contributors;
+            return await contributors.ToListAsync();
         }
 
         public async Task<Contributor?> GetContributorByIdAsync(int contributorId)

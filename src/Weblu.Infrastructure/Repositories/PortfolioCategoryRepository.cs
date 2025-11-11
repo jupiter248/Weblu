@@ -28,8 +28,8 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<PortfolioCategory>> GetAllPortfolioCategoriesAsync()
         {
-            List<PortfolioCategory> portfolioCategories = await _context.PortfolioCategories.ToListAsync();
-            return portfolioCategories;
+            IQueryable<PortfolioCategory> portfolioCategories = _context.PortfolioCategories.AsQueryable();
+            return await portfolioCategories.ToListAsync();
         }
 
         public async Task<PortfolioCategory?> GetPortfolioCategoryByIdAsync(int categoryId)

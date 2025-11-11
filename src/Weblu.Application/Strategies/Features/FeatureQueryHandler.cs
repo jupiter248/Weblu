@@ -17,7 +17,7 @@ namespace Weblu.Application.Strategies.Features
         {
             _featureQueryStrategy = featureQueryStrategy;
         }
-        public List<Feature> ExecuteServiceQuery(List<Feature> features, FeatureParameters featureParameters)
+        public IQueryable<Feature> ExecuteServiceQuery(IQueryable<Feature> features, FeatureParameters featureParameters)
         {
             return _featureQueryStrategy.Query(features, featureParameters);
         } 

@@ -9,7 +9,7 @@ namespace Weblu.Application.Interfaces.Strategies
 {
     public interface IRefreshTokenQueryStrategy
     {
-        List<RefreshToken> Query(List<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters);
+        IQueryable<RefreshToken> Query(IQueryable<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters);
 
     }
 }

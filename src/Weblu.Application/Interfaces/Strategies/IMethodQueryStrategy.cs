@@ -11,7 +11,7 @@ namespace Weblu.Application.Interfaces.Strategies
 {
     public interface IMethodQueryStrategy
     {
-        List<Method> Query(List<Method> methods, MethodParameters methodParameters);
+        IQueryable<Method> Query(IQueryable<Method> methods, MethodParameters methodParameters);
 
     }
 }

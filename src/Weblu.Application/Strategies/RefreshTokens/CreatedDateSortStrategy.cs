@@ -11,15 +11,15 @@ namespace Weblu.Application.Strategies.RefreshTokens
 {
     public class CreatedDateSortStrategy : IRefreshTokenQueryStrategy
     {
-        public List<RefreshToken> Query(List<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters)
+        public IQueryable<RefreshToken> Query(IQueryable<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters)
         {
             if (refreshTokenParameters.CreatedDate == CreatedDateSort.Newest)
             {
-                return refreshTokens.OrderByDescending(c => c.CreatedAt).ToList();
+                return refreshTokens.OrderByDescending(c => c.CreatedAt);
             }
             else if (refreshTokenParameters.CreatedDate == CreatedDateSort.Oldest)
             {
-                return refreshTokens.OrderBy(c => c.CreatedAt).ToList();
+                return refreshTokens.OrderBy(c => c.CreatedAt);
             }
             else
             {

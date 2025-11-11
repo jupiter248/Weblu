@@ -13,15 +13,15 @@ namespace Weblu.Application.Strategies.Methods
 {
     public class CreatedDateSortStrategy : IMethodQueryStrategy
     {
-        public List<Method> Query(List<Method> methods, MethodParameters methodParameters)
+        public IQueryable<Method> Query(IQueryable<Method> methods, MethodParameters methodParameters)
         {
             if (methodParameters.CreatedDateSort == CreatedDateSort.Newest)
             {
-                return methods.OrderByDescending(s => s.CreatedAt).ToList();
+                return methods.OrderByDescending(s => s.CreatedAt);
             }
             else if (methodParameters.CreatedDateSort == CreatedDateSort.Oldest)
             {
-                return methods.OrderBy(s => s.CreatedAt).ToList();
+                return methods.OrderBy(s => s.CreatedAt);
             }
             else
             {

@@ -29,9 +29,9 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<TicketMessage>> GetAllTicketMessagesAsync(int ticketId, TicketMessageParameters ticketMessageParameters)
         {
-            List<TicketMessage> ticketMessages = await _context.TicketMessages.Where(t => t.TicketId == ticketId).ToListAsync();
+            IQueryable<TicketMessage> ticketMessages = _context.TicketMessages.Where(t => t.TicketId == ticketId).AsQueryable();
 
-            return ticketMessages;
+            return await ticketMessages.ToListAsync();
         }
 
         public async Task<TicketMessage?> GetTicketMessageByIdAsync(int messageId)

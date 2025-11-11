@@ -11,15 +11,15 @@ namespace Weblu.Application.Strategies.RefreshTokens
 {
     public class UsedStatusStrategy : IRefreshTokenQueryStrategy
     {
-        public List<RefreshToken> Query(List<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters)
+        public IQueryable<RefreshToken> Query(IQueryable<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters)
         {
             if (refreshTokenParameters.UsedStatus == UsedStatus.Used)
             {
-                return refreshTokens.Where(u => u.IsUsed == true).ToList();
+                return refreshTokens.Where(u => u.IsUsed == true);
             }
             else if (refreshTokenParameters.UsedStatus == UsedStatus.Unused)
             {
-                return refreshTokens.Where(u => u.IsUsed == false).ToList();
+                return refreshTokens.Where(u => u.IsUsed == false);
             }
             else
             {

@@ -10,11 +10,11 @@ namespace Weblu.Application.Strategies.RefreshTokens
 {
     public class FilterByUserIdStrategy : IRefreshTokenQueryStrategy
     {
-        public List<RefreshToken> Query(List<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters)
+        public IQueryable<RefreshToken> Query(IQueryable<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters)
         {
             if (!string.IsNullOrEmpty(refreshTokenParameters.FilterByUserId))
             {
-                return refreshTokens.Where(u => u.UserId == refreshTokenParameters.FilterByUserId).ToList();
+                return refreshTokens.Where(u => u.UserId == refreshTokenParameters.FilterByUserId);
             }
             else
             {

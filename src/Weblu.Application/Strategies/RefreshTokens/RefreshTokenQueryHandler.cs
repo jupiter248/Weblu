@@ -15,7 +15,7 @@ namespace Weblu.Application.Strategies.RefreshTokens
         {
             _refreshTokenQueryStrategy = refreshTokenQueryStrategy;
         }
-        public List<RefreshToken> ExecuteServiceQuery(List<RefreshToken> methods, RefreshTokenParameters refreshTokenParameters)
+        public IQueryable<RefreshToken> ExecuteServiceQuery(IQueryable<RefreshToken> methods, RefreshTokenParameters refreshTokenParameters)
         {
             return _refreshTokenQueryStrategy.Query(methods, refreshTokenParameters);
         }

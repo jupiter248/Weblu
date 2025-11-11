@@ -11,15 +11,15 @@ namespace Weblu.Application.Strategies.Profiles
 {
     public class AddedDateSortStrategy : IProfileQueryStrategy
     {
-        public List<ProfileMedia> Query(List<ProfileMedia> profiles, ProfileMediaParameters profileMediaParameters)
+        public IQueryable<ProfileMedia> Query(IQueryable<ProfileMedia> profiles, ProfileMediaParameters profileMediaParameters)
         {
             if (profileMediaParameters.AddedDateSort == CreatedDateSort.Newest)
             {
-                return profiles.OrderByDescending(s => s.AddedAt).ToList();
+                return profiles.OrderByDescending(s => s.AddedAt);
             }
             else if (profileMediaParameters.AddedDateSort == CreatedDateSort.Oldest)
             {
-                return profiles.OrderBy(s => s.AddedAt).ToList();
+                return profiles.OrderBy(s => s.AddedAt);
             }
             else
             {

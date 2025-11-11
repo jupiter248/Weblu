@@ -10,11 +10,11 @@ namespace Weblu.Application.Strategies.Portfolios
 {
     public class FilteredByCategoryIdStrategy : IPortfolioQueryStrategy
     {
-        public List<Portfolio> Query(List<Portfolio> portfolios, PortfolioParameters portfolioParameters)
+        public IQueryable<Portfolio> Query(IQueryable<Portfolio> portfolios, PortfolioParameters portfolioParameters)
         {
             if (portfolioParameters.CategoryId.HasValue)
             {
-                return portfolios.Where(p => p.PortfolioCategoryId == portfolioParameters.CategoryId).ToList();
+                return portfolios.Where(p => p.PortfolioCategoryId == portfolioParameters.CategoryId);
             }
             else
             {
