@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Faqs;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Entities.Services;
@@ -36,6 +37,9 @@ namespace Weblu.Infrastructure.Data
         public DbSet<Contributor> Contributors { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketMessage> TicketMessages { get; set; }
+        public DbSet<Faq> Faqs { get; set; }
+        public DbSet<FaqCategory> FaqCategories { get; set; }
+
 
 
 

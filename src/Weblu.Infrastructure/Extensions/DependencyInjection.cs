@@ -32,6 +32,8 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IContributorRepository, ContributorRepository>();
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<ITicketMessageRepository, TicketMessageRepository>();
+            services.AddScoped<IFaqRepository, FaqRepository>();
+            services.AddScoped<IFaqCategoryRepository, FaqCategoryRepository>();
 
 
 
