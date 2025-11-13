@@ -21,7 +21,7 @@ namespace Weblu.Application.Validations.Services
             RuleFor(s => s.Description)
                 .NotEmpty()
                 .WithMessage(ServiceErrorCodes.ServiceDescriptionRequired)
-                .MaximumLength(500)
+                .MaximumLength(1000)
                 .WithMessage(ServiceErrorCodes.ServiceDescriptionMaxLength);
 
             RuleFor(s => s.ShortDescription)

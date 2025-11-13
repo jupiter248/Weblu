@@ -18,7 +18,7 @@ namespace Weblu.Application.Validations.Contributors
 
             RuleFor(x => x.AltText)
                 .NotEmpty().WithMessage(ImageErrorCodes.ImageAltTextRequired)
-                .MaximumLength(200).WithMessage(ImageErrorCodes.ImageAltTextMaxLength);
+                .MaximumLength(255).WithMessage(ImageErrorCodes.ImageAltTextMaxLength);
         }
     }
 }

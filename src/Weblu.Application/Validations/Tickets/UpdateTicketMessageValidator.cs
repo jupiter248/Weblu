@@ -14,7 +14,7 @@ namespace Weblu.Application.Validations.Tickets
         {
             RuleFor(m => m.Message)
                 .NotEmpty().WithMessage(TicketMessageErrorCodes.MessageRequired)
-                .MaximumLength(100).WithMessage(TicketMessageErrorCodes.MessageMaxLength);
+                .MaximumLength(700).WithMessage(TicketMessageErrorCodes.MessageMaxLength);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Weblu.Application.Validations.Faqs
         {
             RuleFor(f => f.Question)
                 .NotEmpty().WithMessage(FaqErrorCodes.QuestionRequired)
-                .MaximumLength(255).WithMessage(FaqErrorCodes.QuestionMaximumLength);
+                .MaximumLength(500).WithMessage(FaqErrorCodes.QuestionMaximumLength);
 
             RuleFor(f => f.Answer)
                 .NotEmpty().WithMessage(FaqErrorCodes.AnswerRequired)

@@ -18,7 +18,7 @@ namespace Weblu.Application.Validations.Features
 
             RuleFor(n => n.Description)
             .NotEmpty().WithMessage(FeatureErrorCodes.FeatureDescriptionRequired)
-            .MaximumLength(150).WithMessage(FeatureErrorCodes.FeatureDescriptionMaxLength);
+            .MaximumLength(1000).WithMessage(FeatureErrorCodes.FeatureDescriptionMaxLength);
         }
     }
 }

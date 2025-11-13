@@ -14,11 +14,11 @@ namespace Weblu.Application.Validations.PortfolioCategory
         {
             RuleFor(n => n.Name)
              .NotEmpty().WithMessage(PortfolioCategoryErrorCodes.PortfolioCategoryNameRequired)
-             .MaximumLength(50).WithMessage(PortfolioCategoryErrorCodes.PortfolioCategoryNameMaxLength);
+             .MaximumLength(100).WithMessage(PortfolioCategoryErrorCodes.PortfolioCategoryNameMaxLength);
 
             RuleFor(n => n.Description)
             .NotEmpty().WithMessage(PortfolioCategoryErrorCodes.PortfolioCategoryDescriptionRequired)
-            .MaximumLength(150).WithMessage(PortfolioCategoryErrorCodes.PortfolioCategoryDescriptionMaxLength);
+            .MaximumLength(255).WithMessage(PortfolioCategoryErrorCodes.PortfolioCategoryDescriptionMaxLength);
         }
     }
 }

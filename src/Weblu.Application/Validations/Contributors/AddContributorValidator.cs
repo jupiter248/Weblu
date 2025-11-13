@@ -26,7 +26,7 @@ namespace Weblu.Application.Validations.Contributors
             .MaximumLength(100).WithMessage(ContributorErrorCodes.ContributorRoleMaxLength);
 
             RuleFor(r => r.Bio)
-            .MaximumLength(500).WithMessage(ContributorErrorCodes.ContributorBioMaxLength);
+            .MaximumLength(1000).WithMessage(ContributorErrorCodes.ContributorBioMaxLength);
 
             RuleFor(r => r.Email)
             .EmailAddress().WithMessage(ContributorErrorCodes.ContributorEmailInvalid);

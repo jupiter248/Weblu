@@ -14,11 +14,11 @@ namespace Weblu.Application.Validations.Features
         {
             RuleFor(n => n.Name)
             .NotEmpty().WithMessage(FeatureErrorCodes.FeatureNameRequired)
-            .MaximumLength(50).WithMessage(FeatureErrorCodes.FeatureNameMaxLength);
+            .MaximumLength(100).WithMessage(FeatureErrorCodes.FeatureNameMaxLength);
 
             RuleFor(n => n.Description)
             .NotEmpty().WithMessage(FeatureErrorCodes.FeatureDescriptionRequired)
-            .MaximumLength(150).WithMessage(FeatureErrorCodes.FeatureDescriptionMaxLength);
+            .MaximumLength(1000).WithMessage(FeatureErrorCodes.FeatureDescriptionMaxLength);
         }
     }
 }

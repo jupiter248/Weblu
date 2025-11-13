@@ -18,7 +18,7 @@ namespace Weblu.Application.Validations.Methods
 
             RuleFor(n => n.Description)
             .NotEmpty().WithMessage(MethodErrorCodes.MethodDescriptionRequired)
-            .MaximumLength(150).WithMessage(MethodErrorCodes.MethodDescriptionMaxLength);
+            .MaximumLength(1500).WithMessage(MethodErrorCodes.MethodDescriptionMaxLength);
         }
     }
 }
