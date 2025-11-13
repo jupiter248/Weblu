@@ -26,6 +26,9 @@ namespace Weblu.Application.Services
         {
             Faq faq = _mapper.Map<Faq>(addFaqDto);
 
+            FaqCategory faqCategory = await _unitOfWork.FaqCategories.GetFaqCategoryByIdAsync(addFaqDto.CategoryId) ?? throw new NotFoundException(FaqCategoryErrorCodes.NotFound);
+            faq.Category = faqCategory;
+
             await _unitOfWork.Faqs.AddFaqAsync(faq);
             await _unitOfWork.CommitAsync();
 
@@ -59,6 +62,22 @@ namespace Weblu.Application.Services
         {
             Faq currentFaq = await _unitOfWork.Faqs.GetFaqByIdAsync(currentFaqId) ?? throw new NotFoundException(FaqCategoryErrorCodes.NotFound);
             currentFaq = _mapper.Map(updateFaqDto, currentFaq);
+
+            FaqCategory faqCategory = await _unitOfWork.FaqCategories.GetFaqCategoryByIdAsync(updateFaqDto.CategoryId) ?? throw new NotFoundException(FaqCategoryErrorCodes.NotFound);
+            currentFaq.Category = faqCategory;
+
+            if (currentFaq.IsActive)
+            {
+                if (currentFaq.ActivatedAt == DateTimeOffset.MinValue || currentFaq.ActivatedAt == null)
+                {
+                    currentFaq.ActivatedAt = DateTimeOffset.Now;
+                }
+            }
+            else if (!currentFaq.IsActive)
+            {
+                currentFaq.ActivatedAt = DateTimeOffset.MinValue;
+            }
+
 
             _unitOfWork.Faqs.UpdateFaq(currentFaq);
             await _unitOfWork.CommitAsync();

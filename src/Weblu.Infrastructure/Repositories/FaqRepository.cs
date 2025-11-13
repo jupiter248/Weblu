@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
+using Weblu.Application.Strategies.Faqs;
 using Weblu.Domain.Entities.Faqs;
 using Weblu.Infrastructure.Data;
 
@@ -35,14 +36,17 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<List<Faq>> GetAllFaqsAsync(FaqParameters faqParameters)
         {
-            IQueryable<Faq> faqs = _context.Faqs.AsQueryable();
+            IQueryable<Faq> faqs = _context.Faqs.Include(c => c.Category).AsQueryable();
+
+            var createdDateSort = new FaqQueryHandler(new CreatedDateSortStrategy());
+            faqs = createdDateSort.ExecuteFaqQuery(faqs, faqParameters);
 
             return await faqs.ToListAsync();
         }
 
         public async Task<Faq?> GetFaqByIdAsync(int faqId)
         {
-            Faq? faq = await _context.Faqs.FirstOrDefaultAsync(f => f.Id == faqId);
+            Faq? faq = await _context.Faqs.Include(c => c.Category).FirstOrDefaultAsync(f => f.Id == faqId);
             if (faq == null)
             {
                 return null;

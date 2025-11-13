@@ -18,6 +18,7 @@ using Weblu.Domain.Errors.Contributors;
 using Weblu.Domain.Errors.Features;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Methods;
+using Weblu.Domain.Errors.PortfolioCategory;
 using Weblu.Domain.Errors.Portfolios;
 
 namespace Weblu.Application.Services
@@ -105,6 +106,9 @@ namespace Weblu.Application.Services
         public async Task<PortfolioDetailDto> AddPortfolioAsync(AddPortfolioDto addPortfolioDto)
         {
             Portfolio portfolio = _mapper.Map<Portfolio>(addPortfolioDto);
+
+            PortfolioCategory portfolioCategory = await _unitOfWork.PortfolioCategories.GetPortfolioCategoryByIdAsync(addPortfolioDto.PortfolioCategoryId) ?? throw new NotFoundException(PortfolioCategoryErrorCodes.PortfolioCategoryNotFound);
+            portfolio.PortfolioCategory = portfolioCategory;
 
             await _unitOfWork.Portfolios.AddPortfolioAsync(portfolio);
             await _unitOfWork.CommitAsync();
@@ -200,7 +204,10 @@ namespace Weblu.Application.Services
         {
             Portfolio currentPortfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             currentPortfolio = _mapper.Map(updatePortfolioDto, currentPortfolio);
-
+            
+            PortfolioCategory portfolioCategory = await _unitOfWork.PortfolioCategories.GetPortfolioCategoryByIdAsync(updatePortfolioDto.PortfolioCategoryId) ?? throw new NotFoundException(PortfolioCategoryErrorCodes.PortfolioCategoryNotFound);
+            currentPortfolio.PortfolioCategory = portfolioCategory;
+            
             if (currentPortfolio.IsActive)
             {
                 if (currentPortfolio.ActivatedAt == DateTimeOffset.MinValue)

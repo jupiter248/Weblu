@@ -46,6 +46,8 @@ namespace Weblu.Application.Extensions
             services.AddAutoMapper(typeof(ContributorProfile));
             services.AddAutoMapper(typeof(TicketProfile));
             services.AddAutoMapper(typeof(TicketMessageProfile));
+            services.AddAutoMapper(typeof(FaqProfile));
+
 
 
 

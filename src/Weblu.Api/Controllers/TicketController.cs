@@ -106,7 +106,7 @@ namespace Weblu.Api.Controllers
             ));
         }
         [HttpPut("/message/{ticketMessageId:int}")]
-        public async Task<IActionResult> ReplyTicket(int ticketMessageId, [FromBody] UpdateTicketMessageDto updateTicketMessageDto)
+        public async Task<IActionResult> UpdateTicketMessage(int ticketMessageId, [FromBody] UpdateTicketMessageDto updateTicketMessageDto)
         {
             var userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))

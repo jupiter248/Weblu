@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Weblu.Application.Dtos.FaqCategoryDtos;
 using Weblu.Application.Dtos.FaqDtos;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Faqs;
@@ -29,11 +30,11 @@ namespace Weblu.Application.Mappers
                     opt.MapFrom(_ => DateTimeOffset.Now);
                 });
 
-            CreateMap<Faq, FaqDto>()
+            CreateMap<FaqCategory, FaqCategoryDto>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null));
-            CreateMap<AddFaqDto, Faq>();
-            CreateMap<UpdateFaqDto, Faq>()
+            CreateMap<AddFaqCategoryDto, FaqCategory>();
+            CreateMap<UpdateFaqCategoryDto, FaqCategory>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
         }
     }
