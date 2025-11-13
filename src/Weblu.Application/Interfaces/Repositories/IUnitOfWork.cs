@@ -19,6 +19,9 @@ namespace Weblu.Application.Interfaces.Repositories
         IContributorRepository Contributors { get; }
         ITicketRepository Tickets { get; }
         ITicketMessageRepository TicketMessages { get; }
+        IFaqRepository Faqs { get; }
+        IFaqCategoryRepository FaqCategories { get; }
+
 
 
 

@@ -25,6 +25,9 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IContributorService, ContributorService>();
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<ITicketMessageService, TicketMessageService>();
+            services.AddScoped<IFaqService, FaqService>();
+            services.AddScoped<IFaqCategoryService, FaqCategoryService>();
+
 
 
 

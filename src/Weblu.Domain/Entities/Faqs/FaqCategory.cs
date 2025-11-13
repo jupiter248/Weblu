@@ -10,6 +10,7 @@ namespace Weblu.Domain.Entities.Faqs
     {
         [Key]
         public int Id { get; set; }
+        public string Name { get; set; } = default!; 
         public string? Description { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;

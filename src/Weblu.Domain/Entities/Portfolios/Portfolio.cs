@@ -23,7 +23,7 @@ namespace Weblu.Domain.Entities.Portfolios
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
         public int PortfolioCategoryId { get; set; }
-        public PortfolioCategory? PortfolioCategory { get; set; }
+        public PortfolioCategory PortfolioCategory { get; set; } = default!;
         public List<Feature> Features { get; set; } = new List<Feature>();
         public List<Method> Methods { get; set; } = new List<Method>();
         public List<PortfolioImage> PortfolioImages { get; set; } = new List<PortfolioImage>();

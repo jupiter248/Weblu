@@ -47,6 +47,11 @@ namespace Weblu.Infrastructure.Repositories
         private ITicketMessageRepository? _ticketMessageRepository;
         public ITicketMessageRepository TicketMessages => _ticketMessageRepository ??= new TicketMessageRepository(_context);
 
+        private IFaqRepository? _faqRepository;
+        public IFaqRepository Faqs => _faqRepository ??= new FaqRepository(_context);
+
+        private IFaqCategoryRepository? _faqCategoryRepository;
+        public IFaqCategoryRepository FaqCategories => _faqCategoryRepository ??= new FaqCategoryRepository(_context);
         public async Task<int> CommitAsync()
         {
             return await _context.SaveChangesAsync();
