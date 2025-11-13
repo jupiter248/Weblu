@@ -9,6 +9,7 @@ namespace Weblu.Domain.Enums.Common.Media
     {
         picture,
         video,
-        profile
+        profile,
+        Icon
     }
 }

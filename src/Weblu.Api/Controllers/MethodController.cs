@@ -55,6 +55,17 @@ namespace Weblu.Api.Controllers
                  methodDto
             ));
         }
+        [HttpPut("{methodId:int}/image")]
+        public async Task<IActionResult> UpdateMethodImage(int methodId, [FromForm] UpdateMethodImageDto updateMethodImageDto)
+        {
+            Validator.ValidateAndThrow(updateMethodImageDto, new UpdateMethodImageValidator());
+            MethodDto methodDto = await _methodService.UpdateMethodImageAsync(methodId, updateMethodImageDto);
+            return Ok(ApiResponse<MethodDto>.Success
+            (
+                "Method image updated successfully.",
+                methodDto
+            ));
+        }
         [HttpDelete("{methodId:int}")]
         public async Task<IActionResult> DeleteMethod(int methodId)
         {

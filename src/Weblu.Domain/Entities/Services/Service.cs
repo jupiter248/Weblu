@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Common.Methods;
 using Weblu.Domain.Entities.Media;
 
 namespace Weblu.Domain.Entities.Services

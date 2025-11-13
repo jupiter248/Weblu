@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Entities.Services;
 
-namespace Weblu.Domain.Entities.Common
+namespace Weblu.Domain.Entities.Common.Methods
 {
     public class Method
     {
@@ -14,6 +14,8 @@ namespace Weblu.Domain.Entities.Common
         public int Id { get; set; }
         public required string Name { get; set; }
         public required string Description { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? ImageAltText { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
         public List<Service> Services { get; set; } = new List<Service>();

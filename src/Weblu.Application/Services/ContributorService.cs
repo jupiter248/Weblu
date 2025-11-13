@@ -46,8 +46,14 @@ namespace Weblu.Application.Services
         {
             Contributor contributor = await _unitOfWork.Contributors.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
 
+            if (!string.IsNullOrEmpty(contributor.ProfileImageUrl))
+            {
+                await MediaManager.DeleteMedia(_webHost, contributor.ProfileImageUrl);
+            }
+
             _unitOfWork.Contributors.DeleteContributor(contributor);
             await _unitOfWork.CommitAsync();
+
         }
 
         public async Task<List<ContributorDto>> GetAllContributorsAsync(ContributorParameters contributorParameters)
@@ -80,13 +86,13 @@ namespace Weblu.Application.Services
         {
             Contributor contributor = await _unitOfWork.Contributors.GetContributorByIdAsync(currentContributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
 
-            if (!string.IsNullOrEmpty(contributor.ProfileImageUrl))
-            {
-                await MediaManager.DeleteMedia(_webHost, contributor.ProfileImageUrl);
-            }
             if (updateProfileImage.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
+            }
+            if (!string.IsNullOrEmpty(contributor.ProfileImageUrl))
+            {
+                await MediaManager.DeleteMedia(_webHost, contributor.ProfileImageUrl);
             }
             IFormFile image = updateProfileImage.Image;
             string imageName = await MediaManager.UploadMedia(

@@ -13,6 +13,7 @@ namespace Weblu.Application.Interfaces.Services
         Task<MethodDto> GetMethodByIdAsync(int methodId);
         Task<MethodDto> AddMethodAsync(AddMethodDto addMethodDto);
         Task<MethodDto> UpdateMethodAsync(int methodId, UpdateMethodDto updateMethodDto);
+        Task<MethodDto> UpdateMethodImageAsync(int methodId, UpdateMethodImageDto updateMethodImageDto);
         Task DeleteMethodAsync(int methodId);
     }
 }

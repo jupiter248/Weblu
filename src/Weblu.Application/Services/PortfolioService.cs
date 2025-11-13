@@ -12,6 +12,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Common.Methods;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Errors.Contributors;
