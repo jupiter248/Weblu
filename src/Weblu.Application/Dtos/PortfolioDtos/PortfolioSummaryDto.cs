@@ -10,7 +10,7 @@ namespace Weblu.Application.Dtos.PortfolioDtos
         public int Id { get; set; }
         public required string Title { get; set; }
         public required string Slug { get; set; }
-        public required string Description { get; set; }
+        public required string ShortDescription { get; set; }
         public bool IsActive { get; set; }
         public string? ThumbnailPictureUrl { get; set; }
     }

@@ -7,6 +7,7 @@ using Weblu.Application.Dtos.ContributorDtos;
 using Weblu.Application.Dtos.FeatureDtos;
 using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Dtos.MethodDtos;
+using Weblu.Application.Dtos.PortfolioDtos.PortfolioImageDtos;
 
 namespace Weblu.Application.Dtos.PortfolioDtos
 {
@@ -27,7 +28,7 @@ namespace Weblu.Application.Dtos.PortfolioDtos
         public required string PortfolioCategoryName { get; set; }
         public List<MethodDto>? Methods { get; set; }
         public List<FeatureDto>? Features { get; set; }
-        public List<ImageDto>? Images { get; set; }
+        public List<PortfolioImageDto>? Images { get; set; }
         public List<ContributorDto>? Contributors { get; set; }
 
     }

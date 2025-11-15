@@ -191,7 +191,7 @@ namespace Weblu.Application.Services
         public async Task<PortfolioDetailDto> GetPortfolioByIdAsync(int portfolioId)
         {
             Portfolio portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
-            List<ImageDto> imageDtos = new List<ImageDto>();
+            List<PortfolioImageDto> imageDtos = new List<PortfolioImageDto>();
             foreach (PortfolioImage item in portfolio.PortfolioImages)
             {
                 imageDtos.Add(_mapper.Map<PortfolioImageDto>(item));
