@@ -15,7 +15,5 @@ namespace Weblu.Application.Interfaces.Services
         public Task ChangeUserPasswordAsync(string userId, ChangePasswordDto changePasswordDto);
         public Task<bool> IsAdminAsync(string senderId);
         public Task<string?> GetUsernameAsync(string senderId);
-
-
     }
 }

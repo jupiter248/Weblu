@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Common.Methods;
+using Weblu.Domain.Entities.Favorites;
 using Weblu.Domain.Entities.Services;
 
 namespace Weblu.Domain.Entities.Portfolios
@@ -29,6 +30,7 @@ namespace Weblu.Domain.Entities.Portfolios
         public List<Method> Methods { get; set; } = new List<Method>();
         public List<PortfolioImage> PortfolioImages { get; set; } = new List<PortfolioImage>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>();
+        public List<FavoritePortfolio> FavoritePortfolios { get; set; } = new List<FavoritePortfolio>();
 
     }
 }

@@ -12,8 +12,8 @@ using Weblu.Infrastructure.Data;
 namespace Weblu.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251030070331_FixedPortfolioImageTable")]
-    partial class FixedPortfolioImageTable
+    [Migration("20251115102249_FixedFavoriteDeleteBehavier")]
+    partial class FixedFavoriteDeleteBehavier
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,36 @@ namespace Weblu.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ContributorPortfolio", b =>
+                {
+                    b.Property<int>("ContributorsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PortfoliosId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ContributorsId", "PortfoliosId");
+
+                    b.HasIndex("PortfoliosId");
+
+                    b.ToTable("ContributorPortfolio");
+                });
+
+            modelBuilder.Entity("FavoriteListFavoritePortfolio", b =>
+                {
+                    b.Property<int>("FavoriteListId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FavoritePortfolioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FavoriteListId", "FavoritePortfolioId");
+
+                    b.HasIndex("FavoritePortfolioId");
+
+                    b.ToTable("FavoriteListFavoritePortfolio");
+                });
 
             modelBuilder.Entity("FeaturePortfolio", b =>
                 {
@@ -218,6 +248,58 @@ namespace Weblu.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Common.Contributor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Bio")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GithubUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LinkedInUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileImageAltText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contributors");
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Common.Feature", b =>
                 {
                     b.Property<int>("Id")
@@ -245,7 +327,7 @@ namespace Weblu.Infrastructure.Migrations
                     b.ToTable("Features");
                 });
 
-            modelBuilder.Entity("Weblu.Domain.Entities.Common.Method", b =>
+            modelBuilder.Entity("Weblu.Domain.Entities.Common.Methods.Method", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -260,6 +342,12 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageAltText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -270,6 +358,129 @@ namespace Weblu.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Methods");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Faqs.Faq", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset?>("ActivatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Faqs");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Faqs.FaqCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FaqCategories");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Favorites.FavoriteList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("FavoriteListType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoriteLists");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Favorites.FavoritePortfolio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("AddedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("PortfolioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PortfolioId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoritePortfolios");
                 });
 
             modelBuilder.Entity("Weblu.Domain.Entities.Media.Media", b =>
@@ -387,6 +598,32 @@ namespace Weblu.Infrastructure.Migrations
                     b.ToTable("PortfolioCategories");
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.PortfolioImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ImageMediaId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsThumbnail")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PortfolioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageMediaId");
+
+                    b.HasIndex("PortfolioId");
+
+                    b.ToTable("PortfolioImages");
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Services.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -458,6 +695,76 @@ namespace Weblu.Infrastructure.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("ServiceImages");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Tickets.Ticket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Tickets.TicketMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsFromAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TicketId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TicketId");
+
+                    b.ToTable("TicketMessages");
                 });
 
             modelBuilder.Entity("Weblu.Domain.Entities.Users.RefreshToken", b =>
@@ -626,6 +933,36 @@ namespace Weblu.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("ProfileMedia");
                 });
 
+            modelBuilder.Entity("ContributorPortfolio", b =>
+                {
+                    b.HasOne("Weblu.Domain.Entities.Common.Contributor", null)
+                        .WithMany()
+                        .HasForeignKey("ContributorsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Weblu.Domain.Entities.Portfolios.Portfolio", null)
+                        .WithMany()
+                        .HasForeignKey("PortfoliosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FavoriteListFavoritePortfolio", b =>
+                {
+                    b.HasOne("Weblu.Domain.Entities.Favorites.FavoriteList", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteListId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Weblu.Domain.Entities.Favorites.FavoritePortfolio", null)
+                        .WithMany()
+                        .HasForeignKey("FavoritePortfolioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FeaturePortfolio", b =>
                 {
                     b.HasOne("Weblu.Domain.Entities.Common.Feature", null)
@@ -658,7 +995,7 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("MethodPortfolio", b =>
                 {
-                    b.HasOne("Weblu.Domain.Entities.Common.Method", null)
+                    b.HasOne("Weblu.Domain.Entities.Common.Methods.Method", null)
                         .WithMany()
                         .HasForeignKey("MethodsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -673,7 +1010,7 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("MethodService", b =>
                 {
-                    b.HasOne("Weblu.Domain.Entities.Common.Method", null)
+                    b.HasOne("Weblu.Domain.Entities.Common.Methods.Method", null)
                         .WithMany()
                         .HasForeignKey("MethodsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -737,6 +1074,43 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Faqs.Faq", b =>
+                {
+                    b.HasOne("Weblu.Domain.Entities.Faqs.FaqCategory", "Category")
+                        .WithMany("Faqs")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Favorites.FavoriteList", b =>
+                {
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
+                        .WithMany("FavoriteLists")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Favorites.FavoritePortfolio", b =>
+                {
+                    b.HasOne("Weblu.Domain.Entities.Portfolios.Portfolio", "Portfolio")
+                        .WithMany("FavoritePortfolios")
+                        .HasForeignKey("PortfolioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
+                        .WithMany("FavoritePortfolios")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Portfolio");
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.Portfolio", b =>
                 {
                     b.HasOne("Weblu.Domain.Entities.Portfolios.PortfolioCategory", "PortfolioCategory")
@@ -746,6 +1120,25 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("PortfolioCategory");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.PortfolioImage", b =>
+                {
+                    b.HasOne("Weblu.Domain.Entities.Media.ImageMedia", "ImageMedia")
+                        .WithMany("PortfolioImages")
+                        .HasForeignKey("ImageMediaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Weblu.Domain.Entities.Portfolios.Portfolio", "Portfolio")
+                        .WithMany("PortfolioImages")
+                        .HasForeignKey("PortfolioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ImageMedia");
+
+                    b.Navigation("Portfolio");
                 });
 
             modelBuilder.Entity("Weblu.Domain.Entities.Services.ServiceImage", b =>
@@ -767,6 +1160,26 @@ namespace Weblu.Infrastructure.Migrations
                     b.Navigation("Service");
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Tickets.Ticket", b =>
+                {
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
+                        .WithMany("Tickets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Tickets.TicketMessage", b =>
+                {
+                    b.HasOne("Weblu.Domain.Entities.Tickets.Ticket", "Ticket")
+                        .WithMany("Messages")
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ticket");
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Users.RefreshToken", b =>
                 {
                     b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
@@ -785,6 +1198,18 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Faqs.FaqCategory", b =>
+                {
+                    b.Navigation("Faqs");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.Portfolio", b =>
+                {
+                    b.Navigation("FavoritePortfolios");
+
+                    b.Navigation("PortfolioImages");
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.PortfolioCategory", b =>
                 {
                     b.Navigation("Portfolios");
@@ -795,15 +1220,28 @@ namespace Weblu.Infrastructure.Migrations
                     b.Navigation("ServiceImages");
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Tickets.Ticket", b =>
+                {
+                    b.Navigation("Messages");
+                });
+
             modelBuilder.Entity("Weblu.Infrastructure.Identity.Entities.AppUser", b =>
                 {
+                    b.Navigation("FavoriteLists");
+
+                    b.Navigation("FavoritePortfolios");
+
                     b.Navigation("Profiles");
 
                     b.Navigation("RefreshTokens");
+
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("Weblu.Domain.Entities.Media.ImageMedia", b =>
                 {
+                    b.Navigation("PortfolioImages");
+
                     b.Navigation("ServiceImages");
                 });
 #pragma warning restore 612, 618

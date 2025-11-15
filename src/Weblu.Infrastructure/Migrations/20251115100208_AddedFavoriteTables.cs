@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Weblu.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class FixedPortfolioImageTable : Migration
+    public partial class AddedFavoriteTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,6 +55,46 @@ namespace Weblu.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Contributors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GithubUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LinkedInUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileImageAltText = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contributors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FaqCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FaqCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Features",
                 columns: table => new
                 {
@@ -78,6 +118,8 @@ namespace Weblu.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageAltText = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
@@ -231,6 +273,29 @@ namespace Weblu.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FavoriteLists",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FavoriteListType = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FavoriteLists", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FavoriteLists_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Media",
                 columns: table => new
                 {
@@ -281,6 +346,55 @@ namespace Weblu.Infrastructure.Migrations
                         name: "FK_RefreshTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tickets_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Faqs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Question = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Answer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ActivatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Faqs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Faqs_FaqCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "FaqCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -390,6 +504,81 @@ namespace Weblu.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TicketMessages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsFromAdmin = table.Column<bool>(type: "bit", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    SenderId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TicketId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketMessages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TicketMessages_Tickets_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Tickets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContributorPortfolio",
+                columns: table => new
+                {
+                    ContributorsId = table.Column<int>(type: "int", nullable: false),
+                    PortfoliosId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContributorPortfolio", x => new { x.ContributorsId, x.PortfoliosId });
+                    table.ForeignKey(
+                        name: "FK_ContributorPortfolio_Contributors_ContributorsId",
+                        column: x => x.ContributorsId,
+                        principalTable: "Contributors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ContributorPortfolio_Portfolios_PortfoliosId",
+                        column: x => x.PortfoliosId,
+                        principalTable: "Portfolios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FavoritePortfolios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AddedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    PortfolioId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FavoritePortfolios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FavoritePortfolios_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FavoritePortfolios_Portfolios_PortfolioId",
+                        column: x => x.PortfolioId,
+                        principalTable: "Portfolios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FeaturePortfolio",
                 columns: table => new
                 {
@@ -437,6 +626,57 @@ namespace Weblu.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PortfolioImages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PortfolioId = table.Column<int>(type: "int", nullable: false),
+                    ImageMediaId = table.Column<int>(type: "int", nullable: false),
+                    IsThumbnail = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PortfolioImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PortfolioImages_Media_ImageMediaId",
+                        column: x => x.ImageMediaId,
+                        principalTable: "Media",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PortfolioImages_Portfolios_PortfolioId",
+                        column: x => x.PortfolioId,
+                        principalTable: "Portfolios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FavoriteListFavoritePortfolio",
+                columns: table => new
+                {
+                    FavoriteListId = table.Column<int>(type: "int", nullable: false),
+                    FavoritePortfolioId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FavoriteListFavoritePortfolio", x => new { x.FavoriteListId, x.FavoritePortfolioId });
+                    table.ForeignKey(
+                        name: "FK_FavoriteListFavoritePortfolio_FavoriteLists_FavoriteListId",
+                        column: x => x.FavoriteListId,
+                        principalTable: "FavoriteLists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FavoriteListFavoritePortfolio_FavoritePortfolios_FavoritePortfolioId",
+                        column: x => x.FavoritePortfolioId,
+                        principalTable: "FavoritePortfolios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -477,6 +717,36 @@ namespace Weblu.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ContributorPortfolio_PortfoliosId",
+                table: "ContributorPortfolio",
+                column: "PortfoliosId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Faqs_CategoryId",
+                table: "Faqs",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavoriteListFavoritePortfolio_FavoritePortfolioId",
+                table: "FavoriteListFavoritePortfolio",
+                column: "FavoritePortfolioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavoriteLists_UserId",
+                table: "FavoriteLists",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavoritePortfolios_PortfolioId",
+                table: "FavoritePortfolios",
+                column: "PortfolioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavoritePortfolios_UserId",
+                table: "FavoritePortfolios",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FeaturePortfolio_PortfoliosId",
                 table: "FeaturePortfolio",
                 column: "PortfoliosId");
@@ -502,6 +772,16 @@ namespace Weblu.Infrastructure.Migrations
                 column: "ServicesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PortfolioImages_ImageMediaId",
+                table: "PortfolioImages",
+                column: "ImageMediaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PortfolioImages_PortfolioId",
+                table: "PortfolioImages",
+                column: "PortfolioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Portfolios_PortfolioCategoryId",
                 table: "Portfolios",
                 column: "PortfolioCategoryId");
@@ -520,6 +800,16 @@ namespace Weblu.Infrastructure.Migrations
                 name: "IX_ServiceImages_ServiceId",
                 table: "ServiceImages",
                 column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketMessages_TicketId",
+                table: "TicketMessages",
+                column: "TicketId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_UserId",
+                table: "Tickets",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -541,6 +831,15 @@ namespace Weblu.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ContributorPortfolio");
+
+            migrationBuilder.DropTable(
+                name: "Faqs");
+
+            migrationBuilder.DropTable(
+                name: "FavoriteListFavoritePortfolio");
+
+            migrationBuilder.DropTable(
                 name: "FeaturePortfolio");
 
             migrationBuilder.DropTable(
@@ -553,19 +852,34 @@ namespace Weblu.Infrastructure.Migrations
                 name: "MethodService");
 
             migrationBuilder.DropTable(
+                name: "PortfolioImages");
+
+            migrationBuilder.DropTable(
                 name: "RefreshTokens");
 
             migrationBuilder.DropTable(
                 name: "ServiceImages");
 
             migrationBuilder.DropTable(
+                name: "TicketMessages");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Features");
+                name: "Contributors");
 
             migrationBuilder.DropTable(
-                name: "Portfolios");
+                name: "FaqCategories");
+
+            migrationBuilder.DropTable(
+                name: "FavoriteLists");
+
+            migrationBuilder.DropTable(
+                name: "FavoritePortfolios");
+
+            migrationBuilder.DropTable(
+                name: "Features");
 
             migrationBuilder.DropTable(
                 name: "Methods");
@@ -577,10 +891,16 @@ namespace Weblu.Infrastructure.Migrations
                 name: "Services");
 
             migrationBuilder.DropTable(
-                name: "PortfolioCategories");
+                name: "Tickets");
+
+            migrationBuilder.DropTable(
+                name: "Portfolios");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "PortfolioCategories");
         }
     }
 }

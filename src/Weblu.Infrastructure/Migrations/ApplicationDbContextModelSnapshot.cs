@@ -37,6 +37,21 @@ namespace Weblu.Infrastructure.Migrations
                     b.ToTable("ContributorPortfolio");
                 });
 
+            modelBuilder.Entity("FavoriteListFavoritePortfolio", b =>
+                {
+                    b.Property<int>("FavoriteListId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FavoritePortfolioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FavoriteListId", "FavoritePortfolioId");
+
+                    b.HasIndex("FavoritePortfolioId");
+
+                    b.ToTable("FavoriteListFavoritePortfolio");
+                });
+
             modelBuilder.Entity("FeaturePortfolio", b =>
                 {
                     b.Property<int>("FeaturesId")
@@ -404,6 +419,65 @@ namespace Weblu.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FaqCategories");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Favorites.FavoriteList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("FavoriteListType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoriteLists");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Favorites.FavoritePortfolio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("AddedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("PortfolioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PortfolioId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoritePortfolios");
                 });
 
             modelBuilder.Entity("Weblu.Domain.Entities.Media.Media", b =>
@@ -871,6 +945,21 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FavoriteListFavoritePortfolio", b =>
+                {
+                    b.HasOne("Weblu.Domain.Entities.Favorites.FavoriteList", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteListId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Weblu.Domain.Entities.Favorites.FavoritePortfolio", null)
+                        .WithMany()
+                        .HasForeignKey("FavoritePortfolioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FeaturePortfolio", b =>
                 {
                     b.HasOne("Weblu.Domain.Entities.Common.Feature", null)
@@ -993,6 +1082,32 @@ namespace Weblu.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Favorites.FavoriteList", b =>
+                {
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
+                        .WithMany("FavoriteLists")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Favorites.FavoritePortfolio", b =>
+                {
+                    b.HasOne("Weblu.Domain.Entities.Portfolios.Portfolio", "Portfolio")
+                        .WithMany("FavoritePortfolios")
+                        .HasForeignKey("PortfolioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
+                        .WithMany("FavoritePortfolios")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Portfolio");
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.Portfolio", b =>
                 {
                     b.HasOne("Weblu.Domain.Entities.Portfolios.PortfolioCategory", "PortfolioCategory")
@@ -1087,6 +1202,8 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.Portfolio", b =>
                 {
+                    b.Navigation("FavoritePortfolios");
+
                     b.Navigation("PortfolioImages");
                 });
 
@@ -1107,6 +1224,10 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("Weblu.Infrastructure.Identity.Entities.AppUser", b =>
                 {
+                    b.Navigation("FavoriteLists");
+
+                    b.Navigation("FavoritePortfolios");
+
                     b.Navigation("Profiles");
 
                     b.Navigation("RefreshTokens");

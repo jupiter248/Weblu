@@ -8,6 +8,7 @@ using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Common.Methods;
 using Weblu.Domain.Entities.Faqs;
+using Weblu.Domain.Entities.Favorites;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Entities.Services;
@@ -40,6 +41,9 @@ namespace Weblu.Infrastructure.Data
         public DbSet<TicketMessage> TicketMessages { get; set; }
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<FaqCategory> FaqCategories { get; set; }
+        public DbSet<FavoriteList> FavoriteLists { get; set; }
+        public DbSet<FavoritePortfolio> FavoritePortfolios { get; set; }
+
 
 
 
@@ -84,6 +88,40 @@ namespace Weblu.Infrastructure.Data
                 .WithOne()
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.FavoritePortfolios)
+                .WithOne()
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.FavoriteLists)
+                .WithOne()
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<FavoriteList>()
+                .HasMany(p => p.FavoritePortfolios)
+                .WithMany(l => l.FavoriteLists)
+                .UsingEntity<Dictionary<string, object>>
+                (
+                    "FavoriteListFavoritePortfolio",
+
+                    j => j
+                        .HasOne<FavoritePortfolio>()
+                        .WithMany()
+                        .HasForeignKey("FavoritePortfolioId")
+                        .OnDelete(DeleteBehavior.Restrict),
+
+                    j => j
+                        .HasOne<FavoriteList>()
+                        .WithMany()
+                        .HasForeignKey("FavoriteListId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                );
+
+
             base.OnModelCreating(modelBuilder);
         }
 
