@@ -35,6 +35,8 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IFaqRepository, FaqRepository>();
             services.AddScoped<IFaqCategoryRepository, FaqCategoryRepository>();
             services.AddScoped<IFavoriteListRepository, FavoriteListRepository>();
+            services.AddScoped<IUserFavoritesRepository, UserFavoritesRepository>();
+
 
 
 

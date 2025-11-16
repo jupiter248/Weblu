@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Weblu.Application.Dtos.FavoriteDtos;
 using Weblu.Application.Dtos.PortfolioDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
@@ -67,17 +68,11 @@ namespace Weblu.Infrastructure.Identity.Services
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<PortfolioSummaryDto>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters)
+        public async Task<List<FavoritePortfolioDto>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters)
         {
-            AppUser? user = await _userManager.Users.Include(f => f.FavoritePortfolios).ThenInclude(p => p.Portfolio).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            List<FavoritePortfolio> favoritePortfolios = user.FavoritePortfolios;
-            List<Portfolio> portfolios = new List<Portfolio>();
-            foreach (FavoritePortfolio item in favoritePortfolios)
-            {
-                portfolios.Add(item.Portfolio);
-            }
-            List<PortfolioSummaryDto> portfolioSummaryDtos = _mapper.Map<List<PortfolioSummaryDto>>(portfolios);
-            return portfolioSummaryDtos;
+            List<FavoritePortfolio> favoritePortfolios = await _unitOfWork.UserFavorites.GetAllFavoritePortfoliosAsync(userId, favoriteParameters);
+            List<FavoritePortfolioDto> favoritePortfolioDtos = _mapper.Map<List<FavoritePortfolioDto>>(favoritePortfolios);
+            return favoritePortfolioDtos;
         }
 
         public async Task<bool> IsFavorite(string userId, int portfolioId)

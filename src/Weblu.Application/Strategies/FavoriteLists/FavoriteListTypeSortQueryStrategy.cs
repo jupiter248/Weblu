@@ -8,7 +8,7 @@ using Weblu.Domain.Entities.Favorites;
 using Weblu.Domain.Enums.Favorites;
 using Weblu.Domain.Enums.Favorites.Parameters;
 
-namespace Weblu.Application.Strategies.Favorites
+namespace Weblu.Application.Strategies.FavoriteLists
 {
     public class FavoriteListTypeSortQueryStrategy : IFavoriteListQueryStrategy
     {

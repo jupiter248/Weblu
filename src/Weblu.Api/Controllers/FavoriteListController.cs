@@ -24,7 +24,7 @@ namespace Weblu.Api.Controllers
             _favoriteListService = favoriteListService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllFavoriteLists([FromQuery]FavoriteListParameters favoriteListParameters)
+        public async Task<IActionResult> GetAllFavoriteLists([FromQuery] FavoriteListParameters favoriteListParameters)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
@@ -76,6 +76,32 @@ namespace Weblu.Api.Controllers
             await _favoriteListService.DeleteFavoriteListAsync(userId, favoriteListId);
             return Ok(ApiResponse.Success(
                 "Favorite list deleted successfully."
+            ));
+        }
+        [HttpPost("{favoriteListId:int}/favorite-portfolio/{favoritePortfolioId:int}")]
+        public async Task<IActionResult> AddPortfolioToFavoriteList(int favoriteListId, int favoritePortfolioId)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            await _favoriteListService.AddPortfolioToFavoriteListAsync(userId, favoriteListId, favoritePortfolioId);
+            return Ok(ApiResponse.Success(
+                "Portfolio added to Favorite list successfully."
+            ));
+        }
+        [HttpDelete("{favoriteListId:int}/favorite-portfolio/{favoritePortfolioId:int}")]
+        public async Task<IActionResult> DeletePortfolioFromFavoriteList(int favoriteListId, int favoritePortfolioId)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            await _favoriteListService.DeletePortfolioFromFavoriteListAsync(userId, favoriteListId, favoritePortfolioId);
+            return Ok(ApiResponse.Success(
+                "Portfolio deleted to Favorite list successfully."
             ));
         }
     }

@@ -12,5 +12,7 @@ namespace Weblu.Domain.Errors.Favorites
         public const string UpdateForbidden = "FAVORITE_LIST_UPDATE_FORBIDDEN";
         public const string NameRequired = "FAVORITE_LIST_NAME_REQUIRED";
         public const string NameMaxLength = "FAVORITE_LIST_NAME_MAX_LENGTH";
+        public const string PortfolioAlreadyAddedToFavoriteList = "PORTFOLIO_ALREADY_ADDED_TO_FAVORITE_LIST";
+
     }
 }

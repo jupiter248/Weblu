@@ -52,6 +52,8 @@ namespace Weblu.Application.Extensions
             services.AddAutoMapper(typeof(TicketMessageProfile));
             services.AddAutoMapper(typeof(FaqProfile));
             services.AddAutoMapper(typeof(FavoriteListProfile));
+            services.AddAutoMapper(typeof(FavoriteProfile));
+
 
 
 

@@ -7,6 +7,6 @@ namespace Weblu.Application.Parameters
 {
     public class FavoriteParameters
     {
-        public int FavoriteListId { get; set; }
+        public int? FavoriteListId { get; set; }
     }
 }

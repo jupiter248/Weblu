@@ -6,7 +6,7 @@ using Weblu.Application.Interfaces.Strategies;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Favorites;
 
-namespace Weblu.Application.Strategies.Favorites
+namespace Weblu.Application.Strategies.FavoriteLists
 {
     public class FavoriteListQueryHandler
     {

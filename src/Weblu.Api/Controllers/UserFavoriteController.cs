@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
+using Weblu.Application.Dtos.FavoriteDtos;
 using Weblu.Application.Dtos.PortfolioDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
@@ -31,8 +32,8 @@ namespace Weblu.Api.Controllers
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            List<PortfolioSummaryDto> portfolioSummaryDtos = await _userFavoriteService.GetAllFavoritePortfoliosAsync(userId, favoriteParameters);
-            return Ok(portfolioSummaryDtos);
+            List<FavoritePortfolioDto> favoritePortfolioDtos = await _userFavoriteService.GetAllFavoritePortfoliosAsync(userId, favoriteParameters);
+            return Ok(favoritePortfolioDtos);
         }
         [HttpGet("portfolio/{portfolioId:int}/status")]
         public async Task<IActionResult> IsFavorite(int portfolioId)

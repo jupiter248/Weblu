@@ -10,6 +10,7 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Favorites;
 using Weblu.Domain.Errors.Favorites;
+using Weblu.Domain.Errors.Portfolios;
 using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Application.Services
@@ -41,6 +42,25 @@ namespace Weblu.Application.Services
             return favoriteListDto;
         }
 
+        public async Task AddPortfolioToFavoriteListAsync(string userId, int favoriteListId, int favoritePortfolioId)
+        {
+            bool userExists = await _unitOfWork.Users.UserExistsAsync(userId);
+            if (!userExists)
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            FavoriteList favoriteList = await _unitOfWork.FavoriteLists.GetFavoriteListByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
+            FavoritePortfolio favoritePortfolio = await _unitOfWork.UserFavorites.GetFavoritePortfolioByIdAsync(userId, favoritePortfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+
+            if (favoriteList.FavoritePortfolios.Any(p => p.Id == favoritePortfolio.Id))
+            {
+                throw new ConflictException(FavoriteListErrorCodes.PortfolioAlreadyAddedToFavoriteList);
+            }
+
+            favoriteList.FavoritePortfolios.Add(favoritePortfolio);
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task DeleteFavoriteListAsync(string userId, int favoriteListId)
         {
             bool userExists = await _unitOfWork.Users.UserExistsAsync(userId);
@@ -54,6 +74,25 @@ namespace Weblu.Application.Services
                 throw new UnauthorizedException(FavoriteListErrorCodes.DeleteForbidden);
             }
             _unitOfWork.FavoriteLists.DeleteFavoriteList(favoriteList);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task DeletePortfolioFromFavoriteListAsync(string userId, int favoriteListId, int favoritePortfolioId)
+        {
+            bool userExists = await _unitOfWork.Users.UserExistsAsync(userId);
+            if (!userExists)
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            FavoriteList favoriteList = await _unitOfWork.FavoriteLists.GetFavoriteListByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
+            FavoritePortfolio favoritePortfolio = await _unitOfWork.UserFavorites.GetFavoritePortfolioByIdAsync(userId, favoritePortfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+
+            if (!favoriteList.FavoritePortfolios.Any(p => p.Id == favoritePortfolio.Id))
+            {
+                throw new ConflictException(PortfolioErrorCodes.PortfolioNotFound);
+            }
+
+            favoriteList.FavoritePortfolios.Remove(favoritePortfolio);
             await _unitOfWork.CommitAsync();
         }
 
