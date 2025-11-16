@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Interfaces;
+using Weblu.Application.Dtos.FavoriteListDtos;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Mappers;
 using Weblu.Application.Services;
@@ -50,6 +51,8 @@ namespace Weblu.Application.Extensions
             services.AddAutoMapper(typeof(TicketProfile));
             services.AddAutoMapper(typeof(TicketMessageProfile));
             services.AddAutoMapper(typeof(FaqProfile));
+            services.AddAutoMapper(typeof(FavoriteListProfile));
+
 
 
 
