@@ -1,0 +1,95 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using Weblu.Application.Dtos.FavoriteListDtos;
+using Weblu.Application.Exceptions;
+using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Parameters;
+using Weblu.Domain.Entities.Favorites;
+using Weblu.Domain.Errors.Favorites;
+using Weblu.Domain.Errors.Users;
+
+namespace Weblu.Application.Services
+{
+    public class FavoriteListService : IFavoriteListService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        public FavoriteListService(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<FavoriteListDto> AddFavoriteListAsync(string userId, AddFavoriteListDto addFavoriteListDto)
+        {
+            bool userExists = await _unitOfWork.Users.UserExistsAsync(userId);
+            if (!userExists)
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            FavoriteList favoriteList = _mapper.Map<FavoriteList>(addFavoriteListDto);
+            favoriteList.UserId = userId;
+
+            await _unitOfWork.FavoriteLists.AddFavoriteListAsync(favoriteList);
+            await _unitOfWork.CommitAsync();
+
+            FavoriteListDto favoriteListDto = _mapper.Map<FavoriteListDto>(favoriteList);
+            return favoriteListDto;
+        }
+
+        public async Task DeleteFavoriteListAsync(string userId, int favoriteListId)
+        {
+            bool userExists = await _unitOfWork.Users.UserExistsAsync(userId);
+            if (!userExists)
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            FavoriteList favoriteList = await _unitOfWork.FavoriteLists.GetFavoriteListByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
+            if (favoriteList.UserId != userId)
+            {
+                throw new UnauthorizedException(FavoriteListErrorCodes.DeleteForbidden);
+            }
+            _unitOfWork.FavoriteLists.DeleteFavoriteList(favoriteList);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task<List<FavoriteListDto>> GetAllFavoriteListsAsync(string userId, FavoriteListParameters favoriteListParameters)
+        {
+            List<FavoriteList> favoriteLists = await _unitOfWork.FavoriteLists.GetAllFavoriteListsAsync(userId, favoriteListParameters);
+            List<FavoriteListDto> favoriteListDtos = _mapper.Map<List<FavoriteListDto>>(favoriteLists);
+            return favoriteListDtos;
+        }
+
+        public async Task<FavoriteListDto> GetFavoriteListByIdAsync(int favoriteListId)
+        {
+            FavoriteList favoriteList = await _unitOfWork.FavoriteLists.GetFavoriteListByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
+            FavoriteListDto favoriteListDto = _mapper.Map<FavoriteListDto>(favoriteList);
+            return favoriteListDto;
+        }
+
+        public async Task<FavoriteListDto> UpdateFavoriteListAsync(string userId, int favoriteListId, UpdateFavoriteListDto updateFavoriteListDto)
+        {
+            bool userExists = await _unitOfWork.Users.UserExistsAsync(userId);
+            if (!userExists)
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            FavoriteList favoriteList = await _unitOfWork.FavoriteLists.GetFavoriteListByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
+            if (favoriteList.UserId != userId)
+            {
+                throw new UnauthorizedException(FavoriteListErrorCodes.UpdateForbidden);
+            }
+            favoriteList = _mapper.Map(updateFavoriteListDto, favoriteList);
+
+            _unitOfWork.FavoriteLists.UpdateFavoriteList(favoriteList);
+            await _unitOfWork.CommitAsync();
+
+            FavoriteListDto favoriteListDto = _mapper.Map<FavoriteListDto>(favoriteList);
+            return favoriteListDto;
+        }
+    }
+}

@@ -52,6 +52,9 @@ namespace Weblu.Infrastructure.Repositories
 
         private IFaqCategoryRepository? _faqCategoryRepository;
         public IFaqCategoryRepository FaqCategories => _faqCategoryRepository ??= new FaqCategoryRepository(_context);
+
+        private IFavoriteListRepository? _favoriteListRepository;
+        public IFavoriteListRepository FavoriteLists => _favoriteListRepository ??= new FavoriteListRepository(_context);
         public async Task<int> CommitAsync()
         {
             return await _context.SaveChangesAsync();

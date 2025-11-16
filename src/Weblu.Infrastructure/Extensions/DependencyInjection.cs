@@ -34,6 +34,8 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<ITicketMessageRepository, TicketMessageRepository>();
             services.AddScoped<IFaqRepository, FaqRepository>();
             services.AddScoped<IFaqCategoryRepository, FaqCategoryRepository>();
+            services.AddScoped<IFavoriteListRepository, FavoriteListRepository>();
+
 
 
 

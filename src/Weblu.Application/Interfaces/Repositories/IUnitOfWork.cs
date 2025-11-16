@@ -21,6 +21,8 @@ namespace Weblu.Application.Interfaces.Repositories
         ITicketMessageRepository TicketMessages { get; }
         IFaqRepository Faqs { get; }
         IFaqCategoryRepository FaqCategories { get; }
+        IFavoriteListRepository FavoriteLists { get; }
+
 
 
 
