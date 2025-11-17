@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Weblu.Application.Dtos.FavoriteDtos;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.FavoritePortfolios;
@@ -32,6 +33,12 @@ namespace Weblu.Infrastructure.Repositories
         public async Task<FavoritePortfolio?> GetFavoritePortfolioByIdAsync(string userId, int favoritePortfolioId)
         {
             FavoritePortfolio? favoritePortfolio = await _context.FavoritePortfolios.Where(u => u.UserId == userId).Include(p => p.Portfolio).FirstOrDefaultAsync(f => f.Id == favoritePortfolioId);
+            return favoritePortfolio;
+        }
+
+        public async Task<FavoritePortfolio?> GetFavoritePortfolioByPortfolioIdAsync(string userId, int portfolioId)
+        {
+            FavoritePortfolio? favoritePortfolio = await _context.FavoritePortfolios.FirstOrDefaultAsync(u => u.UserId == userId && u.PortfolioId == portfolioId);
             return favoritePortfolio;
         }
     }

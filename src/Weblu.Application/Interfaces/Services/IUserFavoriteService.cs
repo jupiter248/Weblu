@@ -11,7 +11,7 @@ namespace Weblu.Application.Interfaces.Services
 {
     public interface IUserFavoriteService
     {
-        Task<List<FavoritePortfolioDto>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters);
+        Task<List<PortfolioSummaryDto>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters);
         Task AddPortfolioToFavorite(string userId, int portfolioId);
         Task DeletePortfolioFromFavorite(string userId, int portfolioId);
         Task<bool> IsFavorite(string userId, int portfolioId);

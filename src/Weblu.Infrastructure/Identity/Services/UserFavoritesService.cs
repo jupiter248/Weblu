@@ -68,11 +68,16 @@ namespace Weblu.Infrastructure.Identity.Services
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<FavoritePortfolioDto>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters)
+        public async Task<List<PortfolioSummaryDto>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters)
         {
             List<FavoritePortfolio> favoritePortfolios = await _unitOfWork.UserFavorites.GetAllFavoritePortfoliosAsync(userId, favoriteParameters);
-            List<FavoritePortfolioDto> favoritePortfolioDtos = _mapper.Map<List<FavoritePortfolioDto>>(favoritePortfolios);
-            return favoritePortfolioDtos;
+            List<Portfolio> portfolios = new List<Portfolio>();
+            foreach (FavoritePortfolio item in favoritePortfolios)
+            {
+                portfolios.Add(item.Portfolio);
+            }
+            List<PortfolioSummaryDto> portfolioSummaryDtos = _mapper.Map<List<PortfolioSummaryDto>>(portfolios);
+            return portfolioSummaryDtos;
         }
 
         public async Task<bool> IsFavorite(string userId, int portfolioId)

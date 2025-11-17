@@ -11,6 +11,6 @@ namespace Weblu.Application.Interfaces.Repositories
     {
         Task<List<FavoritePortfolio>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters);
         Task<FavoritePortfolio?> GetFavoritePortfolioByIdAsync(string userId, int favoritePortfolioId);
-
+        Task<FavoritePortfolio?> GetFavoritePortfolioByPortfolioIdAsync(string userId, int portfolioId);
     }
 }

@@ -78,28 +78,28 @@ namespace Weblu.Api.Controllers
                 "Favorite list deleted successfully."
             ));
         }
-        [HttpPost("{favoriteListId:int}/favorite-portfolio/{favoritePortfolioId:int}")]
-        public async Task<IActionResult> AddPortfolioToFavoriteList(int favoriteListId, int favoritePortfolioId)
+        [HttpPost("{favoriteListId:int}/portfolio/{portfolioId:int}")]
+        public async Task<IActionResult> AddPortfolioToFavoriteList(int favoriteListId, int portfolioId)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            await _favoriteListService.AddPortfolioToFavoriteListAsync(userId, favoriteListId, favoritePortfolioId);
+            await _favoriteListService.AddPortfolioToFavoriteListAsync(userId, favoriteListId, portfolioId);
             return Ok(ApiResponse.Success(
                 "Portfolio added to Favorite list successfully."
             ));
         }
-        [HttpDelete("{favoriteListId:int}/favorite-portfolio/{favoritePortfolioId:int}")]
-        public async Task<IActionResult> DeletePortfolioFromFavoriteList(int favoriteListId, int favoritePortfolioId)
+        [HttpDelete("{favoriteListId:int}/portfolio/{portfolioId:int}")]
+        public async Task<IActionResult> DeletePortfolioFromFavoriteList(int favoriteListId, int portfolioId)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            await _favoriteListService.DeletePortfolioFromFavoriteListAsync(userId, favoriteListId, favoritePortfolioId);
+            await _favoriteListService.DeletePortfolioFromFavoriteListAsync(userId, favoriteListId, portfolioId);
             return Ok(ApiResponse.Success(
                 "Portfolio deleted to Favorite list successfully."
             ));

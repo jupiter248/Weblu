@@ -32,8 +32,8 @@ namespace Weblu.Api.Controllers
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            List<FavoritePortfolioDto> favoritePortfolioDtos = await _userFavoriteService.GetAllFavoritePortfoliosAsync(userId, favoriteParameters);
-            return Ok(favoritePortfolioDtos);
+            List<PortfolioSummaryDto> portfolioSummaryDtos = await _userFavoriteService.GetAllFavoritePortfoliosAsync(userId, favoriteParameters);
+            return Ok(portfolioSummaryDtos);
         }
         [HttpGet("portfolio/{portfolioId:int}/status")]
         public async Task<IActionResult> IsFavorite(int portfolioId)
