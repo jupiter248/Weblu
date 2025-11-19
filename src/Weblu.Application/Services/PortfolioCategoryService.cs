@@ -43,7 +43,7 @@ namespace Weblu.Application.Services
 
         public async Task<List<PortfolioCategoryDto>> GetAllPortfolioCategoriesAsync()
         {
-            List<PortfolioCategory> portfolioCategories = await _unitOfWork.PortfolioCategories.GetAllPortfolioCategoriesAsync();
+            IReadOnlyList<PortfolioCategory> portfolioCategories = await _unitOfWork.PortfolioCategories.GetAllPortfolioCategoriesAsync();
             List<PortfolioCategoryDto> portfolioCategoryDtos = _mapper.Map<List<PortfolioCategoryDto>>(portfolioCategories);
             return portfolioCategoryDtos;
         }

@@ -8,7 +8,7 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IFaqCategoryRepository
     {
-        Task<List<FaqCategory>> GetAllFaqCategoriesAsync();
+        Task<IReadOnlyList<FaqCategory>> GetAllFaqCategoriesAsync();
         Task<FaqCategory?> GetFaqCategoryByIdAsync(int faqCategoryId);
         Task<bool> FaqCategoryExistsAsync(int faqCategoryId);
         Task AddFaqCategoryAsync(FaqCategory faqCategory);

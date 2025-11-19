@@ -12,7 +12,7 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IMethodRepository
     {
-        Task<List<Method>> GetAllMethodsAsync(MethodParameters methodParameters);
+        Task<IReadOnlyList<Method>> GetAllMethodsAsync(MethodParameters methodParameters);
         Task<Method?> GetMethodByIdAsync(int methodId);
         Task<bool> MethodExistsAsync(int methodId);
         Task AddMethodAsync(Method method);

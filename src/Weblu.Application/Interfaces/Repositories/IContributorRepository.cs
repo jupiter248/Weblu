@@ -9,7 +9,7 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IContributorRepository
     {
-        Task<List<Contributor>> GetAllContributorsAsync(ContributorParameters contributorParameters);
+        Task<IReadOnlyList<Contributor>> GetAllContributorsAsync(ContributorParameters contributorParameters);
         Task<Contributor?> GetContributorByIdAsync(int contributorId);
         Task<bool> ContributorExistsAsync(int contributorId);
         Task AddContributorAsync(Contributor contributor);

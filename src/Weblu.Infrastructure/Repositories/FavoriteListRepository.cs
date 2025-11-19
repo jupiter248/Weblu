@@ -34,7 +34,7 @@ namespace Weblu.Infrastructure.Repositories
             return favoriteList;
         }
 
-        public async Task<List<FavoriteList>> GetAllFavoriteListsAsync(string userId, FavoriteListParameters favoriteListParameters)
+        public async Task<IReadOnlyList<FavoriteList>> GetAllFavoriteListsAsync(string userId, FavoriteListParameters favoriteListParameters)
         {
             IQueryable<FavoriteList> favoriteLists = _context.FavoriteLists.Where(u => u.UserId == userId).Include(f => f.FavoritePortfolios).AsQueryable();
 

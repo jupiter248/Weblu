@@ -96,7 +96,7 @@ namespace Weblu.Application.Services
 
         public async Task<List<ProfileDto>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters)
         {
-            List<ProfileMedia> images = await _unitOfWork.Profiles.GetAllProfilesAsync(profileMediaParameters);
+            IReadOnlyList<ProfileMedia> images = await _unitOfWork.Profiles.GetAllProfilesAsync(profileMediaParameters);
             List<ProfileDto> imageDtos = _mapper.Map<List<ProfileDto>>(images);
             return imageDtos;
         }

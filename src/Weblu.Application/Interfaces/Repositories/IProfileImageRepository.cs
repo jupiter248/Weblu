@@ -9,7 +9,7 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IProfileImageRepository
     {
-        Task<List<ProfileMedia>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters);
+        Task<IReadOnlyList<ProfileMedia>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters);
         Task<ProfileMedia?> GetProfileByIdAsync(int profileId);
         Task<bool> ProfileExistsAsync(int profileId);
         Task<bool> UserHasMainProfileAsync(string userId);

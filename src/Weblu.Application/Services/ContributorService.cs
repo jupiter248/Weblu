@@ -58,7 +58,7 @@ namespace Weblu.Application.Services
 
         public async Task<List<ContributorDto>> GetAllContributorsAsync(ContributorParameters contributorParameters)
         {
-            List<Contributor> contributors = await _unitOfWork.Contributors.GetAllContributorsAsync(contributorParameters);
+            IReadOnlyList<Contributor> contributors = await _unitOfWork.Contributors.GetAllContributorsAsync(contributorParameters);
             List<ContributorDto> contributorDtos = _mapper.Map<List<ContributorDto>>(contributors);
             return contributorDtos;
         }

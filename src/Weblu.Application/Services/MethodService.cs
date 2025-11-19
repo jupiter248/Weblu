@@ -60,7 +60,7 @@ namespace Weblu.Application.Services
 
         public async Task<List<MethodDto>> GetAllMethodsAsync(MethodParameters methodParameters)
         {
-            List<Method> methods = await _unitOfWork.Methods.GetAllMethodsAsync(methodParameters);
+            IReadOnlyList<Method> methods = await _unitOfWork.Methods.GetAllMethodsAsync(methodParameters);
             List<MethodDto> methodDtos = _mapper.Map<List<MethodDto>>(methods);
             return methodDtos;
         }

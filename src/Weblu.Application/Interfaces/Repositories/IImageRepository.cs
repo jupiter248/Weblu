@@ -10,7 +10,7 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IImageRepository
     {
-        Task<List<ImageMedia>> GetAllImagesAsync(ImageParameters imageParameters);
+        Task<IReadOnlyList<ImageMedia>> GetAllImagesAsync(ImageParameters imageParameters);
         Task<ImageMedia?> GetImageItemByIdAsync(int imageId);
         Task<bool> ImageExistsAsync(int imageId);
         Task AddImageAsync(ImageMedia image);

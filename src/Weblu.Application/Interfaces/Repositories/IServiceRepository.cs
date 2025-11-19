@@ -10,7 +10,7 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IServiceRepository
     {
-        Task<List<Service>> GetAllServicesAsync(ServiceParameters serviceParameters);
+        Task<IReadOnlyList<Service>> GetAllServicesAsync(ServiceParameters serviceParameters);
         Task<Service?> GetServiceByIdAsync(int serviceId);
         Task<bool> ServiceExistsAsync(int serviceId);
         Task AddServiceAsync(Service service);

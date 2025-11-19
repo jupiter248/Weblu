@@ -9,7 +9,7 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IFaqRepository
     {
-        Task<List<Faq>> GetAllFaqsAsync(FaqParameters faqParameters);
+        Task<IReadOnlyList<Faq>> GetAllFaqsAsync(FaqParameters faqParameters);
         Task<Faq?> GetFaqByIdAsync(int faqId);
         Task<bool> FaqExistsAsync(int faqId);
         Task AddFaqAsync(Faq faq);

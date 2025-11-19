@@ -24,7 +24,7 @@ namespace Weblu.Infrastructure.Repositories
             await _context.RefreshTokens.AddAsync(refreshToken);
         }
 
-        public async Task<List<RefreshToken>> GetAllRefreshTokenAsync(RefreshTokenParameters refreshTokenParameters)
+        public async Task<IReadOnlyList<RefreshToken>> GetAllRefreshTokenAsync(RefreshTokenParameters refreshTokenParameters)
         {
             IQueryable<RefreshToken> refreshTokens = _context.RefreshTokens.AsQueryable();
 

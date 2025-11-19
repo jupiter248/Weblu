@@ -27,7 +27,7 @@ namespace Weblu.Infrastructure.Repositories
             _context.TicketMessages.Remove(message);
         }
 
-        public async Task<List<TicketMessage>> GetAllTicketMessagesAsync(int ticketId, TicketMessageParameters ticketMessageParameters)
+        public async Task<IReadOnlyList<TicketMessage>> GetAllTicketMessagesAsync(int ticketId, TicketMessageParameters ticketMessageParameters)
         {
             IQueryable<TicketMessage> ticketMessages = _context.TicketMessages.Where(t => t.TicketId == ticketId).AsQueryable();
 

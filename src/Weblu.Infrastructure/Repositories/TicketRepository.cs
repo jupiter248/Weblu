@@ -28,7 +28,7 @@ namespace Weblu.Infrastructure.Repositories
             _context.Tickets.Remove(ticket);
         }
 
-        public async Task<List<Ticket>> GetAllTicketsAsync(TicketParameters ticketParameters)
+        public async Task<IReadOnlyList<Ticket>> GetAllTicketsAsync(TicketParameters ticketParameters)
         {
             var tickets = _context.Tickets.AsQueryable();
 

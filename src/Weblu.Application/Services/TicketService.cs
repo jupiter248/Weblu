@@ -74,7 +74,7 @@ namespace Weblu.Application.Services
 
         public async Task<List<TicketSummaryDto>> GetAllTicketsAsync(TicketParameters ticketParameters)
         {
-            List<Ticket> tickets = await _unitOfWork.Tickets.GetAllTicketsAsync(ticketParameters);
+            IReadOnlyList<Ticket> tickets = await _unitOfWork.Tickets.GetAllTicketsAsync(ticketParameters);
             List<TicketSummaryDto> ticketSummaryDtos = _mapper.Map<List<TicketSummaryDto>>(tickets);
 
             return ticketSummaryDtos;

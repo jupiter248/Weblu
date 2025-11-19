@@ -16,7 +16,7 @@ namespace Weblu.Domain.Entities.Services
         public int Id { get; set; }
         public required string Title { get; set; }
         public required string Slug { get; set; }
-        public required string Description { get; set; }
+        public string Description { get; set; } = default!;
         public required string ShortDescription { get; set; }
         public int BaseDurationInDays { get; set; }
         [Column(TypeName = "decimal(18,2)")]

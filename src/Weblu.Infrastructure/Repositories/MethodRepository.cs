@@ -31,7 +31,7 @@ namespace Weblu.Infrastructure.Repositories
             _context.Methods.Remove(method);
         }
 
-        public async Task<List<Method>> GetAllMethodsAsync(MethodParameters methodParameters)
+        public async Task<IReadOnlyList<Method>> GetAllMethodsAsync(MethodParameters methodParameters)
         {
             IQueryable<Method> methods = _context.Methods.AsQueryable();
 

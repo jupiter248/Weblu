@@ -8,7 +8,7 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IPortfolioCategoryRepository
     {
-        Task<List<PortfolioCategory>> GetAllPortfolioCategoriesAsync();
+        Task<IReadOnlyList<PortfolioCategory>> GetAllPortfolioCategoriesAsync();
         Task<PortfolioCategory?> GetPortfolioCategoryByIdAsync(int categoryId);
         Task AddPortfolioCategoryAsync(PortfolioCategory portfolioCategory);
         void UpdatePortfolioCategory(PortfolioCategory portfolioCategory);

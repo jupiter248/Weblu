@@ -29,7 +29,7 @@ namespace Weblu.Infrastructure.Repositories
             _context.ProfileMedia.Remove(profile);
         }
 
-        public async Task<List<ProfileMedia>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters)
+        public async Task<IReadOnlyList<ProfileMedia>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters)
         {
             IQueryable<ProfileMedia> profiles = _context.ProfileMedia.AsQueryable();
 

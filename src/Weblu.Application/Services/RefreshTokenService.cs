@@ -26,7 +26,7 @@ namespace Weblu.Application.Services
         }
         public async Task<List<RefreshTokenDto>> GetAllRefreshTokensAsync(RefreshTokenParameters refreshTokenParameters)
         {
-            List<RefreshToken> refreshTokens = await _unitOfWork.RefreshTokens.GetAllRefreshTokenAsync(refreshTokenParameters);
+            IReadOnlyList<RefreshToken> refreshTokens = await _unitOfWork.RefreshTokens.GetAllRefreshTokenAsync(refreshTokenParameters);
             List<RefreshTokenDto> refreshTokenDtos = _mapper.Map<List<RefreshTokenDto>>(refreshTokens);
             return refreshTokenDtos;
         }

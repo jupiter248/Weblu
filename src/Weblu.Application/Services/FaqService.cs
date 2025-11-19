@@ -46,7 +46,7 @@ namespace Weblu.Application.Services
 
         public async Task<List<FaqDto>> GetAllFaqsAsync(FaqParameters faqParameters)
         {
-            List<Faq> faqs = await _unitOfWork.Faqs.GetAllFaqsAsync(faqParameters);
+            IReadOnlyList<Faq> faqs = await _unitOfWork.Faqs.GetAllFaqsAsync(faqParameters);
             List<FaqDto> faqDtos = _mapper.Map<List<FaqDto>>(faqs);
             return faqDtos;
         }

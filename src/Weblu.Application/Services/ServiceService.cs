@@ -20,6 +20,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Common.Methods;
 using Weblu.Domain.Entities.Common;
+using AutoMapper.QueryableExtensions;
 
 namespace Weblu.Application.Services
 {
@@ -150,9 +151,9 @@ namespace Weblu.Application.Services
 
         public async Task<List<ServiceSummaryDto>> GetAllServicesAsync(ServiceParameters serviceParameters)
         {
-            List<Service> services = await _unitOfWork.Services.GetAllServicesAsync(serviceParameters);
-            List<ServiceSummaryDto> serviceDtos = _mapper.Map<List<ServiceSummaryDto>>(services);
-            return serviceDtos;
+            IReadOnlyList<Service> services = await _unitOfWork.Services.GetAllServicesAsync(serviceParameters);
+            List<ServiceSummaryDto> serviceSummaryDtos = _mapper.Map<List<ServiceSummaryDto>>(services);
+            return serviceSummaryDtos;
         }
 
         public async Task<ServiceDetailDto> GetServiceByIdAsync(int serviceId)

@@ -11,7 +11,7 @@ namespace Weblu.Application.Interfaces.Repositories
     {
         Task AddRefreshTokenAsync(RefreshToken refreshToken);
         void UpdateRefreshToken(RefreshToken refreshToken);
-        Task<List<RefreshToken>> GetAllRefreshTokenAsync(RefreshTokenParameters refreshTokenParameters);
+        Task<IReadOnlyList<RefreshToken>> GetAllRefreshTokenAsync(RefreshTokenParameters refreshTokenParameters);
         Task<RefreshToken?> GetRefreshTokenByTokenAsync(string refreshToken);
         Task<RefreshToken?> GetRefreshTokenByIdAsync(int refreshTokenId);
 

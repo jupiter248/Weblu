@@ -20,7 +20,7 @@ namespace Weblu.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<FavoritePortfolio>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters)
+        public async Task<IReadOnlyList<FavoritePortfolio>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters)
         {
             IQueryable<FavoritePortfolio> favoritePortfolios = _context.FavoritePortfolios.Where(u => u.UserId == userId).Include(p => p.Portfolio).Include(f => f.FavoriteLists).AsQueryable();
 

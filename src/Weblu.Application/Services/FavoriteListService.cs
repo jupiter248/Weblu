@@ -101,7 +101,7 @@ namespace Weblu.Application.Services
 
         public async Task<List<FavoriteListDto>> GetAllFavoriteListsAsync(string userId, FavoriteListParameters favoriteListParameters)
         {
-            List<FavoriteList> favoriteLists = await _unitOfWork.FavoriteLists.GetAllFavoriteListsAsync(userId, favoriteListParameters);
+            IReadOnlyList<FavoriteList> favoriteLists = await _unitOfWork.FavoriteLists.GetAllFavoriteListsAsync(userId, favoriteListParameters);
             List<FavoriteListDto> favoriteListDtos = _mapper.Map<List<FavoriteListDto>>(favoriteLists);
             return favoriteListDtos;
         }

@@ -73,7 +73,7 @@ namespace Weblu.Application.Services
 
         public async Task<List<ImageDto>> GetAllImagesAsync(ImageParameters imageParameters)
         {
-            List<ImageMedia> images = await _unitOfWork.Images.GetAllImagesAsync(imageParameters);
+            IReadOnlyList<ImageMedia> images = await _unitOfWork.Images.GetAllImagesAsync(imageParameters);
             List<ImageDto> imageDtos = _mapper.Map<List<ImageDto>>(images);
             return imageDtos;
         }

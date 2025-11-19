@@ -183,7 +183,7 @@ namespace Weblu.Application.Services
 
         public async Task<List<PortfolioSummaryDto>> GetAllPortfolioAsync(PortfolioParameters portfolioParameters)
         {
-            List<Portfolio> portfolios = await _unitOfWork.Portfolios.GetAllPortfolioAsync(portfolioParameters);
+            IReadOnlyList<Portfolio> portfolios = await _unitOfWork.Portfolios.GetAllPortfolioAsync(portfolioParameters);
             List<PortfolioSummaryDto> portfolioSummaryDtos = _mapper.Map<List<PortfolioSummaryDto>>(portfolios);
             return portfolioSummaryDtos;
         }

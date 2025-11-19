@@ -9,7 +9,7 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface ITicketMessageRepository
     {
-        Task<List<TicketMessage>> GetAllTicketMessagesAsync(int ticketId, TicketMessageParameters ticketMessageParameters);
+        Task<IReadOnlyList<TicketMessage>> GetAllTicketMessagesAsync(int ticketId, TicketMessageParameters ticketMessageParameters);
         Task<TicketMessage?> GetTicketMessageByIdAsync(int messageId);
         Task AddTicketMessageAsync(TicketMessage message);
         void UpdateTicketMessage(TicketMessage message);

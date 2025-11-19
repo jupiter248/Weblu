@@ -30,13 +30,13 @@ namespace Weblu.Infrastructure.Repositories
             _context.Services.Remove(service);
         }
 
-        public async Task<List<Service>> GetAllServicesAsync(ServiceParameters serviceParameters)
+        public async Task<IReadOnlyList<Service>> GetAllServicesAsync(ServiceParameters serviceParameters)
         {
             var services = _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).AsQueryable();
 
             var priceSortQuery = new ServiceQueryHandler(new PriceSortStrategy());
             services = priceSortQuery.ExecuteServiceQuery(services, serviceParameters);
-
+    
             var durationSortQuery = new ServiceQueryHandler(new DurationSortStrategy());
             services = durationSortQuery.ExecuteServiceQuery(services, serviceParameters);
 

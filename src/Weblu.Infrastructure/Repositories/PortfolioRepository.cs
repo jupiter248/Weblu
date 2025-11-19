@@ -28,7 +28,7 @@ namespace Weblu.Infrastructure.Repositories
             _context.Portfolios.Remove(portfolio);
         }
 
-        public async Task<List<Portfolio>> GetAllPortfolioAsync(PortfolioParameters portfolioParameters)
+        public async Task<IReadOnlyList<Portfolio>> GetAllPortfolioAsync(PortfolioParameters portfolioParameters)
         {
             IQueryable<Portfolio> portfolios = _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).Include(c => c.Contributors).AsQueryable();
 

@@ -39,7 +39,7 @@ namespace Weblu.Infrastructure.Repositories
             return featureExists;
         }
 
-        public async Task<List<Feature>> GetAllFeaturesAsync(FeatureParameters featureParameters)
+        public async Task<IReadOnlyList<Feature>> GetAllFeaturesAsync(FeatureParameters featureParameters)
         {
             IQueryable<Feature> features = _context.Features.AsQueryable();
 

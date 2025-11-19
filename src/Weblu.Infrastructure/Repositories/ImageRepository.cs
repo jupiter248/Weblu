@@ -29,7 +29,7 @@ namespace Weblu.Infrastructure.Repositories
             _context.ImageMedia.Remove(image);
         }
 
-        public async Task<List<ImageMedia>> GetAllImagesAsync(ImageParameters imageParameters)
+        public async Task<IReadOnlyList<ImageMedia>> GetAllImagesAsync(ImageParameters imageParameters)
         {
             IQueryable<ImageMedia> imageMedia = _context.ImageMedia.AsQueryable();
 

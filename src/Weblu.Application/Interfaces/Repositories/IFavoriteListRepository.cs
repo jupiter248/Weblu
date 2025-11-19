@@ -9,7 +9,7 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IFavoriteListRepository
     {
-        Task<List<FavoriteList>> GetAllFavoriteListsAsync(string userId, FavoriteListParameters favoriteListParameters);
+        Task<IReadOnlyList<FavoriteList>> GetAllFavoriteListsAsync(string userId, FavoriteListParameters favoriteListParameters);
         Task<FavoriteList?> GetFavoriteListByIdAsync(int favoriteListId);
         Task AddFavoriteListAsync(FavoriteList favoriteList);
         void UpdateFavoriteList(FavoriteList favoriteList);

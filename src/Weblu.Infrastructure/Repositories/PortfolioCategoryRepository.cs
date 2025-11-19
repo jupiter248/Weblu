@@ -26,7 +26,7 @@ namespace Weblu.Infrastructure.Repositories
             _context.PortfolioCategories.Remove(portfolioCategory);
         }
 
-        public async Task<List<PortfolioCategory>> GetAllPortfolioCategoriesAsync()
+        public async Task<IReadOnlyList<PortfolioCategory>> GetAllPortfolioCategoriesAsync()
         {
             IQueryable<PortfolioCategory> portfolioCategories = _context.PortfolioCategories.AsQueryable();
             return await portfolioCategories.ToListAsync();

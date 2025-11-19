@@ -42,7 +42,7 @@ namespace Weblu.Application.Services
 
         public async Task<List<FeatureDto>> GetAllFeaturesAsync(FeatureParameters featureParameters)
         {
-            List<Feature> features = await _unitOfWork.Features.GetAllFeaturesAsync(featureParameters);
+            IReadOnlyList<Feature> features = await _unitOfWork.Features.GetAllFeaturesAsync(featureParameters);
             List<FeatureDto> featureDtos = _mapper.Map<List<FeatureDto>>(features);
             return featureDtos;
         }

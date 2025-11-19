@@ -11,7 +11,7 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IFeatureRepository
     {
-        Task<List<Feature>> GetAllFeaturesAsync(FeatureParameters featureParameters);
+        Task<IReadOnlyList<Feature>> GetAllFeaturesAsync(FeatureParameters featureParameters);
         Task<Feature?> GetFeatureByIdAsync(int featureId);
         Task<bool> FeatureExistsAsync(int featureId);
         Task AddFeatureAsync(Feature feature);

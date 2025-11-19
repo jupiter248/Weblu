@@ -35,7 +35,7 @@ namespace Weblu.Infrastructure.Repositories
             _context.Contributors.Remove(contributor);
         }
 
-        public async Task<List<Contributor>> GetAllContributorsAsync(ContributorParameters contributorParameters)
+        public async Task<IReadOnlyList<Contributor>> GetAllContributorsAsync(ContributorParameters contributorParameters)
         {
             IQueryable<Contributor> contributors = _context.Contributors.AsQueryable();
 

@@ -34,7 +34,7 @@ namespace Weblu.Infrastructure.Repositories
             return faqExists;
         }
 
-        public async Task<List<Faq>> GetAllFaqsAsync(FaqParameters faqParameters)
+        public async Task<IReadOnlyList<Faq>> GetAllFaqsAsync(FaqParameters faqParameters)
         {
             IQueryable<Faq> faqs = _context.Faqs.Include(c => c.Category).AsQueryable();
 
