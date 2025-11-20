@@ -58,6 +58,9 @@ namespace Weblu.Infrastructure.Repositories
 
         private IUserFavoritesRepository? _favoritesRepository;
         public IUserFavoritesRepository UserFavorites => _favoritesRepository ??= new UserFavoritesRepository(_context);
+
+        private IAboutUsRepository? _aboutUsRepository;
+        public IAboutUsRepository AboutUs => _aboutUsRepository ??= new AboutUsRepository(_context);
         public async Task<int> CommitAsync()
         {
             return await _context.SaveChangesAsync();

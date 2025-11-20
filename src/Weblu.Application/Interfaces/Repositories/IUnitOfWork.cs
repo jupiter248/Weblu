@@ -23,6 +23,8 @@ namespace Weblu.Application.Interfaces.Repositories
         IFaqCategoryRepository FaqCategories { get; }
         IFavoriteListRepository FavoriteLists { get; }
         IUserFavoritesRepository UserFavorites { get; }
+        IAboutUsRepository AboutUs { get; }
+
 
 
 

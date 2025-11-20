@@ -70,7 +70,7 @@ namespace Weblu.Infrastructure.Identity.Services
 
         public async Task<List<PortfolioSummaryDto>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters)
         {
-            List<FavoritePortfolio> favoritePortfolios = await _unitOfWork.UserFavorites.GetAllFavoritePortfoliosAsync(userId, favoriteParameters);
+            IReadOnlyList<FavoritePortfolio> favoritePortfolios = await _unitOfWork.UserFavorites.GetAllFavoritePortfoliosAsync(userId, favoriteParameters);
             List<Portfolio> portfolios = new List<Portfolio>();
             foreach (FavoritePortfolio item in favoritePortfolios)
             {

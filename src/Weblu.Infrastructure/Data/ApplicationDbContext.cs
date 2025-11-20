@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Domain.Entities;
+using Weblu.Domain.Entities.About;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Common.Methods;
 using Weblu.Domain.Entities.Faqs;
@@ -43,6 +44,8 @@ namespace Weblu.Infrastructure.Data
         public DbSet<FaqCategory> FaqCategories { get; set; }
         public DbSet<FavoriteList> FavoriteLists { get; set; }
         public DbSet<FavoritePortfolio> FavoritePortfolios { get; set; }
+        public DbSet<AboutUs> AboutUs { get; set; }
+
 
 
 
