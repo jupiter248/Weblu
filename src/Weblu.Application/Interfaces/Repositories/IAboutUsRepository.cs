@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.About;
 
 namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IAboutUsRepository
     {
-        Task<IReadOnlyList<AboutUs>> GetAllAboutUsInfosAsync();
+        Task<IReadOnlyList<AboutUs>> GetAllAboutUsInfosAsync(AboutUsParameters aboutUsParameters);
         Task<AboutUs?> GetAboutUsInfoByIdAsync(int aboutUsId);
         Task AddAboutUsAsync(AboutUs aboutUs);
         void UpdateAboutUs(AboutUs aboutUs);

@@ -21,6 +21,9 @@ namespace Weblu.Domain.Errors.Auth
         public const string UserLastNameRequired = "USER_LAST_NAME_REQUIRED";
         public const string PhoneRequired = "PHONE_REQUIRED";
         public const string InvalidPhone = "INVALID_PHONE";
+        public const string EmailRequired = "EMAIL_REQUIRED";
+        public const string InvalidEmail = "INVALID_EMAIL";
+
         public const string PasswordRequired = "PASSWORD_REQUIRED";
         public const string PasswordLength = "PASSWORD_LENGTH";
 
