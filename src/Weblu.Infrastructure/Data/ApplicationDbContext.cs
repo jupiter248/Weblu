@@ -45,6 +45,8 @@ namespace Weblu.Infrastructure.Data
         public DbSet<FavoriteList> FavoriteLists { get; set; }
         public DbSet<FavoritePortfolio> FavoritePortfolios { get; set; }
         public DbSet<AboutUs> AboutUs { get; set; }
+        public DbSet<SocialMedia> SocialMedias { get; set; }
+
 
 
 

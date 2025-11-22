@@ -30,6 +30,8 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IFaqCategoryService, FaqCategoryService>();
             services.AddScoped<IFavoriteListService, FavoriteListService>();
             services.AddScoped<IAboutUsService, AboutUsService>();
+            services.AddScoped<ISocialMediaService, SocialMediaService>();
+
 
 
 

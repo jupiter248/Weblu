@@ -61,6 +61,9 @@ namespace Weblu.Infrastructure.Repositories
 
         private IAboutUsRepository? _aboutUsRepository;
         public IAboutUsRepository AboutUs => _aboutUsRepository ??= new AboutUsRepository(_context);
+
+        private ISocialMediaRepository? _socialMediaRepository;
+        public ISocialMediaRepository SocialMedias => _socialMediaRepository ??= new SocialMediaRepository(_context);
         public async Task<int> CommitAsync()
         {
             return await _context.SaveChangesAsync();

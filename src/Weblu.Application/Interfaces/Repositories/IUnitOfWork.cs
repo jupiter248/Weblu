@@ -24,6 +24,8 @@ namespace Weblu.Application.Interfaces.Repositories
         IFavoriteListRepository FavoriteLists { get; }
         IUserFavoritesRepository UserFavorites { get; }
         IAboutUsRepository AboutUs { get; }
+        ISocialMediaRepository SocialMedias { get; }
+
 
 
 
