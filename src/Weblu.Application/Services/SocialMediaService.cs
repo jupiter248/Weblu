@@ -69,7 +69,7 @@ namespace Weblu.Application.Services
             return socialMediaDto;
         }
 
-        public async Task<SocialMediaDto> UpdateHeadImageSocialMediaAsync(int socialMediaId, UpdateSocialMediaIconDto updateSocialMediaIcon)
+        public async Task<SocialMediaDto> UpdateSocialMediaIconAsync(int socialMediaId, UpdateSocialMediaIconDto updateSocialMediaIcon)
         {
             SocialMedia socialMedia = await _unitOfWork.SocialMedias.GetSocialMediaByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
 

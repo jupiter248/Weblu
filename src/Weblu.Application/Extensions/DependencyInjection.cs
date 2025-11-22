@@ -57,6 +57,9 @@ namespace Weblu.Application.Extensions
             services.AddAutoMapper(typeof(FaqProfile));
             services.AddAutoMapper(typeof(FavoriteListProfile));
             services.AddAutoMapper(typeof(FavoriteProfile));
+            services.AddAutoMapper(typeof(AboutUsProfile));
+            services.AddAutoMapper(typeof(SocialMediaProfile));
+
 
 
 

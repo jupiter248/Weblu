@@ -12,7 +12,7 @@ namespace Weblu.Application.Interfaces.Services
         Task<SocialMediaDto> GetSocialMediaByIdAsync(int socialMediaId);
         Task<SocialMediaDto> AddSocialMediaAsync(AddSocialMediaDto addSocialMediaDto);
         Task<SocialMediaDto> UpdateSocialMediaAsync(int socialMediaId, UpdateSocialMediaDto updateSocialMediaDto);
-        Task<SocialMediaDto> UpdateHeadImageSocialMediaAsync(int socialMediaId, UpdateSocialMediaIconDto updateSocialMediaIcon);
+        Task<SocialMediaDto> UpdateSocialMediaIconAsync(int socialMediaId, UpdateSocialMediaIconDto updateSocialMediaIcon);
         Task DeleteSocialMediaAsync(int socialMediaId);
     }
 }
