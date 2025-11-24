@@ -16,6 +16,9 @@ builder.Services.ConfigureSwaggerGen();
 builder.Host.ApplySerilog();
 
 builder.Services.AddControllersConfigurations();
+builder.Services.ApplyGlobalRateLimiter();
+builder.Services.ApplyAuthRateLimiter();
+
 
 builder.Services.ConnectToDatabase();
 builder.Services.AddInfrastructure();
@@ -48,6 +51,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseRateLimiter();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseCors("HelloConnection");

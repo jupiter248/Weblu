@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.AuthDtos;
@@ -12,6 +13,7 @@ using Weblu.Domain.Enums.Users;
 
 namespace Weblu.Api.Controllers
 {
+    [EnableRateLimiting("AuthPolicy")]
     [ApiController]
     [Route("api/auth")]
     public class AuthController : ControllerBase
