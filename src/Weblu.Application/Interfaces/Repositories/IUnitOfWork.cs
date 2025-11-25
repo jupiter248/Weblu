@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Weblu.Application.Interfaces.Repositories
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
         IServiceRepository Services { get; }
         IFeatureRepository Features { get; }
@@ -25,19 +25,8 @@ namespace Weblu.Application.Interfaces.Repositories
         IUserFavoritesRepository UserFavorites { get; }
         IAboutUsRepository AboutUs { get; }
         ISocialMediaRepository SocialMedias { get; }
-
-
-
-
-
-
-
-
-
-
-
-
-
+        IArticleRepository Articles { get; }
+        IArticleCategoryRepository ArticleCategories { get; }
 
         Task<int> CommitAsync();
     }

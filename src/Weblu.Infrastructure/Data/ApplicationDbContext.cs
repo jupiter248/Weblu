@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.About;
+using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Common.Methods;
 using Weblu.Domain.Entities.Faqs;
@@ -46,6 +47,10 @@ namespace Weblu.Infrastructure.Data
         public DbSet<FavoritePortfolio> FavoritePortfolios { get; set; }
         public DbSet<AboutUs> AboutUs { get; set; }
         public DbSet<SocialMedia> SocialMedias { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<ArticleCategory> ArticleCategories { get; set; }
+
+
 
 
 

@@ -26,15 +26,7 @@ builder.Services.AddApplication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwt();
 
-builder.Services.AddCors(opt =>
-{
-    opt.AddPolicy("HelloConnection", policy =>
-    {
-        policy.AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowAnyOrigin();
-    });
-});
+builder.Services.ApplyCors();
 
 var app = builder.Build();
 
@@ -43,7 +35,6 @@ await app.Services.ApplyMigrations();
 app.AddLocalizations();
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -55,10 +46,10 @@ if (app.Environment.IsDevelopment())
 app.UseRateLimiter();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
-app.UseCors("HelloConnection");
-app.MapControllers();
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllers();
 
 app.Run();

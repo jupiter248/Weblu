@@ -38,6 +38,8 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IUserFavoritesRepository, UserFavoritesRepository>();
             services.AddScoped<IAboutUsRepository, AboutUsRepository>();
             services.AddScoped<ISocialMediaRepository, SocialMediaRepository>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository>();
 
 
 
