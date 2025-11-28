@@ -14,6 +14,5 @@ namespace Weblu.Application.Dtos.PortfolioDtos
         public string? LiveUrl { get; set; }
         public bool IsActive { get; set; }
         public int PortfolioCategoryId { get; set; }
-
     }
 }

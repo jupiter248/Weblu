@@ -12,9 +12,9 @@ namespace Weblu.Api.Extensions
             services.AddCors(opt =>
             opt.AddPolicy("AllowAll", builder =>
             {
-                builder.AllowAnyHeader()
-                       .AllowAnyMethod()
-                       .AllowAnyOrigin();
+                builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
             }));
         }
     }

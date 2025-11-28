@@ -36,7 +36,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<Article?> GetArticleByIdAsync(int articleId)
         {
-            Article? article = await _context.Articles.Include(c => c.Category).FirstOrDefaultAsync(a => a.Id == articleId);
+            Article? article = await _context.Articles.Include(c => c.Category).Include(c => c.Contributors).FirstOrDefaultAsync(a => a.Id == articleId);
             return article;
         }
 
