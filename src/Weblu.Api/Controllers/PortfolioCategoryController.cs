@@ -27,7 +27,7 @@ namespace Weblu.Api.Controllers
             return Ok(portfolioCategoryDtos);
         }
         [HttpGet("{portfolioCategoryId:int}")]
-        public async Task<IActionResult> GetMethodById(int portfolioCategoryId)
+        public async Task<IActionResult> GetArticleCategoryById(int portfolioCategoryId)
         {
             PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.GetPortfolioCategoryByIdAsync(portfolioCategoryId);
             return Ok(portfolioCategoryDto);
@@ -37,7 +37,7 @@ namespace Weblu.Api.Controllers
         {
             Validator.ValidateAndThrow(addPortfolioCategoryDto, new AddPortfolioCategoryValidator());
             PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.AddPortfolioCategoryAsync(addPortfolioCategoryDto);
-            return CreatedAtAction(nameof(GetMethodById), new { portfolioCategoryId = portfolioCategoryDto.Id }, ApiResponse<PortfolioCategoryDto>.Success
+            return CreatedAtAction(nameof(GetArticleCategoryById), new { portfolioCategoryId = portfolioCategoryDto.Id }, ApiResponse<PortfolioCategoryDto>.Success
             (
                 "Portfolio Category added successfully.",
                 portfolioCategoryDto

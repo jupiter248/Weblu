@@ -12,10 +12,9 @@ namespace Weblu.Domain.Entities.Articles
         [Key]
         public int Id { get; set; }
         public string Title { get; set; } = default!;
-        public string? AboveTitle { get; set; }
         public string? BelowTitle { get; set; }
         public string Slug { get; set; } = default!;
-        public string Context { get; set; } = default!;
+        public string Text { get; set; } = default!;
         public string Description { get; set; } = default!;
         public string ShortDescription { get; set; } = default!;
         public int ViewCount { get; set; } = 0;

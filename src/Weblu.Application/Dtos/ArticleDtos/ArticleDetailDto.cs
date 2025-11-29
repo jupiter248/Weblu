@@ -15,7 +15,7 @@ namespace Weblu.Application.Dtos.ArticleDtos
         public string? AboveTitle { get; set; }
         public string? BelowTitle { get; set; }
         public string Slug { get; set; } = default!;
-        public string Context { get; set; } = default!;
+        public string Text { get; set; } = default!;
         public string Description { get; set; } = default!;
         public string ShortDescription { get; set; } = default!;
         public int ViewCount { get; set; } = 0;
@@ -29,6 +29,5 @@ namespace Weblu.Application.Dtos.ArticleDtos
         public string CategoryName { get; set; } = default!;
         public List<ArticleImageDto>? ArticleImages { get; set; }
         public List<ContributorDto>? Contributors { get; set; }
-
     }
 }

@@ -49,6 +49,10 @@ namespace Weblu.Infrastructure.Data
         public DbSet<SocialMedia> SocialMedias { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<ArticleCategory> ArticleCategories { get; set; }
+        public DbSet<ArticleImage> ArticleImages { get; set; }
+
+
+
 
 
 

@@ -29,7 +29,8 @@ namespace Weblu.Application.Validations.Contributors
             .MaximumLength(1000).WithMessage(ContributorErrorCodes.ContributorBioMaxLength);
 
             RuleFor(r => r.Email)
-            .EmailAddress().WithMessage(ContributorErrorCodes.ContributorEmailInvalid);
+            .EmailAddress().WithMessage(ContributorErrorCodes.ContributorEmailInvalid)
+            .When(e => !string.IsNullOrEmpty(e.Email));
 
             RuleFor(g => g.GithubUrl)
             .Must(UrlValidator.BeAValidUrl)
