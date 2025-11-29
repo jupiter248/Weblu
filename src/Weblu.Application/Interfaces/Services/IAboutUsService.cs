@@ -17,5 +17,6 @@ namespace Weblu.Application.Interfaces.Services
         Task<AboutUsDto> UpdateAboutUsAsync(int aboutUsId, UpdateAboutUsDto updateAboutUsDto);
         Task<AboutUsDto> UpdateHeadImageAboutUsAsync(int aboutUsId, UpdateImageAboutUsDto updateImageAboutUs);
         Task DeleteAboutUsAsync(int aboutUsId);
+        Task DeleteAboutUsHeadImageAsync(int aboutUsId);
     }
 }

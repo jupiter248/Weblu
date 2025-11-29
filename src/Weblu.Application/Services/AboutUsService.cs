@@ -55,6 +55,23 @@ namespace Weblu.Application.Services
             await _unitOfWork.CommitAsync();
         }
 
+        public async Task DeleteAboutUsHeadImageAsync(int aboutUsId)
+        {
+            AboutUs aboutUs = await _unitOfWork.AboutUs.GetAboutUsInfoByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
+
+            if (string.IsNullOrEmpty(aboutUs.HeadImageUrl))
+            {
+                throw new BadRequestException(AboutUsErrorCodes.HeadImageIsEmpty);
+            }
+            else
+                await MediaManager.DeleteMedia(_webHost, aboutUs.HeadImageUrl);
+
+            aboutUs.HeadImageUrl = null;
+            aboutUs.HeadImageAltText = null;
+
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task<AboutUsDto> GetAboutUsInfoByIdAsync(int aboutUsId)
         {
             AboutUs aboutUs = await _unitOfWork.AboutUs.GetAboutUsInfoByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);

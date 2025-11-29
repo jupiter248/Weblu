@@ -14,5 +14,6 @@ namespace Weblu.Domain.Errors.AboutUs
         public const string SubTitleRequired = "ABOUT_US_INFO_NOT_FOUND";
         public const string TitleMaxLength = "ABOUT_US_INFO_NOT_FOUND";
         public const string DescriptionMaxLength = "ABOUT_US_INFO_NOT_FOUND";
+        public const string HeadImageIsEmpty = "ABOUT_US_HEAD_IMAGE_IS_EMPTY";
     }
 }

@@ -68,5 +68,13 @@ namespace Weblu.Api.Controllers
                 aboutUsDto
             ));
         }
+        [HttpDelete("{aboutUsId:int}/head-image")]
+        public async Task<IActionResult> DeleteAboutUsHeadImage(int aboutUsId)
+        {
+            await _aboutUsService.DeleteAboutUsHeadImageAsync(aboutUsId);
+            return Ok(ApiResponse.Success(
+                "AboutUs head image deleted successfully."
+            ));
+        }
     }
 }
