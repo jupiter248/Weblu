@@ -15,5 +15,7 @@ namespace Weblu.Application.Interfaces.Services
         Task<ContributorDto> UpdateContributorAsync(int currentContributorId, UpdateContributorDto updateContributorDto);
         Task<ContributorDto> UpdateProfileImageContributorAsync(int currentContributorId, UpdateProfileImageContributorDto updateProfileImage);
         Task DeleteContributorAsync(int contributorId);
+        Task DeleteContributorProfileAsync(int contributorId);
+
     }
 }

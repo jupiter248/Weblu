@@ -56,6 +56,23 @@ namespace Weblu.Application.Services
 
         }
 
+        public async Task DeleteContributorProfileAsync(int contributorId)
+        {
+            Contributor contributor = await _unitOfWork.Contributors.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+
+            if (string.IsNullOrEmpty(contributor.ProfileImageUrl))
+            {
+                throw new BadRequestException(ContributorErrorCodes.ContributorProfileIsEmpty);
+            }
+            else
+            await MediaManager.DeleteMedia(_webHost, contributor.ProfileImageUrl);
+
+            contributor.ProfileImageUrl = null;
+            contributor.ProfileImageAltText = null;
+
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task<List<ContributorDto>> GetAllContributorsAsync(ContributorParameters contributorParameters)
         {
             IReadOnlyList<Contributor> contributors = await _unitOfWork.Contributors.GetAllContributorsAsync(contributorParameters);

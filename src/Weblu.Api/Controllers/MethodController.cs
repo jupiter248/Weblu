@@ -75,5 +75,14 @@ namespace Weblu.Api.Controllers
                 "Method deleted successfully."
             ));
         }
+        [HttpDelete("{methodId:int}/image")]
+        public async Task<IActionResult> DeleteMethodImage(int methodId)
+        {
+            await _methodService.DeleteMethodImageAsync(methodId);
+            return Ok(ApiResponse.Success
+            (
+                "Method Image deleted successfully."
+            ));
+        }
     }
 }

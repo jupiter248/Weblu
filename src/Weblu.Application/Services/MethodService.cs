@@ -58,6 +58,23 @@ namespace Weblu.Application.Services
             await _unitOfWork.CommitAsync();
         }
 
+        public async Task DeleteMethodImageAsync(int methodId)
+        {
+            Method? method = await _unitOfWork.Methods.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
+
+            if (string.IsNullOrEmpty(method.ImageUrl))
+            {
+                throw new BadRequestException(MethodErrorCodes.MethodImageIsEmpty);
+            }
+            else
+                await MediaManager.DeleteMedia(_webHostEnvironment, method.ImageUrl);
+
+            method.ImageUrl = null;
+            method.ImageAltText = null;
+
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task<List<MethodDto>> GetAllMethodsAsync(MethodParameters methodParameters)
         {
             IReadOnlyList<Method> methods = await _unitOfWork.Methods.GetAllMethodsAsync(methodParameters);

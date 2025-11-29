@@ -64,8 +64,16 @@ namespace Weblu.Api.Controllers
             Validator.ValidateAndThrow(updateProfileImageContributorDto, new UpdateContributorProfileImageValidator());
             ContributorDto contributorDto = await _contributorService.UpdateProfileImageContributorAsync(contributorId, updateProfileImageContributorDto);
             return Ok(ApiResponse<ContributorDto>.Success(
-                "Contributor profile image updated",
+                "Contributor profile image updated successfully.",
                 contributorDto
+            ));
+        }
+        [HttpDelete("{contributorId:int}/profile-image")]
+        public async Task<IActionResult> DeleteContributorProfile(int contributorId)
+        {
+            await _contributorService.DeleteContributorProfileAsync(contributorId);
+            return Ok(ApiResponse.Success(
+                "Contributor Profile image deleted successfully."
             ));
         }
     }
