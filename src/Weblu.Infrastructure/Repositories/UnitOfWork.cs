@@ -31,6 +31,8 @@ namespace Weblu.Infrastructure.Repositories
         private ISocialMediaRepository? _socialMediaRepository;
         private IArticleRepository? _articleRepository;
         private IArticleCategoryRepository? _articleCategoryRepository;
+        private ICommentRepository? _commentRepository;
+
 
 
 
@@ -57,6 +59,8 @@ namespace Weblu.Infrastructure.Repositories
         public ISocialMediaRepository SocialMedias => _socialMediaRepository ??= new SocialMediaRepository(_context);
         public IArticleRepository Articles => _articleRepository ??= new ArticleRepository(_context);
         public IArticleCategoryRepository ArticleCategories => _articleCategoryRepository ??= new ArticleCategoryRepository(_context);
+        public ICommentRepository Comments => _commentRepository ??= new CommentRepository(_context);
+
 
         public async Task<int> CommitAsync()
         {

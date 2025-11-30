@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Favorites;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Tickets;
@@ -27,6 +28,8 @@ namespace Weblu.Infrastructure.Identity.Entities
         public List<Ticket> Tickets { get; set; } = new List<Ticket>();
         public List<FavoritePortfolio> FavoritePortfolios { get; set; } = new List<FavoritePortfolio>();
         public List<FavoriteList> FavoriteLists { get; set; } = new List<FavoriteList>();
+        public List<Comment> Comments { get; set; } = new List<Comment>();
+
 
 
 

@@ -27,6 +27,8 @@ namespace Weblu.Application.Interfaces.Repositories
         ISocialMediaRepository SocialMedias { get; }
         IArticleRepository Articles { get; }
         IArticleCategoryRepository ArticleCategories { get; }
+        ICommentRepository Comments { get; }
+
 
         Task<int> CommitAsync();
     }

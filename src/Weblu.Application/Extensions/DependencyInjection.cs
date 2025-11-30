@@ -33,6 +33,8 @@ namespace Weblu.Application.Extensions
             services.AddScoped<ISocialMediaService, SocialMediaService>();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
+            services.AddScoped<ICommentService, CommentService>();
+
 
 
 

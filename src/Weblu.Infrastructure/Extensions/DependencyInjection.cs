@@ -40,6 +40,8 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<ISocialMediaRepository, SocialMediaRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+
 
 
 

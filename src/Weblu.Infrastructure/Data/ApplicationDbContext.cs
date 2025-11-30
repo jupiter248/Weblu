@@ -50,6 +50,8 @@ namespace Weblu.Infrastructure.Data
         public DbSet<Article> Articles { get; set; }
         public DbSet<ArticleCategory> ArticleCategories { get; set; }
         public DbSet<ArticleImage> ArticleImages { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+
 
 
 
@@ -134,7 +136,11 @@ namespace Weblu.Infrastructure.Data
                         .HasForeignKey("FavoriteListId")
                         .OnDelete(DeleteBehavior.Restrict)
                 );
-
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.Comments)
+                .WithOne()
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }
