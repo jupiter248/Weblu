@@ -17,6 +17,7 @@ using Weblu.Domain.Errors.Articles;
 using Weblu.Domain.Errors.Contributors;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Portfolios;
+using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Application.Services
 {
@@ -138,6 +139,50 @@ namespace Weblu.Application.Services
             ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
             articleDetailDto.ArticleImages = imageDtos;
             return articleDetailDto;
+        }
+
+        public async Task LikeArticleAsync(int articleId, string userId)
+        {
+            Article article = await _unitOfWork.Articles.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            bool userExists = await _unitOfWork.Users.UserExistsAsync(userId);
+
+            if (!userExists)
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            if (article.ArticleLikes.Any(u => u.UserId == userId))
+            {
+                throw new ConflictException(ArticleErrorCodes.AlreadyLikedByUser);
+            }
+
+            ArticleLike articleLike = new ArticleLike()
+            {
+                ArticleId = articleId,
+                UserId = userId,
+                Article = article,
+            };
+
+            article.ArticleLikes.Add(articleLike);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task UnlikeArticleAsync(int articleId, string userId)
+        {
+            Article article = await _unitOfWork.Articles.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            bool userExists = await _unitOfWork.Users.UserExistsAsync(userId);
+            ArticleLike? articleLike = article.ArticleLikes.FirstOrDefault(u => u.UserId == userId);
+
+            if (!userExists)
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            if (articleLike == null)
+            {
+                throw new ConflictException(ArticleErrorCodes.DidNotLikeByUser);
+            }
+
+            article.ArticleLikes.Remove(articleLike);
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task<ArticleDetailDto> UpdateArticleAsync(int articleId, UpdateArticleDto updateArticleDto)

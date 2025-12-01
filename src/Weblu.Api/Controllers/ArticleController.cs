@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ArticleDtos;
 using Weblu.Application.Dtos.ArticleDtos.ArticleImageDtos;
+using Weblu.Application.Exceptions;
+using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Articles;
 using Weblu.Domain.Entities.Articles;
+using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Api.Controllers
 {
@@ -84,6 +87,28 @@ namespace Weblu.Api.Controllers
         {
             await _articleService.DeleteContributorFromArticleAsync(articleId, contributorId);
             return Ok(ApiResponse.Success("Contributor deleted successfully"));
+        }
+        [HttpPost("{articleId:int}/like")]
+        public async Task<IActionResult> LikeArticle(int articleId)
+        {
+            var userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            await _articleService.LikeArticleAsync(articleId, userId);
+            return Ok(ApiResponse.Success("User liked the article successfully"));
+        }
+        [HttpDelete("{articleId:int}/unlike")]
+        public async Task<IActionResult> UnlikeArticle(int articleId)
+        {
+            var userId = User.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            await _articleService.UnlikeArticleAsync(articleId, userId);
+            return Ok(ApiResponse.Success("User unLiked the article successfully"));
         }
     }
 }

@@ -21,6 +21,9 @@ namespace Weblu.Application.Interfaces.Services
         // Contributors
         Task AddContributorToArticleAsync(int articleId, int contributorId);
         Task DeleteContributorFromArticleAsync(int articleId, int contributorId);
+        // Likes
+        Task LikeArticleAsync(int articleId, string userId);
+        Task UnlikeArticleAsync(int articleId, string userId);
 
 
     }

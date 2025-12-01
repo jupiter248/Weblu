@@ -51,6 +51,8 @@ namespace Weblu.Infrastructure.Data
         public DbSet<ArticleCategory> ArticleCategories { get; set; }
         public DbSet<ArticleImage> ArticleImages { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<ArticleLike> ArticleLikes { get; set; }
+
 
 
 
@@ -113,6 +115,12 @@ namespace Weblu.Infrastructure.Data
 
             modelBuilder.Entity<AppUser>()
                 .HasMany(p => p.FavoriteLists)
+                .WithOne()
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.ArticleLikes)
                 .WithOne()
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

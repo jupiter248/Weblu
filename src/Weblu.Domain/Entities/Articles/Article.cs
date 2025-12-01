@@ -27,5 +27,7 @@ namespace Weblu.Domain.Entities.Articles
         public List<ArticleImage> ArticleImages { get; set; } = new List<ArticleImage>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>();
         public List<Comment> Comments { get; set; } = new List<Comment>();
+        public List<ArticleLike> ArticleLikes { get; set; } = new List<ArticleLike>();
+
     }
 }
