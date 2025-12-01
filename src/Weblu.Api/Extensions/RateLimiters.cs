@@ -50,5 +50,28 @@ namespace Weblu.Api.Extensions
                 });
             });
         }
+        public static void ApplyViewArticleRateLimiter(this IServiceCollection services)
+        {
+            services.AddRateLimiter(options =>
+            {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+                options.AddPolicy("ArticleViewPolicy", context =>
+                {
+                    var route = context.GetRouteData();
+                    var articleId = route?.Values["id"]?.ToString() ?? "unknown";
+
+                    return RateLimitPartition.GetTokenBucketLimiter(
+                        partitionKey: $"{context.Connection.RemoteIpAddress}-{articleId}",
+                    factory: key => new TokenBucketRateLimiterOptions
+                    {
+                        TokenLimit = 5,                 // max number of views
+                        TokensPerPeriod = 5,            // refill amount
+                        ReplenishmentPeriod = TimeSpan.FromMinutes(1),
+                        AutoReplenishment = true,
+                        QueueLimit = 0
+                    });
+                });
+            });
+        }
     }
 }

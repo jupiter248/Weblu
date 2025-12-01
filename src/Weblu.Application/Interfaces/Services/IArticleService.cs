@@ -24,6 +24,8 @@ namespace Weblu.Application.Interfaces.Services
         // Likes
         Task LikeArticleAsync(int articleId, string userId);
         Task UnlikeArticleAsync(int articleId, string userId);
+        // Views
+        Task ViewArticleAsync(int articleId);
 
 
     }

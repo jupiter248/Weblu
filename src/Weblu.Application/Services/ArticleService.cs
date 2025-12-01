@@ -211,5 +211,14 @@ namespace Weblu.Application.Services
             ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
             return articleDetailDto;
         }
+
+        public async Task ViewArticleAsync(int articleId)
+        {
+            Article article = await _unitOfWork.Articles.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            article.ViewCount++;
+
+            _unitOfWork.Articles.UpdateArticle(article);
+            await _unitOfWork.CommitAsync();
+        }
     }
 }

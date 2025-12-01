@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ArticleDtos;
 using Weblu.Application.Dtos.ArticleDtos.ArticleImageDtos;
@@ -109,6 +110,13 @@ namespace Weblu.Api.Controllers
             }
             await _articleService.UnlikeArticleAsync(articleId, userId);
             return Ok(ApiResponse.Success("User unLiked the article successfully"));
+        }
+        [EnableRateLimiting("ArticleViewPolicy")]
+        [HttpPost("{articleId:int}/View")]
+        public async Task<IActionResult> ViewArticle(int articleId)
+        {
+            await _articleService.ViewArticleAsync(articleId);
+            return Ok(ApiResponse.Success("User Viewed the article successfully"));
         }
     }
 }

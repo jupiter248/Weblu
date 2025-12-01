@@ -18,6 +18,8 @@ builder.Host.ApplySerilog();
 builder.Services.AddControllersConfigurations();
 builder.Services.ApplyGlobalRateLimiter();
 builder.Services.ApplyAuthRateLimiter();
+builder.Services.ApplyViewArticleRateLimiter();
+
 
 
 builder.Services.ConnectToDatabase();
