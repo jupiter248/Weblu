@@ -26,6 +26,6 @@ namespace Weblu.Domain.Entities.Articles
         public ArticleCategory Category { get; set; } = default!;
         public List<ArticleImage> ArticleImages { get; set; } = new List<ArticleImage>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>();
-        public List<Article> Articles { get; set; } = new List<Article>();
+        public List<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
+using Weblu.Application.Strategies.Comments;
 using Weblu.Domain.Entities.Common;
 using Weblu.Infrastructure.Data;
 
@@ -30,6 +31,18 @@ namespace Weblu.Infrastructure.Repositories
         public async Task<IReadOnlyList<Comment>> GetAllCommentsAsync(CommentParameters commentParameters)
         {
             IQueryable<Comment> comments = _context.Comments.AsQueryable();
+
+            var createdDateSort = new CommentQueryHandler(new CreatedDateSortStrategy());
+            comments = createdDateSort.ExecuteCommentQuery(comments, commentParameters);
+
+            var filterByArticleId = new CommentQueryHandler(new FilterByArticleIdStrategy());
+            comments = filterByArticleId.ExecuteCommentQuery(comments, commentParameters);
+
+            var filterByUserId = new CommentQueryHandler(new FilterByUserIdStrategy());
+            comments = filterByUserId.ExecuteCommentQuery(comments, commentParameters);
+
+            var filterByCommentParentId = new CommentQueryHandler(new FilterByParentCommentIdStrategy());
+            comments = filterByCommentParentId.ExecuteCommentQuery(comments, commentParameters);
 
             return await comments.ToListAsync();
         }

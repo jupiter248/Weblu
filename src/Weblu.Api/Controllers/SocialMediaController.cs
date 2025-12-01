@@ -33,7 +33,7 @@ namespace Weblu.Api.Controllers
             return Ok(socialMediaDto);
         }
         [HttpPost]
-        public async Task<IActionResult> AddContributor([FromBody] AddSocialMediaDto addSocialMediaDto)
+        public async Task<IActionResult> AddSocialMedia([FromBody] AddSocialMediaDto addSocialMediaDto)
         {
             Validator.ValidateAndThrow(addSocialMediaDto, new AddSocialMediaValidator());
             SocialMediaDto socialMediaDto = await _socialMediaService.AddSocialMediaAsync(addSocialMediaDto);

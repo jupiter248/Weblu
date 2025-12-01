@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Weblu.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Weblu.Infrastructure.Data;
 namespace Weblu.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251201092210_AddedCommentTable")]
+    partial class AddedCommentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -347,6 +350,9 @@ namespace Weblu.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ArticleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("BelowTitle")
                         .HasColumnType("nvarchar(max)");
 
@@ -389,6 +395,8 @@ namespace Weblu.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
 
                     b.HasIndex("CategoryId");
 
@@ -1330,6 +1338,10 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("Weblu.Domain.Entities.Articles.Article", b =>
                 {
+                    b.HasOne("Weblu.Domain.Entities.Articles.Article", null)
+                        .WithMany("Articles")
+                        .HasForeignKey("ArticleId");
+
                     b.HasOne("Weblu.Domain.Entities.Articles.ArticleCategory", "Category")
                         .WithMany("Articles")
                         .HasForeignKey("CategoryId")
@@ -1361,7 +1373,7 @@ namespace Weblu.Infrastructure.Migrations
             modelBuilder.Entity("Weblu.Domain.Entities.Common.Comment", b =>
                 {
                     b.HasOne("Weblu.Domain.Entities.Articles.Article", "Article")
-                        .WithMany("Comments")
+                        .WithMany()
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1503,7 +1515,7 @@ namespace Weblu.Infrastructure.Migrations
                 {
                     b.Navigation("ArticleImages");
 
-                    b.Navigation("Comments");
+                    b.Navigation("Articles");
                 });
 
             modelBuilder.Entity("Weblu.Domain.Entities.Articles.ArticleCategory", b =>

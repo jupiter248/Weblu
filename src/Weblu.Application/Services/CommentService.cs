@@ -40,6 +40,11 @@ namespace Weblu.Application.Services
             Article article = await _articleRepository.GetArticleByIdAsync(addCommentDto.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             CommentUserDto commentUserDto = await _userRepository.GetUserForCommentAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
 
+            if (!article.Comments.Any(c => c.Id == addCommentDto.ParentCommentId))
+            {
+                throw new NotFoundException(CommentErrorCodes.NotFound);
+            }
+
             comment.Article = article;
             comment.UserId = commentUserDto.UserId;
 
@@ -61,7 +66,7 @@ namespace Weblu.Application.Services
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            if (userId != comment.UserId || !isAdmin)
+            if (userId != comment.UserId && !isAdmin)
             {
                 throw new UnauthorizedException(CommentErrorCodes.DeleteForbidden);
             }
@@ -81,8 +86,8 @@ namespace Weblu.Application.Services
                     if (commentDto.Id == comment.Id)
                     {
                         commentDto.User = await _userRepository.GetUserForCommentAsync(comment.UserId) ?? default!;
+                        break;
                     }
-                    break;
                 }
             }
             return commentDtos;
@@ -100,6 +105,7 @@ namespace Weblu.Application.Services
         public async Task<CommentDto> UpdateCommentAsync(string userId, int commentId, UpdateCommentDTo updateCommentDTo)
         {
             Comment comment = await _commentRepository.GetCommentByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.NotFound);
+            Article article = await _articleRepository.GetArticleByIdAsync(comment.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             bool userExists = await _userRepository.UserExistsAsync(userId);
             if (!userExists)
             {
@@ -108,6 +114,10 @@ namespace Weblu.Application.Services
             if (userId != comment.UserId)
             {
                 throw new UnauthorizedException(CommentErrorCodes.UpdateForbidden);
+            }
+            if (!article.Comments.Any(c => c.Id == updateCommentDTo.ParentCommentId))
+            {
+                throw new NotFoundException(CommentErrorCodes.NotFound);
             }
             comment = _mapper.Map(updateCommentDTo, comment);
             _commentRepository.UpdateComment(comment);

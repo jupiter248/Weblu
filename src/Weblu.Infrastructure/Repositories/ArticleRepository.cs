@@ -31,7 +31,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Article>> GetAllArticleAsync(ArticleParameters articleParameters)
         {
-            IQueryable<Article> articles = _context.Articles.Include(c => c.Category).AsQueryable();
+            IQueryable<Article> articles = _context.Articles.Include(c => c.Category).Include(c => c.Comments).AsQueryable();
 
             var createdDateSort = new ArticleQueryHandler(new CreatedDateSortStrategy());
             articles = createdDateSort.ExecuteArticleQuery(articles, articleParameters);
@@ -56,7 +56,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<Article?> GetArticleByIdAsync(int articleId)
         {
-            Article? article = await _context.Articles.Include(c => c.Category).Include(c => c.Contributors).Include(c => c.ArticleImages).ThenInclude(a => a.Image).FirstOrDefaultAsync(a => a.Id == articleId);
+            Article? article = await _context.Articles.Include(c => c.Category).Include(c => c.Contributors).Include(c => c.Comments).Include(c => c.ArticleImages).ThenInclude(a => a.Image).FirstOrDefaultAsync(a => a.Id == articleId);
             return article;
         }
 
