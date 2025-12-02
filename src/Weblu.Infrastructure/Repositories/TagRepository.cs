@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Parameters;
+using Weblu.Application.Strategies.Tags;
+using Weblu.Application.Validations.Tags;
 using Weblu.Domain.Entities.Common;
 using Weblu.Infrastructure.Data;
 
@@ -26,9 +29,12 @@ namespace Weblu.Infrastructure.Repositories
             _context.Tags.Remove(tag);
         }
 
-        public async Task<IReadOnlyList<Tag>> GetAllTagsAsync(Application.Parameters.TagParameters tagParameters)
+        public async Task<IReadOnlyList<Tag>> GetAllTagsAsync(TagParameters tagParameters)
         {
             IQueryable<Tag> tags = _context.Tags.AsQueryable();
+
+            var createdDateSort = new TagQueryHandler(new CreatedDateSortStrategy());
+            tags = createdDateSort.ExecuteTagQuery(tags, tagParameters);
 
             return await tags.ToListAsync();
         }

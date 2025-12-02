@@ -11,7 +11,7 @@ namespace Weblu.Application.Mappers
 {
     public class TagProfile : Profile
     {
-        protected TagProfile()
+        public TagProfile()
         {
             CreateMap<Tag, TagDto>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
