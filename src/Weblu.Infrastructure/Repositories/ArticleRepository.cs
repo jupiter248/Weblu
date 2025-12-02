@@ -56,7 +56,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<Article?> GetArticleByIdAsync(int articleId)
         {
-            Article? article = await _context.Articles.Include(l => l.ArticleLikes).Include(c => c.Category).Include(c => c.Contributors).Include(c => c.Comments).Include(c => c.ArticleImages).ThenInclude(a => a.Image).FirstOrDefaultAsync(a => a.Id == articleId);
+            Article? article = await _context.Articles.Include(t => t.Tags).Include(l => l.ArticleLikes).Include(c => c.Category).Include(c => c.Contributors).Include(c => c.Comments).Include(c => c.ArticleImages).ThenInclude(a => a.Image).FirstOrDefaultAsync(a => a.Id == articleId);
             return article;
         }
 

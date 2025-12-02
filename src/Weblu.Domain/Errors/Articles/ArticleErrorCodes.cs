@@ -18,6 +18,11 @@ namespace Weblu.Domain.Errors.Articles
         public const string ShortDescriptionMaxLength = "ARTICLE_SHORT_DESCRIPTION_MAX_LENGTH";
         public const string AlreadyLikedByUser = "ARTICLE_ALREADY_LIKED_BY_USER";
         public const string DidNotLikeByUser = "ARTICLE_DID_NOT_LIKE_BY_USER";
+        public const string ContributorAlreadyAddedToArticle = "CONTRIBUTOR_ALREADY_ADDED_TO_ARTICLE";
+        public const string ImageAlreadyAddedToArticle = "CONTRIBUTOR_ALREADY_ADDED_TO_ARTICLE";
+        public const string ArticleHasThumbnailImage = "ARTICLE_HAS_THUMBNAIL_IMAGE";
+
+        public const string TagAlreadyAddedToArticle = "TAG_ALREADY_ADDED_TO_ARTICLE";
 
     }
 }

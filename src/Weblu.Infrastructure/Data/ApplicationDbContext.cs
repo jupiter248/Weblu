@@ -152,6 +152,10 @@ namespace Weblu.Infrastructure.Data
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Article>()
+                .HasMany(m => m.Tags)
+                .WithMany(s => s.Articles);
+
             base.OnModelCreating(modelBuilder);
         }
 

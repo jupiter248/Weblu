@@ -28,6 +28,8 @@ namespace Weblu.Domain.Entities.Articles
         public List<Contributor> Contributors { get; set; } = new List<Contributor>();
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<ArticleLike> ArticleLikes { get; set; } = new List<ArticleLike>();
+        public List<Tag> Tags { get; set; } = new List<Tag>();
+
 
     }
 }

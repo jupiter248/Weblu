@@ -26,7 +26,8 @@ namespace Weblu.Application.Interfaces.Services
         Task UnlikeArticleAsync(int articleId, string userId);
         // Views
         Task ViewArticleAsync(int articleId);
-
-
+        // Tags
+        Task AddTagToArticleAsync(int articleId, int tagId);
+        Task DeleteTagFromArticleAsync(int articleId, int tagId);
     }
 }

@@ -118,5 +118,17 @@ namespace Weblu.Api.Controllers
             await _articleService.ViewArticleAsync(articleId);
             return Ok(ApiResponse.Success("User Viewed the article successfully"));
         }
+        [HttpPost("{articleId:int}/tag/{tagId:int}")]
+        public async Task<IActionResult> AddTagToArticle(int articleId, int tagId)
+        {
+            await _articleService.AddTagToArticleAsync(articleId, tagId);
+            return Ok(ApiResponse.Success("Tag added successfully"));
+        }
+        [HttpDelete("{articleId:int}/tag/{tagId:int}")]
+        public async Task<IActionResult> DeleteTagFromArticle(int articleId, int tagId)
+        {
+            await _articleService.DeleteTagFromArticleAsync(articleId, tagId);
+            return Ok(ApiResponse.Success("Tag deleted successfully"));
+        }
     }
 }

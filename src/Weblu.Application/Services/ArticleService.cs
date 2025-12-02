@@ -17,6 +17,7 @@ using Weblu.Domain.Errors.Articles;
 using Weblu.Domain.Errors.Contributors;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Portfolios;
+using Weblu.Domain.Errors.Tags;
 using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Application.Services
@@ -24,11 +25,13 @@ namespace Weblu.Application.Services
     public class ArticleService : IArticleService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
-        public ArticleService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ArticleService(IUnitOfWork unitOfWork, IMapper mapper, ITagRepository tagRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _tagRepository = tagRepository;
 
         }
         public async Task<ArticleDetailDto> AddArticleAsync(AddArticleDto addArticleDto)
@@ -52,7 +55,7 @@ namespace Weblu.Application.Services
 
             if (article.Contributors.Any(m => m.Id == contributorId))
             {
-                throw new ConflictException(PortfolioErrorCodes.ContributorAlreadyAddedToPortfolio);
+                throw new ConflictException(ArticleErrorCodes.ContributorAlreadyAddedToArticle);
             }
 
             article.Contributors.Add(contributor);
@@ -66,11 +69,11 @@ namespace Weblu.Application.Services
 
             if (article.ArticleImages.Any(p => p.ImageId == imageMedia.Id))
             {
-                throw new ConflictException(PortfolioErrorCodes.ImageAlreadyAddedToPortfolio);
+                throw new ConflictException(ArticleErrorCodes.ImageAlreadyAddedToArticle);
             }
             if (article.ArticleImages.Any(p => p.IsThumbnail && addArticleImageDto.IsThumbnail))
             {
-                throw new ConflictException(PortfolioErrorCodes.PortfolioHasThumbnailImage);
+                throw new ConflictException(ArticleErrorCodes.ArticleHasThumbnailImage);
             }
 
             ArticleImage newImage = new ArticleImage()
@@ -83,6 +86,20 @@ namespace Weblu.Application.Services
             };
 
             article.ArticleImages.Add(newImage);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task AddTagToArticleAsync(int articleId, int tagId)
+        {
+            Article article = await _unitOfWork.Articles.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Tag tag = await _tagRepository.GetTagByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);
+
+            if (article.Tags.Any(m => m.Id == tagId))
+            {
+                throw new ConflictException(ArticleErrorCodes.TagAlreadyAddedToArticle);
+            }
+
+            article.Tags.Add(tag);
             await _unitOfWork.CommitAsync();
         }
 
@@ -118,6 +135,18 @@ namespace Weblu.Application.Services
             }
 
             article.ArticleImages.Remove(articleImage);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task DeleteTagFromArticleAsync(int articleId, int tagId)
+        {
+            Article article = await _unitOfWork.Articles.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Tag tag = await _tagRepository.GetTagByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);
+            if (!article.Tags.Any(c => c.Id == tagId))
+            {
+                throw new NotFoundException(TagErrorCodes.NotFound);
+            }
+            article.Tags.Remove(tag);
             await _unitOfWork.CommitAsync();
         }
 

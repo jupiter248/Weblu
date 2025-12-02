@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Dtos.ArticleDtos.ArticleImageDtos;
 using Weblu.Application.Dtos.ContributorDtos;
+using Weblu.Application.Dtos.TagDtos;
 using Weblu.Domain.Entities.Common;
 
 namespace Weblu.Application.Dtos.ArticleDtos
@@ -29,5 +30,7 @@ namespace Weblu.Application.Dtos.ArticleDtos
         public string CategoryName { get; set; } = default!;
         public List<ArticleImageDto>? ArticleImages { get; set; }
         public List<ContributorDto>? Contributors { get; set; }
+        public List<TagDto>? Tags { get; set; }
+
     }
 }
