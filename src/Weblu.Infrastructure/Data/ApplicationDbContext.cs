@@ -52,6 +52,8 @@ namespace Weblu.Infrastructure.Data
         public DbSet<ArticleImage> ArticleImages { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<ArticleLike> ArticleLikes { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+
 
 
 

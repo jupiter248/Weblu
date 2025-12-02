@@ -41,6 +41,8 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
+
 
 
 
