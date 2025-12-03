@@ -8,6 +8,7 @@ using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.Tags;
 using Weblu.Application.Validations.Tags;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
@@ -31,10 +32,12 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Tag>> GetAllTagsAsync(TagParameters tagParameters)
         {
-            IQueryable<Tag> tags = _context.Tags.AsQueryable();
-
-            var createdDateSort = new TagQueryHandler(new CreatedDateSortStrategy());
-            tags = createdDateSort.ExecuteTagQuery(tags, tagParameters);
+            IQueryable<Tag> tags = _context.Tags;
+            if (tagParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                tags = new TagQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteTagQuery(tags, tagParameters);
+            }
 
             return await tags.ToListAsync();
         }

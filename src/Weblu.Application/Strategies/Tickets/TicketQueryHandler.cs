@@ -16,7 +16,7 @@ namespace Weblu.Application.Strategies.Tickets
             _ticketQueryStrategy = ticketQueryStrategy;
         }
 
-        public IQueryable<Ticket> ExecuteServiceQuery(IQueryable<Ticket> tickets, TicketParameters ticketParameters)
+        public IQueryable<Ticket> ExecuteTicketQuery(IQueryable<Ticket> tickets, TicketParameters ticketParameters)
         {
             return _ticketQueryStrategy.Query(tickets, ticketParameters);
         }

@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.FavoriteLists;
 using Weblu.Domain.Entities.Favorites;
+using Weblu.Domain.Enums.Favorites.Parameters;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
@@ -38,8 +39,11 @@ namespace Weblu.Infrastructure.Repositories
         {
             IQueryable<FavoriteList> favoriteLists = _context.FavoriteLists.Where(u => u.UserId == userId).Include(f => f.FavoritePortfolios).AsQueryable();
 
-            var favoriteListTypeSort = new FavoriteListQueryHandler(new FavoriteListTypeSortQueryStrategy());
-            favoriteLists = favoriteListTypeSort.ExecuteFavoriteListQuery(favoriteLists, favoriteListParameters);
+            if (favoriteListParameters.FavoriteListTypeSort != FavoriteListTypeSort.All)
+            {
+                favoriteLists = new FavoriteListQueryHandler(new FavoriteListTypeSortQueryStrategy())
+                .ExecuteFavoriteListQuery(favoriteLists, favoriteListParameters);
+            }
 
             return await favoriteLists.ToListAsync();
         }

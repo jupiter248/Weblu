@@ -28,7 +28,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<PortfolioCategory>> GetAllPortfolioCategoriesAsync()
         {
-            IQueryable<PortfolioCategory> portfolioCategories = _context.PortfolioCategories.AsQueryable();
+            IQueryable<PortfolioCategory> portfolioCategories = _context.PortfolioCategories;
             return await portfolioCategories.ToListAsync();
         }
 

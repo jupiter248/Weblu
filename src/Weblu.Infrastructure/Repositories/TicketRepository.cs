@@ -7,6 +7,8 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.Tickets;
 using Weblu.Domain.Entities.Tickets;
+using Weblu.Domain.Enums.Common.Parameters;
+using Weblu.Domain.Enums.Tickets.Parameters;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
@@ -30,16 +32,24 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Ticket>> GetAllTicketsAsync(TicketParameters ticketParameters)
         {
-            var tickets = _context.Tickets.AsQueryable();
+            IQueryable<Ticket> tickets = _context.Tickets;
+            if (ticketParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                tickets = new TicketQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteTicketQuery(tickets, ticketParameters);
+            }
 
-            var createdDateSortQuery = new TicketQueryHandler(new CreatedDateSortStrategy());
-            tickets = createdDateSortQuery.ExecuteServiceQuery(tickets, ticketParameters);
+            if (ticketParameters.TicketStatus != TicketStatusSort.All)
+            {
+                tickets = new TicketQueryHandler(new StatusStrategy())
+                .ExecuteTicketQuery(tickets, ticketParameters);
+            }
 
-            var statusQuery = new TicketQueryHandler(new StatusStrategy());
-            tickets = statusQuery.ExecuteServiceQuery(tickets, ticketParameters);
-
-            var priorityQuery = new TicketQueryHandler(new PriorityStrategy());
-            tickets = priorityQuery.ExecuteServiceQuery(tickets, ticketParameters);
+            if (ticketParameters.TicketPriority != TicketPrioritySort.All)
+            {
+                tickets = new TicketQueryHandler(new PriorityStrategy())
+                .ExecuteTicketQuery(tickets, ticketParameters);
+            }
 
             return await tickets.ToListAsync();
         }

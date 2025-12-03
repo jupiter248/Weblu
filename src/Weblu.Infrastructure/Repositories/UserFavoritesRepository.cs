@@ -22,10 +22,12 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<FavoritePortfolio>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters)
         {
-            IQueryable<FavoritePortfolio> favoritePortfolios = _context.FavoritePortfolios.Where(u => u.UserId == userId).Include(p => p.Portfolio).Include(f => f.FavoriteLists).AsQueryable();
-
-            var filteredByListIdQuery = new FavoritePortfolioQueryHandler(new FilterByListIdQueryStrategy());
-            favoritePortfolios = filteredByListIdQuery.ExecuteFavoritePortfolioQuery(favoritePortfolios, favoriteParameters);
+            IQueryable<FavoritePortfolio> favoritePortfolios = _context.FavoritePortfolios.Where(u => u.UserId == userId).Include(p => p.Portfolio).Include(f => f.FavoriteLists);
+            if (favoriteParameters.FavoriteListId.HasValue)
+            {
+                favoritePortfolios = new FavoritePortfolioQueryHandler(new FilterByListIdQueryStrategy())
+                .ExecuteFavoritePortfolioQuery(favoritePortfolios, favoriteParameters);
+            }
 
             return await favoritePortfolios.ToListAsync();
         }

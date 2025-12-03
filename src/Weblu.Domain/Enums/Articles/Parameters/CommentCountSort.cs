@@ -1,6 +1,6 @@
 namespace Weblu.Domain.Enums.Articles.Parameters
 {
-    public enum CommentCount
+    public enum CommentCountSort
     {
         All,
         TheMost,

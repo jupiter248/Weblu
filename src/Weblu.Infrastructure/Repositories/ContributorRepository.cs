@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.Contributors;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
@@ -37,10 +38,13 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Contributor>> GetAllContributorsAsync(ContributorParameters contributorParameters)
         {
-            IQueryable<Contributor> contributors = _context.Contributors.AsQueryable();
+            IQueryable<Contributor> contributors = _context.Contributors;
 
-            var createdDateSortStrategy = new ContributorQueryStrategy(new CreatedDateSortStrategy());
-            contributors = createdDateSortStrategy.ExecuteServiceQuery(contributors, contributorParameters);
+            if (contributorParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                contributors = new ContributorQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteContributorQuery(contributors, contributorParameters);
+            }
 
             return await contributors.ToListAsync();
         }

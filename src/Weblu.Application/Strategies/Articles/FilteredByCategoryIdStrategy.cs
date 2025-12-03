@@ -12,14 +12,8 @@ namespace Weblu.Application.Strategies.Articles
     {
         public IQueryable<Article> Query(IQueryable<Article> articles, ArticleParameters articleParameters)
         {
-            if (articleParameters.CategoryId.HasValue)
-            {
+
                 return articles.Where(p => p.CategoryId == articleParameters.CategoryId);
-            }
-            else
-            {
-                return articles;
-            }
         }
     }
 }

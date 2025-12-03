@@ -8,18 +8,11 @@ using Weblu.Domain.Entities.Portfolios;
 
 namespace Weblu.Application.Strategies.Portfolios
 {
-    public class FilteredByContributorIdStrategy : IPortfolioQueryStrategy
+    public class FilterByCategoryIdStrategy : IPortfolioQueryStrategy
     {
         public IQueryable<Portfolio> Query(IQueryable<Portfolio> portfolios, PortfolioParameters portfolioParameters)
         {
-            if (portfolioParameters.ContributorId.HasValue)
-            {
-                return portfolios.Where(p => p.Contributors.Any(c => c.Id == portfolioParameters.ContributorId));
-            }
-            else
-            {
-                return portfolios;
-            }
+            return portfolios.Where(p => p.PortfolioCategoryId == portfolioParameters.CategoryId);
         }
     }
 }

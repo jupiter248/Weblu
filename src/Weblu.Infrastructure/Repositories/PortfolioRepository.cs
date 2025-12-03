@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.Portfolios;
 using Weblu.Domain.Entities.Portfolios;
+using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
@@ -30,16 +31,23 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Portfolio>> GetAllPortfolioAsync(PortfolioParameters portfolioParameters)
         {
-            IQueryable<Portfolio> portfolios = _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).Include(c => c.Contributors).AsQueryable();
+            IQueryable<Portfolio> portfolios = _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).Include(c => c.Contributors);
 
-            var createdDateSort = new PortfolioQueryStrategy(new CreatedDateSortStrategy());
-            portfolios = createdDateSort.ExecuteServiceQuery(portfolios, portfolioParameters);
-
-            var filteredByCategoryId = new PortfolioQueryStrategy(new FilteredByCategoryIdStrategy());
-            portfolios = filteredByCategoryId.ExecuteServiceQuery(portfolios, portfolioParameters);
-
-            var filteredByContributorId = new PortfolioQueryStrategy(new FilteredByContributorIdStrategy());
-            portfolios = filteredByContributorId.ExecuteServiceQuery(portfolios, portfolioParameters);
+            if (portfolioParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                portfolios = new PortfolioQueryStrategy(new CreatedDateSortStrategy())
+                .ExecutePortfolioQuery(portfolios, portfolioParameters);
+            }
+            if (portfolioParameters.CategoryId.HasValue)
+            {
+                portfolios = new PortfolioQueryStrategy(new FilterByCategoryIdStrategy())
+                .ExecutePortfolioQuery(portfolios, portfolioParameters);
+            }
+            if (portfolioParameters.ContributorId.HasValue)
+            {
+                portfolios = new PortfolioQueryStrategy(new FilterByContributorIdStrategy())
+                .ExecutePortfolioQuery(portfolios, portfolioParameters);
+            }
 
             return await portfolios.ToListAsync();
         }

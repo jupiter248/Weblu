@@ -15,7 +15,6 @@ namespace Weblu.Application.Strategies.Comments
         {
             _commentQueryStrategy = commentQueryStrategy;
         }
-
         public IQueryable<Comment> ExecuteCommentQuery(IQueryable<Comment> comments, CommentParameters commentParameters)
         {
             return _commentQueryStrategy.Query(comments, commentParameters);

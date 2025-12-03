@@ -15,7 +15,7 @@ namespace Weblu.Application.Strategies.Portfolios
         {
             _portfolioQueryStrategy = portfolioQueryStrategy;
         }
-        public IQueryable<Portfolio> ExecuteServiceQuery(IQueryable<Portfolio> portfolios, PortfolioParameters portfolioParameters)
+        public IQueryable<Portfolio> ExecutePortfolioQuery(IQueryable<Portfolio> portfolios, PortfolioParameters portfolioParameters)
         {
             return _portfolioQueryStrategy.Query(portfolios, portfolioParameters);
         }

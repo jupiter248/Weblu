@@ -7,6 +7,8 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.RefreshTokens;
 using Weblu.Domain.Entities.Users;
+using Weblu.Domain.Enums.Common.Parameters;
+using Weblu.Domain.Enums.Tokens;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Token;
 
@@ -26,19 +28,27 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<RefreshToken>> GetAllRefreshTokenAsync(RefreshTokenParameters refreshTokenParameters)
         {
-            IQueryable<RefreshToken> refreshTokens = _context.RefreshTokens.AsQueryable();
-
-            var filterByUserId = new RefreshTokenQueryHandler(new FilterByUserIdStrategy());
-            refreshTokens = filterByUserId.ExecuteServiceQuery(refreshTokens, refreshTokenParameters);
-
-            var createdDateSort = new RefreshTokenQueryHandler(new CreatedDateSortStrategy());
-            refreshTokens = createdDateSort.ExecuteServiceQuery(refreshTokens, refreshTokenParameters);
-
-            var usedStatus = new RefreshTokenQueryHandler(new UsedStatusStrategy());
-            refreshTokens = usedStatus.ExecuteServiceQuery(refreshTokens, refreshTokenParameters);
-
-            var revokedStatus = new RefreshTokenQueryHandler(new RevokedStatusStrategy());
-            refreshTokens = revokedStatus.ExecuteServiceQuery(refreshTokens, refreshTokenParameters);
+            IQueryable<RefreshToken> refreshTokens = _context.RefreshTokens;
+            if (!string.IsNullOrEmpty(refreshTokenParameters.FilterByUserId))
+            {
+                refreshTokens = new RefreshTokenQueryHandler(new FilterByUserIdStrategy())
+                .ExecuteRefreshTokenQuery(refreshTokens, refreshTokenParameters);
+            }
+            if (refreshTokenParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                refreshTokens = new RefreshTokenQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteRefreshTokenQuery(refreshTokens, refreshTokenParameters);
+            }
+            if (refreshTokenParameters.UsedStatus != UsedStatus.All)
+            {
+                refreshTokens = new RefreshTokenQueryHandler(new UsedStatusStrategy())
+                .ExecuteRefreshTokenQuery(refreshTokens, refreshTokenParameters);
+            }
+            if (refreshTokenParameters.RevokedStatus != RevokedStatus.All)
+            {
+                refreshTokens = new RefreshTokenQueryHandler(new RevokedStatusStrategy())
+                .ExecuteRefreshTokenQuery(refreshTokens, refreshTokenParameters);
+            }
 
             return await refreshTokens.ToListAsync();
         }

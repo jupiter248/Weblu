@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
+using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Application.Strategies.Comments;
 using Weblu.Domain.Entities.Common;
 using Weblu.Infrastructure.Data;
@@ -30,19 +31,28 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Comment>> GetAllCommentsAsync(CommentParameters commentParameters)
         {
-            IQueryable<Comment> comments = _context.Comments.AsQueryable();
+            IQueryable<Comment> comments = _context.Comments;
 
-            var createdDateSort = new CommentQueryHandler(new CreatedDateSortStrategy());
-            comments = createdDateSort.ExecuteCommentQuery(comments, commentParameters);
-
-            var filterByArticleId = new CommentQueryHandler(new FilterByArticleIdStrategy());
-            comments = filterByArticleId.ExecuteCommentQuery(comments, commentParameters);
-
-            var filterByUserId = new CommentQueryHandler(new FilterByUserIdStrategy());
-            comments = filterByUserId.ExecuteCommentQuery(comments, commentParameters);
-
-            var filterByCommentParentId = new CommentQueryHandler(new FilterByParentCommentIdStrategy());
-            comments = filterByCommentParentId.ExecuteCommentQuery(comments, commentParameters);
+            if (commentParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                comments = new CommentQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteCommentQuery(comments, commentParameters);
+            }
+            if (commentParameters.ArticleId.HasValue)
+            {
+                comments = new CommentQueryHandler(new FilterByArticleIdStrategy())
+                .ExecuteCommentQuery(comments, commentParameters);
+            }
+            if (!string.IsNullOrEmpty(commentParameters.UserId))
+            {
+                comments = new CommentQueryHandler(new FilterByUserIdStrategy())
+                .ExecuteCommentQuery(comments, commentParameters);
+            }
+            if (commentParameters.ParentCommentId.HasValue)
+            {
+                comments = new CommentQueryHandler(new FilterByParentCommentIdStrategy())
+                .ExecuteCommentQuery(comments, commentParameters);
+            }
 
             return await comments.ToListAsync();
         }

@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.Faqs;
 using Weblu.Domain.Entities.Faqs;
+using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
@@ -36,10 +37,13 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Faq>> GetAllFaqsAsync(FaqParameters faqParameters)
         {
-            IQueryable<Faq> faqs = _context.Faqs.Include(c => c.Category).AsQueryable();
+            IQueryable<Faq> faqs = _context.Faqs.Include(c => c.Category);
 
-            var createdDateSort = new FaqQueryHandler(new CreatedDateSortStrategy());
-            faqs = createdDateSort.ExecuteFaqQuery(faqs, faqParameters);
+            if (faqParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                faqs = new FaqQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteFaqQuery(faqs, faqParameters);
+            }
 
             return await faqs.ToListAsync();
         }

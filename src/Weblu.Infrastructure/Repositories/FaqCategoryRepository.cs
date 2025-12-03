@@ -34,7 +34,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<FaqCategory>> GetAllFaqCategoriesAsync()
         {
-            IQueryable<FaqCategory> faqCategories = _context.FaqCategories.AsQueryable();
+            IQueryable<FaqCategory> faqCategories = _context.FaqCategories;
 
             return await faqCategories.ToListAsync();
         }

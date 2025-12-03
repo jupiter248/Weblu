@@ -10,7 +10,7 @@ namespace Weblu.Application.Parameters
     public class RefreshTokenParameters
     {
         public string? FilterByUserId { get; set; }
-        public CreatedDateSort CreatedDate { get; set; }
+        public CreatedDateSort CreatedDateSort { get; set; }
         public RevokedStatus RevokedStatus { get; set; }
         public UsedStatus UsedStatus { get; set; }
 

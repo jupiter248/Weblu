@@ -12,14 +12,7 @@ namespace Weblu.Application.Strategies.Comments
     {
         public IQueryable<Comment> Query(IQueryable<Comment> comments, CommentParameters commentParameters)
         {
-            if (!string.IsNullOrWhiteSpace(commentParameters.UserId))
-            {
-                return comments.Where(c => c.UserId == commentParameters.UserId);
-            }
-            else
-            {
-                return comments;
-            }
+            return comments.Where(c => c.UserId == commentParameters.UserId);
         }
     }
 }

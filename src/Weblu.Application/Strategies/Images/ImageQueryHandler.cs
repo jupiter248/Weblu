@@ -18,7 +18,7 @@ namespace Weblu.Application.Strategies.Images
         {
             _imageQueryStrategy = imageQueryStrategy;
         }
-        public IQueryable<ImageMedia> ExecuteServiceQuery(IQueryable<ImageMedia> images, ImageParameters imageParameters)
+        public IQueryable<ImageMedia> ExecuteImageQuery(IQueryable<ImageMedia> images, ImageParameters imageParameters)
         {
             return _imageQueryStrategy.Query(images, imageParameters);
         }

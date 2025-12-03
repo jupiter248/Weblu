@@ -12,14 +12,7 @@ namespace Weblu.Application.Strategies.RefreshTokens
     {
         public IQueryable<RefreshToken> Query(IQueryable<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters)
         {
-            if (!string.IsNullOrEmpty(refreshTokenParameters.FilterByUserId))
-            {
-                return refreshTokens.Where(u => u.UserId == refreshTokenParameters.FilterByUserId);
-            }
-            else
-            {
-                return refreshTokens;
-            }
+            return refreshTokens.Where(u => u.UserId == refreshTokenParameters.FilterByUserId);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Weblu.Application.Parameters
         public CreatedDateSort CreatedDateSort { get; set; }
         public int? CategoryId { get; set; }
         public int? ContributorId { get; set; }
-        public CommentCount CommentCountSort { get; set; }
+        public CommentCountSort CommentCountSort { get; set; }
         public LikeCountSort LikeCountSort { get; set; }
         public ViewCountSort ViewCountSort { get; set; }
 

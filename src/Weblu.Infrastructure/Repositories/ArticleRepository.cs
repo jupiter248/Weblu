@@ -8,6 +8,7 @@ using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.Articles;
 using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Enums.Articles.Parameters;
+using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
@@ -31,26 +32,39 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Article>> GetAllArticleAsync(ArticleParameters articleParameters)
         {
-            IQueryable<Article> articles = _context.Articles.Include(l => l.ArticleLikes).Include(c => c.Category).Include(c => c.Comments).AsQueryable();
+            IQueryable<Article> articles = _context.Articles.Include(l => l.ArticleLikes).Include(c => c.Category).Include(c => c.Comments);
 
-            var createdDateSort = new ArticleQueryHandler(new CreatedDateSortStrategy());
-            articles = createdDateSort.ExecuteArticleQuery(articles, articleParameters);
-
-            var filteredByCategoryId = new ArticleQueryHandler(new FilteredByCategoryIdStrategy());
-            articles = filteredByCategoryId.ExecuteArticleQuery(articles, articleParameters);
-
-            var filteredByContributorId = new ArticleQueryHandler(new FilteredByContributorIdStrategy());
-            articles = filteredByContributorId.ExecuteArticleQuery(articles, articleParameters);
-
-            var ViewCountSort = new ArticleQueryHandler(new ViewCountSortStrategy());
-            articles = ViewCountSort.ExecuteArticleQuery(articles, articleParameters);
-
-            var LikeCountSort = new ArticleQueryHandler(new LikeCountSortStrategy());
-            articles = LikeCountSort.ExecuteArticleQuery(articles, articleParameters);
-
-            var CommentCountSort = new ArticleQueryHandler(new CommentCountSortStrategy());
-            articles = CommentCountSort.ExecuteArticleQuery(articles, articleParameters);
-
+            if (articleParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                articles = new ArticleQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteArticleQuery(articles, articleParameters);
+            }
+            if (articleParameters.CategoryId.HasValue)
+            {
+                articles = new ArticleQueryHandler(new FilteredByCategoryIdStrategy())
+                .ExecuteArticleQuery(articles, articleParameters);
+            }
+            if (articleParameters.ContributorId.HasValue)
+            {
+                articles = new ArticleQueryHandler(new FilteredByContributorIdStrategy())
+                .ExecuteArticleQuery(articles, articleParameters);
+            }
+            if (articleParameters.ViewCountSort != ViewCountSort.All)
+            {
+                articles = new ArticleQueryHandler(new ViewCountSortStrategy())
+                .ExecuteArticleQuery(articles, articleParameters);
+            }
+            if (articleParameters.LikeCountSort != LikeCountSort.All)
+            {
+                articles = new ArticleQueryHandler(new LikeCountSortStrategy())
+                .ExecuteArticleQuery(articles, articleParameters);
+            }
+            if (articleParameters.CommentCountSort != CommentCountSort.All)
+            {
+                articles = new ArticleQueryHandler(new CommentCountSortStrategy())
+                .ExecuteArticleQuery(articles, articleParameters);
+            }
+            
             return await articles.ToListAsync();
         }
 

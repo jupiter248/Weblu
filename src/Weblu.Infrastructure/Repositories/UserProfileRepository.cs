@@ -8,6 +8,7 @@ using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.Profiles;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Enums.Common.Media;
+using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
@@ -31,10 +32,12 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<ProfileMedia>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters)
         {
-            IQueryable<ProfileMedia> profiles = _context.ProfileMedia.AsQueryable();
-
-            var addedDateSort = new ProfileMediaQueryHandler(new AddedDateSortStrategy());
-            profiles = addedDateSort.ExecuteServiceQuery(profiles, profileMediaParameters);
+            IQueryable<ProfileMedia> profiles = _context.ProfileMedia;
+            if (profileMediaParameters.AddedDateSort != CreatedDateSort.All)
+            {
+                profiles = new ProfileMediaQueryHandler(new AddedDateSortStrategy())
+                .ExecuteProfileQuery(profiles, profileMediaParameters);
+            }
 
             return await profiles.ToListAsync();
         }

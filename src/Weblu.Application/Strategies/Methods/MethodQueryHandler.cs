@@ -18,7 +18,7 @@ namespace Weblu.Application.Strategies.Methods
         {
             _methodQueryStrategy = methodQueryStrategy;
         }
-        public IQueryable<Method> ExecuteServiceQuery(IQueryable<Method> methods, MethodParameters methodParameters)
+        public IQueryable<Method> ExecuteMethodQuery(IQueryable<Method> methods, MethodParameters methodParameters)
         {
             return _methodQueryStrategy.Query(methods, methodParameters);
         }

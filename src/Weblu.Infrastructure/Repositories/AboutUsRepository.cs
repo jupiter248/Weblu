@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.AboutUsInfo;
 using Weblu.Domain.Entities.About;
+using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
@@ -36,10 +37,13 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<AboutUs>> GetAllAboutUsInfosAsync(AboutUsParameters aboutUsParameters)
         {
-            IQueryable<AboutUs> aboutUs = _context.AboutUs.AsQueryable();
+            IQueryable<AboutUs> aboutUs = _context.AboutUs;
 
-            var createdDateSort = new AboutUsQueryHandler(new CreatedDateSortStrategy());
-            aboutUs = createdDateSort.ExecuteAboutUsQuery(aboutUs, aboutUsParameters);
+            if (aboutUsParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                aboutUs = new AboutUsQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteAboutUsQuery(aboutUs, aboutUsParameters);
+            }
 
             return await aboutUs.ToListAsync();
         }

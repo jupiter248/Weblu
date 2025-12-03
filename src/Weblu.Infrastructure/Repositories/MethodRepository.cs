@@ -11,6 +11,7 @@ using Weblu.Application.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Common.Methods;
+using Weblu.Domain.Enums.Common.Parameters;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -33,10 +34,13 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Method>> GetAllMethodsAsync(MethodParameters methodParameters)
         {
-            IQueryable<Method> methods = _context.Methods.AsQueryable();
+            IQueryable<Method> methods = _context.Methods;
 
-            var createdDateSortQuery = new MethodQueryHandler(new CreatedDateSortStrategy());
-            methods = createdDateSortQuery.ExecuteServiceQuery(methods, methodParameters);
+            if (methodParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                methods = new MethodQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteMethodQuery(methods, methodParameters);
+            }
 
             return await methods.ToListAsync();
 

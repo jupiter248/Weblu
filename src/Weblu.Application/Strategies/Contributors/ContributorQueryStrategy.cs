@@ -8,14 +8,14 @@ using Weblu.Domain.Entities.Common;
 
 namespace Weblu.Application.Strategies.Contributors
 {
-    public class ContributorQueryStrategy
+    public class ContributorQueryHandler
     {
         private IContributorQueryStrategy _contributorQueryStrategy;
-        public ContributorQueryStrategy(IContributorQueryStrategy contributorQueryStrategy)
+        public ContributorQueryHandler(IContributorQueryStrategy contributorQueryStrategy)
         {
             _contributorQueryStrategy = contributorQueryStrategy;
         }
-        public IQueryable<Contributor> ExecuteServiceQuery(IQueryable<Contributor> contributors, ContributorParameters contributorParameters)
+        public IQueryable<Contributor> ExecuteContributorQuery(IQueryable<Contributor> contributors, ContributorParameters contributorParameters)
         {
             return _contributorQueryStrategy.Query(contributors, contributorParameters);
         }

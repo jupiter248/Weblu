@@ -12,6 +12,7 @@ using Weblu.Domain.Entities.Services;
 using Weblu.Application.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Enums.Common.Parameters;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -42,10 +43,12 @@ namespace Weblu.Infrastructure.Repositories
         public async Task<IReadOnlyList<Feature>> GetAllFeaturesAsync(FeatureParameters featureParameters)
         {
             IQueryable<Feature> features = _context.Features.AsQueryable();
+            if (featureParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                features = new FeatureQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteFeatureQuery(features, featureParameters);
+            }
 
-            var createdDateSortQuery = new FeatureQueryHandler(new CreatedDateSortStrategy());
-            features = createdDateSortQuery.ExecuteServiceQuery(features, featureParameters);
-            
             return await features.ToListAsync();
         }
 

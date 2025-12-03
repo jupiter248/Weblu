@@ -12,14 +12,7 @@ namespace Weblu.Application.Strategies.Comments
     {
         public IQueryable<Comment> Query(IQueryable<Comment> comments, CommentParameters commentParameters)
         {
-            if (commentParameters.ParentCommentId.HasValue)
-            {
-                return comments.Where(c => c.ParentCommentId == commentParameters.ParentCommentId);
-            }
-            else
-            {
-                return comments;
-            }
+            return comments.Where(c => c.ParentCommentId == commentParameters.ParentCommentId);
         }
     }
 }

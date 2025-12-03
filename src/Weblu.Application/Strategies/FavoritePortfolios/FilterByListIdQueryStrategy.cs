@@ -12,13 +12,8 @@ namespace Weblu.Application.Strategies.FavoritePortfolios
     {
         public IQueryable<FavoritePortfolio> Query(IQueryable<FavoritePortfolio> favoritePortfolios, FavoriteParameters favoriteParameters)
         {
-            if (favoriteParameters.FavoriteListId.HasValue)
-            {
-                int targetListId = favoriteParameters.FavoriteListId.Value;
-
-                favoritePortfolios = favoritePortfolios
-                    .Where(fp => fp.FavoriteLists.Any(fl => fl.Id == targetListId));
-            }
+            favoritePortfolios = favoritePortfolios
+                .Where(fp => fp.FavoriteLists.Any(fl => fl.Id == favoriteParameters.FavoriteListId));
             return favoritePortfolios;
         }
     }

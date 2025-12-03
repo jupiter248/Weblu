@@ -9,6 +9,8 @@ using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Services;
 using Weblu.Application.Parameters;
 using Weblu.Infrastructure.Data;
+using Weblu.Domain.Enums.Common.Parameters;
+using Weblu.Domain.Enums.Services.Parameters;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -32,16 +34,22 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Service>> GetAllServicesAsync(ServiceParameters serviceParameters)
         {
-            var services = _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).AsQueryable();
-
-            var priceSortQuery = new ServiceQueryHandler(new PriceSortStrategy());
-            services = priceSortQuery.ExecuteServiceQuery(services, serviceParameters);
-    
-            var durationSortQuery = new ServiceQueryHandler(new DurationSortStrategy());
-            services = durationSortQuery.ExecuteServiceQuery(services, serviceParameters);
-
-            var createdSortQuery = new ServiceQueryHandler(new CreatedDateSortStrategy());
-            services = createdSortQuery.ExecuteServiceQuery(services, serviceParameters);
+            IQueryable<Service> services = _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image);
+            if (serviceParameters.PriceSort != PriceSort.All)
+            {
+                services = new ServiceQueryHandler(new PriceSortStrategy())
+                .ExecuteServiceQuery(services, serviceParameters);
+            }
+            if (serviceParameters.DurationSort != DurationSort.All)
+            {
+                services = new ServiceQueryHandler(new DurationSortStrategy())
+                .ExecuteServiceQuery(services, serviceParameters);
+            }
+            if (serviceParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                services = new ServiceQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteServiceQuery(services, serviceParameters);
+            }
 
             return await services.ToListAsync();
         }

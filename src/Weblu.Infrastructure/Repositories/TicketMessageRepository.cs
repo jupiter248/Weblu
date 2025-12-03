@@ -29,7 +29,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<TicketMessage>> GetAllTicketMessagesAsync(int ticketId, TicketMessageParameters ticketMessageParameters)
         {
-            IQueryable<TicketMessage> ticketMessages = _context.TicketMessages.Where(t => t.TicketId == ticketId).AsQueryable();
+            IQueryable<TicketMessage> ticketMessages = _context.TicketMessages.Where(t => t.TicketId == ticketId);
 
             return await ticketMessages.ToListAsync();
         }

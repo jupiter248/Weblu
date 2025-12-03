@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Weblu.Application.Interfaces.Strategies;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Articles;
+using Weblu.Domain.Enums.Articles.Parameters;
 
 namespace Weblu.Application.Strategies.Articles
 {
@@ -12,7 +13,18 @@ namespace Weblu.Application.Strategies.Articles
     {
         public IQueryable<Article> Query(IQueryable<Article> articles, ArticleParameters articleParameters)
         {
-            return articles;
+            if (articleParameters.CommentCountSort == CommentCountSort.TheMost)
+            {
+                return articles.OrderByDescending(s => s.Comments.Count());
+            }
+            else if (articleParameters.CommentCountSort == CommentCountSort.TheLeast)
+            {
+                return articles.OrderBy(s => s.Comments.Count());
+            }
+            else
+            {
+                return articles;
+            }
         }
     }
 }
