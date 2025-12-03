@@ -25,20 +25,25 @@ namespace Weblu.Application.Services
     public class ProfileImageService : IProfileImageService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _userRepository;
+        private readonly IProfileImageRepository _profileImageRepository;
         private readonly IWebHostEnvironment _webHost;
         private readonly IMapper _mapper;
-        public ProfileImageService(IUnitOfWork unitOfWork, IWebHostEnvironment webHost, IMapper mapper)
+        public ProfileImageService(IUnitOfWork unitOfWork, IWebHostEnvironment webHost, IMapper mapper , 
+            IProfileImageRepository profileImageRepository , IUserRepository userRepository)
         {
             _unitOfWork = unitOfWork;
             _webHost = webHost;
             _mapper = mapper;
+            _profileImageRepository = profileImageRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<ProfileDto> AddProfileAsync(AddProfileDto addProfileDto)
         {
             if (addProfileDto.OwnerType == ProfileMediaType.User)
             {
-                bool appUserExists = await _unitOfWork.Users.UserExistsAsync(addProfileDto.OwnerId);
+                bool appUserExists = await _userRepository.UserExistsAsync(addProfileDto.OwnerId);
                 if (!appUserExists)
                 {
                     throw new NotFoundException(UserErrorCodes.UserNotFound);
@@ -48,7 +53,7 @@ namespace Weblu.Application.Services
             {
             }
 
-            bool userHasMainProfile = await _unitOfWork.Profiles.UserHasMainProfileAsync(addProfileDto.OwnerId);
+            bool userHasMainProfile = await _profileImageRepository.UserHasMainProfileAsync(addProfileDto.OwnerId);
             if (userHasMainProfile)
             {
                 throw new ConflictException(UserErrorCodes.UserAlreadyAddedMainProfileImage);
@@ -78,7 +83,7 @@ namespace Weblu.Application.Services
                 IsMain = addProfileDto.IsMain
             };
 
-            await _unitOfWork.Profiles.AddProfileAsync(profileModel);
+            await _profileImageRepository.AddProfileAsync(profileModel);
             await _unitOfWork.CommitAsync();
 
             ProfileDto profileDto = _mapper.Map<ProfileDto>(profileModel);
@@ -87,23 +92,23 @@ namespace Weblu.Application.Services
 
         public async Task DeleteProfileAsync(int profileId)
         {
-            ProfileMedia image = await _unitOfWork.Profiles.GetProfileByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            ProfileMedia image = await _profileImageRepository.GetProfileByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
-            _unitOfWork.Profiles.DeleteProfile(image);
+            _profileImageRepository.DeleteProfile(image);
             await MediaManager.DeleteMedia(_webHost, image.Url);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task<List<ProfileDto>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters)
         {
-            IReadOnlyList<ProfileMedia> images = await _unitOfWork.Profiles.GetAllProfilesAsync(profileMediaParameters);
+            IReadOnlyList<ProfileMedia> images = await _profileImageRepository.GetAllProfilesAsync(profileMediaParameters);
             List<ProfileDto> imageDtos = _mapper.Map<List<ProfileDto>>(images);
             return imageDtos;
         }
 
         public async Task<ProfileDto> GetProfileByIdAsync(int profileId)
         {
-            ProfileMedia image = await _unitOfWork.Profiles.GetProfileByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            ProfileMedia image = await _profileImageRepository.GetProfileByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
             ProfileDto imageDto = _mapper.Map<ProfileDto>(image);
             return imageDto;
         }

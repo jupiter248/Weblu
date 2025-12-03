@@ -64,7 +64,7 @@ namespace Weblu.Api.Extensions
                         partitionKey: $"{context.Connection.RemoteIpAddress}-{articleId}",
                     factory: key => new TokenBucketRateLimiterOptions
                     {
-                        TokenLimit = 5,                 // max number of views
+                        TokenLimit = 3,                 // max number of views
                         TokensPerPeriod = 5,            // refill amount
                         ReplenishmentPeriod = TimeSpan.FromMinutes(1),
                         AutoReplenishment = true,

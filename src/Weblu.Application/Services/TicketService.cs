@@ -17,18 +17,24 @@ namespace Weblu.Application.Services
     public class TicketService : ITicketService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserService _userService;
-
+        private readonly ITicketMessageRepository _ticketMessageRepository;
+        private readonly ITicketRepository _ticketRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public TicketService(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
+        public TicketService(IUnitOfWork unitOfWork, IMapper mapper,
+             ITicketRepository ticketRepository,
+             ITicketMessageRepository ticketMessageRepository,
+             IUserRepository userRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _userService = userService;
+            _userRepository = userRepository;
+            _ticketRepository = ticketRepository;
+            _ticketMessageRepository = ticketMessageRepository;
         }
         public async Task<TicketDetailDto> CreateTicketAsync(string userId, CreateTicketDto createTicketDto)
         {
-            bool userExists = await _unitOfWork.Users.UserExistsAsync(userId);
+            bool userExists = await _userRepository.UserExistsAsync(userId);
             if (!userExists)
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
@@ -36,7 +42,7 @@ namespace Weblu.Application.Services
             Ticket ticket = _mapper.Map<Ticket>(createTicketDto);
             ticket.UserId = userId;
 
-            await _unitOfWork.Tickets.AddTicketAsync(ticket);
+            await _ticketRepository.AddTicketAsync(ticket);
 
             TicketMessage ticketMessage = new TicketMessage()
             {
@@ -46,7 +52,7 @@ namespace Weblu.Application.Services
                 Ticket = ticket,
                 TicketId = ticket.Id
             };
-            await _unitOfWork.TicketMessages.AddTicketMessageAsync(ticketMessage);
+            await _ticketMessageRepository.AddTicketMessageAsync(ticketMessage);
             await _unitOfWork.CommitAsync();
 
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
@@ -55,26 +61,26 @@ namespace Weblu.Application.Services
 
         public async Task DeleteTicketAsync(string userId, int ticketId)
         {
-            bool userExists = await _unitOfWork.Users.UserExistsAsync(userId);
+            bool userExists = await _userRepository.UserExistsAsync(userId);
             if (!userExists)
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            bool isAdmin = await _userService.IsAdminAsync(userId);
-            Ticket ticket = await _unitOfWork.Tickets.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            bool isAdmin = await _userRepository.IsAdminAsync(userId);
+            Ticket ticket = await _ticketRepository.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
 
             if (!isAdmin && ticket.UserId != userId)
             {
                 throw new UnauthorizedException(TicketErrorCodes.TicketDeleteForbidden);
             }
 
-            _unitOfWork.Tickets.DeleteTicket(ticket);
+            _ticketRepository.DeleteTicket(ticket);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task<List<TicketSummaryDto>> GetAllTicketsAsync(TicketParameters ticketParameters)
         {
-            IReadOnlyList<Ticket> tickets = await _unitOfWork.Tickets.GetAllTicketsAsync(ticketParameters);
+            IReadOnlyList<Ticket> tickets = await _ticketRepository.GetAllTicketsAsync(ticketParameters);
             List<TicketSummaryDto> ticketSummaryDtos = _mapper.Map<List<TicketSummaryDto>>(tickets);
 
             return ticketSummaryDtos;
@@ -82,19 +88,19 @@ namespace Weblu.Application.Services
 
         public async Task<TicketDetailDto> GetTicketByIdAsync(int ticketId)
         {
-            Ticket ticket = await _unitOfWork.Tickets.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            Ticket ticket = await _ticketRepository.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;
         }
 
         public async Task<TicketDetailDto> UpdateTicketAsync(string userId, int ticketId, UpdateTicketDto updateTicketDto)
         {
-            bool userExists = await _unitOfWork.Users.UserExistsAsync(userId);
+            bool userExists = await _userRepository.UserExistsAsync(userId);
             if (!userExists)
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            Ticket ticket = await _unitOfWork.Tickets.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            Ticket ticket = await _ticketRepository.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
             ticket = _mapper.Map(updateTicketDto, ticket);
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;
@@ -102,9 +108,9 @@ namespace Weblu.Application.Services
 
         public async Task<TicketDetailDto> UpdateTicketStatusAsync(int ticketId, UpdateTicketStatusDto updateTicketStatusDto)
         {
-            Ticket ticket = await _unitOfWork.Tickets.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            Ticket ticket = await _ticketRepository.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
             ticket = _mapper.Map(updateTicketStatusDto, ticket);
-            _unitOfWork.Tickets.UpdateTicket(ticket);
+            _ticketRepository.UpdateTicket(ticket);
             await _unitOfWork.CommitAsync();
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;

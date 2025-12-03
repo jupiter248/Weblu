@@ -24,21 +24,23 @@ namespace Weblu.Application.Services
     public class MethodService : IMethodService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMethodRepository _methodRepository;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
 
-        public MethodService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment webHostEnvironment)
+        public MethodService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment webHostEnvironment, IMethodRepository methodRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
+            _methodRepository = methodRepository;
         }
         public async Task<MethodDto> AddMethodAsync(AddMethodDto addMethodDto)
         {
             Method method = _mapper.Map<Method>(addMethodDto);
 
-            await _unitOfWork.Methods.AddMethodAsync(method);
+            await _methodRepository.AddMethodAsync(method);
             await _unitOfWork.CommitAsync();
 
             MethodDto methodDto = _mapper.Map<MethodDto>(method);
@@ -47,20 +49,20 @@ namespace Weblu.Application.Services
 
         public async Task DeleteMethodAsync(int methodId)
         {
-            Method? method = await _unitOfWork.Methods.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
+            Method? method = await _methodRepository.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
 
             if (!string.IsNullOrEmpty(method.ImageUrl))
             {
                 await MediaManager.DeleteMedia(_webHostEnvironment, method.ImageUrl);
             }
 
-            _unitOfWork.Methods.DeleteMethod(method);
+            _methodRepository.DeleteMethod(method);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task DeleteMethodImageAsync(int methodId)
         {
-            Method? method = await _unitOfWork.Methods.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
+            Method? method = await _methodRepository.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
 
             if (string.IsNullOrEmpty(method.ImageUrl))
             {
@@ -77,24 +79,24 @@ namespace Weblu.Application.Services
 
         public async Task<List<MethodDto>> GetAllMethodsAsync(MethodParameters methodParameters)
         {
-            IReadOnlyList<Method> methods = await _unitOfWork.Methods.GetAllMethodsAsync(methodParameters);
+            IReadOnlyList<Method> methods = await _methodRepository.GetAllMethodsAsync(methodParameters);
             List<MethodDto> methodDtos = _mapper.Map<List<MethodDto>>(methods);
             return methodDtos;
         }
 
         public async Task<MethodDto> GetMethodByIdAsync(int methodId)
         {
-            Method? method = await _unitOfWork.Methods.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
+            Method? method = await _methodRepository.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
             MethodDto methodDto = _mapper.Map<MethodDto>(method);
             return methodDto;
         }
 
         public async Task<MethodDto> UpdateMethodAsync(int methodId, UpdateMethodDto updateMethodDto)
         {
-            Method? method = await _unitOfWork.Methods.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
+            Method? method = await _methodRepository.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
             method = _mapper.Map(updateMethodDto, method);
 
-            _unitOfWork.Methods.UpdateMethod(method);
+            _methodRepository.UpdateMethod(method);
             await _unitOfWork.CommitAsync();
 
             MethodDto methodDto = _mapper.Map<MethodDto>(method);
@@ -103,7 +105,7 @@ namespace Weblu.Application.Services
 
         public async Task<MethodDto> UpdateMethodImageAsync(int methodId, UpdateMethodImageDto updateMethodImageDto)
         {
-            Method? method = await _unitOfWork.Methods.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
+            Method? method = await _methodRepository.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
             if (updateMethodImageDto.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
@@ -123,7 +125,7 @@ namespace Weblu.Application.Services
             method.ImageUrl = $"uploads/{MediaType.picture}/{imageName}";
             method.ImageAltText = updateMethodImageDto.AltText;
 
-            _unitOfWork.Methods.UpdateMethod(method);
+            _methodRepository.UpdateMethod(method);
             await _unitOfWork.CommitAsync();
 
             MethodDto methodDto = _mapper.Map<MethodDto>(method);

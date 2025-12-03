@@ -18,16 +18,18 @@ namespace Weblu.Application.Services
     public class FeatureService : IFeatureService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IFeatureRepository _featureRepository;
         private readonly IMapper _mapper;
-        public FeatureService(IUnitOfWork unitOfWork, IMapper mapper)
+        public FeatureService(IUnitOfWork unitOfWork, IMapper mapper, IFeatureRepository featureRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _featureRepository = featureRepository;
         }
         public async Task<FeatureDto> AddFeatureAsync(AddFeatureDto addFeatureDto)
         {
             Feature feature = _mapper.Map<Feature>(addFeatureDto);
-            await _unitOfWork.Features.AddFeatureAsync(feature);
+            await _featureRepository.AddFeatureAsync(feature);
             await _unitOfWork.CommitAsync();
             FeatureDto featureDto = _mapper.Map<FeatureDto>(feature);
             return featureDto;
@@ -35,30 +37,30 @@ namespace Weblu.Application.Services
 
         public async Task DeleteFeatureAsync(int featureId)
         {
-            Feature feature = await _unitOfWork.Features.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
-            _unitOfWork.Features.DeleteFeature(feature);
+            Feature feature = await _featureRepository.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
+            _featureRepository.DeleteFeature(feature);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task<List<FeatureDto>> GetAllFeaturesAsync(FeatureParameters featureParameters)
         {
-            IReadOnlyList<Feature> features = await _unitOfWork.Features.GetAllFeaturesAsync(featureParameters);
+            IReadOnlyList<Feature> features = await _featureRepository.GetAllFeaturesAsync(featureParameters);
             List<FeatureDto> featureDtos = _mapper.Map<List<FeatureDto>>(features);
             return featureDtos;
         }
 
         public async Task<FeatureDto> GetFeatureByIdAsync(int featureId)
         {
-            Feature? feature = await _unitOfWork.Features.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
+            Feature? feature = await _featureRepository.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
             FeatureDto featureDto = _mapper.Map<FeatureDto>(feature);
             return featureDto;
         }
 
         public async Task<FeatureDto> UpdateFeatureAsync(int featureId, UpdateFeatureDto updateFeatureDto)
         {
-            Feature? feature = await _unitOfWork.Features.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
+            Feature? feature = await _featureRepository.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
             feature = _mapper.Map(updateFeatureDto, feature);
-            _unitOfWork.Features.UpdateFeature(feature);
+            _featureRepository.UpdateFeature(feature);
             await _unitOfWork.CommitAsync();
             FeatureDto featureDto = _mapper.Map<FeatureDto>(feature);
             return featureDto;
