@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.TicketDtos;
@@ -37,6 +38,7 @@ namespace Weblu.Api.Controllers
             TicketDetailDto ticketDetailDto = await _ticketService.GetTicketByIdAsync(ticketId);
             return Ok(ticketDetailDto);
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddTicket([FromBody] CreateTicketDto createTicketDto)
         {
@@ -51,6 +53,7 @@ namespace Weblu.Api.Controllers
                 ticketDetailDto
             ));
         }
+        [Authorize]
         [HttpPut("{ticketId:int}")]
         public async Task<IActionResult> UpdateTicket(int ticketId, [FromBody] UpdateTicketDto updateTicketDto)
         {
@@ -65,6 +68,7 @@ namespace Weblu.Api.Controllers
                 ticketDetailDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{ticketId:int}/status")]
         public async Task<IActionResult> UpdateTicketStatus(int ticketId, [FromBody] UpdateTicketStatusDto updateTicketStatusDto)
         {
@@ -74,6 +78,7 @@ namespace Weblu.Api.Controllers
                 ticketDetailDto
             ));
         }
+        [Authorize]
         [HttpDelete("{ticketId:int}")]
         public async Task<IActionResult> DeleteTicket(int ticketId)
         {
@@ -85,12 +90,14 @@ namespace Weblu.Api.Controllers
             await _ticketService.DeleteTicketAsync(userId, ticketId);
             return NoContent();
         }
+        [Authorize]
         [HttpGet("/message/{ticketMessageId:int}")]
         public async Task<IActionResult> GetTicketMessageById(int ticketMessageId)
         {
             TicketMessageDto ticketMessageDto = await _ticketMessageService.GetTicketMessageByIdAsync(ticketMessageId);
             return Ok(ticketMessageDto);
         }
+        [Authorize]
         [HttpPost("{ticketId:int}/reply")]
         public async Task<IActionResult> ReplyTicket(int ticketId, [FromBody] ReplyTicketDto replyTicketDto)
         {
@@ -105,6 +112,7 @@ namespace Weblu.Api.Controllers
                 ticketMessageDto
             ));
         }
+        [Authorize]
         [HttpPut("/message/{ticketMessageId:int}")]
         public async Task<IActionResult> UpdateTicketMessage(int ticketMessageId, [FromBody] UpdateTicketMessageDto updateTicketMessageDto)
         {
@@ -119,6 +127,7 @@ namespace Weblu.Api.Controllers
                 ticketMessageDto
             ));
         }
+        [Authorize]
         [HttpDelete("/message/{ticketMessageId:int}")]
         public async Task<IActionResult> DeleteTicketMessage(int ticketMessageId)
         {

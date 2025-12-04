@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ProfileDtos;
@@ -19,18 +20,21 @@ namespace Weblu.Api.Controllers
         {
             _profileImageService = profileImageService;
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllProfiles([FromQuery] ProfileMediaParameters profileMediaParameters)
         {
             List<ProfileDto> profileDtos = await _profileImageService.GetAllProfilesAsync(profileMediaParameters);
             return Ok(profileDtos);
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet("{profileId:int}")]
         public async Task<IActionResult> GetProfileById(int profileId)
         {
             ProfileDto profileDto = await _profileImageService.GetProfileByIdAsync(profileId);
             return Ok(profileDto);
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddProfile([FromForm] AddProfileDto addProfileDto)
         {
@@ -41,6 +45,7 @@ namespace Weblu.Api.Controllers
                 profileDto
             ));
         }
+        [Authorize]
         [HttpDelete("{profileId:int}")]
         public async Task<IActionResult> DeleteProfile(int profileId)
         {

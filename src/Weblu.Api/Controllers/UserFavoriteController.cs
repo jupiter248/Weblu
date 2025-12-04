@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
@@ -24,6 +25,7 @@ namespace Weblu.Api.Controllers
         {
             _userFavoriteService = userFavoriteService;
         }
+        [Authorize]
         [HttpGet("portfolio")]
         public async Task<IActionResult> GetAllFavoritePortfolios([FromQuery] FavoriteParameters favoriteParameters)
         {
@@ -35,6 +37,7 @@ namespace Weblu.Api.Controllers
             List<PortfolioSummaryDto> portfolioSummaryDtos = await _userFavoriteService.GetAllFavoritePortfoliosAsync(userId, favoriteParameters);
             return Ok(portfolioSummaryDtos);
         }
+        [Authorize]
         [HttpGet("portfolio/{portfolioId:int}/status")]
         public async Task<IActionResult> IsFavorite(int portfolioId)
         {
@@ -49,6 +52,7 @@ namespace Weblu.Api.Controllers
                 isFavorite
             });
         }
+        [Authorize]
         [HttpPost("portfolio/{portfolioId:int}")]
         public async Task<IActionResult> AddPortfolioToFavorite(int portfolioId)
         {
@@ -63,6 +67,7 @@ namespace Weblu.Api.Controllers
                 "Portfolio added to favorites successfully."
             ));
         }
+        [Authorize]
         [HttpDelete("portfolio/{portfolioId:int}")]
         public async Task<IActionResult> DeletePortfolioFromFavorite(int portfolioId)
         {

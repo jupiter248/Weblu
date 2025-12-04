@@ -24,18 +24,23 @@ namespace Weblu.Infrastructure.Identity.Services
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
+        private readonly IPortfolioRepository _portfolioRepository;
+        private readonly IUserFavoritesRepository _userFavoritesRepository;
+
         private readonly IUnitOfWork _unitOfWork;
-        public UserFavoritesService(UserManager<AppUser> userManager, IMapper mapper, IUnitOfWork unitOfWork)
+        public UserFavoritesService(UserManager<AppUser> userManager, IMapper mapper, IUnitOfWork unitOfWork, IPortfolioRepository portfolioRepository, IUserFavoritesRepository userFavoritesRepository)
         {
             _userManager = userManager;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _portfolioRepository = portfolioRepository;
+            _userFavoritesRepository = userFavoritesRepository;
         }
 
         public async Task AddPortfolioToFavorite(string userId, int portfolioId)
         {
             AppUser? user = await _userManager.Users.Include(f => f.FavoritePortfolios).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            Portfolio? portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            Portfolio? portfolio = await _portfolioRepository.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
             if (user.FavoritePortfolios.Any(p => p.PortfolioId == portfolio.Id))
             {
@@ -56,7 +61,7 @@ namespace Weblu.Infrastructure.Identity.Services
         public async Task DeletePortfolioFromFavorite(string userId, int portfolioId)
         {
             AppUser? user = await _userManager.Users.Include(f => f.FavoritePortfolios).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            Portfolio? portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            Portfolio? portfolio = await _portfolioRepository.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
             FavoritePortfolio? favoritePortfolio = user.FavoritePortfolios.FirstOrDefault(p => p.PortfolioId == portfolio.Id);
             if (favoritePortfolio == null)
@@ -70,7 +75,7 @@ namespace Weblu.Infrastructure.Identity.Services
 
         public async Task<List<PortfolioSummaryDto>> GetAllFavoritePortfoliosAsync(string userId, FavoriteParameters favoriteParameters)
         {
-            IReadOnlyList<FavoritePortfolio> favoritePortfolios = await _unitOfWork.UserFavorites.GetAllFavoritePortfoliosAsync(userId, favoriteParameters);
+            IReadOnlyList<FavoritePortfolio> favoritePortfolios = await _userFavoritesRepository.GetAllFavoritePortfoliosAsync(userId, favoriteParameters);
             List<Portfolio> portfolios = new List<Portfolio>();
             foreach (FavoritePortfolio item in favoritePortfolios)
             {
@@ -83,7 +88,7 @@ namespace Weblu.Infrastructure.Identity.Services
         public async Task<bool> IsFavorite(string userId, int portfolioId)
         {
             AppUser? user = await _userManager.Users.Include(f => f.FavoritePortfolios).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            Portfolio? portfolio = await _unitOfWork.Portfolios.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            Portfolio? portfolio = await _portfolioRepository.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
             if (!user.FavoritePortfolios.Any(p => p.PortfolioId == portfolio.Id))
             {

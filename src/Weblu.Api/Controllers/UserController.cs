@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.UserDtos;
@@ -23,12 +24,14 @@ namespace Weblu.Api.Controllers
         {
             _userService = userService;
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
             List<UserDto> userDtos = await _userService.GetAllUsersAsync();
             return Ok(userDtos);
         }
+        [Authorize]
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrentUser()
         {
@@ -40,6 +43,7 @@ namespace Weblu.Api.Controllers
             UserDto userDto = await _userService.GetCurrentUserAsync(userId);
             return Ok(userDto);
         }
+        [Authorize]
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(string userId, [FromBody] UpdateUserDto updateUserDto)
         {
@@ -51,6 +55,7 @@ namespace Weblu.Api.Controllers
                 userDto
             ));
         }
+        [Authorize]
         [HttpPut("{userId}/change-password")]
         public async Task<IActionResult> ChangeUserPassword(string userId, [FromBody] ChangePasswordDto changePasswordDto)
         {
@@ -61,6 +66,7 @@ namespace Weblu.Api.Controllers
                 "User password changed successfully."
             ));
         }
+        [Authorize]
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteUser(string userId)
         {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.FavoriteListDtos;
@@ -23,6 +24,7 @@ namespace Weblu.Api.Controllers
         {
             _favoriteListService = favoriteListService;
         }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllFavoriteLists([FromQuery] FavoriteListParameters favoriteListParameters)
         {
@@ -34,12 +36,14 @@ namespace Weblu.Api.Controllers
             List<FavoriteListDto> favoriteListDtos = await _favoriteListService.GetAllFavoriteListsAsync(userId, favoriteListParameters);
             return Ok(favoriteListDtos);
         }
+        [Authorize]
         [HttpGet("{favoriteListId:int}")]
         public async Task<IActionResult> GetFavoriteListById(int favoriteListId)
         {
             FavoriteListDto favoriteListDto = await _favoriteListService.GetFavoriteListByIdAsync(favoriteListId);
             return Ok(favoriteListDto);
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateFavoriteList([FromBody] AddFavoriteListDto addFavoriteListDto)
         {
@@ -51,6 +55,7 @@ namespace Weblu.Api.Controllers
             FavoriteListDto favoriteListDto = await _favoriteListService.AddFavoriteListAsync(userId, addFavoriteListDto);
             return CreatedAtAction(nameof(GetFavoriteListById), new { favoriteListId = favoriteListDto.Id }, ApiResponse<FavoriteListDto>.Success("Favorite list created successfully", favoriteListDto));
         }
+        [Authorize]
         [HttpPut("{favoriteListId:int}")]
         public async Task<IActionResult> UpdateFavoriteList(int favoriteListId, [FromBody] UpdateFavoriteListDto updateFavoriteListDto)
         {
@@ -65,6 +70,7 @@ namespace Weblu.Api.Controllers
                 favoriteListDto
             ));
         }
+        [Authorize]
         [HttpDelete("{favoriteListId:int}")]
         public async Task<IActionResult> DeleteFavoriteList(int favoriteListId)
         {
@@ -78,6 +84,7 @@ namespace Weblu.Api.Controllers
                 "Favorite list deleted successfully."
             ));
         }
+        [Authorize]
         [HttpPost("{favoriteListId:int}/portfolio/{portfolioId:int}")]
         public async Task<IActionResult> AddPortfolioToFavoriteList(int favoriteListId, int portfolioId)
         {
@@ -91,6 +98,7 @@ namespace Weblu.Api.Controllers
                 "Portfolio added to Favorite list successfully."
             ));
         }
+        [Authorize]
         [HttpDelete("{favoriteListId:int}/portfolio/{portfolioId:int}")]
         public async Task<IActionResult> DeletePortfolioFromFavoriteList(int favoriteListId, int portfolioId)
         {

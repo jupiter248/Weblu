@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.TokenDtos;
@@ -19,12 +20,14 @@ namespace Weblu.Api.Controllers
         {
             _refreshTokenService = refreshTokenService;
         }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllRefreshTokens([FromQuery] RefreshTokenParameters refreshTokenParameters)
         {
             List<RefreshTokenDto> refreshTokenDtos = await _refreshTokenService.GetAllRefreshTokensAsync(refreshTokenParameters);
             return Ok(refreshTokenDtos);
         }
+        [Authorize]
         [HttpPut("{refreshTokenId:int}")]
         public async Task<IActionResult> UpdateRefreshToken(int refreshTokenId, [FromBody] UpdateRefreshTokenDto updateRefreshTokenDto)
         {

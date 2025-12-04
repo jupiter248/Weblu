@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Weblu.Api.Extensions
 {
@@ -14,7 +10,12 @@ namespace Weblu.Api.Extensions
             {
                 builder.AllowAnyOrigin()
                        .AllowAnyHeader()
-                       .AllowAnyMethod();
+                       .WithMethods(
+                        "POST",
+                        "PUT",
+                        "DELETE",
+                        "GET"
+                       );
             }));
         }
     }

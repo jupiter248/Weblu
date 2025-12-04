@@ -22,12 +22,14 @@ namespace Weblu.Infrastructure.Identity.Services
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly SignInManager<AppUser> _signInManager;
-        public AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, SignInManager<AppUser> signInManager)
+        public AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, SignInManager<AppUser> signInManager , IRefreshTokenRepository refreshTokenRepository)
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
             _signInManager = signInManager;
+            _refreshTokenRepository = refreshTokenRepository;
         }
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
@@ -48,7 +50,7 @@ namespace Weblu.Infrastructure.Identity.Services
                 ExpiresAt = DateTimeOffset.Now.AddDays(30),
                 UserId = appUser.Id
             };
-            await _unitOfWork.RefreshTokens.AddRefreshTokenAsync(refreshToken);
+            await _refreshTokenRepository.AddRefreshTokenAsync(refreshToken);
             await _unitOfWork.CommitAsync();
 
             AuthResponseDto authResponseDto = new AuthResponseDto()
@@ -119,7 +121,7 @@ namespace Weblu.Infrastructure.Identity.Services
                 ExpiresAt = DateTimeOffset.Now.AddDays(30),
                 UserId = newUser.Id
             };
-            await _unitOfWork.RefreshTokens.AddRefreshTokenAsync(refreshToken);
+            await _refreshTokenRepository.AddRefreshTokenAsync(refreshToken);
             await _unitOfWork.CommitAsync();
 
             AuthResponseDto authResponseDto = new AuthResponseDto()

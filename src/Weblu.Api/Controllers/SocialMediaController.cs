@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.SocialMediaDtos;
@@ -32,6 +33,7 @@ namespace Weblu.Api.Controllers
             SocialMediaDto socialMediaDto = await _socialMediaService.GetSocialMediaByIdAsync(socialMediaId);
             return Ok(socialMediaDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddSocialMedia([FromBody] AddSocialMediaDto addSocialMediaDto)
         {
@@ -39,6 +41,7 @@ namespace Weblu.Api.Controllers
             SocialMediaDto socialMediaDto = await _socialMediaService.AddSocialMediaAsync(addSocialMediaDto);
             return CreatedAtAction(nameof(GetSocialMediaById), new { socialMediaId = socialMediaDto.Id }, ApiResponse<SocialMediaDto>.Success("Social media added successfully", socialMediaDto));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{socialMediaId:int}")]
         public async Task<IActionResult> UpdateSocialMedia(int socialMediaId, [FromBody] UpdateSocialMediaDto updateSocialMediaDto)
         {
@@ -49,6 +52,7 @@ namespace Weblu.Api.Controllers
                 socialMediaDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{socialMediaId:int}")]
         public async Task<IActionResult> DeleteSocialMedia(int socialMediaId)
         {
@@ -57,6 +61,7 @@ namespace Weblu.Api.Controllers
                 "Social media deleted successfully."
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{socialMediaId:int}/icon")]
         public async Task<IActionResult> UpdateSocialMediaIcon(int socialMediaId, [FromForm] UpdateSocialMediaIconDto updateSocialMediaIconDto)
         {

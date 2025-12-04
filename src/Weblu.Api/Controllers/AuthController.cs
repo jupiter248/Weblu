@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Weblu.Application.Common.Interfaces;
@@ -23,6 +24,7 @@ namespace Weblu.Api.Controllers
         {
             _authService = authService;
         }
+        [Authorize]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
@@ -34,6 +36,7 @@ namespace Weblu.Api.Controllers
                 authResponseDto
             ));
         }
+        [Authorize]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {

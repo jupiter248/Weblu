@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ContributorDtos;
@@ -33,6 +34,7 @@ namespace Weblu.Api.Controllers
             ContributorDto contributorDto = await _contributorService.GetContributorByIdAsync(contributorId);
             return Ok(contributorDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddContributor([FromBody] AddContributorDto addContributorDto)
         {
@@ -50,6 +52,7 @@ namespace Weblu.Api.Controllers
                 contributorDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{contributorId:int}")]
         public async Task<IActionResult> DeleteContributor(int contributorId)
         {
@@ -58,6 +61,7 @@ namespace Weblu.Api.Controllers
                 "Contributor deleted successfully."
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{contributorId:int}/profile-image")]
         public async Task<IActionResult> UpdateImageProfile(int contributorId, [FromForm] UpdateProfileImageContributorDto updateProfileImageContributorDto)
         {
@@ -68,6 +72,7 @@ namespace Weblu.Api.Controllers
                 contributorDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{contributorId:int}/profile-image")]
         public async Task<IActionResult> DeleteContributorProfile(int contributorId)
         {

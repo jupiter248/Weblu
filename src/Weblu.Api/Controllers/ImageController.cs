@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ImageDtos;
@@ -19,18 +20,21 @@ namespace Weblu.Api.Controllers
         {
             _imageService = imageService;
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllImages([FromQuery] ImageParameters imageParameters)
         {
             List<ImageDto> imageDtos = await _imageService.GetAllImagesAsync(imageParameters);
             return Ok(imageDtos);
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet("{imageId:int}")]
         public async Task<IActionResult> GetImageById(int imageId)
         {
             ImageDto imageDto = await _imageService.GetImageByIdAsync(imageId);
             return Ok(imageDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddImage([FromForm] AddImageDto addImageDto)
         {
@@ -41,6 +45,7 @@ namespace Weblu.Api.Controllers
                 imageDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{imageId:int}")]
         public async Task<IActionResult> DeleteImage(int imageId)
         {

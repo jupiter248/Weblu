@@ -9,6 +9,7 @@ using Weblu.Application.Validations;
 using Weblu.Application.Validations.Methods;
 using Weblu.Application.Parameters;
 using Weblu.Application.Common.Responses;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Weblu.Api.Controllers
 {
@@ -33,6 +34,7 @@ namespace Weblu.Api.Controllers
             MethodDto methodDto = await _methodService.GetMethodByIdAsync(methodId);
             return Ok(methodDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddMethod([FromBody] AddMethodDto addMethodDto)
         {
@@ -44,6 +46,7 @@ namespace Weblu.Api.Controllers
                 methodDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{methodId:int}")]
         public async Task<IActionResult> UpdateMethod(int methodId, [FromBody] UpdateMethodDto updateMethodDto)
         {
@@ -55,6 +58,7 @@ namespace Weblu.Api.Controllers
                  methodDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{methodId:int}/image")]
         public async Task<IActionResult> UpdateMethodImage(int methodId, [FromForm] UpdateMethodImageDto updateMethodImageDto)
         {
@@ -66,6 +70,7 @@ namespace Weblu.Api.Controllers
                 methodDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{methodId:int}")]
         public async Task<IActionResult> DeleteMethod(int methodId)
         {
@@ -75,6 +80,7 @@ namespace Weblu.Api.Controllers
                 "Method deleted successfully."
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{methodId:int}/image")]
         public async Task<IActionResult> DeleteMethodImage(int methodId)
         {

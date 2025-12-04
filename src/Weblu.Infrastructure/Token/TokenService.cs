@@ -19,15 +19,18 @@ namespace Weblu.Infrastructure.Token
     public class TokenService : ITokenService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
+
         private readonly UserManager<AppUser> _userManager;
-        public TokenService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager)
+        public TokenService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IRefreshTokenRepository refreshTokenRepository)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _refreshTokenRepository = refreshTokenRepository;
         }
         public async Task<TokenDto> RefreshToken(TokenRequestDto addTokenRequestDto)
         {
-            RefreshToken refreshToken = await _unitOfWork.RefreshTokens.GetRefreshTokenByTokenAsync(addTokenRequestDto.RefreshToken) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
+            RefreshToken refreshToken = await _refreshTokenRepository.GetRefreshTokenByTokenAsync(addTokenRequestDto.RefreshToken) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
             if (refreshToken.IsUsed)
             {
                 throw new UnauthorizedException(TokenErrorCodes.RefreshTokenUsed);
@@ -45,7 +48,7 @@ namespace Weblu.Infrastructure.Token
             IList<string> roles = await _userManager.GetRolesAsync(appUser) ?? throw new NotFoundException(UserErrorCodes.RoleNotFound);
 
             refreshToken.IsUsed = true;
-            _unitOfWork.RefreshTokens.UpdateRefreshToken(refreshToken);
+            _refreshTokenRepository.UpdateRefreshToken(refreshToken);
 
             var newAccessToken = JwtTokenService.GenerateAccessToken(appUser, roles);
             var newRefreshTokenValue = JwtTokenService.GenerateRefreshToken();
@@ -57,7 +60,7 @@ namespace Weblu.Infrastructure.Token
                 ExpiresAt = refreshToken.ExpiresAt
             };
 
-            await _unitOfWork.RefreshTokens.AddRefreshTokenAsync(newRefreshToken);
+            await _refreshTokenRepository.AddRefreshTokenAsync(newRefreshToken);
             await _unitOfWork.CommitAsync();
 
             TokenDto tokenDto = new TokenDto()
@@ -71,7 +74,7 @@ namespace Weblu.Infrastructure.Token
         public async Task RevokeToken(RevokeRequestDto revokeRequestDto, string userId)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            RefreshToken refreshToken = await _unitOfWork.RefreshTokens.GetRefreshTokenByTokenAsync(revokeRequestDto.RefreshToken) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
+            RefreshToken refreshToken = await _refreshTokenRepository.GetRefreshTokenByTokenAsync(revokeRequestDto.RefreshToken) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
 
             if (refreshToken.UserId != appUser.Id)
             {
@@ -79,7 +82,7 @@ namespace Weblu.Infrastructure.Token
             }
 
             refreshToken.IsRevoked = true;
-            _unitOfWork.RefreshTokens.UpdateRefreshToken(refreshToken);
+            _refreshTokenRepository.UpdateRefreshToken(refreshToken);
             await _unitOfWork.CommitAsync();
         }
     }

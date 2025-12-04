@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ArticleCategoryDtos;
@@ -32,6 +33,7 @@ namespace Weblu.Api.Controllers
             ArticleCategoryDto articleCategoryDto = await _articleCategoryService.GetArticleCategoryByIdAsync(articleCategoryId);
             return Ok(articleCategoryDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddArticleCategory([FromBody] AddArticleCategoryDto addArticleCategoryDto)
         {
@@ -43,6 +45,7 @@ namespace Weblu.Api.Controllers
                 articleCategoryDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{articleCategoryId:int}")]
         public async Task<IActionResult> UpdateArticleCategory(int articleCategoryId, [FromBody] UpdateArticleCategoryDto updateArticleCategoryDto)
         {
@@ -54,6 +57,7 @@ namespace Weblu.Api.Controllers
                 articleCategoryDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{articleCategoryId:int}")]
         public async Task<IActionResult> DeleteArticleCategory(int articleCategoryId)
         {

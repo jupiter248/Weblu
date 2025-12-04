@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.FaqDtos;
@@ -33,6 +34,7 @@ namespace Weblu.Api.Controllers
             FaqDto faqDto = await _faqService.GetFaqByIdAsync(faqId);
             return Ok(faqDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddFaq([FromBody] AddFaqDto addFaqDto)
         {
@@ -41,6 +43,7 @@ namespace Weblu.Api.Controllers
             FaqDto faqDto = await _faqService.AddFaqAsync(addFaqDto);
             return CreatedAtAction(nameof(GetFaqById), new { faqId = faqDto.Id }, ApiResponse<FaqDto>.Success("Faq added successfully.", faqDto));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{faqId:int}")]
         public async Task<IActionResult> UpdateFaq(int faqId, [FromBody] UpdateFaqDto updateFaqDto)
         {
@@ -53,6 +56,7 @@ namespace Weblu.Api.Controllers
                 faqDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{faqId:int}")]
         public async Task<IActionResult> DeleteFaq(int faqId)
         {

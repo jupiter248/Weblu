@@ -10,6 +10,7 @@ using Weblu.Application.Validations;
 using Weblu.Application.Validations.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Common.Responses;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Weblu.Api.Controllers
 {
@@ -34,6 +35,7 @@ namespace Weblu.Api.Controllers
             ServiceDetailDto serviceDto = await _serviceService.GetServiceByIdAsync(serviceId);
             return Ok(serviceDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddService([FromBody] AddServiceDto addServiceDto)
         {
@@ -41,6 +43,7 @@ namespace Weblu.Api.Controllers
             ServiceDetailDto serviceDto = await _serviceService.AddServiceAsync(addServiceDto);
             return CreatedAtAction(nameof(GetServiceById), new { serviceId = serviceDto.Id }, ApiResponse<ServiceDetailDto>.Success("Service created successfully", serviceDto));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{serviceId:int}")]
         public async Task<IActionResult> UpdateService(int serviceId, [FromBody] UpdateServiceDto updateServiceDto)
         {
@@ -54,42 +57,49 @@ namespace Weblu.Api.Controllers
                 )
             );
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{serviceId:int}")]
         public async Task<IActionResult> DeleteService(int serviceId)
         {
             await _serviceService.DeleteServiceAsync(serviceId);
             return NoContent();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost("{serviceId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> AddFeatureToService(int serviceId, int featureId)
         {
             await _serviceService.AddFeatureToServiceAsync(serviceId, featureId);
             return Ok(ApiResponse.Success("Feature added successfully"));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{serviceId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> DeleteFeatureFromService(int serviceId, int featureId)
         {
             await _serviceService.DeleteFeatureFromServiceAsync(serviceId, featureId);
             return Ok(ApiResponse.Success("Feature deleted successfully"));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost("{serviceId:int}/method/{methodId:int}")]
         public async Task<IActionResult> AddMethodToService(int serviceId, int methodId)
         {
             await _serviceService.AddMethodToService(serviceId, methodId);
             return Ok(ApiResponse.Success("Method added successfully"));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{serviceId:int}/method/{methodId:int}")]
         public async Task<IActionResult> DeleteMethodFromService(int serviceId, int methodId)
         {
             await _serviceService.DeleteMethodFromService(serviceId, methodId);
             return Ok(ApiResponse.Success("Method deleted successfully"));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost("{serviceId:int}/image/{imageId:int}")]
         public async Task<IActionResult> AddImageToService(int serviceId, int imageId, [FromBody] AddServiceImageDto addServiceImageDto)
         {
             await _serviceService.AddImageToService(serviceId, imageId, addServiceImageDto);
             return Ok(ApiResponse.Success("Image added successfully"));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{serviceId:int}/image/{imageId:int}")]
         public async Task<IActionResult> DeleteImageFromService(int serviceId, int imageId)
         {

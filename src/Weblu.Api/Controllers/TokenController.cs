@@ -25,6 +25,7 @@ namespace Weblu.Api.Controllers
         {
             _tokenService = tokenService;
         }
+        [Authorize]
         [HttpPost("refresh")]
         public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDto tokenRequestDto)
         {

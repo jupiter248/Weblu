@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.CommentDtos;
@@ -36,6 +37,7 @@ namespace Weblu.Api.Controllers
             CommentDto commentDtos = await _commentService.GetCommentByIdAsync(commentId);
             return Ok(commentDtos);
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddComment([FromBody] AddCommentDto addCommentDto)
         {
@@ -50,6 +52,7 @@ namespace Weblu.Api.Controllers
             CommentDto commentDtos = await _commentService.AddCommentAsync(userId, addCommentDto);
             return CreatedAtAction(nameof(GetCommentById), new { commentId = commentDtos.Id }, ApiResponse<CommentDto>.Success("Comment added successfully.", commentDtos));
         }
+        [Authorize]
         [HttpPut("{commentId:int}")]
         public async Task<IActionResult> UpdateComment(int commentId, [FromBody] UpdateCommentDTo updateCommentDTo)
         {
@@ -67,6 +70,7 @@ namespace Weblu.Api.Controllers
                 commentDtos
             ));
         }
+        [Authorize]
         [HttpDelete("{commentId:int}")]
         public async Task<IActionResult> DeleteComment(int commentId)
         {

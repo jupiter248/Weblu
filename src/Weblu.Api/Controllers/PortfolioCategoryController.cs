@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.PortfolioCategory;
@@ -32,6 +33,7 @@ namespace Weblu.Api.Controllers
             PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.GetPortfolioCategoryByIdAsync(portfolioCategoryId);
             return Ok(portfolioCategoryDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddPortfolioCategory([FromBody] AddPortfolioCategoryDto addPortfolioCategoryDto)
         {
@@ -43,6 +45,7 @@ namespace Weblu.Api.Controllers
                 portfolioCategoryDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{portfolioCategoryId:int}")]
         public async Task<IActionResult> UpdatePortfolioCategory(int portfolioCategoryId, [FromBody] UpdatePortfolioCategoryDto updatePortfolioCategoryDto)
         {
@@ -54,6 +57,7 @@ namespace Weblu.Api.Controllers
                 portfolioCategoryDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{portfolioCategoryId:int}")]
         public async Task<IActionResult> DeletePortfolioCategory(int portfolioCategoryId)
         {

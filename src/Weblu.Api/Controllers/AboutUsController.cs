@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.AboutUsDtos;
@@ -33,6 +34,7 @@ namespace Weblu.Api.Controllers
             AboutUsDto aboutUsDto = await _aboutUsService.GetAboutUsInfoByIdAsync(aboutUsId);
             return Ok(aboutUsDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddAboutUs([FromBody] AddAboutUsDto addAboutUsDto)
         {
@@ -40,6 +42,7 @@ namespace Weblu.Api.Controllers
             AboutUsDto aboutUsDto = await _aboutUsService.AddAboutUsAsync(addAboutUsDto);
             return CreatedAtAction(nameof(GetAboutUsById), new { aboutUsId = aboutUsDto.Id }, ApiResponse<AboutUsDto>.Success("AboutUs information added successfully", aboutUsDto));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{aboutUsId:int}")]
         public async Task<IActionResult> UpdateAboutUs(int aboutUsId, [FromBody] UpdateAboutUsDto updateAboutUsDto)
         {
@@ -50,6 +53,7 @@ namespace Weblu.Api.Controllers
                 aboutUsDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{aboutUsId:int}")]
         public async Task<IActionResult> DeleteAboutUs(int aboutUsId)
         {
@@ -58,6 +62,7 @@ namespace Weblu.Api.Controllers
                 "AboutUs information deleted successfully."
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{aboutUsId:int}/head-image")]
         public async Task<IActionResult> UpdateImageAboutUs(int aboutUsId, [FromForm] UpdateImageAboutUsDto updateImageAboutUsDto)
         {
@@ -68,6 +73,7 @@ namespace Weblu.Api.Controllers
                 aboutUsDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{aboutUsId:int}/head-image")]
         public async Task<IActionResult> DeleteAboutUsHeadImage(int aboutUsId)
         {

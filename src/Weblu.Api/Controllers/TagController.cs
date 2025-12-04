@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.TagDtos;
@@ -33,6 +34,7 @@ namespace Weblu.Api.Controllers
             TagDto tagDto = await _tagService.GetTagByIdAsync(tagId);
             return Ok(tagDto);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddTag([FromBody] AddTagDto addTagDto)
         {
@@ -44,6 +46,7 @@ namespace Weblu.Api.Controllers
                 tagDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut("{tagId:int}")]
         public async Task<IActionResult> UpdateTag(int tagId, [FromBody] UpdateTagDto updateTagDto)
         {
@@ -55,6 +58,7 @@ namespace Weblu.Api.Controllers
                 tagDto
             ));
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{tagId:int}")]
         public async Task<IActionResult> DeleteTag(int tagId)
         {
