@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Weblu.Application\Weblu.Application.csproj" />
+    <ProjectReference Include="..\Weblu.Domain\Weblu.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
