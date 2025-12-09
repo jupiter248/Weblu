@@ -13,11 +13,11 @@ namespace Weblu.Application.Strategies.RefreshTokens
     {
         public IQueryable<RefreshToken> Query(IQueryable<RefreshToken> refreshTokens, RefreshTokenParameters refreshTokenParameters)
         {
-            if (refreshTokenParameters.CreatedDate == CreatedDateSort.Newest)
+            if (refreshTokenParameters.CreatedDateSort == CreatedDateSort.Newest)
             {
                 return refreshTokens.OrderByDescending(c => c.CreatedAt);
             }
-            else if (refreshTokenParameters.CreatedDate == CreatedDateSort.Oldest)
+            else if (refreshTokenParameters.CreatedDateSort == CreatedDateSort.Oldest)
             {
                 return refreshTokens.OrderBy(c => c.CreatedAt);
             }
