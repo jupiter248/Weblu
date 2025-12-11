@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Domain.Entities.Common;
 
 namespace Weblu.Domain.Entities.Articles
 {
-    public class ArticleCategory
+    public class ArticleCategory : BaseEntity
     {
-        public int Id { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

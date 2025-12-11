@@ -2,18 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Favorites;
 
 namespace Weblu.Application.Interfaces.Repositories
 {
-    public interface IFavoriteListRepository
+    public interface IFavoriteListRepository :  IGenericRepository<FavoriteList, FavoriteListParameters>
     {
-        Task<IReadOnlyList<FavoriteList>> GetAllFavoriteListsAsync(string userId, FavoriteListParameters favoriteListParameters);
-        Task<FavoriteList?> GetFavoriteListByIdAsync(int favoriteListId);
-        Task AddFavoriteListAsync(FavoriteList favoriteList);
-        void UpdateFavoriteList(FavoriteList favoriteList);
-        void DeleteFavoriteList(FavoriteList favoriteList);
-
+        Task<IReadOnlyList<FavoriteList>> GetAllByUserIdAsync(string userId, FavoriteListParameters favoriteListParameters);
     }
 }

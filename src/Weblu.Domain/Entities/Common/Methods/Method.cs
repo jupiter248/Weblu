@@ -8,10 +8,8 @@ using Weblu.Domain.Entities.Services;
 
 namespace Weblu.Domain.Entities.Common.Methods
 {
-    public class Method
+    public class Method : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
         public required string Name { get; set; }
         public required string Description { get; set; }
         public string? ImageUrl { get; set; }

@@ -37,7 +37,7 @@ namespace Weblu.Application.Services
         {
             Contributor newContributor = _mapper.Map<Contributor>(addContributorDto);
 
-            await _contributorRepository.AddContributorAsync(newContributor);
+            _contributorRepository.Add(newContributor);
             await _unitOfWork.CommitAsync();
 
             ContributorDto contributorDto = _mapper.Map<ContributorDto>(newContributor);
@@ -46,21 +46,21 @@ namespace Weblu.Application.Services
 
         public async Task DeleteContributorAsync(int contributorId)
         {
-            Contributor contributor = await _contributorRepository.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+            Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
 
             if (!string.IsNullOrEmpty(contributor.ProfileImageUrl))
             {
                 await MediaManager.DeleteMedia(_webHost, contributor.ProfileImageUrl);
             }
 
-            _contributorRepository.DeleteContributor(contributor);
+            _contributorRepository.Delete(contributor);
             await _unitOfWork.CommitAsync();
 
         }
 
         public async Task DeleteContributorProfileAsync(int contributorId)
         {
-            Contributor contributor = await _contributorRepository.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+            Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
 
             if (string.IsNullOrEmpty(contributor.ProfileImageUrl))
             {
@@ -77,24 +77,24 @@ namespace Weblu.Application.Services
 
         public async Task<List<ContributorDto>> GetAllContributorsAsync(ContributorParameters contributorParameters)
         {
-            IReadOnlyList<Contributor> contributors = await _contributorRepository.GetAllContributorsAsync(contributorParameters);
+            IReadOnlyList<Contributor> contributors = await _contributorRepository.GetAllAsync(contributorParameters);
             List<ContributorDto> contributorDtos = _mapper.Map<List<ContributorDto>>(contributors);
             return contributorDtos;
         }
 
         public async Task<ContributorDto> GetContributorByIdAsync(int contributorId)
         {
-            Contributor contributor = await _contributorRepository.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+            Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             ContributorDto contributorDto = _mapper.Map<ContributorDto>(contributor);
             return contributorDto;
         }
 
         public async Task<ContributorDto> UpdateContributorAsync(int currentContributorId, UpdateContributorDto updateContributorDto)
         {
-            Contributor contributor = await _contributorRepository.GetContributorByIdAsync(currentContributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+            Contributor contributor = await _contributorRepository.GetByIdAsync(currentContributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             contributor = _mapper.Map(updateContributorDto, contributor);
 
-            _contributorRepository.UpdateContributor(contributor);
+            _contributorRepository.Update(contributor);
             await _unitOfWork.CommitAsync();
 
             ContributorDto contributorDto = _mapper.Map<ContributorDto>(contributor);
@@ -103,7 +103,7 @@ namespace Weblu.Application.Services
 
         public async Task<ContributorDto> UpdateProfileImageContributorAsync(int currentContributorId, UpdateProfileImageContributorDto updateProfileImage)
         {
-            Contributor contributor = await _contributorRepository.GetContributorByIdAsync(currentContributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+            Contributor contributor = await _contributorRepository.GetByIdAsync(currentContributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
 
             if (updateProfileImage.Image.Length < 0)
             {
@@ -126,7 +126,7 @@ namespace Weblu.Application.Services
             contributor.ProfileImageUrl = $"uploads/{MediaType.profile}/{imageName}";
             contributor.ProfileImageAltText = updateProfileImage.AltText;
 
-            _contributorRepository.UpdateContributor(contributor);
+            _contributorRepository.Update(contributor);
             await _unitOfWork.CommitAsync();
 
             ContributorDto contributorDto = _mapper.Map<ContributorDto>(contributor);

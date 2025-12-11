@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Domain.Entities.Common;
 
 namespace Weblu.Domain.Entities.Users
 {
-    public class RefreshToken
+    public class RefreshToken : BaseEntity
     {
-        public int Id { get; set; }
         public string Token { get; set; } = string.Empty;
         public bool IsUsed { get; set; }
         public bool IsRevoked { get; set; }

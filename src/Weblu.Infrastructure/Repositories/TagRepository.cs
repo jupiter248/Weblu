@@ -13,24 +13,12 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class TagRepository : ITagRepository
+    internal class TagRepository : GenericRepository<Tag, TagParameters>, ITagRepository
     {
-        private readonly ApplicationDbContext _context;
-        public TagRepository(ApplicationDbContext context)
+        public TagRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
-        public async Task AddTagAsync(Tag tag)
-        {
-            await _context.Tags.AddAsync(tag);
-        }
-
-        public void DeleteTag(Tag tag)
-        {
-            _context.Tags.Remove(tag);
-        }
-
-        public async Task<IReadOnlyList<Tag>> GetAllTagsAsync(TagParameters tagParameters)
+        public override async Task<IReadOnlyList<Tag>> GetAllAsync(TagParameters tagParameters)
         {
             IQueryable<Tag> tags = _context.Tags;
             if (tagParameters.CreatedDateSort != CreatedDateSort.All)
@@ -40,17 +28,6 @@ namespace Weblu.Infrastructure.Repositories
             }
 
             return await tags.ToListAsync();
-        }
-
-        public async Task<Tag?> GetTagByIdAsync(int tagId)
-        {
-            Tag? tag = await _context.Tags.FirstOrDefaultAsync(t => t.Id == tagId);
-            return tag;
-        }
-
-        public void UpdateTag(Tag tag)
-        {
-            _context.Tags.Update(tag);
         }
     }
 }

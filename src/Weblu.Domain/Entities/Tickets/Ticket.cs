@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Enums.Tickets;
 
 namespace Weblu.Domain.Entities.Tickets
 {
-    public class Ticket
+    public class Ticket : BaseEntity
     {
-        public int Id { get; set; }
         public string Subject { get; set; } = default!;
         public TicketStatus Status { get; set; } = TicketStatus.Open;
         public TicketPriority Priority { get; set; } = TicketPriority.Normal;

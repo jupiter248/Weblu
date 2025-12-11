@@ -11,6 +11,7 @@ using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.About;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.Images;
@@ -25,7 +26,7 @@ namespace Weblu.Application.Services
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHost;
 
-        public SocialMediaService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment webHost , ISocialMediaRepository socialMediaRepository)
+        public SocialMediaService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment webHost, ISocialMediaRepository socialMediaRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -37,7 +38,7 @@ namespace Weblu.Application.Services
         {
             SocialMedia socialMedia = _mapper.Map<SocialMedia>(addSocialMediaDto);
 
-            await _socialMediaRepository.AddSocialMediaAsync(socialMedia);
+            _socialMediaRepository.Add(socialMedia);
             await _unitOfWork.CommitAsync();
 
             SocialMediaDto socialMediaDto = _mapper.Map<SocialMediaDto>(socialMedia);
@@ -46,34 +47,34 @@ namespace Weblu.Application.Services
 
         public async Task DeleteSocialMediaAsync(int socialMediaId)
         {
-            SocialMedia socialMedia = await _socialMediaRepository.GetSocialMediaByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
+            SocialMedia socialMedia = await _socialMediaRepository.GetByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
 
             if (!string.IsNullOrEmpty(socialMedia.IconUrl))
             {
                 await MediaManager.DeleteMedia(_webHost, socialMedia.IconUrl);
             }
 
-            _socialMediaRepository.DeleteSocialMedia(socialMedia);
+            _socialMediaRepository.Delete(socialMedia);
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<SocialMediaDto>> GetAllSocialMediasAsync()
+        public async Task<List<SocialMediaDto>> GetAllSocialMediasAsync(SocialMediaParameters socialMediaParameters)
         {
-            IReadOnlyList<SocialMedia> socialMedias = await _socialMediaRepository.GetAllSocialMediasAsync();
+            IReadOnlyList<SocialMedia> socialMedias = await _socialMediaRepository.GetAllAsync(socialMediaParameters);
             List<SocialMediaDto> socialMediaDtos = _mapper.Map<List<SocialMediaDto>>(socialMedias);
             return socialMediaDtos;
         }
 
         public async Task<SocialMediaDto> GetSocialMediaByIdAsync(int socialMediaId)
         {
-            SocialMedia socialMedia = await _socialMediaRepository.GetSocialMediaByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
+            SocialMedia socialMedia = await _socialMediaRepository.GetByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
             SocialMediaDto socialMediaDto = _mapper.Map<SocialMediaDto>(socialMedia);
             return socialMediaDto;
         }
 
         public async Task<SocialMediaDto> UpdateSocialMediaIconAsync(int socialMediaId, UpdateSocialMediaIconDto updateSocialMediaIcon)
         {
-            SocialMedia socialMedia = await _socialMediaRepository.GetSocialMediaByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
+            SocialMedia socialMedia = await _socialMediaRepository.GetByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
 
             if (updateSocialMediaIcon.Icon.Length < 0)
             {
@@ -95,7 +96,7 @@ namespace Weblu.Application.Services
             socialMedia.IconUrl = $"uploads/{MediaType.Icon}/{iconName}";
             socialMedia.IconAltText = updateSocialMediaIcon.AltText;
 
-            _socialMediaRepository.UpdateSocialMedia(socialMedia);
+            _socialMediaRepository.Update(socialMedia);
             await _unitOfWork.CommitAsync();
 
             SocialMediaDto socialMediaDto = _mapper.Map<SocialMediaDto>(socialMedia);
@@ -104,10 +105,10 @@ namespace Weblu.Application.Services
 
         public async Task<SocialMediaDto> UpdateSocialMediaAsync(int socialMediaId, UpdateSocialMediaDto updateSocialMediaDto)
         {
-            SocialMedia socialMedia = await _socialMediaRepository.GetSocialMediaByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
+            SocialMedia socialMedia = await _socialMediaRepository.GetByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
             socialMedia = _mapper.Map(updateSocialMediaDto, socialMedia);
 
-            _socialMediaRepository.UpdateSocialMedia(socialMedia);
+            _socialMediaRepository.Update(socialMedia);
             await _unitOfWork.CommitAsync();
 
             SocialMediaDto socialMediaDto = _mapper.Map<SocialMediaDto>(socialMedia);

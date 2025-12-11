@@ -5,16 +5,11 @@ using System.Threading.Tasks;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Media;
 using Weblu.Application.Parameters;
+using Weblu.Application.Common.Interfaces;
 
 namespace Weblu.Application.Interfaces.Repositories
 {
-    public interface IImageRepository
+    public interface IImageRepository : IGenericRepository<ImageMedia , ImageParameters>
     {
-        Task<IReadOnlyList<ImageMedia>> GetAllImagesAsync(ImageParameters imageParameters);
-        Task<ImageMedia?> GetImageItemByIdAsync(int imageId);
-        Task<bool> ImageExistsAsync(int imageId);
-        Task AddImageAsync(ImageMedia image);
-        void UpdateImage(ImageMedia image);
-        void DeleteImage(ImageMedia image);
     }
 }

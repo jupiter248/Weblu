@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.FaqCategoryDtos;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.FaqCategory;
 using Weblu.Domain.Entities.Faqs;
@@ -23,9 +24,9 @@ namespace Weblu.Api.Controllers
             _faqCategoryService = faqCategoryService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllFaqCategories()
+        public async Task<IActionResult> GetAllFaqCategories([FromQuery] FaqCategoryParameters faqCategoryParameters)
         {
-            List<FaqCategoryDto> faqCategoryDtos = await _faqCategoryService.GetAllFaqCategoriesAsync();
+            List<FaqCategoryDto> faqCategoryDtos = await _faqCategoryService.GetAllFaqCategoriesAsync(faqCategoryParameters);
             return Ok(faqCategoryDtos);
         }
         [HttpGet("{faqCategoryId:int}")]

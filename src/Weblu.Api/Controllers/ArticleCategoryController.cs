@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ArticleCategoryDtos;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.ArticleCategories;
 
@@ -22,9 +23,9 @@ namespace Weblu.Api.Controllers
             _articleCategoryService = articleCategoryService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllArticleCategories()
+        public async Task<IActionResult> GetAllArticleCategories([FromQuery] ArticleCategoryParameters articleCategoryParameters)
         {
-            List<ArticleCategoryDto> articleCategoryDtos = await _articleCategoryService.GetAllArticleCategoriesAsync();
+            List<ArticleCategoryDto> articleCategoryDtos = await _articleCategoryService.GetAllArticleCategoriesAsync(articleCategoryParameters);
             return Ok(articleCategoryDtos);
         }
         [HttpGet("{articleCategoryId:int}")]

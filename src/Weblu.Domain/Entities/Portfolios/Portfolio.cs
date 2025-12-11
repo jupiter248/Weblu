@@ -10,10 +10,8 @@ using Weblu.Domain.Entities.Services;
 
 namespace Weblu.Domain.Entities.Portfolios
 {
-    public class Portfolio
+    public class Portfolio : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
         public required string Title { get; set; }
         public required string Description { get; set; }
         public required string ShortDescription { get; set; }

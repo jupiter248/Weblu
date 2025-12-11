@@ -19,6 +19,8 @@ namespace Weblu.Infrastructure.Extensions
     {
         public static void AddInfrastructure(this IServiceCollection services)
         {
+            // services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IMethodRepository, MethodRepository>();

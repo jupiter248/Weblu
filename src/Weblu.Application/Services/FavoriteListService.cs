@@ -51,7 +51,7 @@ namespace Weblu.Application.Services
             FavoriteList favoriteList = _mapper.Map<FavoriteList>(addFavoriteListDto);
             favoriteList.UserId = userId;
 
-            await _favoriteListRepository.AddFavoriteListAsync(favoriteList);
+            _favoriteListRepository.Add(favoriteList);
             await _unitOfWork.CommitAsync();
 
             FavoriteListDto favoriteListDto = _mapper.Map<FavoriteListDto>(favoriteList);
@@ -65,8 +65,8 @@ namespace Weblu.Application.Services
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            FavoriteList favoriteList = await _favoriteListRepository.GetFavoriteListByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
-            Portfolio portfolio = await _portfolioRepository.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            FavoriteList favoriteList = await _favoriteListRepository.GetByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
+            Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             FavoritePortfolio favoritePortfolio = await _userFavoritesRepository.GetFavoritePortfolioByPortfolioIdAsync(userId, portfolio.Id) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
             if (favoriteList.FavoritePortfolios.Any(p => p.Id == favoritePortfolio.Id))
@@ -85,12 +85,12 @@ namespace Weblu.Application.Services
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            FavoriteList favoriteList = await _favoriteListRepository.GetFavoriteListByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
+            FavoriteList favoriteList = await _favoriteListRepository.GetByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
             if (favoriteList.UserId != userId)
             {
                 throw new UnauthorizedException(FavoriteListErrorCodes.DeleteForbidden);
             }
-            _favoriteListRepository.DeleteFavoriteList(favoriteList);
+            _favoriteListRepository.Delete(favoriteList);
             await _unitOfWork.CommitAsync();
         }
 
@@ -101,8 +101,8 @@ namespace Weblu.Application.Services
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            FavoriteList favoriteList = await _favoriteListRepository.GetFavoriteListByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
-            Portfolio portfolio = await _portfolioRepository.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            FavoriteList favoriteList = await _favoriteListRepository.GetByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
+            Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             FavoritePortfolio favoritePortfolio = await _userFavoritesRepository.GetFavoritePortfolioByPortfolioIdAsync(userId, portfolio.Id) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
             if (!favoriteList.FavoritePortfolios.Any(p => p.Id == favoritePortfolio.Id))
@@ -116,14 +116,14 @@ namespace Weblu.Application.Services
 
         public async Task<List<FavoriteListDto>> GetAllFavoriteListsAsync(string userId, FavoriteListParameters favoriteListParameters)
         {
-            IReadOnlyList<FavoriteList> favoriteLists = await _favoriteListRepository.GetAllFavoriteListsAsync(userId, favoriteListParameters);
+            IReadOnlyList<FavoriteList> favoriteLists = await _favoriteListRepository.GetAllByUserIdAsync(userId, favoriteListParameters);
             List<FavoriteListDto> favoriteListDtos = _mapper.Map<List<FavoriteListDto>>(favoriteLists);
             return favoriteListDtos;
         }
 
         public async Task<FavoriteListDto> GetFavoriteListByIdAsync(int favoriteListId)
         {
-            FavoriteList favoriteList = await _favoriteListRepository.GetFavoriteListByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
+            FavoriteList favoriteList = await _favoriteListRepository.GetByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
             FavoriteListDto favoriteListDto = _mapper.Map<FavoriteListDto>(favoriteList);
             return favoriteListDto;
         }
@@ -135,14 +135,14 @@ namespace Weblu.Application.Services
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            FavoriteList favoriteList = await _favoriteListRepository.GetFavoriteListByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
+            FavoriteList favoriteList = await _favoriteListRepository.GetByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
             if (favoriteList.UserId != userId)
             {
                 throw new UnauthorizedException(FavoriteListErrorCodes.UpdateForbidden);
             }
             favoriteList = _mapper.Map(updateFavoriteListDto, favoriteList);
 
-            _favoriteListRepository.UpdateFavoriteList(favoriteList);
+            _favoriteListRepository.Update(favoriteList);
             await _unitOfWork.CommitAsync();
 
             FavoriteListDto favoriteListDto = _mapper.Map<FavoriteListDto>(favoriteList);

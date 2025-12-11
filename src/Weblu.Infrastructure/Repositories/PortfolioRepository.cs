@@ -12,24 +12,12 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class PortfolioRepository : IPortfolioRepository
+    internal class PortfolioRepository : GenericRepository<Portfolio, PortfolioParameters>, IPortfolioRepository
     {
-        private readonly ApplicationDbContext _context;
-        public PortfolioRepository(ApplicationDbContext context)
+        public PortfolioRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
-        public async Task AddPortfolioAsync(Portfolio portfolio)
-        {
-            await _context.Portfolios.AddAsync(portfolio);
-        }
-
-        public void DeletePortfolio(Portfolio portfolio)
-        {
-            _context.Portfolios.Remove(portfolio);
-        }
-
-        public async Task<IReadOnlyList<Portfolio>> GetAllPortfolioAsync(PortfolioParameters portfolioParameters)
+        public override async Task<IReadOnlyList<Portfolio>> GetAllAsync(PortfolioParameters portfolioParameters)
         {
             IQueryable<Portfolio> portfolios = _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).Include(c => c.Contributors);
 
@@ -52,7 +40,7 @@ namespace Weblu.Infrastructure.Repositories
             return await portfolios.ToListAsync();
         }
 
-        public async Task<Portfolio?> GetPortfolioByIdAsync(int portfolioId)
+        public override async Task<Portfolio?> GetByIdAsync(int portfolioId)
         {
             Portfolio? portfolio = await _context.Portfolios.Include(c => c.PortfolioCategory).Include(c => c.Contributors).Include(f => f.Features).Include(m => m.Methods).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).FirstOrDefaultAsync(p => p.Id == portfolioId);
             if (portfolio == null)
@@ -60,11 +48,6 @@ namespace Weblu.Infrastructure.Repositories
                 return null;
             }
             return portfolio;
-        }
-
-        public void UpdatePortfolio(Portfolio portfolio)
-        {
-            _context.Portfolios.Update(portfolio);
         }
     }
 }

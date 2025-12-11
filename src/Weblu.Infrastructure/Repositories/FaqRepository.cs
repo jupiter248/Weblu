@@ -12,30 +12,13 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class FaqRepository : IFaqRepository
+    internal class FaqRepository : GenericRepository<Faq , FaqParameters>, IFaqRepository
     {
-        private readonly ApplicationDbContext _context;
-        public FaqRepository(ApplicationDbContext context)
+        public FaqRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
-        }
-        public async Task AddFaqAsync(Faq faq)
-        {
-            await _context.Faqs.AddAsync(faq);
         }
 
-        public void DeleteFaq(Faq faq)
-        {
-            _context.Faqs.Remove(faq);
-        }
-
-        public async Task<bool> FaqExistsAsync(int faqId)
-        {
-            bool faqExists = await _context.Faqs.AnyAsync(f => f.Id == faqId);
-            return faqExists;
-        }
-
-        public async Task<IReadOnlyList<Faq>> GetAllFaqsAsync(FaqParameters faqParameters)
+        public override async Task<IReadOnlyList<Faq>> GetAllAsync(FaqParameters faqParameters)
         {
             IQueryable<Faq> faqs = _context.Faqs.Include(c => c.Category);
 
@@ -48,7 +31,7 @@ namespace Weblu.Infrastructure.Repositories
             return await faqs.ToListAsync();
         }
 
-        public async Task<Faq?> GetFaqByIdAsync(int faqId)
+        public override async Task<Faq?> GetByIdAsync(int faqId)
         {
             Faq? faq = await _context.Faqs.Include(c => c.Category).FirstOrDefaultAsync(f => f.Id == faqId);
             if (faq == null)
@@ -56,11 +39,6 @@ namespace Weblu.Infrastructure.Repositories
                 return null;
             }
             return faq;
-        }
-
-        public void UpdateFaq(Faq faq)
-        {
-            _context.Faqs.Update(faq);
         }
     }
 }

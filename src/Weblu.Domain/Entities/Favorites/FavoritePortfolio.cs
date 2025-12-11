@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Portfolios;
 
 namespace Weblu.Domain.Entities.Favorites
 {
-    public class FavoritePortfolio
+    public class FavoritePortfolio : BaseEntity
     {
-        public int Id { get; set; }
         public DateTimeOffset AddedAt { get; private set; } = DateTimeOffset.Now;
         public int PortfolioId { get; set; }
         public Portfolio Portfolio { get; set; } = default!;

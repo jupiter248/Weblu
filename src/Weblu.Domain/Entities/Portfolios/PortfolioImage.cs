@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Media;
 
 namespace Weblu.Domain.Entities.Portfolios
 {
-    public class PortfolioImage
+    public class PortfolioImage : BaseEntity
     {
-        public int Id { get; set; }
         public int PortfolioId { get; set; }
         public Portfolio Portfolio { get; set; } = null!;
         public int ImageMediaId { get; set; }

@@ -7,16 +7,11 @@ using Weblu.Domain.Entities.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Common.Methods;
+using Weblu.Application.Common.Interfaces;
 
 namespace Weblu.Application.Interfaces.Repositories
 {
-    public interface IMethodRepository
+    public interface IMethodRepository: IGenericRepository<Method, MethodParameters>
     {
-        Task<IReadOnlyList<Method>> GetAllMethodsAsync(MethodParameters methodParameters);
-        Task<Method?> GetMethodByIdAsync(int methodId);
-        Task<bool> MethodExistsAsync(int methodId);
-        Task AddMethodAsync(Method method);
-        void UpdateMethod(Method method);
-        void DeleteMethod(Method method);
     }
 }

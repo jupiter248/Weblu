@@ -14,25 +14,13 @@ using Weblu.Domain.Enums.Services.Parameters;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class ServiceRepository : IServiceRepository
+    internal class ServiceRepository : GenericRepository<Service, ServiceParameters>, IServiceRepository
     {
-        private readonly ApplicationDbContext _context;
-        public ServiceRepository(ApplicationDbContext context)
+        public ServiceRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
-        public async Task AddServiceAsync(Service service)
-        {
-            await _context.Services.AddAsync(service);
-        }
-
-        public void DeleteService(Service service)
-        {
-            _context.Services.Remove(service);
-        }
-
-        public async Task<IReadOnlyList<Service>> GetAllServicesAsync(ServiceParameters serviceParameters)
+        public override async Task<IReadOnlyList<Service>> GetAllAsync(ServiceParameters serviceParameters)
         {
             IQueryable<Service> services = _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image);
             if (serviceParameters.PriceSort != PriceSort.All)
@@ -54,7 +42,7 @@ namespace Weblu.Infrastructure.Repositories
             return await services.ToListAsync();
         }
 
-        public async Task<Service?> GetServiceByIdAsync(int serviceId)
+        public override async Task<Service?> GetByIdAsync(int serviceId)
         {
             Service? service = await _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).Include(f => f.Features).Include(m => m.Methods).FirstOrDefaultAsync(s => s.Id == serviceId);
             if (service == null)
@@ -62,17 +50,6 @@ namespace Weblu.Infrastructure.Repositories
                 return null;
             }
             return service;
-        }
-
-        public async Task<bool> ServiceExistsAsync(int serviceId)
-        {
-            bool serviceExists = await _context.Services.AnyAsync(s => s.Id == serviceId);
-            return serviceExists;
-        }
-
-        public void UpdateService(Service service)
-        {
-            _context.Services.Update(service);
         }
     }
 }

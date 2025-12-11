@@ -7,6 +7,7 @@ using Weblu.Application.Dtos.ArticleCategoryDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Errors.Articles;
 
@@ -28,7 +29,7 @@ namespace Weblu.Application.Services
         {
             ArticleCategory articleCategory = _mapper.Map<ArticleCategory>(addArticleCategoryDto);
 
-            await _articleCategoryRepository.AddArticleCategoryAsync(articleCategory);
+            _articleCategoryRepository.Add(articleCategory);
             await _unitOfWork.CommitAsync();
 
             ArticleCategoryDto articleCategoryDto = _mapper.Map<ArticleCategoryDto>(articleCategory);
@@ -37,31 +38,31 @@ namespace Weblu.Application.Services
 
         public async Task DeleteArticleCategoryAsync(int categoryId)
         {
-            ArticleCategory articleCategory = await _articleCategoryRepository.GetArticleCategoryByIdAsync(categoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
-            _articleCategoryRepository.DeleteArticleCategory(articleCategory);
+            ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
+            _articleCategoryRepository.Delete(articleCategory);
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<ArticleCategoryDto>> GetAllArticleCategoriesAsync()
+        public async Task<List<ArticleCategoryDto>> GetAllArticleCategoriesAsync(ArticleCategoryParameters articleCategoryParameters)
         {
-            IReadOnlyList<ArticleCategory> articleCategories = await _articleCategoryRepository.GetAllArticleCategoriesAsync();
+            IReadOnlyList<ArticleCategory> articleCategories = await _articleCategoryRepository.GetAllAsync(articleCategoryParameters);
             List<ArticleCategoryDto> articleCategoryDtos = _mapper.Map<List<ArticleCategoryDto>>(articleCategories);
             return articleCategoryDtos;
         }
 
         public async Task<ArticleCategoryDto> GetArticleCategoryByIdAsync(int categoryId)
         {
-            ArticleCategory articleCategory = await _articleCategoryRepository.GetArticleCategoryByIdAsync(categoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
+            ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
             ArticleCategoryDto articleCategoryDto = _mapper.Map<ArticleCategoryDto>(articleCategory);
             return articleCategoryDto;
         }
 
         public async Task<ArticleCategoryDto> UpdateArticleCategoryAsync(int categoryId, UpdateArticleCategoryDto updateArticleCategoryDto)
         {
-            ArticleCategory articleCategory = await _articleCategoryRepository.GetArticleCategoryByIdAsync(categoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
+            ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
             articleCategory = _mapper.Map(updateArticleCategoryDto, articleCategory);
 
-            _articleCategoryRepository.UpdateArticleCategory(articleCategory);
+            _articleCategoryRepository.Update(articleCategory);
             await _unitOfWork.CommitAsync();
 
             ArticleCategoryDto articleCategoryDto = _mapper.Map<ArticleCategoryDto>(articleCategory);

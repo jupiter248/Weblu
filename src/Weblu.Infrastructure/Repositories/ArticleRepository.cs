@@ -13,24 +13,14 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class ArticleRepository : IArticleRepository
+    internal class ArticleRepository : GenericRepository<Article, ArticleParameters>, IArticleRepository
     {
-        private readonly ApplicationDbContext _context;
         public ArticleRepository(ApplicationDbContext context)
+            : base(context)
         {
-            _context = context;
-        }
-        public async Task AddArticleAsync(Article article)
-        {
-            await _context.Articles.AddAsync(article);
         }
 
-        public void DeleteArticle(Article article)
-        {
-            _context.Articles.Remove(article);
-        }
-
-        public async Task<IReadOnlyList<Article>> GetAllArticleAsync(ArticleParameters articleParameters)
+        public override async Task<IReadOnlyList<Article>> GetAllAsync(ArticleParameters articleParameters)
         {
             IQueryable<Article> articles = _context.Articles.Include(l => l.ArticleLikes).Include(c => c.Category).Include(c => c.Comments);
 
@@ -64,19 +54,15 @@ namespace Weblu.Infrastructure.Repositories
                 articles = new ArticleQueryHandler(new CommentCountSortStrategy())
                 .ExecuteArticleQuery(articles, articleParameters);
             }
-            
+
             return await articles.ToListAsync();
         }
 
-        public async Task<Article?> GetArticleByIdAsync(int articleId)
+        public override async Task<Article?> GetByIdAsync(int articleId)
         {
             Article? article = await _context.Articles.Include(t => t.Tags).Include(l => l.ArticleLikes).Include(c => c.Category).Include(c => c.Contributors).Include(c => c.Comments).Include(c => c.ArticleImages).ThenInclude(a => a.Image).FirstOrDefaultAsync(a => a.Id == articleId);
             return article;
         }
 
-        public void UpdateArticle(Article article)
-        {
-            _context.Articles.Update(article);
-        }
     }
 }

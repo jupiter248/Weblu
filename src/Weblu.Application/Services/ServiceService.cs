@@ -51,8 +51,8 @@ namespace Weblu.Application.Services
 
         public async Task AddFeatureToServiceAsync(int serviceId, int featureId)
         {
-            Service? service = await _serviceRepository.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
-            Feature? feature = await _featureRepository.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
+            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            Feature? feature = await _featureRepository.GetByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
 
             if (service.Features.Any(f => f.Id == featureId))
             {
@@ -64,8 +64,8 @@ namespace Weblu.Application.Services
 
         public async Task AddImageToService(int serviceId, int imageId, AddServiceImageDto addServiceImageDto)
         {
-            Service? service = await _serviceRepository.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
-            ImageMedia? image = await _imageRepository.GetImageItemByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            ImageMedia? image = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
             if (service.ServiceImages.Any(f => f.ImageId == imageId && f.ServiceId == serviceId))
             {
                 throw new ConflictException(ServiceErrorCodes.ImageAlreadyAddedToService);
@@ -90,8 +90,8 @@ namespace Weblu.Application.Services
 
         public async Task AddMethodToService(int serviceId, int methodId)
         {
-            Service? service = await _serviceRepository.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
-            Method? method = await _methodRepository.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
+            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            Method? method = await _methodRepository.GetByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
             if (service.Methods.Any(m => m.Id == methodId))
             {
                 throw new ConflictException(ServiceErrorCodes.MethodAlreadyAddedToService);
@@ -107,7 +107,7 @@ namespace Weblu.Application.Services
             {
                 newService.ActivatedAt = DateTimeOffset.Now;
             }
-            await _serviceRepository.AddServiceAsync(newService);
+            _serviceRepository.Add(newService);
             await _unitOfWork.CommitAsync();
             ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(newService);
             return serviceDto;
@@ -115,8 +115,8 @@ namespace Weblu.Application.Services
 
         public async Task DeleteFeatureFromServiceAsync(int serviceId, int featureId)
         {
-            Service? service = await _serviceRepository.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
-            Feature? feature = await _featureRepository.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
+            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            Feature? feature = await _featureRepository.GetByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
 
             if (!service.Features.Any(m => m.Id == featureId))
             {
@@ -129,8 +129,8 @@ namespace Weblu.Application.Services
 
         public async Task DeleteImageToService(int serviceId, int imageId)
         {
-            Service? service = await _serviceRepository.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
-            ImageMedia? image = await _imageRepository.GetImageItemByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            ImageMedia? image = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
             ServiceImage? serviceImage = service.ServiceImages.FirstOrDefault(f => f.ImageId == imageId && f.ServiceId == serviceId);
             if (serviceImage == null)
             {
@@ -142,8 +142,8 @@ namespace Weblu.Application.Services
 
         public async Task DeleteMethodFromService(int serviceId, int methodId)
         {
-            Service? service = await _serviceRepository.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
-            Method? method = await _methodRepository.GetMethodByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
+            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            Method? method = await _methodRepository.GetByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
 
             if (!service.Methods.Any(m => m.Id == methodId))
             {
@@ -157,21 +157,21 @@ namespace Weblu.Application.Services
         public async Task DeleteServiceAsync(int serviceId)
         {
             _logger.LogInformation($"Deleting service {serviceId}");
-            Service? service = await _serviceRepository.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
-            _serviceRepository.DeleteService(service);
+            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            _serviceRepository.Delete(service);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task<List<ServiceSummaryDto>> GetAllServicesAsync(ServiceParameters serviceParameters)
         {
-            IReadOnlyList<Service> services = await _serviceRepository.GetAllServicesAsync(serviceParameters);
+            IReadOnlyList<Service> services = await _serviceRepository.GetAllAsync(serviceParameters);
             List<ServiceSummaryDto> serviceSummaryDtos = _mapper.Map<List<ServiceSummaryDto>>(services);
             return serviceSummaryDtos;
         }
 
         public async Task<ServiceDetailDto> GetServiceByIdAsync(int serviceId)
         {
-            Service? service = await _serviceRepository.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             List<ServiceImageDto> imageDtos = new List<ServiceImageDto>();
             foreach (var item in service.ServiceImages)
             {
@@ -184,7 +184,7 @@ namespace Weblu.Application.Services
 
         public async Task<ServiceDetailDto> UpdateServiceAsync(int serviceId, UpdateServiceDto updateServiceDto)
         {
-            Service? service = await _serviceRepository.GetServiceByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             service = _mapper.Map(updateServiceDto, service);
             if (service.IsActive)
             {
@@ -197,7 +197,7 @@ namespace Weblu.Application.Services
             {
                 service.ActivatedAt = DateTimeOffset.MinValue;
             }
-            _serviceRepository.UpdateService(service);
+            _serviceRepository.Update(service);
             await _unitOfWork.CommitAsync();
             ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(service);
             return serviceDto;

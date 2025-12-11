@@ -43,24 +43,24 @@ namespace Weblu.Application.Services
             IUserRepository userRepository
             )
 
-            {
-                _unitOfWork = unitOfWork;
-                _mapper = mapper;
-                _tagRepository = tagRepository;
-                _imageRepository = imageRepository;
-                _articleRepository = articleRepository;
-                _contributorRepository = contributorRepository;
-                _articleCategoryRepository = articleCategoryRepository;
-                _userRepository = userRepository;
-            }
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _tagRepository = tagRepository;
+            _imageRepository = imageRepository;
+            _articleRepository = articleRepository;
+            _contributorRepository = contributorRepository;
+            _articleCategoryRepository = articleCategoryRepository;
+            _userRepository = userRepository;
+        }
         public async Task<ArticleDetailDto> AddArticleAsync(AddArticleDto addArticleDto)
         {
             Article article = _mapper.Map<Article>(addArticleDto);
 
-            ArticleCategory articleCategory = await _articleCategoryRepository.GetArticleCategoryByIdAsync(article.CategoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
+            ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(article.CategoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
             article.Category = articleCategory;
 
-            await _articleRepository.AddArticleAsync(article);
+            _articleRepository.Add(article);
             await _unitOfWork.CommitAsync();
 
             ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
@@ -69,8 +69,8 @@ namespace Weblu.Application.Services
 
         public async Task AddContributorToArticleAsync(int articleId, int contributorId)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            Contributor contributor = await _contributorRepository.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
 
             if (article.Contributors.Any(m => m.Id == contributorId))
             {
@@ -83,8 +83,8 @@ namespace Weblu.Application.Services
 
         public async Task AddImageToArticleAsync(int articleId, int imageId, AddArticleImageDto addArticleImageDto)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            ImageMedia imageMedia = await _imageRepository.GetImageItemByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            ImageMedia imageMedia = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
             if (article.ArticleImages.Any(p => p.ImageId == imageMedia.Id))
             {
@@ -110,8 +110,8 @@ namespace Weblu.Application.Services
 
         public async Task AddTagToArticleAsync(int articleId, int tagId)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            Tag tag = await _tagRepository.GetTagByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Tag tag = await _tagRepository.GetByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);
 
             if (article.Tags.Any(m => m.Id == tagId))
             {
@@ -124,16 +124,16 @@ namespace Weblu.Application.Services
 
         public async Task DeleteArticleAsync(int articleId)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
 
-            _articleRepository.DeleteArticle(article);
+            _articleRepository.Delete(article);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task DeleteContributorFromArticleAsync(int articleId, int contributorId)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            Contributor contributor = await _contributorRepository.GetContributorByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             if (!article.Contributors.Any(c => c.Id == contributorId))
             {
                 throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
@@ -144,8 +144,8 @@ namespace Weblu.Application.Services
 
         public async Task DeleteImageFromArticleAsync(int articleId, int imageId)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            ImageMedia imageMedia = await _imageRepository.GetImageItemByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            ImageMedia imageMedia = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
             ArticleImage? articleImage = article.ArticleImages.FirstOrDefault(i => i.ImageId == imageMedia.Id && i.ImageId == article.Id);
             if (articleImage == null)
@@ -159,8 +159,8 @@ namespace Weblu.Application.Services
 
         public async Task DeleteTagFromArticleAsync(int articleId, int tagId)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            Tag tag = await _tagRepository.GetTagByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Tag tag = await _tagRepository.GetByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);
             if (!article.Tags.Any(c => c.Id == tagId))
             {
                 throw new NotFoundException(TagErrorCodes.NotFound);
@@ -171,14 +171,14 @@ namespace Weblu.Application.Services
 
         public async Task<List<ArticleSummaryDto>> GetAllArticlesAsync(ArticleParameters articleParameters)
         {
-            IReadOnlyList<Article> articles = await _articleRepository.GetAllArticleAsync(articleParameters);
+            IReadOnlyList<Article> articles = await _articleRepository.GetAllAsync(articleParameters);
             List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
             return articleSummaryDtos;
         }
 
         public async Task<ArticleDetailDto> GetArticleByIdAsync(int articleId)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             List<ArticleImageDto> imageDtos = new List<ArticleImageDto>();
             foreach (ArticleImage item in article.ArticleImages)
             {
@@ -191,7 +191,7 @@ namespace Weblu.Application.Services
 
         public async Task LikeArticleAsync(int articleId, string userId)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             bool userExists = await _userRepository.UserExistsAsync(userId);
 
             if (!userExists)
@@ -216,7 +216,7 @@ namespace Weblu.Application.Services
 
         public async Task UnlikeArticleAsync(int articleId, string userId)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             bool userExists = await _userRepository.UserExistsAsync(userId);
             ArticleLike? articleLike = article.ArticleLikes.FirstOrDefault(u => u.UserId == userId);
 
@@ -235,10 +235,10 @@ namespace Weblu.Application.Services
 
         public async Task<ArticleDetailDto> UpdateArticleAsync(int articleId, UpdateArticleDto updateArticleDto)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             article = _mapper.Map(updateArticleDto, article);
 
-            ArticleCategory articleCategory = await _articleCategoryRepository.GetArticleCategoryByIdAsync(updateArticleDto.CategoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
+            ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(updateArticleDto.CategoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
             article.Category = articleCategory;
 
             if (article.IsPublished)
@@ -253,7 +253,7 @@ namespace Weblu.Application.Services
                 article.PublishedAt = DateTimeOffset.MinValue;
             }
 
-            _articleRepository.UpdateArticle(article);
+            _articleRepository.Update(article);
             await _unitOfWork.CommitAsync();
 
             ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
@@ -262,10 +262,10 @@ namespace Weblu.Application.Services
 
         public async Task ViewArticleAsync(int articleId)
         {
-            Article article = await _articleRepository.GetArticleByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             article.ViewCount++;
 
-            _articleRepository.UpdateArticle(article);
+            _articleRepository.Update(article);
             await _unitOfWork.CommitAsync();
         }
     }
