@@ -12,30 +12,18 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class FavoriteListRepository : IFavoriteListRepository
+    internal class FavoriteListRepository : GenericRepository<FavoriteList, FavoriteListParameters>, IFavoriteListRepository
     {
-        private readonly ApplicationDbContext _context;
-        public FavoriteListRepository(ApplicationDbContext context)
+        public FavoriteListRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
-        public async Task AddFavoriteListAsync(FavoriteList favoriteList)
-        {
-            await _context.FavoriteLists.AddAsync(favoriteList);
-        }
-
-        public void DeleteFavoriteList(FavoriteList favoriteList)
-        {
-            _context.FavoriteLists.Remove(favoriteList);
-        }
-
-        public async Task<FavoriteList?> GetFavoriteListByIdAsync(int favoriteListId)
+        public override async Task<FavoriteList?> GetByIdAsync(int favoriteListId)
         {
             FavoriteList? favoriteList = await _context.FavoriteLists.Include(f => f.FavoritePortfolios).FirstOrDefaultAsync(i => i.Id == favoriteListId);
             return favoriteList;
         }
 
-        public async Task<IReadOnlyList<FavoriteList>> GetAllFavoriteListsAsync(string userId, FavoriteListParameters favoriteListParameters)
+        public async Task<IReadOnlyList<FavoriteList>> GetAllByUserIdAsync(string userId, FavoriteListParameters favoriteListParameters)
         {
             IQueryable<FavoriteList> favoriteLists = _context.FavoriteLists.Where(u => u.UserId == userId).Include(f => f.FavoritePortfolios).AsQueryable();
 
@@ -46,11 +34,6 @@ namespace Weblu.Infrastructure.Repositories
             }
 
             return await favoriteLists.ToListAsync();
-        }
-
-        public void UpdateFavoriteList(FavoriteList favoriteList)
-        {
-            _context.FavoriteLists.Update(favoriteList);
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.PortfolioCategory;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.PortfolioCategory;
 
@@ -22,9 +23,9 @@ namespace Weblu.Api.Controllers
             _portfolioCategoryService = portfolioCategoryService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllPortfolioCategories()
+        public async Task<IActionResult> GetAllPortfolioCategories([FromQuery] PortfolioCategoryParameters portfolioCategoryParameters)
         {
-            List<PortfolioCategoryDto> portfolioCategoryDtos = await _portfolioCategoryService.GetAllPortfolioCategoriesAsync();
+            List<PortfolioCategoryDto> portfolioCategoryDtos = await _portfolioCategoryService.GetAllPortfolioCategoriesAsync(portfolioCategoryParameters);
             return Ok(portfolioCategoryDtos);
         }
         [HttpGet("{portfolioCategoryId:int}")]

@@ -2,17 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Articles;
 
 namespace Weblu.Application.Interfaces.Repositories
 {
-    public interface IArticleRepository
+    public interface IArticleRepository: IGenericRepository<Article, ArticleParameters>
     {
-        Task<IReadOnlyList<Article>> GetAllArticleAsync(ArticleParameters articleParameters);
-        Task<Article?> GetArticleByIdAsync(int articleId);
-        Task AddArticleAsync(Article article);
-        void UpdateArticle(Article article);
-        void DeleteArticle(Article article);
     }
 }

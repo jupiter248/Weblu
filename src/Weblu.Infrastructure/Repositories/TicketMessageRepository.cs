@@ -10,43 +10,19 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class TicketMessageRepository : ITicketMessageRepository
+    internal class TicketMessageRepository :GenericRepository<TicketMessage, TicketMessageParameters>, ITicketMessageRepository
     {
-        private readonly ApplicationDbContext _context;
-        public TicketMessageRepository(ApplicationDbContext context)
+        public TicketMessageRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
-        }
-        public async Task AddTicketMessageAsync(TicketMessage message)
-        {
-            await _context.TicketMessages.AddAsync(message);
         }
 
-        public void DeleteTicketMessage(TicketMessage message)
-        {
-            _context.TicketMessages.Remove(message);
-        }
 
-        public async Task<IReadOnlyList<TicketMessage>> GetAllTicketMessagesAsync(int ticketId, TicketMessageParameters ticketMessageParameters)
+        public async Task<IReadOnlyList<TicketMessage>> GetAllByTicketIdAsync(int ticketId, TicketMessageParameters ticketMessageParameters)
         {
             IQueryable<TicketMessage> ticketMessages = _context.TicketMessages.Where(t => t.TicketId == ticketId);
 
             return await ticketMessages.ToListAsync();
         }
 
-        public async Task<TicketMessage?> GetTicketMessageByIdAsync(int messageId)
-        {
-            TicketMessage? ticketMessage = await _context.TicketMessages.FirstOrDefaultAsync(m => m.Id == messageId);
-            if (ticketMessage == null)
-            {
-                return null;
-            }
-            return ticketMessage;
-        }
-
-        public void UpdateTicketMessage(TicketMessage message)
-        {
-            _context.TicketMessages.Update(message);
-        }
     }
 }

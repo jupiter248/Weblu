@@ -12,24 +12,13 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class CommentRepository : ICommentRepository
+    internal class CommentRepository : GenericRepository<Comment, CommentParameters>, ICommentRepository
     {
-        private readonly ApplicationDbContext _context;
-        public CommentRepository(ApplicationDbContext context)
+        public CommentRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
-        }
-        public async Task AddCommentAsync(Comment comment)
-        {
-            await _context.Comments.AddAsync(comment);
         }
 
-        public void DeleteComment(Comment comment)
-        {
-            _context.Comments.Remove(comment);
-        }
-
-        public async Task<IReadOnlyList<Comment>> GetAllCommentsAsync(CommentParameters commentParameters)
+        public override async Task<IReadOnlyList<Comment>> GetAllAsync(CommentParameters commentParameters)
         {
             IQueryable<Comment> comments = _context.Comments;
 
@@ -55,17 +44,6 @@ namespace Weblu.Infrastructure.Repositories
             }
 
             return await comments.ToListAsync();
-        }
-
-        public async Task<Comment?> GetCommentByIdAsync(int commentId)
-        {
-            Comment? comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == commentId);
-            return comment;
-        }
-
-        public void UpdateComment(Comment comment)
-        {
-            _context.Update(comment);
         }
     }
 }

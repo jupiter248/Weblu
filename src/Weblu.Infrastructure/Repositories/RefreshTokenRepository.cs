@@ -14,19 +14,12 @@ using Weblu.Infrastructure.Token;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class RefreshTokenRepository : IRefreshTokenRepository
+    internal class RefreshTokenRepository : GenericRepository<RefreshToken, RefreshTokenParameters>, IRefreshTokenRepository
     {
-        private readonly ApplicationDbContext _context;
-        public RefreshTokenRepository(ApplicationDbContext context)
+        public RefreshTokenRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
-        public async Task AddRefreshTokenAsync(RefreshToken refreshToken)
-        {
-            await _context.RefreshTokens.AddAsync(refreshToken);
-        }
-
-        public async Task<IReadOnlyList<RefreshToken>> GetAllRefreshTokenAsync(RefreshTokenParameters refreshTokenParameters)
+        public override async Task<IReadOnlyList<RefreshToken>> GetAllAsync(RefreshTokenParameters refreshTokenParameters)
         {
             IQueryable<RefreshToken> refreshTokens = _context.RefreshTokens;
             if (!string.IsNullOrEmpty(refreshTokenParameters.FilterByUserId))
@@ -53,17 +46,7 @@ namespace Weblu.Infrastructure.Repositories
             return await refreshTokens.ToListAsync();
         }
 
-        public async Task<RefreshToken?> GetRefreshTokenByIdAsync(int refreshTokenId)
-        {
-            RefreshToken? refreshTokenModel = await _context.RefreshTokens.FirstOrDefaultAsync(r => r.Id == refreshTokenId);
-            if (refreshTokenModel == null)
-            {
-                return null;
-            }
-            return refreshTokenModel;
-        }
-
-        public async Task<RefreshToken?> GetRefreshTokenByTokenAsync(string refreshToken)
+        public async Task<RefreshToken?> GetByTokenAsync(string refreshToken)
         {
             RefreshToken? refreshTokenModel = await _context.RefreshTokens.FirstOrDefaultAsync(r => r.Token == refreshToken);
             if (refreshTokenModel == null)
@@ -71,11 +54,6 @@ namespace Weblu.Infrastructure.Repositories
                 return null;
             }
             return refreshTokenModel;
-        }
-
-        public void UpdateRefreshToken(RefreshToken refreshToken)
-        {
-            _context.RefreshTokens.Update(refreshToken);
         }
     }
 }

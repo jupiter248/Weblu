@@ -13,24 +13,13 @@ using Weblu.Domain.Enums.Common.Parameters;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class ImageRepository : IImageRepository
+    internal class ImageRepository : GenericRepository<ImageMedia, ImageParameters>, IImageRepository
     {
-        private readonly ApplicationDbContext _context;
-        public ImageRepository(ApplicationDbContext context)
+        public ImageRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
-        }
-        public async Task AddImageAsync(ImageMedia image)
-        {
-            await _context.ImageMedia.AddAsync(image);
         }
 
-        public void DeleteImage(ImageMedia image)
-        {
-            _context.ImageMedia.Remove(image);
-        }
-
-        public async Task<IReadOnlyList<ImageMedia>> GetAllImagesAsync(ImageParameters imageParameters)
+        public override async Task<IReadOnlyList<ImageMedia>> GetAllAsync(ImageParameters imageParameters)
         {
             IQueryable<ImageMedia> imageMedia = _context.ImageMedia;
 
@@ -41,31 +30,6 @@ namespace Weblu.Infrastructure.Repositories
             }
 
             return await imageMedia.ToListAsync();
-        }
-
-        public async Task<ImageMedia?> GetImageItemByIdAsync(int imageId)
-        {
-            ImageMedia? imageMedia = await _context.ImageMedia.FirstOrDefaultAsync(i => i.Id == imageId);
-            if (imageMedia == null)
-            {
-                return null;
-            }
-            return imageMedia;
-        }
-
-        public async Task<bool> ImageExistsAsync(int imageId)
-        {
-            bool imageMediaExists = await _context.ImageMedia.AnyAsync(i => i.Id == imageId);
-            if (!imageMediaExists)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public void UpdateImage(ImageMedia image)
-        {
-            _context.ImageMedia.Update(image);
         }
     }
 }

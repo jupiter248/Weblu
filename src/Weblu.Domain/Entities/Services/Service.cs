@@ -10,10 +10,8 @@ using Weblu.Domain.Entities.Media;
 
 namespace Weblu.Domain.Entities.Services
 {
-    public class Service
+    public class Service : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
         public required string Title { get; set; }
         public required string Slug { get; set; }
         public string Description { get; set; } = default!;

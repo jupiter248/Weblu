@@ -24,7 +24,6 @@ namespace Weblu.Api.Controllers
         {
             _authService = authService;
         }
-        [Authorize]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
@@ -36,7 +35,6 @@ namespace Weblu.Api.Controllers
                 authResponseDto
             ));
         }
-        [Authorize]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {

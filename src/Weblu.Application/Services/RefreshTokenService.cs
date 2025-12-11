@@ -30,24 +30,24 @@ namespace Weblu.Application.Services
         }
         public async Task<List<RefreshTokenDto>> GetAllRefreshTokensAsync(RefreshTokenParameters refreshTokenParameters)
         {
-            IReadOnlyList<RefreshToken> refreshTokens = await _refreshTokenRepository.GetAllRefreshTokenAsync(refreshTokenParameters);
+            IReadOnlyList<RefreshToken> refreshTokens = await _refreshTokenRepository.GetAllAsync(refreshTokenParameters);
             List<RefreshTokenDto> refreshTokenDtos = _mapper.Map<List<RefreshTokenDto>>(refreshTokens);
             return refreshTokenDtos;
         }
 
         public async Task<RefreshTokenDto> GetRefreshTokenByToken(string refreshToken)
         {
-            RefreshToken refreshTokenModel = await _refreshTokenRepository.GetRefreshTokenByTokenAsync(refreshToken) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
+            RefreshToken refreshTokenModel = await _refreshTokenRepository.GetByTokenAsync(refreshToken) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
             RefreshTokenDto refreshTokenDto = _mapper.Map<RefreshTokenDto>(refreshTokenModel);
             return refreshTokenDto;
         }
 
         public async Task<RefreshTokenDto> UpdateRefreshToken(int refreshTokenId, UpdateRefreshTokenDto updateRefreshTokenDto)
         {
-            RefreshToken refreshToken = await _refreshTokenRepository.GetRefreshTokenByIdAsync(refreshTokenId) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
+            RefreshToken refreshToken = await _refreshTokenRepository.GetByIdAsync(refreshTokenId) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
             refreshToken = _mapper.Map(updateRefreshTokenDto, refreshToken);
 
-            _refreshTokenRepository.UpdateRefreshToken(refreshToken);
+            _refreshTokenRepository.Update(refreshToken);
             await _unitOfWork.CommitAsync();
             
             RefreshTokenDto refreshTokenDto = _mapper.Map<RefreshTokenDto>(refreshToken);

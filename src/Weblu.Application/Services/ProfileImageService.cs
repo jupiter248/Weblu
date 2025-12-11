@@ -29,8 +29,8 @@ namespace Weblu.Application.Services
         private readonly IProfileImageRepository _profileImageRepository;
         private readonly IWebHostEnvironment _webHost;
         private readonly IMapper _mapper;
-        public ProfileImageService(IUnitOfWork unitOfWork, IWebHostEnvironment webHost, IMapper mapper , 
-            IProfileImageRepository profileImageRepository , IUserRepository userRepository)
+        public ProfileImageService(IUnitOfWork unitOfWork, IWebHostEnvironment webHost, IMapper mapper,
+            IProfileImageRepository profileImageRepository, IUserRepository userRepository)
         {
             _unitOfWork = unitOfWork;
             _webHost = webHost;
@@ -83,7 +83,7 @@ namespace Weblu.Application.Services
                 IsMain = addProfileDto.IsMain
             };
 
-            await _profileImageRepository.AddProfileAsync(profileModel);
+            _profileImageRepository.Add(profileModel);
             await _unitOfWork.CommitAsync();
 
             ProfileDto profileDto = _mapper.Map<ProfileDto>(profileModel);
@@ -92,23 +92,23 @@ namespace Weblu.Application.Services
 
         public async Task DeleteProfileAsync(int profileId)
         {
-            ProfileMedia image = await _profileImageRepository.GetProfileByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            ProfileMedia image = await _profileImageRepository.GetByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
-            _profileImageRepository.DeleteProfile(image);
+            _profileImageRepository.Delete(image);
             await MediaManager.DeleteMedia(_webHost, image.Url);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task<List<ProfileDto>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters)
         {
-            IReadOnlyList<ProfileMedia> images = await _profileImageRepository.GetAllProfilesAsync(profileMediaParameters);
+            IReadOnlyList<ProfileMedia> images = await _profileImageRepository.GetAllAsync(profileMediaParameters);
             List<ProfileDto> imageDtos = _mapper.Map<List<ProfileDto>>(images);
             return imageDtos;
         }
 
         public async Task<ProfileDto> GetProfileByIdAsync(int profileId)
         {
-            ProfileMedia image = await _profileImageRepository.GetProfileByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+            ProfileMedia image = await _profileImageRepository.GetByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
             ProfileDto imageDto = _mapper.Map<ProfileDto>(image);
             return imageDto;
         }

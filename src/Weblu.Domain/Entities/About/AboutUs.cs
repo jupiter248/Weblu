@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Domain.Entities.Common;
 
 namespace Weblu.Domain.Entities.About
 {
-    public class AboutUs
+    public class AboutUs : BaseEntity
     {
-        public int Id { get; set; }
         public string Title { get; set; } = default!;
         public string SubTitle { get; set; } = default!;
         public string Description { get; set; } = default!;

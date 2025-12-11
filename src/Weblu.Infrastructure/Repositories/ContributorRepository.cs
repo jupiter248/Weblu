@@ -12,31 +12,13 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class ContributorRepository : IContributorRepository
+    internal class ContributorRepository : GenericRepository<Contributor, ContributorParameters>, IContributorRepository
     {
-        private readonly ApplicationDbContext _context;
-        public ContributorRepository(ApplicationDbContext context)
+        public ContributorRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
-        }
-        public async Task AddContributorAsync(Contributor contributor)
-        {
-            await _context.Contributors.AddAsync(contributor);
         }
 
-        public async Task<bool> ContributorExistsAsync(int contributorId)
-        {
-            bool ContributorExists = await _context.Contributors.AnyAsync(c => c.Id == contributorId);
-
-            return ContributorExists;
-        }
-
-        public void DeleteContributor(Contributor contributor)
-        {
-            _context.Contributors.Remove(contributor);
-        }
-
-        public async Task<IReadOnlyList<Contributor>> GetAllContributorsAsync(ContributorParameters contributorParameters)
+        public override async Task<IReadOnlyList<Contributor>> GetAllAsync(ContributorParameters contributorParameters)
         {
             IQueryable<Contributor> contributors = _context.Contributors;
 
@@ -47,21 +29,6 @@ namespace Weblu.Infrastructure.Repositories
             }
 
             return await contributors.ToListAsync();
-        }
-
-        public async Task<Contributor?> GetContributorByIdAsync(int contributorId)
-        {
-            Contributor? contributor = await _context.Contributors.FirstOrDefaultAsync(c => c.Id == contributorId);
-            if (contributor == null)
-            {
-                return null;
-            }
-            return contributor;
-        }
-
-        public void UpdateContributor(Contributor contributor)
-        {
-            _context.Contributors.Update(contributor);
         }
     }
 }

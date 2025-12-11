@@ -7,9 +7,8 @@ using Weblu.Domain.Entities.Portfolios;
 
 namespace Weblu.Domain.Entities.Common
 {
-    public class Contributor
+    public class Contributor : BaseEntity
     {
-        public int Id { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string Role { get; set; }

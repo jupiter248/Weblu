@@ -2,17 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Tickets;
 
 namespace Weblu.Application.Interfaces.Repositories
 {
-    public interface ITicketRepository
+    public interface ITicketRepository : IGenericRepository<Ticket, TicketParameters>
     {
-        Task<IReadOnlyList<Ticket>> GetAllTicketsAsync(TicketParameters ticketParameters);
-        Task<Ticket?> GetTicketByIdAsync(int ticketId);
-        Task AddTicketAsync(Ticket ticket);
-        void UpdateTicket(Ticket ticket);
-        void DeleteTicket(Ticket ticket);
+
     }
 }

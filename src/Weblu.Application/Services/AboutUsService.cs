@@ -37,7 +37,7 @@ namespace Weblu.Application.Services
         {
             AboutUs newAboutUs = _mapper.Map<AboutUs>(addAboutUsDto);
 
-            await _aboutUsRepository.AddAboutUsAsync(newAboutUs);
+            _aboutUsRepository.Add(newAboutUs);
             await _unitOfWork.CommitAsync();
 
             AboutUsDto aboutUsDto = _mapper.Map<AboutUsDto>(newAboutUs);
@@ -46,20 +46,20 @@ namespace Weblu.Application.Services
 
         public async Task DeleteAboutUsAsync(int aboutUsId)
         {
-            AboutUs aboutUs = await _aboutUsRepository.GetAboutUsInfoByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
+            AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
 
             if (!string.IsNullOrEmpty(aboutUs.HeadImageUrl))
             {
                 await MediaManager.DeleteMedia(_webHost, aboutUs.HeadImageUrl);
             }
 
-            _aboutUsRepository.DeleteAboutUs(aboutUs);
+            _aboutUsRepository.Delete(aboutUs);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task DeleteAboutUsHeadImageAsync(int aboutUsId)
         {
-            AboutUs aboutUs = await _aboutUsRepository.GetAboutUsInfoByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
+            AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
 
             if (string.IsNullOrEmpty(aboutUs.HeadImageUrl))
             {
@@ -76,24 +76,24 @@ namespace Weblu.Application.Services
 
         public async Task<AboutUsDto> GetAboutUsInfoByIdAsync(int aboutUsId)
         {
-            AboutUs aboutUs = await _aboutUsRepository.GetAboutUsInfoByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
+            AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
             AboutUsDto aboutUsDto = _mapper.Map<AboutUsDto>(aboutUs);
             return aboutUsDto;
         }
 
         public async Task<List<AboutUsDto>> GetAllAboutUsInfosAsync(AboutUsParameters aboutUsParameters)
         {
-            IReadOnlyList<AboutUs> aboutUs = await _aboutUsRepository.GetAllAboutUsInfosAsync(aboutUsParameters);
+            IReadOnlyList<AboutUs> aboutUs = await _aboutUsRepository.GetAllAsync(aboutUsParameters);
             List<AboutUsDto> aboutUsDtos = _mapper.Map<List<AboutUsDto>>(aboutUs);
             return aboutUsDtos;
         }
 
         public async Task<AboutUsDto> UpdateAboutUsAsync(int aboutUsId, UpdateAboutUsDto updateAboutUsDto)
         {
-            AboutUs aboutUs = await _aboutUsRepository.GetAboutUsInfoByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
+            AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
             aboutUs = _mapper.Map(updateAboutUsDto, aboutUs);
 
-            _aboutUsRepository.UpdateAboutUs(aboutUs);
+            _aboutUsRepository.Update(aboutUs);
             await _unitOfWork.CommitAsync();
 
             AboutUsDto aboutUsDto = _mapper.Map<AboutUsDto>(aboutUs);
@@ -103,7 +103,7 @@ namespace Weblu.Application.Services
         public async Task<AboutUsDto> UpdateHeadImageAboutUsAsync(int aboutUsId, UpdateImageAboutUsDto updateImageAboutUs)
         {
 
-            AboutUs aboutUs = await _aboutUsRepository.GetAboutUsInfoByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
+            AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
 
             if (updateImageAboutUs.Image.Length < 0)
             {
@@ -125,7 +125,7 @@ namespace Weblu.Application.Services
             aboutUs.HeadImageUrl = $"uploads/{MediaType.picture}/{imageName}";
             aboutUs.HeadImageAltText = updateImageAboutUs.AltText;
 
-            _aboutUsRepository.UpdateAboutUs(aboutUs);
+            _aboutUsRepository.Update(aboutUs);
             await _unitOfWork.CommitAsync();
 
             AboutUsDto aboutUsDto = _mapper.Map<AboutUsDto>(aboutUs);

@@ -2,20 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Users;
 
 namespace Weblu.Application.Interfaces.Repositories
 {
-    public interface IRefreshTokenRepository
+    public interface IRefreshTokenRepository : IGenericRepository<RefreshToken, RefreshTokenParameters>
     {
-        Task AddRefreshTokenAsync(RefreshToken refreshToken);
-        void UpdateRefreshToken(RefreshToken refreshToken);
-        Task<IReadOnlyList<RefreshToken>> GetAllRefreshTokenAsync(RefreshTokenParameters refreshTokenParameters);
-        Task<RefreshToken?> GetRefreshTokenByTokenAsync(string refreshToken);
-        Task<RefreshToken?> GetRefreshTokenByIdAsync(int refreshTokenId);
-
-
-
+        Task<RefreshToken?> GetByTokenAsync(string refreshToken);
     }
 }

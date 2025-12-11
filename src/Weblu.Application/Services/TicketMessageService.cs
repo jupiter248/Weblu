@@ -43,20 +43,20 @@ namespace Weblu.Application.Services
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
             bool isAdmin = await _userService.IsAdminAsync(senderId);
-            TicketMessage ticketMessage = await _ticketMessageRepository.GetTicketMessageByIdAsync(messageId) ?? throw new NotFoundException(TicketMessageErrorCodes.TicketMessageNotFound);
+            TicketMessage ticketMessage = await _ticketMessageRepository.GetByIdAsync(messageId) ?? throw new NotFoundException(TicketMessageErrorCodes.TicketMessageNotFound);
 
             if (!isAdmin && ticketMessage.SenderId != senderId)
             {
                 throw new UnauthorizedException(TicketErrorCodes.TicketDeleteForbidden);
             }
 
-            _ticketMessageRepository.DeleteTicketMessage(ticketMessage);
+            _ticketMessageRepository.Delete(ticketMessage);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task<TicketMessageDto> GetTicketMessageByIdAsync(int ticketMessageId)
         {
-            TicketMessage ticketMessage = await _ticketMessageRepository.GetTicketMessageByIdAsync(ticketMessageId) ?? throw new NotFoundException(TicketMessageErrorCodes.TicketMessageNotFound);
+            TicketMessage ticketMessage = await _ticketMessageRepository.GetByIdAsync(ticketMessageId) ?? throw new NotFoundException(TicketMessageErrorCodes.TicketMessageNotFound);
             TicketMessageDto ticketMessageDto = _mapper.Map<TicketMessageDto>(ticketMessage);
             return ticketMessageDto;
         }
@@ -69,7 +69,7 @@ namespace Weblu.Application.Services
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
             bool isAdmin = await _userService.IsAdminAsync(senderId);
-            Ticket ticket = await _ticketRepository.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            Ticket ticket = await _ticketRepository.GetByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
             if (ticket.UserId != senderId && !isAdmin)
             {
                 throw new UnauthorizedException(TicketMessageErrorCodes.TicketMessageReplyForbidden);
@@ -81,7 +81,7 @@ namespace Weblu.Application.Services
             ticketMessage.SenderId = senderId;
 
 
-            await _ticketMessageRepository.AddTicketMessageAsync(ticketMessage);
+            _ticketMessageRepository.Add(ticketMessage);
             await _unitOfWork.CommitAsync();
 
             TicketMessageDto ticketMessageDto = _mapper.Map<TicketMessageDto>(ticketMessage);
@@ -96,7 +96,7 @@ namespace Weblu.Application.Services
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            TicketMessage ticketMessage = await _ticketMessageRepository.GetTicketMessageByIdAsync(messageId) ?? throw new NotFoundException(TicketMessageErrorCodes.TicketMessageNotFound);
+            TicketMessage ticketMessage = await _ticketMessageRepository.GetByIdAsync(messageId) ?? throw new NotFoundException(TicketMessageErrorCodes.TicketMessageNotFound);
 
             if (ticketMessage.SenderId != senderId)
             {
@@ -104,7 +104,7 @@ namespace Weblu.Application.Services
             }
             ticketMessage = _mapper.Map(updateTicketMessageDto, ticketMessage);
 
-            _ticketMessageRepository.UpdateTicketMessage(ticketMessage);
+            _ticketMessageRepository.Update(ticketMessage);
             await _unitOfWork.CommitAsync();
 
             TicketMessageDto ticketMessageDto = _mapper.Map<TicketMessageDto>(ticketMessage);

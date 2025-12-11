@@ -13,34 +13,16 @@ using Weblu.Application.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Enums.Common.Parameters;
+using Weblu.Application.Common.Interfaces;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    public class FeatureRepository : IFeatureRepository
+    internal class FeatureRepository : GenericRepository<Feature, FeatureParameters>, IFeatureRepository
     {
-        private readonly ApplicationDbContext _context;
-        public FeatureRepository(ApplicationDbContext context)
+        public FeatureRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
-
-        public async Task AddFeatureAsync(Feature feature)
-        {
-            await _context.Features.AddAsync(feature);
-        }
-
-        public void DeleteFeature(Feature feature)
-        {
-            _context.Features.Remove(feature);
-        }
-
-        public async Task<bool> FeatureExistsAsync(int featureId)
-        {
-            bool featureExists = await _context.Features.AnyAsync(f => f.Id == featureId);
-            return featureExists;
-        }
-
-        public async Task<IReadOnlyList<Feature>> GetAllFeaturesAsync(FeatureParameters featureParameters)
+        public override async Task<IReadOnlyList<Feature>> GetAllAsync(FeatureParameters featureParameters)
         {
             IQueryable<Feature> features = _context.Features.AsQueryable();
             if (featureParameters.CreatedDateSort != CreatedDateSort.All)
@@ -52,7 +34,7 @@ namespace Weblu.Infrastructure.Repositories
             return await features.ToListAsync();
         }
 
-        public async Task<Feature?> GetFeatureByIdAsync(int featureId)
+        public override async Task<Feature?> GetByIdAsync(int featureId)
         {
             Feature? feature = await _context.Features.FirstOrDefaultAsync(f => f.Id == featureId);
             if (feature == null)
@@ -60,11 +42,6 @@ namespace Weblu.Infrastructure.Repositories
                 return null;
             }
             return feature;
-        }
-
-        public void UpdateFeature(Feature feature)
-        {
-            _context.Features.Update(feature);
         }
     }
 }

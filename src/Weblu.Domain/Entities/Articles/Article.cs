@@ -7,10 +7,9 @@ using Weblu.Domain.Entities.Common;
 
 namespace Weblu.Domain.Entities.Articles
 {
-    public class Article
+    public class Article : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
+
         public string Title { get; set; } = default!;
         public string? BelowTitle { get; set; }
         public string Slug { get; set; } = default!;

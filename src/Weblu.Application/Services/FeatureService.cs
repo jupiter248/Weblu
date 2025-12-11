@@ -29,7 +29,7 @@ namespace Weblu.Application.Services
         public async Task<FeatureDto> AddFeatureAsync(AddFeatureDto addFeatureDto)
         {
             Feature feature = _mapper.Map<Feature>(addFeatureDto);
-            await _featureRepository.AddFeatureAsync(feature);
+            _featureRepository.Add(feature);
             await _unitOfWork.CommitAsync();
             FeatureDto featureDto = _mapper.Map<FeatureDto>(feature);
             return featureDto;
@@ -37,30 +37,30 @@ namespace Weblu.Application.Services
 
         public async Task DeleteFeatureAsync(int featureId)
         {
-            Feature feature = await _featureRepository.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
-            _featureRepository.DeleteFeature(feature);
+            Feature feature = await _featureRepository.GetByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
+            _featureRepository.Delete(feature);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task<List<FeatureDto>> GetAllFeaturesAsync(FeatureParameters featureParameters)
         {
-            IReadOnlyList<Feature> features = await _featureRepository.GetAllFeaturesAsync(featureParameters);
+            IReadOnlyList<Feature> features = await _featureRepository.GetAllAsync(featureParameters);
             List<FeatureDto> featureDtos = _mapper.Map<List<FeatureDto>>(features);
             return featureDtos;
         }
 
         public async Task<FeatureDto> GetFeatureByIdAsync(int featureId)
         {
-            Feature? feature = await _featureRepository.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
+            Feature? feature = await _featureRepository.GetByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
             FeatureDto featureDto = _mapper.Map<FeatureDto>(feature);
             return featureDto;
         }
 
         public async Task<FeatureDto> UpdateFeatureAsync(int featureId, UpdateFeatureDto updateFeatureDto)
         {
-            Feature? feature = await _featureRepository.GetFeatureByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
+            Feature? feature = await _featureRepository.GetByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
             feature = _mapper.Map(updateFeatureDto, feature);
-            _featureRepository.UpdateFeature(feature);
+            _featureRepository.Update(feature);
             await _unitOfWork.CommitAsync();
             FeatureDto featureDto = _mapper.Map<FeatureDto>(feature);
             return featureDto;

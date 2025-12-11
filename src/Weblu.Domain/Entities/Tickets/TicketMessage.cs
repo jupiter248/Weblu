@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Domain.Entities.Common;
 
 namespace Weblu.Domain.Entities.Tickets
 {
-    public class TicketMessage
+    public class TicketMessage : BaseEntity
     {
-        public int Id { get; set; }
         public string Message { get; set; } = default!;
         public bool IsFromAdmin { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

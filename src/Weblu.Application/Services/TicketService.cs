@@ -42,7 +42,7 @@ namespace Weblu.Application.Services
             Ticket ticket = _mapper.Map<Ticket>(createTicketDto);
             ticket.UserId = userId;
 
-            await _ticketRepository.AddTicketAsync(ticket);
+            _ticketRepository.Add(ticket);
 
             TicketMessage ticketMessage = new TicketMessage()
             {
@@ -52,7 +52,7 @@ namespace Weblu.Application.Services
                 Ticket = ticket,
                 TicketId = ticket.Id
             };
-            await _ticketMessageRepository.AddTicketMessageAsync(ticketMessage);
+            _ticketMessageRepository.Add(ticketMessage);
             await _unitOfWork.CommitAsync();
 
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
@@ -67,20 +67,20 @@ namespace Weblu.Application.Services
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
             bool isAdmin = await _userRepository.IsAdminAsync(userId);
-            Ticket ticket = await _ticketRepository.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            Ticket ticket = await _ticketRepository.GetByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
 
             if (!isAdmin && ticket.UserId != userId)
             {
                 throw new UnauthorizedException(TicketErrorCodes.TicketDeleteForbidden);
             }
 
-            _ticketRepository.DeleteTicket(ticket);
+            _ticketRepository.Delete(ticket);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task<List<TicketSummaryDto>> GetAllTicketsAsync(TicketParameters ticketParameters)
         {
-            IReadOnlyList<Ticket> tickets = await _ticketRepository.GetAllTicketsAsync(ticketParameters);
+            IReadOnlyList<Ticket> tickets = await _ticketRepository.GetAllAsync(ticketParameters);
             List<TicketSummaryDto> ticketSummaryDtos = _mapper.Map<List<TicketSummaryDto>>(tickets);
 
             return ticketSummaryDtos;
@@ -88,7 +88,7 @@ namespace Weblu.Application.Services
 
         public async Task<TicketDetailDto> GetTicketByIdAsync(int ticketId)
         {
-            Ticket ticket = await _ticketRepository.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            Ticket ticket = await _ticketRepository.GetByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;
         }
@@ -100,7 +100,7 @@ namespace Weblu.Application.Services
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            Ticket ticket = await _ticketRepository.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            Ticket ticket = await _ticketRepository.GetByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
             ticket = _mapper.Map(updateTicketDto, ticket);
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;
@@ -108,9 +108,9 @@ namespace Weblu.Application.Services
 
         public async Task<TicketDetailDto> UpdateTicketStatusAsync(int ticketId, UpdateTicketStatusDto updateTicketStatusDto)
         {
-            Ticket ticket = await _ticketRepository.GetTicketByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            Ticket ticket = await _ticketRepository.GetByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
             ticket = _mapper.Map(updateTicketStatusDto, ticket);
-            _ticketRepository.UpdateTicket(ticket);
+            _ticketRepository.Update(ticket);
             await _unitOfWork.CommitAsync();
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;

@@ -6,9 +6,8 @@ using Weblu.Domain.Entities.Articles;
 
 namespace Weblu.Domain.Entities.Common
 {
-    public class Comment
+    public class Comment : BaseEntity
     {
-        public int Id { get; set; }
         public string Text { get; set; } = default!;
         public bool IsEdited { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

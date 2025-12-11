@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.SocialMediaDtos;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.SocialMedias;
 
@@ -22,9 +23,9 @@ namespace Weblu.Api.Controllers
             _socialMediaService = socialMediaService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllSocialMedia()
+        public async Task<IActionResult> GetAllSocialMedia([FromQuery] SocialMediaParameters socialMediaParameters )
         {
-            List<SocialMediaDto> socialMediaDtos = await _socialMediaService.GetAllSocialMediasAsync();
+            List<SocialMediaDto> socialMediaDtos = await _socialMediaService.GetAllSocialMediasAsync(socialMediaParameters);
             return Ok(socialMediaDtos);
         }
         [HttpGet("{socialMediaId:int}")]

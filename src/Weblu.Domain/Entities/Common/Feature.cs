@@ -8,10 +8,8 @@ using Weblu.Domain.Entities.Services;
 
 namespace Weblu.Domain.Entities.Common
 {
-    public class Feature
+    public class Feature : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
         public required string Name { get; set; }
         public required string Description { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

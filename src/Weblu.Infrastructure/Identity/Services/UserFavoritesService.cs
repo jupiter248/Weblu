@@ -40,7 +40,7 @@ namespace Weblu.Infrastructure.Identity.Services
         public async Task AddPortfolioToFavorite(string userId, int portfolioId)
         {
             AppUser? user = await _userManager.Users.Include(f => f.FavoritePortfolios).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            Portfolio? portfolio = await _portfolioRepository.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            Portfolio? portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
             if (user.FavoritePortfolios.Any(p => p.PortfolioId == portfolio.Id))
             {
@@ -61,7 +61,7 @@ namespace Weblu.Infrastructure.Identity.Services
         public async Task DeletePortfolioFromFavorite(string userId, int portfolioId)
         {
             AppUser? user = await _userManager.Users.Include(f => f.FavoritePortfolios).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            Portfolio? portfolio = await _portfolioRepository.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            Portfolio? portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
             FavoritePortfolio? favoritePortfolio = user.FavoritePortfolios.FirstOrDefault(p => p.PortfolioId == portfolio.Id);
             if (favoritePortfolio == null)
@@ -88,7 +88,7 @@ namespace Weblu.Infrastructure.Identity.Services
         public async Task<bool> IsFavorite(string userId, int portfolioId)
         {
             AppUser? user = await _userManager.Users.Include(f => f.FavoritePortfolios).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            Portfolio? portfolio = await _portfolioRepository.GetPortfolioByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            Portfolio? portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
             if (!user.FavoritePortfolios.Any(p => p.PortfolioId == portfolio.Id))
             {
