@@ -20,7 +20,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<IReadOnlyList<Comment>> GetAllAsync(CommentParameters commentParameters)
         {
-            IQueryable<Comment> comments = _context.Comments;
+            IQueryable<Comment> comments = _context.Comments.AsNoTracking();
 
             if (commentParameters.CreatedDateSort != CreatedDateSort.All)
             {
@@ -44,6 +44,12 @@ namespace Weblu.Infrastructure.Repositories
             }
 
             return await comments.ToListAsync();
+        }
+
+        public async Task<int> GetCountAsync(int articleId)
+        {
+            int count = await _context.Comments.CountAsync(c => c.ArticleId == articleId);
+            return count;
         }
     }
 }

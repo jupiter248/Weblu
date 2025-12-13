@@ -22,14 +22,23 @@ namespace Weblu.Infrastructure.Repositories
         }
         public override async Task<IReadOnlyList<Method>> GetAllAsync(MethodParameters methodParameters)
         {
-            IQueryable<Method> methods = _context.Methods;
+            IQueryable<Method> methods = _context.Methods.AsNoTracking();
 
             if (methodParameters.CreatedDateSort != CreatedDateSort.All)
             {
                 methods = new MethodQueryHandler(new CreatedDateSortStrategy())
                 .ExecuteMethodQuery(methods, methodParameters);
             }
-
+            if (methodParameters.FilterByServiceId.HasValue)
+            {
+                methods = new MethodQueryHandler(new FilterByServiceIdStrategy())
+                .ExecuteMethodQuery(methods.Include(s => s.Services), methodParameters);
+            }
+            if (methodParameters.FilterByPortfolioId.HasValue)
+            {
+                methods = new MethodQueryHandler(new FilterByPortfolioIdStrategy())
+                .ExecuteMethodQuery(methods.Include(p => p.Portfolios), methodParameters);
+            }
             return await methods.ToListAsync();
 
         }

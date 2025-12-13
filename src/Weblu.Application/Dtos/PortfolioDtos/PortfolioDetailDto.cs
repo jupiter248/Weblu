@@ -26,10 +26,7 @@ namespace Weblu.Application.Dtos.PortfolioDtos
         public required string CreatedAt { get; set; }
         public int PortfolioCategoryId { get; set; }
         public required string PortfolioCategoryName { get; set; }
-        public List<MethodDto>? Methods { get; set; }
-        public List<FeatureDto>? Features { get; set; }
         public List<PortfolioImageDto>? Images { get; set; }
-        public List<ContributorDto>? Contributors { get; set; }
 
     }
 }

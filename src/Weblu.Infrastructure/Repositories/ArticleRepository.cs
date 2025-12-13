@@ -22,7 +22,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<IReadOnlyList<Article>> GetAllAsync(ArticleParameters articleParameters)
         {
-            IQueryable<Article> articles = _context.Articles.Include(l => l.ArticleLikes).Include(c => c.Category).Include(c => c.Comments);
+            IQueryable<Article> articles = _context.Articles.AsNoTracking();
 
             if (articleParameters.CreatedDateSort != CreatedDateSort.All)
             {
@@ -37,7 +37,7 @@ namespace Weblu.Infrastructure.Repositories
             if (articleParameters.ContributorId.HasValue)
             {
                 articles = new ArticleQueryHandler(new FilteredByContributorIdStrategy())
-                .ExecuteArticleQuery(articles, articleParameters);
+                .ExecuteArticleQuery(articles.Include(c => c.Contributors), articleParameters);
             }
             if (articleParameters.ViewCountSort != ViewCountSort.All)
             {
@@ -47,12 +47,12 @@ namespace Weblu.Infrastructure.Repositories
             if (articleParameters.LikeCountSort != LikeCountSort.All)
             {
                 articles = new ArticleQueryHandler(new LikeCountSortStrategy())
-                .ExecuteArticleQuery(articles, articleParameters);
+                .ExecuteArticleQuery(articles.Include(l => l.ArticleLikes), articleParameters);
             }
             if (articleParameters.CommentCountSort != CommentCountSort.All)
             {
                 articles = new ArticleQueryHandler(new CommentCountSortStrategy())
-                .ExecuteArticleQuery(articles, articleParameters);
+                .ExecuteArticleQuery(articles.Include(c => c.Comments), articleParameters);
             }
 
             return await articles.ToListAsync();
@@ -60,9 +60,14 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<Article?> GetByIdAsync(int articleId)
         {
-            Article? article = await _context.Articles.Include(t => t.Tags).Include(l => l.ArticleLikes).Include(c => c.Category).Include(c => c.Contributors).Include(c => c.Comments).Include(c => c.ArticleImages).ThenInclude(a => a.Image).FirstOrDefaultAsync(a => a.Id == articleId);
+            Article? article = await _context.Articles.Include(c => c.Category).Include(c => c.ArticleImages).ThenInclude(a => a.Image).FirstOrDefaultAsync(a => a.Id == articleId);
             return article;
         }
 
+        public async Task<int> GetCountAsync(int articleId)
+        {
+            int count = await _context.ArticleLikes.CountAsync(l => l.Id == articleId);
+            return count;
+        }
     }
 }

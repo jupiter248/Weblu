@@ -10,5 +10,6 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IArticleRepository: IGenericRepository<Article, ArticleParameters>
     {
+        Task<int> GetCountAsync(int articleId);
     }
 }

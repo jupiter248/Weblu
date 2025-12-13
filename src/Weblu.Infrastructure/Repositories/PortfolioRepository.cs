@@ -19,7 +19,7 @@ namespace Weblu.Infrastructure.Repositories
         }
         public override async Task<IReadOnlyList<Portfolio>> GetAllAsync(PortfolioParameters portfolioParameters)
         {
-            IQueryable<Portfolio> portfolios = _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).Include(c => c.Contributors);
+            IQueryable<Portfolio> portfolios = _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).AsNoTracking();
 
             if (portfolioParameters.CreatedDateSort != CreatedDateSort.All)
             {
@@ -42,7 +42,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<Portfolio?> GetByIdAsync(int portfolioId)
         {
-            Portfolio? portfolio = await _context.Portfolios.Include(c => c.PortfolioCategory).Include(c => c.Contributors).Include(f => f.Features).Include(m => m.Methods).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).FirstOrDefaultAsync(p => p.Id == portfolioId);
+            Portfolio? portfolio = await _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).FirstOrDefaultAsync(p => p.Id == portfolioId);
             if (portfolio == null)
             {
                 return null;

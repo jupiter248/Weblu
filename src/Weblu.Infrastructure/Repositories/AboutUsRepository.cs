@@ -12,14 +12,14 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    internal class AboutUsRepository : GenericRepository<AboutUs , AboutUsParameters>, IAboutUsRepository
+    internal class AboutUsRepository : GenericRepository<AboutUs, AboutUsParameters>, IAboutUsRepository
     {
         public AboutUsRepository(ApplicationDbContext context) : base(context)
         {
         }
         public override async Task<IReadOnlyList<AboutUs>> GetAllAsync(AboutUsParameters aboutUsParameters)
         {
-            IQueryable<AboutUs> aboutUs = _context.AboutUs;
+            IQueryable<AboutUs> aboutUs = _context.AboutUs.AsNoTracking();
 
             if (aboutUsParameters.CreatedDateSort != CreatedDateSort.All)
             {

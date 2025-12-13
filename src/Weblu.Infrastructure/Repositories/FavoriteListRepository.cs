@@ -25,7 +25,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<FavoriteList>> GetAllByUserIdAsync(string userId, FavoriteListParameters favoriteListParameters)
         {
-            IQueryable<FavoriteList> favoriteLists = _context.FavoriteLists.Where(u => u.UserId == userId).Include(f => f.FavoritePortfolios).AsQueryable();
+            IQueryable<FavoriteList> favoriteLists = _context.FavoriteLists.Where(u => u.UserId == userId).Include(f => f.FavoritePortfolios).AsNoTracking().AsQueryable();
 
             if (favoriteListParameters.FavoriteListTypeSort != FavoriteListTypeSort.All)
             {

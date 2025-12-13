@@ -37,7 +37,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(TEntityParameters entityParameters)
         {
-            IQueryable<TEntity> query = _context.Set<TEntity>();
+            IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking();
             return await query.ToListAsync();
         }
 

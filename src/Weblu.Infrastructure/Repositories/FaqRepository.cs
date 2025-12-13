@@ -20,7 +20,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<IReadOnlyList<Faq>> GetAllAsync(FaqParameters faqParameters)
         {
-            IQueryable<Faq> faqs = _context.Faqs.Include(c => c.Category);
+            IQueryable<Faq> faqs = _context.Faqs.Include(c => c.Category).AsNoTracking();
 
             if (faqParameters.CreatedDateSort != CreatedDateSort.All)
             {

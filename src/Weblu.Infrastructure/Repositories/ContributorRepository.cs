@@ -20,12 +20,22 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<IReadOnlyList<Contributor>> GetAllAsync(ContributorParameters contributorParameters)
         {
-            IQueryable<Contributor> contributors = _context.Contributors;
+            IQueryable<Contributor> contributors = _context.Contributors.AsNoTracking();
 
             if (contributorParameters.CreatedDateSort != CreatedDateSort.All)
             {
                 contributors = new ContributorQueryHandler(new CreatedDateSortStrategy())
                 .ExecuteContributorQuery(contributors, contributorParameters);
+            }
+            if (contributorParameters.FilterByPortfolioId.HasValue)
+            {
+                contributors = new ContributorQueryHandler(new FilterByPortfolioIdStrategy())
+                .ExecuteContributorQuery(contributors.Include(p => p.Portfolios), contributorParameters);
+            }
+            if (contributorParameters.FilterByArticleId.HasValue)
+            {
+                contributors = new ContributorQueryHandler(new FilterByPortfolioIdStrategy())
+                .ExecuteContributorQuery(contributors.Include(p => p.Articles), contributorParameters);
             }
 
             return await contributors.ToListAsync();

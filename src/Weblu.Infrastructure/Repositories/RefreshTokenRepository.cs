@@ -21,7 +21,7 @@ namespace Weblu.Infrastructure.Repositories
         }
         public override async Task<IReadOnlyList<RefreshToken>> GetAllAsync(RefreshTokenParameters refreshTokenParameters)
         {
-            IQueryable<RefreshToken> refreshTokens = _context.RefreshTokens;
+            IQueryable<RefreshToken> refreshTokens = _context.RefreshTokens.AsNoTracking();
             if (!string.IsNullOrEmpty(refreshTokenParameters.FilterByUserId))
             {
                 refreshTokens = new RefreshTokenQueryHandler(new FilterByUserIdStrategy())

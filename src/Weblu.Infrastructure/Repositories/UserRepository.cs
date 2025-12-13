@@ -26,7 +26,7 @@ namespace Weblu.Infrastructure.Repositories
                 UserName = c.UserName,
                 UserProfileUrl = c.Profiles.Where(P => P.IsMain).Select(u => u.Url).FirstOrDefault(),
                 UserProfileAltText = c.Profiles.Where(P => P.IsMain).Select(u => u.AltText).FirstOrDefault()
-            }).FirstOrDefaultAsync();
+            }).AsNoTracking().FirstOrDefaultAsync();
 
             return commentUserDto;
         }

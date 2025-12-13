@@ -31,6 +31,7 @@ namespace Weblu.Application.Services
         private readonly IImageRepository _imageRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITagRepository _tagRepository;
+        private readonly ICommentRepository _commentRepository;
         private readonly IMapper _mapper;
         public ArticleService(
             IUnitOfWork unitOfWork,
@@ -40,7 +41,8 @@ namespace Weblu.Application.Services
             IContributorRepository contributorRepository,
             IImageRepository imageRepository,
             IArticleRepository articleRepository,
-            IUserRepository userRepository
+            IUserRepository userRepository,
+            ICommentRepository commentRepository
             )
 
         {
@@ -52,6 +54,7 @@ namespace Weblu.Application.Services
             _contributorRepository = contributorRepository;
             _articleCategoryRepository = articleCategoryRepository;
             _userRepository = userRepository;
+            _commentRepository = commentRepository;
         }
         public async Task<ArticleDetailDto> AddArticleAsync(AddArticleDto addArticleDto)
         {
@@ -147,7 +150,7 @@ namespace Weblu.Application.Services
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             ImageMedia imageMedia = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
-            ArticleImage? articleImage = article.ArticleImages.FirstOrDefault(i => i.ImageId == imageMedia.Id && i.ImageId == article.Id);
+            ArticleImage? articleImage = article.ArticleImages.FirstOrDefault(i => i.ImageId == imageMedia.Id && i.ArticleId == article.Id);
             if (articleImage == null)
             {
                 throw new NotFoundException(ImageErrorCodes.ImageNotFound);
@@ -173,6 +176,11 @@ namespace Weblu.Application.Services
         {
             IReadOnlyList<Article> articles = await _articleRepository.GetAllAsync(articleParameters);
             List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
+            foreach (ArticleSummaryDto articleSummaryDto in articleSummaryDtos)
+            {
+                articleSummaryDto.CommentCount = await _commentRepository.GetCountAsync(articleSummaryDto.Id);
+                articleSummaryDto.LikeCount = await _articleRepository.GetCountAsync(articleSummaryDto.Id);
+            }
             return articleSummaryDtos;
         }
 
@@ -186,6 +194,8 @@ namespace Weblu.Application.Services
             }
             ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
             articleDetailDto.ArticleImages = imageDtos;
+            articleDetailDto.CommentCount = await _commentRepository.GetCountAsync(articleId);
+            articleDetailDto.LikeCount = await _articleRepository.GetCountAsync(articleId);
             return articleDetailDto;
         }
 

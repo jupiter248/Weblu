@@ -9,5 +9,7 @@ namespace Weblu.Application.Parameters
     public class MethodParameters
     {
         public CreatedDateSort CreatedDateSort { get; set; }
+        public int? FilterByServiceId { get; set; }
+        public int? FilterByPortfolioId { get; set; }
     }
 }

@@ -22,8 +22,6 @@ namespace Weblu.Application.Dtos.ServiceDtos
         public string? ActivatedAt { get; set; }
         public string? UpdatedAt { get; set; }
         public required string CreatedAt { get; set; }
-        public List<FeatureDto>? Features { get; set; }
-        public List<MethodDto>? Methods { get; set; }
         public List<ServiceImageDto>? Images { get; set; }
 
 

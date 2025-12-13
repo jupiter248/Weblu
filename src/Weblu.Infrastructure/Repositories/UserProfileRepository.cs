@@ -21,7 +21,7 @@ namespace Weblu.Infrastructure.Repositories
         }
         public override async Task<IReadOnlyList<ProfileMedia>> GetAllAsync(ProfileMediaParameters profileMediaParameters)
         {
-            IQueryable<ProfileMedia> profiles = _context.ProfileMedia;
+            IQueryable<ProfileMedia> profiles = _context.ProfileMedia.AsNoTracking();
             if (profileMediaParameters.AddedDateSort != CreatedDateSort.All)
             {
                 profiles = new ProfileMediaQueryHandler(new AddedDateSortStrategy())

@@ -21,7 +21,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<IReadOnlyList<ImageMedia>> GetAllAsync(ImageParameters imageParameters)
         {
-            IQueryable<ImageMedia> imageMedia = _context.ImageMedia;
+            IQueryable<ImageMedia> imageMedia = _context.ImageMedia.AsNoTracking();
 
             if (imageParameters.AddedDateSort != CreatedDateSort.All)
             {

@@ -24,24 +24,24 @@ namespace Weblu.Infrastructure.Repositories
         }
         public override async Task<IReadOnlyList<Feature>> GetAllAsync(FeatureParameters featureParameters)
         {
-            IQueryable<Feature> features = _context.Features.AsQueryable();
+            IQueryable<Feature> features = _context.Features.AsNoTracking().AsQueryable();
             if (featureParameters.CreatedDateSort != CreatedDateSort.All)
             {
                 features = new FeatureQueryHandler(new CreatedDateSortStrategy())
                 .ExecuteFeatureQuery(features, featureParameters);
             }
+            if (featureParameters.FilterByServiceId.HasValue)
+            {
+                features = new FeatureQueryHandler(new FilterByServiceIdStrategy())
+                .ExecuteFeatureQuery(features.Include(s => s.Services), featureParameters);
+            }
+            if (featureParameters.FilterByPortfolioId.HasValue)
+            {
+                features = new FeatureQueryHandler(new FilterByPortfolioIdStrategy())
+                .ExecuteFeatureQuery(features.Include(p => p.Portfolios), featureParameters);
+            }
 
             return await features.ToListAsync();
-        }
-
-        public override async Task<Feature?> GetByIdAsync(int featureId)
-        {
-            Feature? feature = await _context.Features.FirstOrDefaultAsync(f => f.Id == featureId);
-            if (feature == null)
-            {
-                return null;
-            }
-            return feature;
         }
     }
 }

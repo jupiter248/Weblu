@@ -22,7 +22,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<IReadOnlyList<Service>> GetAllAsync(ServiceParameters serviceParameters)
         {
-            IQueryable<Service> services = _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image);
+            IQueryable<Service> services = _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).AsNoTracking();
             if (serviceParameters.PriceSort != PriceSort.All)
             {
                 services = new ServiceQueryHandler(new PriceSortStrategy())
@@ -44,7 +44,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<Service?> GetByIdAsync(int serviceId)
         {
-            Service? service = await _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).Include(f => f.Features).Include(m => m.Methods).FirstOrDefaultAsync(s => s.Id == serviceId);
+            Service? service = await _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).FirstOrDefaultAsync(s => s.Id == serviceId);
             if (service == null)
             {
                 return null;

@@ -9,5 +9,7 @@ namespace Weblu.Application.Parameters
     public class TagParameters
     {
         public CreatedDateSort CreatedDateSort { get; set; }
+        public int? FilterByArticleId { get; set; }
+
     }
 }

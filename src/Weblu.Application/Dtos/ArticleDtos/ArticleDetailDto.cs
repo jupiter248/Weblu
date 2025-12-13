@@ -29,8 +29,5 @@ namespace Weblu.Application.Dtos.ArticleDtos
         public int CategoryId { get; set; }
         public string CategoryName { get; set; } = default!;
         public List<ArticleImageDto>? ArticleImages { get; set; }
-        public List<ContributorDto>? Contributors { get; set; }
-        public List<TagDto>? Tags { get; set; }
-
     }
 }

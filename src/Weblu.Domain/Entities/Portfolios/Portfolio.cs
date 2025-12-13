@@ -29,6 +29,5 @@ namespace Weblu.Domain.Entities.Portfolios
         public List<PortfolioImage> PortfolioImages { get; set; } = new List<PortfolioImage>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>();
         public List<FavoritePortfolio> FavoritePortfolios { get; set; } = new List<FavoritePortfolio>();
-
     }
 }

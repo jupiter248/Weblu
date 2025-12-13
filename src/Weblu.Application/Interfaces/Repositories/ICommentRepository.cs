@@ -10,6 +10,6 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface ICommentRepository: IGenericRepository<Comment, CommentParameters>
     {
-        
+        Task<int> GetCountAsync(int articleId);
     }
 }

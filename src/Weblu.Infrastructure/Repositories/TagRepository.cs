@@ -20,13 +20,17 @@ namespace Weblu.Infrastructure.Repositories
         }
         public override async Task<IReadOnlyList<Tag>> GetAllAsync(TagParameters tagParameters)
         {
-            IQueryable<Tag> tags = _context.Tags;
+            IQueryable<Tag> tags = _context.Tags.AsNoTracking();
             if (tagParameters.CreatedDateSort != CreatedDateSort.All)
             {
                 tags = new TagQueryHandler(new CreatedDateSortStrategy())
                 .ExecuteTagQuery(tags, tagParameters);
             }
-
+            if (tagParameters.FilterByArticleId.HasValue)
+            {
+                tags = new TagQueryHandler(new FilterByArticleIdStrategy())
+                .ExecuteTagQuery(tags.Include(a => a.Articles), tagParameters);
+            }
             return await tags.ToListAsync();
         }
     }

@@ -20,7 +20,7 @@ namespace Weblu.Infrastructure.Repositories
         }
         public override async Task<IReadOnlyList<Ticket>> GetAllAsync(TicketParameters ticketParameters)
         {
-            IQueryable<Ticket> tickets = _context.Tickets;
+            IQueryable<Ticket> tickets = _context.Tickets.AsNoTracking();
             if (ticketParameters.CreatedDateSort != CreatedDateSort.All)
             {
                 tickets = new TicketQueryHandler(new CreatedDateSortStrategy())

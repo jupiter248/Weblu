@@ -9,5 +9,8 @@ namespace Weblu.Application.Parameters
     public class ContributorParameters
     {
         public CreatedDateSort CreatedDateSort { get; set; }
+        public int? FilterByPortfolioId { get; set; }
+        public int? FilterByArticleId { get; set; }
+
     }
 }
