@@ -3,7 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Domain.Entities.Comments;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Contributors;
+using Weblu.Domain.Entities.Media;
+using Weblu.Domain.Entities.Tags;
+using Weblu.Domain.Errors.Articles;
+using Weblu.Domain.Errors.Contributors;
+using Weblu.Domain.Errors.Images;
+using Weblu.Domain.Errors.Tags;
+using Weblu.Domain.Exceptions;
 
 namespace Weblu.Domain.Entities.Articles
 {
@@ -29,6 +38,77 @@ namespace Weblu.Domain.Entities.Articles
         public List<ArticleLike> ArticleLikes { get; set; } = new List<ArticleLike>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
 
+        public void AddTag(Tag tag)
+        {
+            if (Tags.Any(t => t.Id == tag.Id))
+            {
+                throw new DomainException(ArticleErrorCodes.TagAlreadyAddedToArticle, 409);
+            }
+            Tags.Add(tag);
+        }
+        public void AddContributor(Contributor contributor)
+        {
+            if (Contributors.Any(c => c.Id == contributor.Id))
+            {
+                throw new DomainException(ArticleErrorCodes.ContributorAlreadyAddedToArticle, 409);
+            }
+            Contributors.Add(contributor);
+        }
+        public void AddImage(ArticleImage articleImage)
+        {
+            if (ArticleImages.Any(p => p.ImageId == articleImage.ImageId))
+            {
+                throw new DomainException(ArticleErrorCodes.ImageAlreadyAddedToArticle, 409);
+            }
+            if (ArticleImages.Any(p => p.IsThumbnail && articleImage.IsThumbnail))
+            {
+                throw new DomainException(ArticleErrorCodes.ArticleHasThumbnailImage, 409);
+            }
+            ArticleImages.Add(articleImage);
+        }
+        public void Like(ArticleLike articleLike)
+        {
+            if (ArticleLikes.Any(u => u.UserId == articleLike.UserId))
+            {
+                throw new DomainException(ArticleErrorCodes.AlreadyLikedByUser, 409);
+            }
 
+            ArticleLikes.Add(articleLike);
+        }
+        public void DeleteTag(Tag tag)
+        {
+            if (!Tags.Any(c => c.Id == tag.Id))
+            {
+                throw new DomainException(TagErrorCodes.NotFound, 404);
+            }
+            Tags.Remove(tag);
+        }
+        public void DeleteContributor(Contributor contributor)
+        {
+            if (!Contributors.Any(c => c.Id == contributor.Id))
+            {
+                throw new DomainException(ContributorErrorCodes.ContributorNotFound, 404);
+            }
+            Contributors.Remove(contributor);
+        }
+        public void DeleteImage(ImageMedia imageMedia)
+        {
+            ArticleImage? articleImage = ArticleImages.FirstOrDefault(i => i.ImageId == imageMedia.Id);
+            if (articleImage == null)
+            {
+                throw new DomainException(ImageErrorCodes.ImageNotFound, 404);
+            }
+            ArticleImages.Remove(articleImage);
+        }
+        public void UnLike(string userId)
+        {
+            ArticleLike? currentArticleLike = ArticleLikes.FirstOrDefault(u => u.UserId == userId);
+            if (currentArticleLike == null)
+            {
+                throw new DomainException(ArticleErrorCodes.DidNotLikeByUser, 409);
+            }
+
+            ArticleLikes.Remove(currentArticleLike);
+        }
     }
 }

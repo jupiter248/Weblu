@@ -7,6 +7,7 @@ using Weblu.Application.Dtos.PortfolioCategory;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Errors.PortfolioCategory;

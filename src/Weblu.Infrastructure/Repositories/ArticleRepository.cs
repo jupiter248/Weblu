@@ -22,7 +22,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<IReadOnlyList<Article>> GetAllAsync(ArticleParameters articleParameters)
         {
-            IQueryable<Article> articles = _context.Articles.AsNoTracking();
+            IQueryable<Article> articles = _context.Articles.Include(a => a.ArticleImages.Where(i => i.IsThumbnail)).ThenInclude(i => i.Image).AsNoTracking();
 
             if (articleParameters.CreatedDateSort != CreatedDateSort.All)
             {
@@ -60,14 +60,35 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<Article?> GetByIdAsync(int articleId)
         {
+            Article? article = await _context.Articles.Include(c => c.Category).FirstOrDefaultAsync(a => a.Id == articleId);
+            return article;
+        }
+
+        public async Task<int> GetLikeCountAsync(int articleId)
+        {
+            int count = await _context.ArticleLikes.CountAsync(l => l.Id == articleId);
+            return count;
+        }
+
+        public async Task<Article?> GetByIdWithImagesAsync(int articleId)
+        {
             Article? article = await _context.Articles.Include(c => c.Category).Include(c => c.ArticleImages).ThenInclude(a => a.Image).FirstOrDefaultAsync(a => a.Id == articleId);
             return article;
         }
 
-        public async Task<int> GetCountAsync(int articleId)
+        public async Task LoadContributorsAsync(Article article)
         {
-            int count = await _context.ArticleLikes.CountAsync(l => l.Id == articleId);
-            return count;
+            await _context.Entry(article).Collection(c => c.Contributors).LoadAsync();
+        }
+
+        public async Task LoadLikesAsync(Article article)
+        {
+            await _context.Entry(article).Collection(c => c.ArticleLikes).LoadAsync();
+        }
+
+        public async Task LoadTagsAsync(Article article)
+        {
+            await _context.Entry(article).Collection(c => c.Tags).LoadAsync();
         }
     }
 }

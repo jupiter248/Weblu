@@ -11,6 +11,7 @@ using Weblu.Application.Validations.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Common.Responses;
 using Microsoft.AspNetCore.Authorization;
+using Weblu.Application.Interfaces.Services.ServiceServices;
 
 namespace Weblu.Api.Controllers
 {
@@ -19,9 +20,21 @@ namespace Weblu.Api.Controllers
     public class ServiceController : ControllerBase
     {
         private readonly IServiceService _serviceService;
-        public ServiceController(IServiceService serviceService)
+        private readonly IServiceFeatureService _serviceFeatureService;
+        private readonly IServiceMethodService _serviceMethodService;
+        private readonly IServiceImageService _serviceImageService;
+
+        public ServiceController(
+            IServiceService serviceService,
+            IServiceFeatureService serviceFeatureService,
+            IServiceMethodService serviceMethodService,
+            IServiceImageService serviceImageService
+        )
         {
             _serviceService = serviceService;
+            _serviceFeatureService = serviceFeatureService;
+            _serviceMethodService = serviceMethodService;
+            _serviceImageService = serviceImageService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllServices([FromQuery] ServiceParameters serviceParameters)
@@ -68,42 +81,42 @@ namespace Weblu.Api.Controllers
         [HttpPost("{serviceId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> AddFeatureToService(int serviceId, int featureId)
         {
-            await _serviceService.AddFeatureToServiceAsync(serviceId, featureId);
+            await _serviceFeatureService.AddFeatureAsync(serviceId, featureId);
             return Ok(ApiResponse.Success("Feature added successfully"));
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{serviceId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> DeleteFeatureFromService(int serviceId, int featureId)
         {
-            await _serviceService.DeleteFeatureFromServiceAsync(serviceId, featureId);
+            await _serviceFeatureService.DeleteFeatureAsync(serviceId, featureId);
             return Ok(ApiResponse.Success("Feature deleted successfully"));
         }
         [Authorize(Roles = "Admin")]
         [HttpPost("{serviceId:int}/method/{methodId:int}")]
         public async Task<IActionResult> AddMethodToService(int serviceId, int methodId)
         {
-            await _serviceService.AddMethodToService(serviceId, methodId);
+            await _serviceMethodService.AddMethodAsync(serviceId, methodId);
             return Ok(ApiResponse.Success("Method added successfully"));
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{serviceId:int}/method/{methodId:int}")]
         public async Task<IActionResult> DeleteMethodFromService(int serviceId, int methodId)
         {
-            await _serviceService.DeleteMethodFromService(serviceId, methodId);
+            await _serviceMethodService.DeleteMethodAsync(serviceId, methodId);
             return Ok(ApiResponse.Success("Method deleted successfully"));
         }
         [Authorize(Roles = "Admin")]
         [HttpPost("{serviceId:int}/image/{imageId:int}")]
         public async Task<IActionResult> AddImageToService(int serviceId, int imageId, [FromBody] AddServiceImageDto addServiceImageDto)
         {
-            await _serviceService.AddImageToService(serviceId, imageId, addServiceImageDto);
+            await _serviceImageService.AddImageAsync(serviceId, imageId, addServiceImageDto);
             return Ok(ApiResponse.Success("Image added successfully"));
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{serviceId:int}/image/{imageId:int}")]
         public async Task<IActionResult> DeleteImageFromService(int serviceId, int imageId)
         {
-            await _serviceService.DeleteImageToService(serviceId, imageId);
+            await _serviceImageService.DeleteImageAsync(serviceId, imageId);
             return Ok(ApiResponse.Success("Image deleted successfully"));
         }
     }

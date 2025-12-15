@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.Contributors;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Contributors;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 

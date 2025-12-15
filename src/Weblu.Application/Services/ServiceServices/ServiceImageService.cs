@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Weblu.Application.Dtos.ServiceDtos.ServiceImageDtos;
+using Weblu.Application.Exceptions;
+using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Services.ServiceServices;
+using Weblu.Domain.Entities.Media;
+using Weblu.Domain.Entities.Services;
+using Weblu.Domain.Errors.Images;
+using Weblu.Domain.Errors.Services;
+
+namespace Weblu.Application.Services.ServiceServices
+{
+    public class ServiceImageService : IServiceImageService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IServiceRepository _serviceRepository;
+        private readonly IImageRepository _imageRepository;
+        public ServiceImageService(
+            IUnitOfWork unitOfWork,
+            IImageRepository imageRepository,
+            IServiceRepository serviceRepository
+        )
+        {
+            _unitOfWork = unitOfWork;
+            _imageRepository = imageRepository;
+            _serviceRepository = serviceRepository;
+        }
+
+        public async Task AddImageAsync(int serviceId, int imageId, AddServiceImageDto addServiceImageDto)
+        {
+            Service? service = await _serviceRepository.GetByIdWithImagesAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            ImageMedia? image = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+
+            ServiceImage serviceImage = new ServiceImage()
+            {
+                Image = image,
+                ImageId = image.Id,
+                Service = service,
+                ServiceId = service.Id,
+                IsThumbnail = addServiceImageDto.IsThumbnail
+            };
+
+            service.AddImage(serviceImage);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task DeleteImageAsync(int serviceId, int imageId)
+        {
+            Service? service = await _serviceRepository.GetByIdWithImagesAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            ImageMedia? image = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
+
+            service.DeleteImage(image);
+            await _unitOfWork.CommitAsync();
+        }
+    }
+}

@@ -6,6 +6,7 @@ using AutoMapper;
 using Weblu.Application.Dtos.TagDtos;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Tags;
 
 namespace Weblu.Application.Mappers
 {

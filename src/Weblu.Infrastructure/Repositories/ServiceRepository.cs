@@ -44,12 +44,24 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<Service?> GetByIdAsync(int serviceId)
         {
-            Service? service = await _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).FirstOrDefaultAsync(s => s.Id == serviceId);
-            if (service == null)
-            {
-                return null;
-            }
+            Service? service = await _context.Services.FirstOrDefaultAsync(s => s.Id == serviceId);
             return service;
+        }
+
+        public async Task<Service?> GetByIdWithImagesAsync(int serviceId)
+        {
+            Service? service = await _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).FirstOrDefaultAsync(s => s.Id == serviceId);
+            return service;
+        }
+
+        public async Task LoadFeaturesAsync(Service service)
+        {
+            await _context.Entry(service).Collection(s => s.Features).LoadAsync();
+        }
+
+        public async Task LoadMethodsAsync(Service service)
+        {
+            await _context.Entry(service).Collection(s => s.Methods).LoadAsync();
         }
     }
 }

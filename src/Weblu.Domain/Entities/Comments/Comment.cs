@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Domain.Entities.Articles;
+using Weblu.Domain.Entities.Common;
 
-namespace Weblu.Domain.Entities.Common
+namespace Weblu.Domain.Entities.Comments
 {
     public class Comment : BaseEntity
     {
@@ -16,6 +17,5 @@ namespace Weblu.Domain.Entities.Common
         public string UserId { get; set; } = default!;
         public int ArticleId { get; set; } = default!;
         public Article Article { get; set; } = default!;
-
     }
 }

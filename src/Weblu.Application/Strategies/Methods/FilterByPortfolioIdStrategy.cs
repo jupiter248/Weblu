@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Interfaces.Strategies;
 using Weblu.Application.Parameters;
-using Weblu.Domain.Entities.Common.Methods;
+using Weblu.Domain.Entities.Methods;
 
 namespace Weblu.Application.Strategies.Methods
 {

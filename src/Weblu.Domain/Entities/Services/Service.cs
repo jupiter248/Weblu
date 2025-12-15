@@ -5,8 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Domain.Entities.Common;
-using Weblu.Domain.Entities.Common.Methods;
+using Weblu.Domain.Entities.Features;
 using Weblu.Domain.Entities.Media;
+using Weblu.Domain.Entities.Methods;
+using Weblu.Domain.Errors.Images;
+using Weblu.Domain.Errors.Methods;
+using Weblu.Domain.Errors.Services;
+using Weblu.Domain.Exceptions;
 
 namespace Weblu.Domain.Entities.Services
 {
@@ -26,5 +31,60 @@ namespace Weblu.Domain.Entities.Services
         public List<Feature> Features { get; set; } = new List<Feature>();
         public List<Method> Methods { get; set; } = new List<Method>();
         public List<ServiceImage> ServiceImages { get; set; } = new List<ServiceImage>();
+
+        
+        public void AddMethod(Method method)
+        {
+            if (Methods.Any(m => m.Id == method.Id))
+            {
+                throw new DomainException(ServiceErrorCodes.MethodAlreadyAddedToService, 409);
+            }
+            Methods.Add(method);
+        }
+        public void AddFeature(Feature feature)
+        {
+            if (Features.Any(f => f.Id == feature.Id))
+            {
+                throw new DomainException(ServiceErrorCodes.FeatureAlreadyAddedToService, 409);
+            }
+            Features.Add(feature);
+        }
+        public void AddImage(ServiceImage image)
+        {
+            if (ServiceImages.Any(p => p.ImageId == image.ImageId))
+            {
+                throw new DomainException(ServiceErrorCodes.ImageAlreadyAddedToService, 409);
+            }
+            if (ServiceImages.Any(p => p.IsThumbnail && image.IsThumbnail))
+            {
+                throw new DomainException(ServiceErrorCodes.ServiceHasThumbnailImage, 409);
+            }
+            ServiceImages.Add(image);
+        }
+        public void DeleteMethod(Method method)
+        {
+            if (!Methods.Any(c => c.Id == method.Id))
+            {
+                throw new DomainException(MethodErrorCodes.MethodNotFound, 404);
+            }
+            Methods.Remove(method);
+        }
+        public void DeleteFeature(Feature feature)
+        {
+            if (!Features.Any(c => c.Id == feature.Id))
+            {
+                throw new DomainException(MethodErrorCodes.MethodNotFound, 404);
+            }
+            Features.Remove(feature);
+        }
+        public void DeleteImage(ImageMedia imageMedia)
+        {
+            ServiceImage? serviceImage = ServiceImages.FirstOrDefault(i => i.ImageId == imageMedia.Id);
+            if (serviceImage == null)
+            {
+                throw new DomainException(ImageErrorCodes.ImageNotFound, 404);
+            }
+            ServiceImages.Remove(serviceImage);
+        }
     }
 }

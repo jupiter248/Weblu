@@ -13,6 +13,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Contributors;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.Contributors;
 using Weblu.Domain.Errors.Images;

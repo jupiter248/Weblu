@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Weblu.Application.Dtos.CommentDtos;
 using Weblu.Application.Helpers;
+using Weblu.Domain.Entities.Comments;
 using Weblu.Domain.Entities.Common;
 
 namespace Weblu.Application.Mappers

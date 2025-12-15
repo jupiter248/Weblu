@@ -9,6 +9,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Articles;
+using Weblu.Domain.Entities.Comments;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Errors.Articles;
 using Weblu.Domain.Errors.Comments;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Weblu.Domain.Entities.Articles;
+using Weblu.Domain.Entities.Comments;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Favorites;
 using Weblu.Domain.Entities.Media;

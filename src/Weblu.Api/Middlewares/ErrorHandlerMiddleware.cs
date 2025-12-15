@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Exceptions;
+using Weblu.Application.Exceptions.Mappers;
+using Weblu.Domain.Exceptions;
 
 namespace Weblu.Api.Middlewares
 {
@@ -26,6 +28,23 @@ namespace Weblu.Api.Middlewares
             try
             {
                 await _next(context);
+            }
+            catch (DomainException ex)
+            {
+                context.Response.ContentType = "application/json";
+                context.Response.StatusCode = ex.StatusCode;
+
+                AppException? appException = DomainExceptionMapper.Map(ex);
+                if (appException != null)
+                {
+                    var response = new ErrorResponse
+                    {
+                        StatusCode = ex.StatusCode,
+                        Message = _errorService.GetMessage(ex.ErrorCode),  // <-- Localize here
+                        ErrorCode = ex.ErrorCode
+                    };
+                    await context.Response.WriteAsJsonAsync(response);
+                }
             }
             catch (AppException ex)
             {
@@ -53,7 +72,7 @@ namespace Weblu.Api.Middlewares
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unhandled exception occurred while processing request {Path}" , context.Request.Path);
+                _logger.LogError(ex, "Unhandled exception occurred while processing request {Path}", context.Request.Path);
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = 500;
 

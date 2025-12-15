@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Media;
 
-namespace Weblu.Domain.Entities.Common.Methods
+namespace Weblu.Domain.Entities.Methods
 {
     public class MethodImage : BaseEntity
     {

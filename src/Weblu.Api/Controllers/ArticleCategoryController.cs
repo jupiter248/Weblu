@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ArticleCategoryDtos;
-using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.ArticleCategories;

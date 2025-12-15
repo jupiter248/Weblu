@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Domain.Entities.Articles;
+using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Portfolios;
 
-namespace Weblu.Domain.Entities.Common
+namespace Weblu.Domain.Entities.Contributors
 {
     public class Contributor : BaseEntity
     {

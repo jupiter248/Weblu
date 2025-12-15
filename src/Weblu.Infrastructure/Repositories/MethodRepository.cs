@@ -10,7 +10,7 @@ using Weblu.Domain.Entities.Services;
 using Weblu.Application.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Domain.Entities.Common;
-using Weblu.Domain.Entities.Common.Methods;
+using Weblu.Domain.Entities.Methods;
 using Weblu.Domain.Enums.Common.Parameters;
 
 namespace Weblu.Infrastructure.Repositories

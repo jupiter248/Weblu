@@ -11,6 +11,7 @@ using Weblu.Application.Dtos.ArticleDtos.ArticleImageDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Articles;
@@ -24,9 +25,24 @@ namespace Weblu.Api.Controllers
     public class ArticleController : ControllerBase
     {
         private readonly IArticleService _articleService;
-        public ArticleController(IArticleService articleService)
+        private readonly IArticleContributorService _articleContributorService;
+        private readonly IArticleTagService _articleTagService;
+        private readonly IArticleImageService _articleImageService;
+        private readonly IArticleLikeService _articleLikeService;
+
+        public ArticleController(
+            IArticleService articleService,
+            IArticleTagService articleTagService,
+            IArticleImageService articleImageService,
+            IArticleLikeService articleLikeService,
+            IArticleContributorService articleContributorService)
         {
             _articleService = articleService;
+            _articleContributorService = articleContributorService;
+            _articleImageService = articleImageService;
+            _articleLikeService = articleLikeService;
+            _articleTagService = articleTagService;
+
         }
         [HttpGet]
         public async Task<IActionResult> GetAllArticles([FromQuery] ArticleParameters articleParameters)
@@ -73,28 +89,28 @@ namespace Weblu.Api.Controllers
         [HttpPost("{articleId:int}/image/{imageId:int}")]
         public async Task<IActionResult> AddImageToArticle(int articleId, int imageId, [FromBody] AddArticleImageDto addArticleImageDto)
         {
-            await _articleService.AddImageToArticleAsync(articleId, imageId, addArticleImageDto);
+            await _articleImageService.AddImageAsync(articleId, imageId, addArticleImageDto);
             return Ok(ApiResponse.Success("Image added successfully"));
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{articleId:int}/image/{imageId:int}")]
         public async Task<IActionResult> DeleteImageFromArticle(int articleId, int imageId)
         {
-            await _articleService.DeleteImageFromArticleAsync(articleId, imageId);
+            await _articleImageService.DeleteImageAsync(articleId, imageId);
             return Ok(ApiResponse.Success("Image deleted successfully"));
         }
         [Authorize(Roles = "Admin")]
         [HttpPost("{articleId:int}/contributor/{contributorId:int}")]
         public async Task<IActionResult> AddContributorToArticle(int articleId, int contributorId)
         {
-            await _articleService.AddContributorToArticleAsync(articleId, contributorId);
+            await _articleContributorService.AddContributorAsync(articleId, contributorId);
             return Ok(ApiResponse.Success("Contributor added successfully"));
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{articleId:int}/contributor/{contributorId:int}")]
         public async Task<IActionResult> DeleteContributorFromArticle(int articleId, int contributorId)
         {
-            await _articleService.DeleteContributorFromArticleAsync(articleId, contributorId);
+            await _articleContributorService.DeleteContributorAsync(articleId, contributorId);
             return Ok(ApiResponse.Success("Contributor deleted successfully"));
         }
         [Authorize]
@@ -106,7 +122,7 @@ namespace Weblu.Api.Controllers
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            await _articleService.LikeArticleAsync(articleId, userId);
+            await _articleLikeService.LikeAsync(articleId, userId);
             return Ok(ApiResponse.Success("User liked the article successfully"));
         }
         [Authorize]
@@ -118,7 +134,7 @@ namespace Weblu.Api.Controllers
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            await _articleService.UnlikeArticleAsync(articleId, userId);
+            await _articleLikeService.UnlikeAsync(articleId, userId);
             return Ok(ApiResponse.Success("User unLiked the article successfully"));
         }
         [Authorize]
@@ -133,14 +149,14 @@ namespace Weblu.Api.Controllers
         [HttpPost("{articleId:int}/tag/{tagId:int}")]
         public async Task<IActionResult> AddTagToArticle(int articleId, int tagId)
         {
-            await _articleService.AddTagToArticleAsync(articleId, tagId);
+            await _articleTagService.AddTagAsync(articleId, tagId);
             return Ok(ApiResponse.Success("Tag added successfully"));
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{articleId:int}/tag/{tagId:int}")]
         public async Task<IActionResult> DeleteTagFromArticle(int articleId, int tagId)
         {
-            await _articleService.DeleteTagFromArticleAsync(articleId, tagId);
+            await _articleTagService.DeleteTagAsync(articleId, tagId);
             return Ok(ApiResponse.Success("Tag deleted successfully"));
         }
     }

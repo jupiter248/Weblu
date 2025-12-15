@@ -8,6 +8,7 @@ using Weblu.Application.Parameters;
 using Weblu.Application.Strategies.Tags;
 using Weblu.Application.Validations.Tags;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Tags;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 

@@ -9,6 +9,7 @@ using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Application.Strategies.Comments;
 using Weblu.Domain.Entities.Common;
 using Weblu.Infrastructure.Data;
+using Weblu.Domain.Entities.Comments;
 
 namespace Weblu.Infrastructure.Repositories
 {

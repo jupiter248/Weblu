@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Domain.Entities.Articles;
+using Weblu.Domain.Entities.Common;
 
-namespace Weblu.Domain.Entities.Common
+namespace Weblu.Domain.Entities.Tags
 {
     public class Tag : BaseEntity
     {

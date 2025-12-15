@@ -6,6 +6,7 @@ using AutoMapper;
 using Weblu.Application.Dtos.ContributorDtos;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Contributors;
 
 namespace Weblu.Application.Mappers
 {

@@ -6,7 +6,7 @@ using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Common;
-using Weblu.Domain.Entities.Common.Methods;
+using Weblu.Domain.Entities.Methods;
 using Weblu.Application.Common.Interfaces;
 
 namespace Weblu.Application.Interfaces.Repositories

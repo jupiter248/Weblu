@@ -8,8 +8,12 @@ using Weblu.Domain.Entities.Articles;
 
 namespace Weblu.Application.Interfaces.Repositories
 {
-    public interface IArticleRepository: IGenericRepository<Article, ArticleParameters>
+    public interface IArticleRepository : IGenericRepository<Article, ArticleParameters>
     {
-        Task<int> GetCountAsync(int articleId);
+        Task<int> GetLikeCountAsync(int articleId);
+        Task LoadContributorsAsync(Article article);
+        Task LoadTagsAsync(Article article);
+        Task LoadLikesAsync(Article article);
+        Task<Article?> GetByIdWithImagesAsync(int articleId);
     }
 }

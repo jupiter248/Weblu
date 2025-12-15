@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Weblu.Application.Dtos.ArticleCategoryDtos;
 using Weblu.Application.Parameters;
 
-namespace Weblu.Application.Interfaces.Services
+namespace Weblu.Application.Interfaces.Services.Articles
 {
     public interface IArticleCategoryService
     {

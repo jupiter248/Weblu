@@ -9,6 +9,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Tags;
 using Weblu.Domain.Errors.Tags;
 
 namespace Weblu.Application.Services

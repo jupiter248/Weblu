@@ -7,6 +7,7 @@ using Weblu.Application.Dtos.FeatureDtos;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Features;
 using Weblu.Domain.Entities.Services;
 
 namespace Weblu.Application.Mappers

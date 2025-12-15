@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Weblu.Application.Interfaces.Strategies;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Features;
 
 namespace Weblu.Application.Strategies.Features
 {

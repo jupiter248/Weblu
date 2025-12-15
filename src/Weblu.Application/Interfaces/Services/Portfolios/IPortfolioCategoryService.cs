@@ -6,7 +6,7 @@ using Weblu.Application.Dtos.PortfolioCategory;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Portfolios;
 
-namespace Weblu.Application.Interfaces.Services
+namespace Weblu.Application.Interfaces.Services.Portfolios
 {
     public interface IPortfolioCategoryService
     {

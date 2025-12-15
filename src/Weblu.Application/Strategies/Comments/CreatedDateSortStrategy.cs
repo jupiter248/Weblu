@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Interfaces.Strategies;
 using Weblu.Application.Parameters;
+using Weblu.Domain.Entities.Comments;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Enums.Common.Parameters;
 

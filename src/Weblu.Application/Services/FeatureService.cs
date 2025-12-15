@@ -12,6 +12,7 @@ using Weblu.Domain.Errors.Features;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Entities.Features;
 
 namespace Weblu.Application.Services
 {

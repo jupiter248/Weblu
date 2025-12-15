@@ -11,5 +11,8 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface IServiceRepository : IGenericRepository<Service, ServiceParameters>
     {
+        Task LoadMethodsAsync(Service service);
+        Task LoadFeaturesAsync(Service service);
+        Task<Service?> GetByIdWithImagesAsync(int serviceId);
     }
 }
