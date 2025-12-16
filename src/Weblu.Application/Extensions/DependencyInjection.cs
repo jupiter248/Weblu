@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.FavoriteListDtos;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Interfaces.Services.Articles;

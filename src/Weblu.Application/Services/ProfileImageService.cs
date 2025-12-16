@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Weblu.Application.Common.Dtos;
 using Weblu.Application.Dtos.ProfileDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
@@ -18,6 +17,7 @@ using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Entities.Media;
 using Microsoft.AspNetCore.Identity;
 using Weblu.Domain.Errors.Users;
+using Weblu.Application.Dtos.MediaDtos;
 
 
 namespace Weblu.Application.Services

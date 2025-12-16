@@ -11,6 +11,7 @@ using Weblu.Application.Dtos.RefreshTokenDtos;
 using Weblu.Application.Dtos.TokenDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
+using Weblu.Application.Services.Interfaces;
 using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Api.Controllers

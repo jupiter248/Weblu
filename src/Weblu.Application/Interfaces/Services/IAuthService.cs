@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Weblu.Application.Dtos.AuthDtos;
 using Weblu.Domain.Enums.Users;
 
-namespace Weblu.Application.Common.Interfaces
+namespace Weblu.Application.Services.Interfaces
 {
     public interface IAuthService
     {

@@ -71,7 +71,7 @@ namespace Weblu.Application.Services
         }
         public async Task<ServiceDetailDto> GetServiceByIdAsync(int serviceId)
         {
-            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            Service? service = await _serviceRepository.GetByIdWithImagesAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             List<ServiceImageDto> imageDtos = new List<ServiceImageDto>();
             foreach (var item in service.ServiceImages)
             {

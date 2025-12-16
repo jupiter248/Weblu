@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Weblu.Application.Common.Dtos;
 using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
@@ -17,6 +16,7 @@ using Weblu.Domain.Errors.Images;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Weblu.Application.Dtos.MediaDtos;
 namespace Weblu.Application.Services
 {
     public class ImageService : IImageService

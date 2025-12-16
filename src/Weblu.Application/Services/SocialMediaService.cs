@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Weblu.Application.Common.Dtos;
+using Weblu.Application.Dtos.MediaDtos;
 using Weblu.Application.Dtos.SocialMediaDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Services.Interfaces;
 using Weblu.Infrastructure.Identity.Mappers;
 using Weblu.Infrastructure.Identity.Services;
 using Weblu.Infrastructure.Localization;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Resources;
 using System.Threading.Tasks;
 using Weblu.Application.Common.Interfaces;
+using Weblu.Application.Services.Interfaces;
 
 namespace Weblu.Infrastructure.Localization
 {

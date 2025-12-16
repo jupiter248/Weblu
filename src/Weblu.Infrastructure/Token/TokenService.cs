@@ -8,6 +8,7 @@ using Weblu.Application.Dtos.RefreshTokenDtos;
 using Weblu.Application.Dtos.TokenDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Services.Interfaces;
 using Weblu.Domain.Entities.Users;
 using Weblu.Domain.Errors.Tokens;
 using Weblu.Domain.Errors.Users;

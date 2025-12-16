@@ -4,13 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Weblu.Application.Dtos.FaqCategoryDtos;
-using Weblu.Application.Dtos.FaqDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Faqs;
-using Weblu.Domain.Errors;
 using Weblu.Domain.Errors.Faqs;
 
 namespace Weblu.Application.Services

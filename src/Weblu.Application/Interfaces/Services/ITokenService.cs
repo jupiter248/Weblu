@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Weblu.Application.Dtos.RefreshTokenDtos;
 using Weblu.Application.Dtos.TokenDtos;
 
-namespace Weblu.Application.Common.Interfaces
+namespace Weblu.Application.Services.Interfaces
 {
     public interface ITokenService
     {

@@ -6,8 +6,6 @@ using AutoMapper;
 using Weblu.Application.Dtos.MethodDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Services;
-using Weblu.Domain.Entities;
-using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Errors.Methods;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
@@ -16,8 +14,8 @@ using Weblu.Application.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Weblu.Domain.Errors.Images;
 using Microsoft.AspNetCore.Http;
-using Weblu.Application.Common.Dtos;
 using Weblu.Domain.Enums.Common.Media;
+using Weblu.Application.Dtos.MediaDtos;
 
 namespace Weblu.Application.Services
 {

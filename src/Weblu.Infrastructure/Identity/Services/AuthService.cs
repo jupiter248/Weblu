@@ -9,6 +9,7 @@ using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.AuthDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Services.Interfaces;
 using Weblu.Domain.Entities.Users;
 using Weblu.Domain.Enums.Users;
 using Weblu.Domain.Errors.Auth;

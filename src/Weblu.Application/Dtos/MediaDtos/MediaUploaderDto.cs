@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Weblu.Domain.Enums.Common.Media;
 
-namespace Weblu.Application.Common.Dtos
+namespace Weblu.Application.Dtos.MediaDtos
 {
     public class MediaUploaderDto
     {

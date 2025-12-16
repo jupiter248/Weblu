@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.AuthDtos;
+using Weblu.Application.Services.Interfaces;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Auth;
 using Weblu.Domain.Enums.Users;
