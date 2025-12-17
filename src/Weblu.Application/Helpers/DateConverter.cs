@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Weblu.Application.Helpers
 {
-    public static class Calculator
+    public static class DateConverter
     {
         public static string ToShamsi(this DateTimeOffset dateTimeOffset)
         {

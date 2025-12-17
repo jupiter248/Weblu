@@ -10,6 +10,7 @@ COPY  ["src/Weblu.Api/Weblu.Api.csproj", "src/Weblu.Api/"]
 COPY  ["src/Weblu.Application/Weblu.Application.csproj", "src/Weblu.Application/"]
 COPY  ["src/Weblu.Domain/Weblu.Domain.csproj", "src/Weblu.Domain/"]
 COPY  ["src/Weblu.Infrastructure/Weblu.Infrastructure.csproj", "src/Weblu.Infrastructure/"]
+COPY  ["tests/Weblu.Application.UnitTests/Weblu.Application.UnitTests.csproj", "tests/Weblu.Application.UnitTests/"]
 RUN dotnet restore "src/Weblu.Api/Weblu.Api.csproj"
 COPY . .    
 
