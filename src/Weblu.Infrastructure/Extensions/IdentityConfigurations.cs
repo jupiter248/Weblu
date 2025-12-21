@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -12,6 +13,7 @@ using Weblu.Application.Exceptions;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Identity;
 using Weblu.Infrastructure.Identity.Entities;
+using Weblu.Infrastructure.Token;
 
 namespace Weblu.Infrastructure.Extensions
 {
@@ -43,23 +45,33 @@ namespace Weblu.Infrastructure.Extensions
         }
         public static void ConfigureJwt(this IServiceCollection services)
         {
-           services.AddAuthentication(options =>
+            services.AddAuthentication(options =>
+             {
+                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+             })
+             .AddJwtBearer(options =>
+             {
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+                     ValidIssuer = Environment.GetEnvironmentVariable("JWT_Issuer"),
+                     ValidAudience = Environment.GetEnvironmentVariable("JWT_Audience"),
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Key") ?? throw new NotFoundException("Jwt key not found")))
+                 };
+             });
+        }
+        public static void ConfigureJwtSettings(this IServiceCollection services)
+        {
+            services.Configure<JwtSettings>(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Environment.GetEnvironmentVariable("JWT_Issuer"),
-                    ValidAudience = Environment.GetEnvironmentVariable("JWT_Audience"),
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Key") ?? throw new NotFoundException("Jwt key not found")))
-                };
+                options.Key = Environment.GetEnvironmentVariable("JWT_Key") ?? throw new InvalidOperationException("JWT_Key missing");
+                options.Audience = Environment.GetEnvironmentVariable("JWT_Audience") ?? throw new InvalidOperationException("JWT_Audience missing");
+                options.Issuer = Environment.GetEnvironmentVariable("JWT_Issuer") ?? throw new InvalidOperationException("JWT_Issuer missing");
+                options.ExpiryMinutes = Int32.Parse(Environment.GetEnvironmentVariable("JWT_ExpiryMinutes") ?? throw new InvalidOperationException("JWT_ExpiryMinutes missing"));
             });
         }
     }

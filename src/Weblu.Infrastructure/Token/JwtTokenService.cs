@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Weblu.Application.Exceptions;
 using Weblu.Domain.Errors.Tokens;
@@ -14,11 +15,17 @@ using Weblu.Infrastructure.Identity.Entities;
 
 namespace Weblu.Infrastructure.Token
 {
-    public class JwtTokenService
+    public class JwtTokenService : IJwtTokenService
     {
-        public static string GenerateAccessToken(AppUser user, IList<string> roles)
+        private readonly JwtSettings _jwtSettings;
+        public JwtTokenService(IOptions<JwtSettings> jwtSettings)
         {
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Key") ?? throw new NotFoundException(TokenErrorCodes.JwtKeyNoFound)));
+            _jwtSettings = jwtSettings.Value;
+        }
+
+        public string GenerateAccessToken(AppUser user, IList<string> roles)
+        {
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
@@ -34,9 +41,9 @@ namespace Weblu.Infrastructure.Token
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Issuer = Environment.GetEnvironmentVariable("JWT_Issuer"),
-                Audience = Environment.GetEnvironmentVariable("JWT_Audience"),
-                Expires = DateTime.Now.AddMinutes(30),
+                Issuer = _jwtSettings.Issuer,
+                Audience = _jwtSettings.Audience,
+                Expires = DateTime.Now.AddMinutes(_jwtSettings.ExpiryMinutes),
                 SigningCredentials = creds,
             };
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -45,7 +52,7 @@ namespace Weblu.Infrastructure.Token
 
             return tokenHandler.WriteToken(token);
         }
-        public static string GenerateRefreshToken()
+        public string GenerateRefreshToken()
         {
             Byte[] randomBytes = new byte[64];
             using var rng = RandomNumberGenerator.Create();

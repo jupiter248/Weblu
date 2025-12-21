@@ -23,6 +23,8 @@ namespace Weblu.Application.UnitTests.Extensions
             act.Should().BeOfType<string>();
             act.Should().NotBeNullOrWhiteSpace();
             act.Should().NotContain(" ");
+            act.Should().BeLowerCased();
+
         }
         [Theory]
         [InlineData("Café", "Cafe")]
@@ -40,6 +42,7 @@ namespace Weblu.Application.UnitTests.Extensions
             // Assert
             act.Should().BeOfType<string>();
             act.Should().NotBeNullOrWhiteSpace();
+            act.Should().NotContainAny("à", "á", "â", "ä", "ã", "å", "è", "é", "ê", "ë", "ì", "í", "î", "ï", "ò", "ó", "ô", "ö", "õ", "ù", "ú", "û", "ü", "ç", "ñ", "ý", "ÿ");
             act.Should().Be(expected);
         }
 

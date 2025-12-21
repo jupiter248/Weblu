@@ -22,11 +22,13 @@ builder.Services.ApplyViewArticleRateLimiter();
 
 
 
+builder.Services.ConfigureJwtSettings();
 builder.Services.ConnectToDatabase();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwt();
+
 
 builder.Services.ApplyCors();
 

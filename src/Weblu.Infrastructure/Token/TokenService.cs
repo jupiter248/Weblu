@@ -21,13 +21,14 @@ namespace Weblu.Infrastructure.Token
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
-
+        private readonly IJwtTokenService _jwtTokenService;
         private readonly UserManager<AppUser> _userManager;
-        public TokenService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IRefreshTokenRepository refreshTokenRepository)
+        public TokenService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IRefreshTokenRepository refreshTokenRepository , IJwtTokenService jwtTokenService)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _refreshTokenRepository = refreshTokenRepository;
+            _jwtTokenService = jwtTokenService;
         }
         public async Task<TokenDto> RefreshToken(TokenRequestDto addTokenRequestDto)
         {
@@ -51,8 +52,9 @@ namespace Weblu.Infrastructure.Token
             refreshToken.IsUsed = true;
             _refreshTokenRepository.Update(refreshToken);
 
-            var newAccessToken = JwtTokenService.GenerateAccessToken(appUser, roles);
-            var newRefreshTokenValue = JwtTokenService.GenerateRefreshToken();
+            
+            var newAccessToken = _jwtTokenService.GenerateAccessToken(appUser, roles);
+            var newRefreshTokenValue = _jwtTokenService.GenerateRefreshToken();
 
             var newRefreshToken = new RefreshToken
             {

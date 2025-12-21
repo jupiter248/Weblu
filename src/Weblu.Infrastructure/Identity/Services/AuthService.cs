@@ -42,8 +42,8 @@ namespace Weblu.Infrastructure.Identity.Services
             }
             IList<string> roles = await _userManager.GetRolesAsync(appUser);
 
-            string newRefreshToken = JwtTokenService.GenerateRefreshToken();
-            string newAccessToken = JwtTokenService.GenerateAccessToken(appUser, roles);
+            string newRefreshToken = _jwtTokenService.GenerateRefreshToken();
+            string newAccessToken = _jwtTokenService.GenerateAccessToken(appUser, roles);
 
             RefreshToken refreshToken = new RefreshToken()
             {
@@ -113,8 +113,8 @@ namespace Weblu.Infrastructure.Identity.Services
 
             IList<string> roles = await _userManager.GetRolesAsync(newUser);
 
-            string newRefreshToken = JwtTokenService.GenerateRefreshToken();
-            string newAccessToken = JwtTokenService.GenerateAccessToken(newUser, roles);
+            string newRefreshToken = _jwtTokenService.GenerateRefreshToken();
+            string newAccessToken = _jwtTokenService.GenerateAccessToken(newUser, roles);
 
             RefreshToken refreshToken = new RefreshToken()
             {
