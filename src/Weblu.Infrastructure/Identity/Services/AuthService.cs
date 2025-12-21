@@ -25,12 +25,16 @@ namespace Weblu.Infrastructure.Identity.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly SignInManager<AppUser> _signInManager;
-        public AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, SignInManager<AppUser> signInManager, IRefreshTokenRepository refreshTokenRepository)
+        private readonly IJwtTokenService _jwtTokenService;
+        private readonly IUserRepository _userRepository;
+        public AuthService(IUserRepository userRepository, IJwtTokenService jwtTokenService, UserManager<AppUser> userManager, IUnitOfWork unitOfWork, SignInManager<AppUser> signInManager, IRefreshTokenRepository refreshTokenRepository)
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
             _signInManager = signInManager;
             _refreshTokenRepository = refreshTokenRepository;
+            _jwtTokenService = jwtTokenService;
+            _userRepository = userRepository;
         }
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
@@ -70,13 +74,13 @@ namespace Weblu.Infrastructure.Identity.Services
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto, UserType userType)
         {
-            AppUser? foundByUsername = await _userManager.FindByNameAsync(registerDto.Username);
-            if (foundByUsername != null)
+            AppUser? foundedByUsername = await _userManager.FindByNameAsync(registerDto.Username);
+            if (foundedByUsername != null)
             {
                 throw new ConflictException(AuthErrorCodes.UsernameAlreadyUsed);
             }
-            AppUser? foundByPhone = await _userManager.Users.FirstOrDefaultAsync(e => e.PhoneNumber == registerDto.PhoneNumber);
-            if (foundByPhone != null)
+            bool foundedByPhone = await _userRepository.ExistsWithPhoneAsync(registerDto.PhoneNumber);
+            if (foundedByPhone == true)
             {
                 throw new ConflictException(AuthErrorCodes.PhoneNumberAlreadyUsed);
             }

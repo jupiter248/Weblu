@@ -18,6 +18,11 @@ namespace Weblu.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<bool> ExistsWithPhoneAsync(string phoneNumber)
+        {
+            return await _context.Users.AnyAsync(u => u.PhoneNumber == phoneNumber);
+        }
+
         public async Task<CommentUserDto?> GetUserForCommentAsync(string userId)
         {
             CommentUserDto? commentUserDto = await _context.Users.Where(u => u.Id == userId).Select(c => new CommentUserDto()

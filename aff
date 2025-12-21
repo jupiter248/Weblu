@@ -1,0 +1,485 @@
+[33mcommit 495aa3dabd51d7fbcb853d2e97c8d8dbc00f4afc[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/unit-test[m[33m)[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Dec 20 14:36:38 2025 +0330
+
+    Feat(infrastructure layer tests): Add unit tests for JwtToken and token services .
+
+[33mcommit 55356a8ac7171ff05ac4617c887668f226ca835f[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Wed Dec 17 11:47:24 2025 +0330
+
+    feat(application layer tests): Add unit tests for extension methods
+
+[33mcommit 4732556010f73f35e990db197a7fd1fb9cc90357[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Wed Dec 17 09:35:31 2025 +0330
+
+    feat(application layer tests): Add unit tests for helper methods
+
+[33mcommit f288e88785d1854cbb822ccf91ee068553538dab[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Dec 16 16:38:25 2025 +0330
+
+    Fix(portfolio , service): get the images by getById method
+
+[33mcommit e88a1ca251e500a8bd49683d49853d94113f6ac1[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Mon Dec 15 14:16:06 2025 +0330
+
+    Refactor(services): Divide large services into smalls and refactor some logics to their own entity to make services more clean.
+
+[33mcommit 96e3c0a1dc5db8695b662b02e7bb7ec6d1d3bbd2[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Dec 13 09:27:14 2025 +0330
+
+    Refactor(repositories): reduce data returned by get-all queries
+
+[33mcommit 3fc0ba6d025e7dca2a678aa1d36280ac5522d3d3[m
+Merge: f65863c 45212ac
+Author: Mohammad Mahdi Azimifar <121801668+jupiter248@users.noreply.github.com>
+Date:   Thu Dec 11 18:42:17 2025 +0330
+
+    Merge pull request #1 from jupiter248/refactor/clean-repositories
+    
+    Refactor(repositories): make a generic repository to avoid from dupli…
+
+[33mcommit 45212accf010ec0db3c0f4aa52f9e1d34c1f8123[m[33m ([m[1;31morigin/refactor/clean-repositories[m[33m)[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Dec 11 18:35:26 2025 +0330
+
+    Refactor(repositories): make a generic repository to avoid from duplicate requests.
+
+[33mcommit f65863cb217db170a370693870303a5e8cc80576[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Dec 9 19:14:17 2025 +0330
+
+    Fix(infrastructure layer): Infrasructure layer must depends on both application and domain layers.
+
+[33mcommit e5eea988e429c36b1e9726d37ffa9267859acbe3[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Dec 9 19:08:02 2025 +0330
+
+    Fix(api layer): Api layer must depends on both application and infrastracture layers.
+
+[33mcommit 39cced06f9157f7923c113d6fe9a59ebfefd5d61[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Dec 4 10:56:13 2025 +0330
+
+    Feat(Authorize): Set an authorization for each request.
+
+[33mcommit 49ef8172e556bc203257c1ea07f3eacf16cba508[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Wed Dec 3 14:48:38 2025 +0330
+
+    Refactor(filtering strategry): First in the repos we check the filter has sent by user or not.
+
+[33mcommit ac4af9991df5b915fd1d628b4309fff83b75b380[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Wed Dec 3 12:26:25 2025 +0330
+
+    Refactor(infrastructure): Remove UnitOfWork repo access and use repositories diractly in services
+
+[33mcommit 6f54cbecbbf6e6d667e3c53c949c31296612ce42[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Dec 2 15:21:30 2025 +0330
+
+    Added tag requests for article
+
+[33mcommit 86d006eba02f222f5aabc9b85aa746e947fe5b87[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Dec 2 15:00:31 2025 +0330
+
+    Added requests of tag
+
+[33mcommit 5ce7b6835f7ec488366657dc9630f1c218654eac[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Dec 2 14:37:35 2025 +0330
+
+    Made the logic and entity of tag
+
+[33mcommit 6e78f7cef9d89f7eb791ba763c1dafe58b859feb[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Mon Dec 1 15:53:44 2025 +0330
+
+    Added view article request and its rate limiter
+
+[33mcommit c0e933e9f654165403495249800dd6cf56202458[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Mon Dec 1 15:35:18 2025 +0330
+
+    Made like article requests and table
+
+[33mcommit 9e1441dea93e066ad6fa1d366d6a8902bbea1fd0[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Mon Dec 1 13:23:24 2025 +0330
+
+    Added comment requests
+
+[33mcommit 85d762968748e46275acd729018bf52b8708b949[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Mon Dec 1 00:44:45 2025 +0330
+
+    Added logic and entity for comment table.
+
+[33mcommit 391d58b601c48802edf3502fac72f19815835c80[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sun Nov 30 01:29:37 2025 +0330
+
+    Added delete image methods for tables taht have only one image
+
+[33mcommit 2ecdc4a5391b28c56bba4db6e699d3175de3a188[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sun Nov 30 01:28:51 2025 +0330
+
+    Added delete image methods for tables taht have only one image
+
+[33mcommit 15817bae5f36d6c5909ebf523a8715d5a0e3b540[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Nov 29 11:52:10 2025 +0330
+
+    Added article requests
+
+[33mcommit 44b20d49df435998b4ccbb6a2242c24ec30b9d74[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Fri Nov 28 19:13:28 2025 +0330
+
+    Added the logic of article parts
+
+[33mcommit 21f4b0ba294070fcba464f23545be74a6a34b7fa[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Nov 25 16:08:25 2025 +0330
+
+    Added article and category repositories
+
+[33mcommit 51bc3418a30b553f350cb68a1db6363971d40ca4[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Mon Nov 24 10:32:36 2025 +0330
+
+    Added rate limiters
+
+[33mcommit 8fad56c1ce45701c07cbbfa21c940e8752e6ac73[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Nov 22 11:44:32 2025 +0330
+
+    Made the requests of social media entity
+
+[33mcommit e75208b1cf81098e8e106d8041fb51572f318dfb[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Nov 22 09:33:59 2025 +0330
+
+    Added logic and migration of social media table
+
+[33mcommit 88286c9b6a6393bb639fa8761ccebbadac40adf4[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Nov 20 15:07:44 2025 +0330
+
+    Added aboutUs entity requests
+
+[33mcommit a65d4d3656edf854f57cd53a8e6fe79a21f8c51a[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Nov 20 11:13:58 2025 +0330
+
+    Added logic and migration of about us entity
+
+[33mcommit 52b0fcea7844c88487ddb2dc3abba7ce7b086ee7[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Wed Nov 19 09:33:13 2025 +0330
+
+    Used IReadOnlyList for all the get all methods in repositories
+
+[33mcommit e9471319548d73bc4d03950453be7ae7659271a4[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Mon Nov 17 09:49:04 2025 +0330
+
+    made favoriteList and user favorite requets more cleaner
+
+[33mcommit 696fdba5e0cd18cb9fc15c067f3924e7476805a3[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sun Nov 16 20:34:05 2025 +0330
+
+    Made the requests of adding favorit portfolios to favorite lists
+
+[33mcommit 6a885c6711f347a8e17dafd35c5fa7df7f8a11d8[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sun Nov 16 13:13:52 2025 +0330
+
+    Added favorite list requests
+
+[33mcommit c4b253da30ca0ba6b882ab28050e329d8db6e687[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sun Nov 16 10:41:47 2025 +0330
+
+    Added the logic codes of favorite list
+
+[33mcommit 9be203fc11e81f75f2b5334eb9c754b940ad455b[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Nov 15 20:49:10 2025 +0330
+
+    Fix(isThumbnail was not in portfolio image and shortDescription was not in summaery dtos)
+
+[33mcommit 85e31b7e17531bd82b99f73245008f4ad826977e[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Nov 15 14:01:06 2025 +0330
+
+    Added favoritePortfolio table and requests
+
+[33mcommit 83a7ec3a461ff657e5ec4fd1123a8a37c17be639[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Nov 13 18:39:57 2025 +0330
+
+    Changed the maximum lengths of some properties in validators
+
+[33mcommit 301f1281a56b2cdd8bc09679082e7ad191089930[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Nov 13 18:33:27 2025 +0330
+
+    Added image request for method
+
+[33mcommit 2fa4ee0978a09057272f11be786c39dd6ca40c68[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Nov 13 10:28:20 2025 +0330
+
+    Added faq requests
+
+[33mcommit 6fd9adc42b0994c1217a10d64e17863787de33ce[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Nov 13 08:53:46 2025 +0330
+
+    Added faq logic and services
+
+[33mcommit ccf84df2b5eee52b70e6c0918e100304cb47a75f[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Nov 11 10:14:54 2025 +0330
+
+    Add faq tables and repositories
+
+[33mcommit 3b29d306052ade7fd2586839af9cf7ae720b86bb[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Nov 11 09:16:38 2025 +0330
+
+    Refactored filtering method to get the items as queryable instead of list
+
+[33mcommit aaf328d365412f8778958d3a03f48234354b359a[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Mon Nov 10 11:07:48 2025 +0330
+
+    Sepradtaed tickets enums into two parts(parameters , for entities)
+
+[33mcommit 7d813109b5221a6c05e07ac553f0c73135843c83[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Mon Nov 10 11:02:28 2025 +0330
+
+    Added ticket requests
+
+[33mcommit 9940e2fd36488d7611bb4c042ce429d7a398acda[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Nov 8 15:11:40 2025 +0330
+
+    Added logic and servicses of ticket table
+
+[33mcommit 6793bdba5eb342569e4b82676457e33a00ad4178[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Nov 6 15:32:56 2025 +0330
+
+    Added ticket tables migration and repositories
+
+[33mcommit 663fc06415f2d2a58893c32854a2a72a3d11743b[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Wed Nov 5 18:45:47 2025 +0330
+
+    Added contributor requests of portfolio
+
+[33mcommit 839d834308d00a31d13bc707e93250a258bf644f[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Wed Nov 5 18:00:30 2025 +0330
+
+    Added contributor requests
+
+[33mcommit 4857232d4512ee30caf8f6ac9840ee46d01eb7a1[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Nov 4 11:47:33 2025 +0330
+
+    Added contributor service
+
+[33mcommit b79926ddd033e6def5ea47692394abebaf09e311[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Mon Nov 3 18:39:18 2025 +0330
+
+    Added contributor table and its repo
+
+[33mcommit 4b7b6968bae9734fad0042d7e84dd4241d82cdbd[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sun Nov 2 10:12:39 2025 +0330
+
+    Added images for portfolio
+
+[33mcommit 1f8a59063d5e5ab13e44de1c8effa1d45092a2fa[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Nov 1 15:38:16 2025 +0330
+
+    Added portfolio service and requests
+
+[33mcommit 8e1c217ffc605d5e4b71248deede226b90198130[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Nov 1 09:54:43 2025 +0330
+
+    Added portfolio repository
+
+[33mcommit 5854d2c268e52d8df67e2802afaf95900950252b[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Oct 30 10:36:31 2025 +0330
+
+    Added portfolio category table and requests
+
+[33mcommit 6780aa870571e73a2a6f3bef73fb6880ee1af408[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Oct 28 15:41:40 2025 +0330
+
+    Added potfolio tables and migrations
+
+[33mcommit 9e487a69be0434106eaf7bf797bea101b890eea3[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sun Oct 26 17:07:45 2025 +0330
+
+    Fix(user could add more than one main profile image)
+
+[33mcommit ec80e8563d2fa7736d3908e06a6a10ecde75414e[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sun Oct 26 11:47:52 2025 +0330
+
+    Made update request and added filtering params for rfresh token
+
+[33mcommit b213849ee3d352364a638424b9e84f423f124fc8[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Oct 25 15:40:19 2025 +0330
+
+    Fix(refresh token never expired)
+
+[33mcommit cf3acf15dd675b678b28b91604dd7b96c5ff68db[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Oct 25 14:40:10 2025 +0330
+
+    Fix(the seed method did not work)
+
+[33mcommit c2f17b07b3116dd0088bb2745c7b6b86bad1dc5a[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Oct 25 12:01:39 2025 +0330
+
+    Fixed profile user table and requests
+
+[33mcommit b548b9bd5373c7f7da63398dc9cd3e329a25b35b[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Oct 23 15:14:07 2025 +0330
+
+    Added profile image requests
+
+[33mcommit 862d6d943f62d62cad518984daf55eaf48b3f65c[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Oct 23 14:42:10 2025 +0330
+
+    Added cores configuration
+
+[33mcommit 18856f499c6a737da2edb876a3e35bec4c2085fb[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Wed Oct 22 12:58:24 2025 +0330
+
+    Added profile media repo and repository
+
+[33mcommit 8579b5d2d15a8c120f73daf3085c9f4a8ed76f0d[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Oct 21 14:52:09 2025 +0330
+
+    Updated api request responses
+
+[33mcommit c24ede61c84b785e272bc3052214fa93f3894daf[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Oct 21 12:52:33 2025 +0330
+
+    Added change password request
+
+[33mcommit 76984ec788b05511b1c89c1b70d752841c3ec391[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Oct 21 10:44:48 2025 +0330
+
+    Added user requests
+
+[33mcommit 44630a9a549a3dc4cf94498fb5e9d1e9a3eedc5f[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Mon Oct 20 10:07:48 2025 +0330
+
+    The jwt did not work
+
+[33mcommit 74900957f14887ea1e28f38798633a31b34cd6c0[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sun Oct 19 18:34:03 2025 +0330
+
+    handled all the error codes and validations
+
+[33mcommit 8a59b4801c67a1b07071ae2faf198475ca850835[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sun Oct 19 09:45:55 2025 +0330
+
+    Configured swagger
+
+[33mcommit 77ca2fa66c3e9094e479627eb83bba7adec15142[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Oct 18 23:27:33 2025 +0330
+
+    Made requests of auth and token
+
+[33mcommit b3227064463a563fac8f76e9f3b0fbe0ec86878b[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Oct 18 22:52:24 2025 +0330
+
+    Made login and register services
+
+[33mcommit 5305ca18cd88c23c767f9230333ee987dfd1c291[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Oct 18 14:40:04 2025 +0330
+
+    Made token service
+
+[33mcommit fc3a6adcbf879a978455e7b005a9826cef482f8c[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Sat Oct 18 11:48:06 2025 +0330
+
+    Added refresh token table and repo
+
+[33mcommit bf59e7d16f84f2468f1493b7057cfe57e738d8d7[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Oct 16 15:04:09 2025 +0330
+
+    Confugured and added user tables
+
+[33mcommit 50510f296f32090fe9e05abd6686069200aa62e0[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Thu Oct 16 10:12:12 2025 +0330
+
+    Refactored repo interfaces and parameters to application from domain
+
+[33mcommit e7ba462eb7a08533cd482ae223f9f69fd5c40a6e[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Wed Oct 15 15:05:53 2025 +0330
+
+    Dockerfile added to the project
+
+[33mcommit 0d33dabe84c2626d93ed29d866130c7cd7112d3b[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Wed Oct 15 13:55:02 2025 +0330
+
+    Showed thumbnal picture in service summarey dto
+
+[33mcommit 73876e9fecc5626af8de299021c93cc6a9cbd229[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Oct 14 17:45:46 2025 +0330
+
+    Separeted service dto into summary and detail dto
+
+[33mcommit a2210a322974ecca74580a7b8dfd95088508de0d[m
+Author: Mohammad Azimifar PC <mmazimifar7@gmail.com>
+Date:   Tue Oct 14 17:35:46 2025 +0330
+
+    Added service image table and its requests
+
+[33mcommit b72a772c460f5c8e30ec577236950f91a29ed09c[m
+Author: Mohammad Azimifar 
