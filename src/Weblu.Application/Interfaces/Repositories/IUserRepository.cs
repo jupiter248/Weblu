@@ -11,5 +11,6 @@ namespace Weblu.Application.Interfaces.Repositories
         Task<bool> UserExistsAsync(string userId);
         Task<CommentUserDto?> GetUserForCommentAsync(string userId);
         Task<bool> IsAdminAsync(string userId);
+        Task<bool> ExistsWithPhoneAsync(string phoneNumber);
     }
 }

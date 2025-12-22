@@ -59,6 +59,7 @@ namespace Weblu.Infrastructure.Extensions
 
 
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserFavoriteService, UserFavoritesService>();

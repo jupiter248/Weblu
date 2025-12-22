@@ -32,7 +32,6 @@ namespace Weblu.Infrastructure.Identity.Services
         {
             var authorizedUser = _httpContextAccessor.HttpContext?.User;
             string? authorizedUserId = authorizedUser?.GetUserId();
-
             if (authorizedUser == null)
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
@@ -45,7 +44,7 @@ namespace Weblu.Infrastructure.Identity.Services
 
             bool checkOldPass = await _userManager.CheckPasswordAsync(currentUser, changePasswordDto.OldPassword);
             if (!checkOldPass)
-            {
+            {   
                 throw new UnauthorizedException(UserErrorCodes.OldPasswordIsIncorrect);
             }
 
