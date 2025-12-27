@@ -4,7 +4,7 @@
     <ProjectReference Include="..\Weblu.Application\Weblu.Application.csproj" />
     <ProjectReference Include="..\Weblu.Domain\Weblu.Domain.csproj" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.10" />

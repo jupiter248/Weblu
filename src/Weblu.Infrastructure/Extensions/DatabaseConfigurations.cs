@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Identity;
@@ -18,6 +19,7 @@ namespace Weblu.Infrastructure.Extensions
             services.AddDbContext<ApplicationDbContext>(
                 options =>
                 {
+
                     string cs = Environment.GetEnvironmentVariable("DefaultConnection") ?? throw new Exception();
                     options.UseSqlServer(cs);
                 }
@@ -32,7 +34,7 @@ namespace Weblu.Infrastructure.Extensions
                 var userManager = services.GetRequiredService<UserManager<AppUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                 dbContext.Database.Migrate();
-                await SeedEntities.SeedRolesWithClaimsAsync(dbContext, services , roleManager);
+                await SeedEntities.SeedRolesWithClaimsAsync(dbContext , roleManager);
                 await SeedEntities.SeedUserAndAdmin(dbContext, userManager);
             }
         }

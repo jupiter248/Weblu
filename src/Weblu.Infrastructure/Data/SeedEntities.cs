@@ -44,7 +44,7 @@ namespace Weblu.Infrastructure.Data
             IdentityResult userCreated =  await _userManager.CreateAsync(user, "@User248");
             IdentityResult userRoleAdded = await _userManager.AddToRoleAsync(user, UserType.User.ToString());
         }
-        public static async Task SeedRolesWithClaimsAsync(ApplicationDbContext _context, IServiceProvider serviceProvider , RoleManager<IdentityRole> roleManager)
+        public static async Task SeedRolesWithClaimsAsync(ApplicationDbContext _context , RoleManager<IdentityRole> roleManager)
         {
             if (_context.Roles.Any())
             {
