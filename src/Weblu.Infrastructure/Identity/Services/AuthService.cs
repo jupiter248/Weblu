@@ -38,7 +38,7 @@ namespace Weblu.Infrastructure.Identity.Services
         }
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
-            AppUser appUser = await _userManager.FindByNameAsync(loginDto.Username) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            AppUser appUser = await _userManager.FindByNameAsync(loginDto.Username.ToLower()) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             SignInResult checkPass = await _signInManager.CheckPasswordSignInAsync(appUser, loginDto.Password, true);
             if (!checkPass.Succeeded)
             {

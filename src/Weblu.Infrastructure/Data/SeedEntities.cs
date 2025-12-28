@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Models;
 using Weblu.Domain.Enums.Users;
@@ -14,43 +15,68 @@ namespace Weblu.Infrastructure.Data
 {
     public class SeedEntities
     {
-        public static async Task SeedUserAndAdmin(ApplicationDbContext _context, UserManager<AppUser> _userManager)
+        public static async Task SeedUserAndAdminAsync(ApplicationDbContext _context)
         {
-            if (_context.Users.Any())
-            {
-                System.Console.WriteLine("Database already seeded");
-                return;
-            }
             //Add a user and an admin
-            AppUser admin = new AppUser()
+            if (!_context.Users.Any(u => u.NormalizedUserName == "ADMIN"))
             {
-                UserName = "admin",
-                Email = "mmazimifar7@gmail.com",
-                FirstName = "Admin",
-                LastName = "Admin",
-                PhoneNumber = "989031883414"
-            };
-            IdentityResult adminCreated = await _userManager.CreateAsync(admin, "@Admin248");
-            IdentityResult adminRoleAdded = await _userManager.AddToRoleAsync(admin, UserType.Admin.ToString());
+                AppUser admin = new AppUser()
+                {
+                    UserName = "admin",
+                    Email = "mmazimifar7@gmail.com",
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    PhoneNumber = "989031883414"
+                };
 
-            AppUser user = new AppUser()
-            {
-                UserName = "user",
-                Email = "mmazimifar77@gmail.com",
-                FirstName = "User",
-                LastName = "User",
-                PhoneNumber = "989939987914"
-            };
-            IdentityResult userCreated =  await _userManager.CreateAsync(user, "@User248");
-            IdentityResult userRoleAdded = await _userManager.AddToRoleAsync(user, UserType.User.ToString());
-        }
-        public static async Task SeedRolesWithClaimsAsync(ApplicationDbContext _context, IServiceProvider serviceProvider , RoleManager<IdentityRole> roleManager)
-        {
-            if (_context.Roles.Any())
-            {
-                System.Console.WriteLine("Database already seeded");
-                return;
+                var hasher = new PasswordHasher<AppUser>();
+
+                admin.PasswordHash = hasher.HashPassword(admin, "@Admin248");
+
+                admin.NormalizedUserName = admin.UserName.ToUpper();
+                admin.NormalizedEmail = admin.Email.ToUpper();
+
+
+                IdentityRole role = await _context.Roles.FirstOrDefaultAsync(r => r.NormalizedName == admin.UserName.ToUpper()) ?? default!;
+
+                IdentityUserRole<string> userRole = new IdentityUserRole<string>();
+                userRole.RoleId = role.Id;
+                userRole.UserId = admin.Id;
+
+                _context.UserRoles.Add(userRole);
+                _context.Users.Add(admin);
             }
+            if (!_context.Users.Any(u => u.NormalizedUserName == "ADMIN"))
+            {
+                AppUser user = new AppUser()
+                {
+                    UserName = "user",
+                    Email = "mmazimifar7@gmail.com",
+                    FirstName = "User",
+                    LastName = "User",
+                    PhoneNumber = "989031883414"
+                };
+
+                var hasher = new PasswordHasher<AppUser>();
+
+                user.PasswordHash = hasher.HashPassword(user, "@User248");
+                user.NormalizedUserName = user.UserName.ToUpper();
+                user.NormalizedEmail = user.Email.ToUpper();
+
+                IdentityRole role = await _context.Roles.FirstOrDefaultAsync(r => r.NormalizedName == user.UserName.ToUpper()) ?? default!;
+
+                IdentityUserRole<string> userRole = new IdentityUserRole<string>();
+                userRole.RoleId = role.Id;
+                userRole.UserId = user.Id;
+
+                _context.UserRoles.Add(userRole);
+                _context.Users.Add(user);
+
+            }
+            await _context.SaveChangesAsync();
+        }
+        public static async Task SeedRolesWithClaimsAsync(ApplicationDbContext _context)
+        {
 
             var rolesWithClaims = new Dictionary<string, List<string>>
             {
@@ -77,22 +103,30 @@ namespace Weblu.Infrastructure.Data
                 var claims = roleEntry.Value;
 
                 // Create role if it doesn't exist
-                var role = await roleManager.FindByNameAsync(roleName);
-                if (role == null)
+                if (!_context.Roles.Any(x => x.Name == roleName))
                 {
-                    role = new IdentityRole(roleName);
-                    await roleManager.CreateAsync(role);
-                }
+                    IdentityRole role = new IdentityRole() ?? default!;
+                    role.Name = roleName;
+                    role.NormalizedName = role.Name.ToUpper();
 
-                // Add missing claims to role
-                var existingClaims = await roleManager.GetClaimsAsync(role);
-                foreach (var claimValue in claims)
-                {
-                    if (!existingClaims.Any(c => c.Type == "permission" && c.Value == claimValue))
+                    _context.Roles.Add(role);
+
+                    // Add missing claims to role
+
+                    var existingClaims = await _context.RoleClaims.ToListAsync();
+                    foreach (var claimValue in claims)
                     {
-                        await roleManager.AddClaimAsync(role, new Claim("permission", claimValue));
+                        if (!existingClaims.Any(c => c.ClaimType == "permission" && c.ClaimValue == claimValue))
+                        {
+                            var claim = new IdentityRoleClaim<string>();
+                            claim.ClaimValue = claimValue;
+                            claim.ClaimType = claim.ClaimType;
+                            claim.RoleId = role.Id;
+                            _context.RoleClaims.Add(claim);
+                        }
                     }
                 }
+                await _context.SaveChangesAsync();
             }
         }
     }
