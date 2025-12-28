@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weblu.Application.UnitTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weblu.Infrastructure.UnitTests", "tests\Weblu.Infrastructure.UnitTests\Weblu.Infrastructure.UnitTests.csproj", "{0FB3EE4F-2AC3-4DC6-8B4A-111F2B8F9497}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weblu.Infrastructure.IntegrationTests", "tests\Weblu.Infrastructure.IntegrationTests\Weblu.Infrastructure.IntegrationTests.csproj", "{2D915DBA-5F67-4537-9F16-10888D17233C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,18 +101,6 @@ Global
 		{0FB3EE4F-2AC3-4DC6-8B4A-111F2B8F9497}.Release|x64.Build.0 = Release|Any CPU
 		{0FB3EE4F-2AC3-4DC6-8B4A-111F2B8F9497}.Release|x86.ActiveCfg = Release|Any CPU
 		{0FB3EE4F-2AC3-4DC6-8B4A-111F2B8F9497}.Release|x86.Build.0 = Release|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Debug|x64.Build.0 = Debug|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Debug|x86.Build.0 = Debug|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Release|x64.ActiveCfg = Release|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Release|x64.Build.0 = Release|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Release|x86.ActiveCfg = Release|Any CPU
-		{2D915DBA-5F67-4537-9F16-10888D17233C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,6 +112,5 @@ Global
 		{22522C41-4977-468B-8F34-F132D40F3096} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{C984AF21-E1CC-4885-ACB4-71A90C583365} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{0FB3EE4F-2AC3-4DC6-8B4A-111F2B8F9497} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
-		{2D915DBA-5F67-4537-9F16-10888D17233C} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 EndGlobal
