@@ -15,7 +15,7 @@ namespace Weblu.Infrastructure.Data
 {
     public class SeedEntities
     {
-        public static async Task SeedUserAndAdmin(ApplicationDbContext _context)
+        public static async Task SeedUserAndAdminAsync(ApplicationDbContext _context)
         {
             //Add a user and an admin
             if (!_context.Users.Any(u => u.NormalizedUserName == "ADMIN"))

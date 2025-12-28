@@ -19,7 +19,6 @@ namespace Weblu.Infrastructure.Extensions
             services.AddDbContext<ApplicationDbContext>(
                 options =>
                 {
-
                     string cs = Environment.GetEnvironmentVariable("DefaultConnection") ?? throw new Exception();
                     options.UseSqlServer(cs);
                 }
@@ -33,7 +32,7 @@ namespace Weblu.Infrastructure.Extensions
                 var dbContext = services.GetRequiredService<ApplicationDbContext>();
                 dbContext.Database.Migrate();
                 await SeedEntities.SeedRolesWithClaimsAsync(dbContext);
-                await SeedEntities.SeedUserAndAdmin(dbContext);
+                await SeedEntities.SeedUserAndAdminAsync(dbContext);
             }
         }
     }
