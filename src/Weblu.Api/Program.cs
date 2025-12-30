@@ -1,8 +1,6 @@
 using DotNetEnv;
 using Weblu.Application.Extensions;
 using Weblu.Infrastructure.Extensions;
-using Asp.Versioning;
-using Microsoft.OpenApi;
 using Weblu.Api.Extensions;
 using Weblu.Api.Extensions.SwaggerConfigurations;
 
@@ -23,8 +21,15 @@ builder.Services.ApplyVersioning();
 builder.Services.ConfigureSwaggerGen();
 
 builder.Host.ApplySerilog();
+
+var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
+
 builder.Services.ConfigureJwtSettings();
-builder.Services.ConnectToDatabase();
+
+if (!string.IsNullOrWhiteSpace(connectionString))
+{
+    builder.Services.AddDatabase(connectionString);
+}
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.ConfigureIdentity();
@@ -58,3 +63,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Make the implicit Program class public so test projects can access it
+// public partial class Program { }

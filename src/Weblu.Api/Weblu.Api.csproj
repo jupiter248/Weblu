@@ -24,4 +24,9 @@
     <ProjectReference Include="..\Weblu.Infrastructure\Weblu.Infrastructure.csproj" />
     <ProjectReference Include="..\Weblu.Application\Weblu.Application.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Weblu.Api.IntegrationTests" />
+  </ItemGroup>
+
+
 </Project>
