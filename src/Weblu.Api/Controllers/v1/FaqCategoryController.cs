@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
@@ -10,10 +7,10 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.FaqCategory;
-using Weblu.Domain.Entities.Faqs;
 
 namespace Weblu.Api.Controllers
 {
+    [ApiVersion("1")]
     [ApiController]
     [Route("api/faq-category")]
     public class FaqCategoryController : ControllerBase

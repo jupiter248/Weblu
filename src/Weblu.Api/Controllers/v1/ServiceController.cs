@@ -1,20 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Dtos.ServiceDtos;
 using Weblu.Application.Dtos.ServiceDtos.ServiceImageDtos;
-using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Common.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Weblu.Application.Interfaces.Services.ServiceServices;
+using Asp.Versioning;
 
 namespace Weblu.Api.Controllers
 {
+    [ApiVersion("1")]
     [ApiController]
     [Route("api/service")]
     public class ServiceController : ControllerBase

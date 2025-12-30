@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.PortfolioCategory;
-using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
@@ -14,6 +10,7 @@ using Weblu.Application.Validations.PortfolioCategory;
 
 namespace Weblu.Api.Controllers
 {
+    [ApiVersion("1")]
     [ApiController]
     [Route("api/portfolio-category")]
     public class PortfolioCategoryController : ControllerBase

@@ -10,18 +10,16 @@ Env.Load(Path.Combine("../../.env")); // This loads .env into Environment variab
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllersConfigurations();
 builder.Services.ConfigureSwaggerGen();
 
-builder.Host.ApplySerilog();
 
-builder.Services.AddControllersConfigurations();
 builder.Services.ApplyGlobalRateLimiter();
 builder.Services.ApplyAuthRateLimiter();
 builder.Services.ApplyViewArticleRateLimiter();
 
 
-
+builder.Host.ApplySerilog();
 builder.Services.ConfigureJwtSettings();
 builder.Services.ConnectToDatabase();
 builder.Services.AddInfrastructure();
@@ -31,6 +29,7 @@ builder.Services.ConfigureJwt();
 
 
 builder.Services.ApplyCors();
+builder.Services.ApplyVersioning();
 
 var app = builder.Build();
 

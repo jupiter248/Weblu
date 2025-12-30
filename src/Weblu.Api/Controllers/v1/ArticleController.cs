@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
@@ -10,16 +7,15 @@ using Weblu.Application.Dtos.ArticleDtos;
 using Weblu.Application.Dtos.ArticleDtos.ArticleImageDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
-using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Articles;
-using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Api.Controllers
 {
+    [ApiVersion("1")]
     [ApiController]
     [Route("api/article")]
     public class ArticleController : ControllerBase
