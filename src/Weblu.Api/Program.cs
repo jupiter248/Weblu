@@ -1,23 +1,24 @@
-using System.Text.Json.Serialization;
 using DotNetEnv;
-using Serilog;
 using Weblu.Api.Middlewares;
 using Weblu.Api.Extensions;
 using Weblu.Application.Extensions;
 using Weblu.Infrastructure.Extensions;
+using Weblu.Api.Extensions.SwaggerConfigurations;
 
 Env.Load(Path.Combine("../../.env")); // This loads .env into Environment variables
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersConfigurations();
-builder.Services.ConfigureSwaggerGen();
+
 
 
 builder.Services.ApplyGlobalRateLimiter();
 builder.Services.ApplyAuthRateLimiter();
 builder.Services.ApplyViewArticleRateLimiter();
 
+builder.Services.ApplyVersioning();
+builder.Services.ConfigureSwaggerGen();
 
 builder.Host.ApplySerilog();
 builder.Services.ConfigureJwtSettings();
@@ -29,7 +30,7 @@ builder.Services.ConfigureJwt();
 
 
 builder.Services.ApplyCors();
-builder.Services.ApplyVersioning();
+
 
 var app = builder.Build();
 
@@ -42,8 +43,7 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerWithVersions();
 }
 
 app.UseRateLimiter();

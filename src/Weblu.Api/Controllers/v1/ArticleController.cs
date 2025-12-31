@@ -15,9 +15,9 @@ using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Api.Controllers
 {
-    [ApiVersion("1")]
     [ApiController]
     [Route("api/article")]
+    [ApiVersion("1")]
     public class ArticleController : ControllerBase
     {
         private readonly IArticleService _articleService;

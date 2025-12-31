@@ -17,8 +17,9 @@ namespace Weblu.Api.Extensions
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ReportApiVersions = true;
                 options.ApiVersionReader = ApiVersionReader.Combine(
-                    new HeaderApiVersionReader("x-api-version"));
-                    new UrlSegmentApiVersionReader();
+                    new HeaderApiVersionReader("x-api-version"),
+                    new UrlSegmentApiVersionReader()
+                );
             })
             .AddMvc()
             .AddApiExplorer(opt =>
