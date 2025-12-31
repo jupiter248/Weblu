@@ -1,19 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Dtos.FeatureDtos;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Features;
-using Weblu.Domain.Entities;
 using Weblu.Application.Parameters;
 using Weblu.Application.Common.Responses;
 using Microsoft.AspNetCore.Authorization;
+using Asp.Versioning;
 
 namespace Weblu.Api.Controllers
 {
+    [ApiVersion("1")]
     [ApiController]
     [Route("api/feature")]
     public class FeatureController : ControllerBase

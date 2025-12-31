@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.AuthDtos;
 using Weblu.Application.Services.Interfaces;
@@ -15,6 +10,7 @@ using Weblu.Domain.Enums.Users;
 
 namespace Weblu.Api.Controllers
 {
+    [ApiVersion("1")]
     [EnableRateLimiting("AuthPolicy")]
     [ApiController]
     [Route("api/auth")]

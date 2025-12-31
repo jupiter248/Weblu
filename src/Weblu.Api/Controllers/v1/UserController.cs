@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
@@ -15,6 +12,7 @@ using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Api.Controllers
 {
+    [ApiVersion("1")]
     [ApiController]
     [Route("api/user")]
     public class UserController : ControllerBase
