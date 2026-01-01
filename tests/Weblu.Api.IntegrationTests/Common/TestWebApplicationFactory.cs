@@ -21,8 +21,21 @@ namespace Weblu.Api.IntegrationTests.Common
         }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            builder.ConfigureAppConfiguration((context, config) =>
+            {
+                var contentRoot = context.HostingEnvironment.ContentRootPath;
+
+                var envPath = Path.GetFullPath(
+                    Path.Combine(contentRoot,  ".env.test")
+                );
+                if (File.Exists(envPath))
+                {
+                    Env.Load(envPath);
+                }
+            });
             builder.ConfigureTestServices(services =>
             {
+
                 // Remove existing dbContext registration
                 services.RemoveAll(typeof(DbContextOptions<ApplicationDbContext>));
 
@@ -34,7 +47,7 @@ namespace Weblu.Api.IntegrationTests.Common
                 using var scope = provider.CreateScope();
                 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-                // context.Database.EnsureDeleted();
+                context.Database.EnsureDeleted();
             });
         }
     }

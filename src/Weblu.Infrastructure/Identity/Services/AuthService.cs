@@ -38,7 +38,7 @@ namespace Weblu.Infrastructure.Identity.Services
         }
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
-            AppUser appUser = await _userManager.FindByNameAsync(loginDto.Username.ToLower()) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            AppUser appUser = await _userManager.FindByNameAsync(loginDto.Username.ToLowerInvariant()) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             SignInResult checkPass = await _signInManager.CheckPasswordSignInAsync(appUser, loginDto.Password, true);
             if (!checkPass.Succeeded)
             {
@@ -74,7 +74,8 @@ namespace Weblu.Infrastructure.Identity.Services
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto, UserType userType)
         {
-            AppUser? foundedByUsername = await _userManager.FindByNameAsync(registerDto.Username);
+
+            AppUser? foundedByUsername = await _userManager.FindByNameAsync(registerDto.Username.ToLowerInvariant());
             if (foundedByUsername != null)
             {
                 throw new ConflictException(AuthErrorCodes.UsernameAlreadyUsed);
@@ -90,7 +91,7 @@ namespace Weblu.Infrastructure.Identity.Services
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 PhoneNumber = registerDto.PhoneNumber,
-                UserName = registerDto.Username.ToLower()
+                UserName = registerDto.Username.ToLowerInvariant()
             };
 
             IdentityResult userCreated = await _userManager.CreateAsync(newUser, registerDto.Password);

@@ -6,18 +6,22 @@ using Weblu.Api.Extensions.SwaggerConfigurations;
 
 using Weblu.Api.Middlewares;
 
-var envPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".env");
-Env.Load(envPath); // This loads .env into Environment variables
 
 var builder = WebApplication.CreateBuilder(args);
+
+var env = builder.Environment;
+
+var envPath = Path.GetFullPath(
+    Path.Combine(env.ContentRootPath, "..", "..", ".env")
+);
+
+Env.Load(envPath);
 
 builder.Services.AddControllersConfigurations();
 builder.Services.AddEndpointsApiExplorer();
 
 
 builder.Host.ApplySerilog();
-
-builder.Services.AddControllers();
 
 builder.Services.ApplyGlobalRateLimiter();
 builder.Services.ApplyAuthRateLimiter();
@@ -26,16 +30,15 @@ builder.Services.ApplyViewArticleRateLimiter();
 builder.Services.ApplyVersioning();
 builder.Services.ConfigureSwaggerGen();
 
-builder.Host.ApplySerilog();
-
 var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
 
-builder.Services.ConfigureJwtSettings();
 
 if (!string.IsNullOrWhiteSpace(connectionString))
 {
     builder.Services.AddDatabase(connectionString);
 }
+
+builder.Services.ConfigureJwtSettings();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.ConfigureIdentity();
@@ -69,6 +72,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-// Make the implicit Program class public so test projects can access it
-// public partial class Program { }
