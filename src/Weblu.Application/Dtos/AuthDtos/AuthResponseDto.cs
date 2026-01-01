@@ -7,13 +7,13 @@ namespace Weblu.Application.Dtos.AuthDtos
 {
     public class AuthResponseDto
     {
-        public required string PhoneNumber { get; set; }
-        public required string Username { get; set; }
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
-        public required string FullName { get; set; }
-        public required string RefreshToken { get; set; }
-        public required string AccessToken { get; set; }
+        public string PhoneNumber { get; set; } = default!;
+        public string Username { get; set; } = default!;
+        public string FirstName { get; set; } = default!;
+        public string LastName { get; set; } = default!;
+        public string FullName { get; set; } = default!;
+        public string RefreshToken { get; set; } = default!;
+        public string AccessToken { get; set; } = default!;
 
         // profiles 
     }

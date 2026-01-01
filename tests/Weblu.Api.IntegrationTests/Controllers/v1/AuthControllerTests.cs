@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Api.IntegrationTests.Common;
 using Weblu.Api.IntegrationTests.Helpers;
+using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.AuthDtos;
 using Weblu.Domain.Entities.Tags;
 using Weblu.Domain.Enums.Users;
@@ -16,60 +17,56 @@ using Weblu.Infrastructure.Data;
 
 namespace Weblu.Api.IntegrationTests.Controllers.v1
 {
-    public class AuthControllerTests : IClassFixture<SqlServerTestContainer>
+    public class AuthControllerTests : BaseTestIntegration
     {
-        private readonly string connectionString;
-        public AuthControllerTests(SqlServerTestContainer container)
+        public AuthControllerTests(SqlServerTestContainer container) : base(container)
         {
-            connectionString = container.ConnectionString;
         }
         [Fact]
         public async Task AuthController_Register_Return200()
         {
             // Arrange
-            var factory = new TestWebApplicationFactory(connectionString);
-
             RegisterDto registerDto = new RegisterDto
             {
-                Username = "TestUsername",
+                Username = "testusername",
                 Password = "TestPassword123!",
                 FirstName = "TestFirstName",
                 LastName = "TestLastName",
                 PhoneNumber = "09123456789",
             };
-            var client = factory.CreateClient();
-            client.BaseAddress = new Uri("https://localhost:80");
-
-            var content = JsonContent.Create(registerDto);
             // Act
-            var act = await client.PostAsync("/api/auth/register", content, cancellationToken: TestContext.Current.CancellationToken);
+            var act = await _client.PostAsJsonAsync("api/auth/register", registerDto, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
-            // act.EnsureSuccessStatusCode();
-            // var response = await act.Content.ReadFromJsonAsync<AuthResponseDto>(cancellationToken: TestContext.Current.CancellationToken);
-            // response?.Username.Should().Be("TestUsername");
+            act.EnsureSuccessStatusCode();
+
+            var response = await act.Content.ReadFromJsonAsync<ApiResponse<AuthResponseDto>>(cancellationToken: TestContext.Current.CancellationToken);
+            response?.Data.Should().NotBeNull();
+            response?.Data.Should().BeOfType<AuthResponseDto>();
+            response?.Data.Should().Match<AuthResponseDto>(x => x.Username == registerDto.Username);
+
         }
         [Fact]
         public async Task AuthController_Login_Return200()
         {
             // Arrange
-            var factory = new TestWebApplicationFactory(connectionString);
 
             LoginDto loginDto = new LoginDto
             {
-                Username = "Admin",
-                Password = "@Admin248",
+                Username = "user",
+                Password = "@User248",
             };
-            var client = factory.CreateClient();
-            client.BaseAddress = new Uri("https://localhost");
-
 
             // Act
-            var act = await client.PostAsJsonAsync("/api/auth/login", loginDto, cancellationToken: TestContext.Current.CancellationToken);
+            var act = await _client.PostAsJsonAsync("api/auth/login", loginDto, cancellationToken: TestContext.Current.CancellationToken);
             // Assert
-            // act.EnsureSuccessStatusCode();
-            // var response = await act.Content.ReadFromJsonAsync<AuthResponseDto>(cancellationToken: TestContext.Current.CancellationToken);
-            // response?.Username.Should().Be("admin");
+            act.EnsureSuccessStatusCode();
+
+            var response = await act.Content.ReadFromJsonAsync<ApiResponse<AuthResponseDto>>(cancellationToken: TestContext.Current.CancellationToken);
+            response?.Data.Should().NotBeNull();
+            response?.Data.Should().BeOfType<AuthResponseDto>();
+            response?.Data.Should().Match<AuthResponseDto>(x => x.Username == loginDto.Username);
+
         }
     }
 }

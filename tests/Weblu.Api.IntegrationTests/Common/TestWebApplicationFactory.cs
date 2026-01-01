@@ -1,3 +1,4 @@
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -33,7 +34,7 @@ namespace Weblu.Api.IntegrationTests.Common
                 using var scope = provider.CreateScope();
                 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-                context.Database.EnsureDeleted();
+                // context.Database.EnsureDeleted();
             });
         }
     }

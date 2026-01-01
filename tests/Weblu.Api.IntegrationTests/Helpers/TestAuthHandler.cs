@@ -12,7 +12,7 @@ namespace Weblu.Api.IntegrationTests.Helpers
         public TestAuthHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder)
         {
         }
-
+        // This method is called when authentication is required
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             var identity = new ClaimsIdentity(Array.Empty<Claim>(), "Test");

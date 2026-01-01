@@ -6,12 +6,18 @@ using Weblu.Api.Extensions.SwaggerConfigurations;
 
 using Weblu.Api.Middlewares;
 
-Env.Load(Path.Combine("../../.env")); // This loads .env into Environment variables
+var envPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".env");
+Env.Load(envPath); // This loads .env into Environment variables
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersConfigurations();
 builder.Services.AddEndpointsApiExplorer();
+
+
+builder.Host.ApplySerilog();
+
+builder.Services.AddControllers();
 
 builder.Services.ApplyGlobalRateLimiter();
 builder.Services.ApplyAuthRateLimiter();

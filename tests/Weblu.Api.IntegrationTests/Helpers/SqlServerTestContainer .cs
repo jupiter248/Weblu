@@ -6,6 +6,7 @@ using Testcontainers.MsSql;
 
 namespace Weblu.Api.IntegrationTests.Helpers
 {
+    // This class creates an instance of a SQL Server test container for integration testing
     public class SqlServerTestContainer : IAsyncLifetime
     {
         private readonly MsSqlContainer _container;
