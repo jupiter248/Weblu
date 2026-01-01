@@ -8,7 +8,7 @@ using Weblu.Application.Validations;
 using Weblu.Application.Validations.Auth;
 using Weblu.Domain.Enums.Users;
 
-namespace Weblu.Api.Controllers
+namespace Weblu.Api.Controllers.v1
 {
     [ApiVersion("1")]
     [EnableRateLimiting("AuthPolicy")]

@@ -1,17 +1,19 @@
 using DotNetEnv;
-using Weblu.Api.Middlewares;
-using Weblu.Api.Extensions;
 using Weblu.Application.Extensions;
 using Weblu.Infrastructure.Extensions;
+using Asp.Versioning;
+using Microsoft.OpenApi;
+using Weblu.Api.Extensions;
 using Weblu.Api.Extensions.SwaggerConfigurations;
+
+using Weblu.Api.Middlewares;
 
 Env.Load(Path.Combine("../../.env")); // This loads .env into Environment variables
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersConfigurations();
-
-
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.ApplyGlobalRateLimiter();
 builder.Services.ApplyAuthRateLimiter();

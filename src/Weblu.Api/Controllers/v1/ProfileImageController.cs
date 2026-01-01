@@ -6,7 +6,7 @@ using Weblu.Application.Dtos.ProfileDtos;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 
-namespace Weblu.Api.Controllers
+namespace Weblu.Api.Controllers.v1
 {
     [ApiVersion("1")]
     [ApiController]

@@ -8,7 +8,7 @@ using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.PortfolioCategory;
 
-namespace Weblu.Api.Controllers
+namespace Weblu.Api.Controllers.v1
 {
     [ApiVersion("1")]
     [ApiController]

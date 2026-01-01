@@ -7,7 +7,7 @@ namespace Weblu.Api.Extensions
 {
     public static class ConfigureLocalizations
     {
-        public static void AddLocalizations(this WebApplication app)
+        public static void  AddLocalizations(this WebApplication app)
         {
             var supportedCultures = new[] { "en", "fa" };
             var localizationOptions = new RequestLocalizationOptions()

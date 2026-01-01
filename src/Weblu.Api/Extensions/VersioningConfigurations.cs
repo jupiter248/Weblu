@@ -13,21 +13,18 @@ namespace Weblu.Api.Extensions
         {
             services.AddApiVersioning(options =>
             {
-                options.DefaultApiVersion = new ApiVersion(1);
                 options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1);
                 options.ReportApiVersions = true;
-                options.ApiVersionReader = ApiVersionReader.Combine(
-                    new HeaderApiVersionReader("x-api-version"),
-                    new UrlSegmentApiVersionReader()
-                );
+                options.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
             })
             .AddMvc()
-            .AddApiExplorer(opt =>
+            .AddApiExplorer(options =>
             {
-                opt.GroupNameFormat = "'v'VVV";
-                opt.SubstituteApiVersionInUrl = true;
-                opt.DefaultApiVersion = new ApiVersion(1);
-                opt.AssumeDefaultVersionWhenUnspecified = true;
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+
             });
 
         }

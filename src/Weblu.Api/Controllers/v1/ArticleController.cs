@@ -13,11 +13,12 @@ using Weblu.Application.Validations;
 using Weblu.Application.Validations.Articles;
 using Weblu.Domain.Errors.Users;
 
-namespace Weblu.Api.Controllers
+namespace Weblu.Api.Controllers.v1
 {
     [ApiController]
     [Route("api/article")]
     [ApiVersion("1")]
+
     public class ArticleController : ControllerBase
     {
         private readonly IArticleService _articleService;

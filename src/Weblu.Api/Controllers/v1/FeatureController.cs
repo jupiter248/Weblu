@@ -8,7 +8,7 @@ using Weblu.Application.Common.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 
-namespace Weblu.Api.Controllers
+namespace Weblu.Api.Controllers.v1
 {
     [ApiVersion("1")]
     [ApiController]

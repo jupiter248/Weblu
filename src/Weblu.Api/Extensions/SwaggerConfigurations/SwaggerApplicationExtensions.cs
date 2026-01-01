@@ -11,6 +11,7 @@ namespace Weblu.Api.Extensions.SwaggerConfigurations
 
             app.UseSwagger();
 
+            // Make an API selector for different versions
             app.UseSwaggerUI(options =>
             {
                 foreach (var description in provider.ApiVersionDescriptions)

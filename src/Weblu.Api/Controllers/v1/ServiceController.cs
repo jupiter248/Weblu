@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Weblu.Application.Interfaces.Services.ServiceServices;
 using Asp.Versioning;
 
-namespace Weblu.Api.Controllers
+namespace Weblu.Api.Controllers.v1
 {
     [ApiVersion("1")]
     [ApiController]

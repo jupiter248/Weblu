@@ -10,7 +10,7 @@ using Weblu.Application.Validations;
 using Weblu.Application.Validations.Users;
 using Weblu.Domain.Errors.Users;
 
-namespace Weblu.Api.Controllers
+namespace Weblu.Api.Controllers.v1
 {
     [ApiVersion("1")]
     [ApiController]

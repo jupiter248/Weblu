@@ -10,6 +10,7 @@ namespace Weblu.Api.Controllers.v2
     [ApiController]
     [Route("api/article")]
     [ApiVersion("2")]
+
     public class ArticleController : ControllerBase
     {
         private readonly IArticleService _articleService;

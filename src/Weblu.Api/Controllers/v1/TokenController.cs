@@ -9,7 +9,7 @@ using Weblu.Application.Helpers;
 using Weblu.Application.Services.Interfaces;
 using Weblu.Domain.Errors.Users;
 
-namespace Weblu.Api.Controllers
+namespace Weblu.Api.Controllers.v1
 {
     [ApiVersion("1")]
     [ApiController]
