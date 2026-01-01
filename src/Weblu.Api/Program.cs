@@ -1,19 +1,27 @@
 using DotNetEnv;
 using Weblu.Application.Extensions;
 using Weblu.Infrastructure.Extensions;
-using Asp.Versioning;
-using Microsoft.OpenApi;
 using Weblu.Api.Extensions;
 using Weblu.Api.Extensions.SwaggerConfigurations;
 
 using Weblu.Api.Middlewares;
 
-Env.Load(Path.Combine("../../.env")); // This loads .env into Environment variables
 
 var builder = WebApplication.CreateBuilder(args);
 
+var env = builder.Environment;
+
+var envPath = Path.GetFullPath(
+    Path.Combine(env.ContentRootPath, "..", "..", ".env")
+);
+
+Env.Load(envPath);
+
 builder.Services.AddControllersConfigurations();
 builder.Services.AddEndpointsApiExplorer();
+
+
+builder.Host.ApplySerilog();
 
 builder.Services.ApplyGlobalRateLimiter();
 builder.Services.ApplyAuthRateLimiter();
@@ -22,9 +30,15 @@ builder.Services.ApplyViewArticleRateLimiter();
 builder.Services.ApplyVersioning();
 builder.Services.ConfigureSwaggerGen();
 
-builder.Host.ApplySerilog();
+var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
+
+
+if (!string.IsNullOrWhiteSpace(connectionString))
+{
+    builder.Services.AddDatabase(connectionString);
+}
+
 builder.Services.ConfigureJwtSettings();
-builder.Services.ConnectToDatabase();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.ConfigureIdentity();

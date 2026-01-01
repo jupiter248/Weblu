@@ -49,10 +49,10 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
                 FirstName = "Mohammad",
                 LastName = "Azimifar",
                 PhoneNumber = "989031883414",
-                UserName = "TestUsername",
+                UserName = "testusername",
             };
             List<string> roles = new List<string>() { "User" };
-            A.CallTo(() => _userManager.FindByNameAsync(loginDto.Username)).Returns(user);
+            A.CallTo(() => _userManager.FindByNameAsync(loginDto.Username.ToLowerInvariant())).Returns(user);
             A.CallTo(() => _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, true)).Returns(SignInResult.Success);
             A.CallTo(() => _userManager.GetRolesAsync(user)).Returns(roles);
 
@@ -91,7 +91,7 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             List<string> roles = new List<string> { "User" };
 
 
-            A.CallTo(() => _userManager.FindByNameAsync(registerDto.Username)).Returns(Task.FromResult<AppUser?>(null));
+            A.CallTo(() => _userManager.FindByNameAsync(registerDto.Username.ToLowerInvariant())).Returns(Task.FromResult<AppUser?>(null));
             A.CallTo(() => _userRepository.ExistsWithPhoneAsync(registerDto.PhoneNumber)).Returns(false);
 
             A.CallTo(() => _userManager.CreateAsync(A<AppUser>._, A<string>._))

@@ -14,15 +14,14 @@ namespace Weblu.Infrastructure.Extensions
 {
     public static class DatabaseConfigurations
     {
-        public static void ConnectToDatabase(this IServiceCollection services)
+        public static IServiceCollection AddDatabase(
+            this IServiceCollection services,
+            string connectionString)
         {
-            services.AddDbContext<ApplicationDbContext>(
-                options =>
-                {
-                    string cs = Environment.GetEnvironmentVariable("DefaultConnection") ?? throw new Exception();
-                    options.UseSqlServer(cs);
-                }
-            );
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString));
+
+            return services;
         }
         public static async Task ApplyMigrations(this IServiceProvider serviceProvider)
         {
