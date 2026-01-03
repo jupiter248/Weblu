@@ -37,4 +37,4 @@ services:
 volumes:
   weblu-sql-server-volume:
   seq-data:
-    external: false # set to false if you want Docker Compose to create a new volume
+    external: false 

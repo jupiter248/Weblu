@@ -3,7 +3,6 @@ using Weblu.Application.Extensions;
 using Weblu.Infrastructure.Extensions;
 using Weblu.Api.Extensions;
 using Weblu.Api.Extensions.SwaggerConfigurations;
-
 using Weblu.Api.Middlewares;
 
 

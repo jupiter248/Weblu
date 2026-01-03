@@ -6,15 +6,15 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0.306 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY  ["src/Weblu.Api/Weblu.Api.csproj", "src/Weblu.Api/"]
-COPY  ["src/Weblu.Application/Weblu.Application.csproj", "src/Weblu.Application/"]
-COPY  ["src/Weblu.Domain/Weblu.Domain.csproj", "src/Weblu.Domain/"]
-COPY  ["src/Weblu.Infrastructure/Weblu.Infrastructure.csproj", "src/Weblu.Infrastructure/"]
-COPY  ["tests/Weblu.Application.UnitTests/Weblu.Application.UnitTests.csproj", "tests/Weblu.Application.UnitTests/"]
-RUN dotnet restore "src/Weblu.Api/Weblu.Api.csproj"
-COPY . .    
+COPY  ["src/Weblu.Api/Weblu.Api.csproj", "Weblu.Api/"]
+COPY  ["src/Weblu.Application/Weblu.Application.csproj", "Weblu.Application/"]
+COPY  ["src/Weblu.Domain/Weblu.Domain.csproj", "Weblu.Domain/"]
+COPY  ["src/Weblu.Infrastructure/Weblu.Infrastructure.csproj", "Weblu.Infrastructure/"]
+RUN dotnet restore "Weblu.Api/Weblu.Api.csproj"
+COPY src/ .     
 
-WORKDIR "/src/src/Weblu.Api"
+
+WORKDIR "/src/Weblu.Api"
 RUN dotnet build "Weblu.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
