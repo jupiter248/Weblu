@@ -42,6 +42,30 @@ namespace Weblu.Infrastructure.Repositories
             return await tickets.ToListAsync();
         }
 
+        public async Task<IReadOnlyList<Ticket>> GetAllByUserIdAsync(string userId, TicketParameters ticketParameters)
+        {
+            IQueryable<Ticket> tickets = _context.Tickets.Where(t => t.UserId == userId).AsNoTracking();
+            if (ticketParameters.CreatedDateSort != CreatedDateSort.All)
+            {
+                tickets = new TicketQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteTicketQuery(tickets, ticketParameters);
+            }
+
+            if (ticketParameters.TicketStatus != TicketStatusSort.All)
+            {
+                tickets = new TicketQueryHandler(new StatusStrategy())
+                .ExecuteTicketQuery(tickets, ticketParameters);
+            }
+
+            if (ticketParameters.TicketPriority != TicketPrioritySort.All)
+            {
+                tickets = new TicketQueryHandler(new PriorityStrategy())
+                .ExecuteTicketQuery(tickets, ticketParameters);
+            }
+
+            return await tickets.ToListAsync();
+        }
+
         public override async Task<Ticket?> GetByIdAsync(int ticketId)
         {
             Ticket? ticket = await _context.Tickets.Include(m => m.Messages).FirstOrDefaultAsync(t => t.Id == ticketId);

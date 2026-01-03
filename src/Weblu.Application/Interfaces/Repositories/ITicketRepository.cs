@@ -10,6 +10,6 @@ namespace Weblu.Application.Interfaces.Repositories
 {
     public interface ITicketRepository : IGenericRepository<Ticket, TicketParameters>
     {
-
+        Task<IReadOnlyList<Ticket>> GetAllByUserIdAsync(string userId, TicketParameters ticketParameters);
     }
 }

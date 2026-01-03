@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Weblu.Application.Dtos.TicketDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
@@ -78,17 +79,31 @@ namespace Weblu.Application.Services
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<TicketSummaryDto>> GetAllTicketsAsync(TicketParameters ticketParameters)
+        public async Task<List<TicketSummaryDto>> GetAllTicketsAsync(string userId, TicketParameters ticketParameters)
         {
-            IReadOnlyList<Ticket> tickets = await _ticketRepository.GetAllAsync(ticketParameters);
+            var isAdmin = await _userRepository.IsAdminAsync(userId);
+            IReadOnlyList<Ticket> tickets;
+            if (!isAdmin)
+            {
+                tickets = await _ticketRepository.GetAllByUserIdAsync(userId, ticketParameters);
+            }
+            else
+            {
+                tickets = await _ticketRepository.GetAllAsync(ticketParameters);
+            }
             List<TicketSummaryDto> ticketSummaryDtos = _mapper.Map<List<TicketSummaryDto>>(tickets);
 
             return ticketSummaryDtos;
         }
 
-        public async Task<TicketDetailDto> GetTicketByIdAsync(int ticketId)
+        public async Task<TicketDetailDto> GetTicketByIdAsync(string userId, int ticketId)
         {
+            var isAdmin = await _userRepository.IsAdminAsync(userId);
             Ticket ticket = await _ticketRepository.GetByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            if (!isAdmin && userId != ticket.UserId)
+            {
+                throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            }
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;
         }
@@ -101,6 +116,10 @@ namespace Weblu.Application.Services
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
             Ticket ticket = await _ticketRepository.GetByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+            if (ticket.UserId != userId)
+            {
+                throw new UnauthorizedException(TicketErrorCodes.TicketUpdateForbidden);
+            }
             ticket = _mapper.Map(updateTicketDto, ticket);
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;

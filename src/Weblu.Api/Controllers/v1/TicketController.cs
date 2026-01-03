@@ -23,16 +23,28 @@ namespace Weblu.Api.Controllers.v1
             _ticketMessageService = ticketMessageService;
             _ticketService = ticketService;
         }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllTickets([FromQuery] TicketParameters ticketParameters)
         {
-            List<TicketSummaryDto> ticketSummaryDtos = await _ticketService.GetAllTicketsAsync(ticketParameters);
+            var userId = User.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            List<TicketSummaryDto> ticketSummaryDtos = await _ticketService.GetAllTicketsAsync(userId, ticketParameters);
             return Ok(ticketSummaryDtos);
         }
+        [Authorize]
         [HttpGet("{ticketId:int}")]
         public async Task<IActionResult> GetTicketById(int ticketId)
         {
-            TicketDetailDto ticketDetailDto = await _ticketService.GetTicketByIdAsync(ticketId);
+            var userId = User.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            TicketDetailDto ticketDetailDto = await _ticketService.GetTicketByIdAsync(userId, ticketId);
             return Ok(ticketDetailDto);
         }
         [Authorize]
