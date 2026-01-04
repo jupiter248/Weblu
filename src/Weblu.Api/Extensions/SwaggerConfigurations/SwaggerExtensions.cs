@@ -2,7 +2,7 @@ using Asp.Versioning.ApiExplorer;
 
 namespace Weblu.Api.Extensions.SwaggerConfigurations
 {
-    public static class SwaggerApplicationExtensions
+    public static class SwaggerExtensions
     {
         public static IApplicationBuilder UseSwaggerWithVersions(this IApplicationBuilder app)
         {
@@ -22,7 +22,6 @@ namespace Weblu.Api.Extensions.SwaggerConfigurations
                     );
                 }
             });
-
             return app;
         }
     }

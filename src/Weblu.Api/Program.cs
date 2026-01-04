@@ -4,6 +4,7 @@ using Weblu.Infrastructure.Extensions;
 using Weblu.Api.Extensions;
 using Weblu.Api.Extensions.SwaggerConfigurations;
 using Weblu.Api.Middlewares;
+using Scalar.AspNetCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,6 +60,10 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerWithVersions();
+    app.MapScalarApiReference(options =>
+    {
+        options.UseScalarWithVersions();
+    });
 }
 
 app.UseRateLimiter();
