@@ -26,7 +26,7 @@ namespace Weblu.Api.IntegrationTests.Common
                 var contentRoot = context.HostingEnvironment.ContentRootPath;
 
                 var envPath = Path.GetFullPath(
-                    Path.Combine(contentRoot,  ".env.test")
+                    Path.Combine(contentRoot, "test.env")
                 );
                 if (File.Exists(envPath))
                 {
