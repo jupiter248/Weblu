@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run API + Docs (Windows)",
+      "type": "shell",
+      "command": "start cmd /k dotnet watch run --project src/Weblu.Api/Weblu.Api.csproj && timeout /t 7 /nobreak && start https://localhost:7180/scalar",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run API + Docs (Linux)",
+      "type": "shell",
+      "command": "dotnet watch run --project src/Weblu.Api/Weblu.Api.csproj & sleep 7 && xdg-open https://localhost:7180/scalar",
+      "problemMatcher": []
+    }
+  ]
+}
