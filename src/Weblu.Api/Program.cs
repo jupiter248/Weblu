@@ -62,7 +62,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerWithVersions();
     app.MapScalarApiReference(options =>
     {
-        options.UseScalarWithVersions();
+        options.UseScalarWithVersions(app);
     });
 }
 
