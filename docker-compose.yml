@@ -16,6 +16,7 @@ services:
       - ./src/Weblu.Api/wwwroot:/app/wwwroot
   weblu-sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: weblu-sqlserver
     ports:
       - "1435:1433"
     environment:
@@ -23,11 +24,12 @@ services:
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
     volumes:
       - weblu-sql-server-volume:/var/opt/mssql
-  seq:
+  weblu-seq:
     image: datalust/seq:latest
-    container_name: seq
+    container_name: weblu-seq
     ports:
-      - "5341:80"
+      - "5341:5341"
+      - "8081:80"
     environment:
       - ACCEPT_EULA=${ACCEPT_EULA}
       - SEQ_FIRSTRUN_ADMINPASSWORD=${SEQ_FIRSTRUN_ADMINPASSWORD}
@@ -37,4 +39,4 @@ services:
 volumes:
   weblu-sql-server-volume:
   seq-data:
-    external: false 
+    external: false
