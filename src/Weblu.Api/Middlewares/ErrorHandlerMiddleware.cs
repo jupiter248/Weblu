@@ -32,6 +32,7 @@ namespace Weblu.Api.Middlewares
             }
             catch (DomainException ex)
             {
+                _logger.LogError(ex, "Exception occurred : {Message} ", _errorService.GetMessage(ex.ErrorCode));
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = ex.StatusCode;
 
@@ -59,6 +60,11 @@ namespace Weblu.Api.Middlewares
                     {
                         details.Add(_errorService.GetMessage(item));
                     }
+                    _logger.LogError(ex, "Exception details : {Message} {Details} ", _errorService.GetMessage(ex.ErrorCode), details);
+                }
+                else
+                {
+                    _logger.LogError(ex, "Exception occurred : {Message} ", _errorService.GetMessage(ex.ErrorCode));
                 }
 
                 var response = new ErrorResponse
@@ -76,11 +82,10 @@ namespace Weblu.Api.Middlewares
                 _logger.LogError(ex, "Unhandled exception occurred while processing request {Path}", context.Request.Path);
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = 500;
-
                 var response = new ErrorResponse
                 {
                     StatusCode = 500,
-                    Message = _errorService.GetMessage("INTERNAL_SERVER_ERROR"), // Localize internal error
+                    Message = _errorService.GetMessage("INTERNAL_SERVER_ERROR"), // Localize     internal error
                     ErrorCode = "INTERNAL_SERVER_ERROR"
                 };
 
