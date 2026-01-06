@@ -68,6 +68,7 @@ namespace Weblu.Application.Services.Articles
                 articleSummaryDto.CommentCount = await _commentRepository.GetCountAsync(articleSummaryDto.Id);
                 articleSummaryDto.LikeCount = await _articleRepository.GetLikeCountAsync(articleSummaryDto.Id);
             }
+
             return articleSummaryDtos;
         }
 

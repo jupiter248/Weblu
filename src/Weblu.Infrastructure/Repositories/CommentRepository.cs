@@ -10,6 +10,8 @@ using Weblu.Application.Strategies.Comments;
 using Weblu.Domain.Entities.Common;
 using Weblu.Infrastructure.Data;
 using Weblu.Domain.Entities.Comments;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -44,7 +46,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteCommentQuery(comments, commentParameters);
             }
 
-            return await comments.ToListAsync();
+            return await PagedList<Comment>.GetPagedList(comments, commentParameters.PageNumber, commentParameters.PageSize);
         }
 
         public async Task<int> GetCountAsync(int articleId)

@@ -10,6 +10,8 @@ using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Contributors;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -39,7 +41,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteContributorQuery(contributors.Include(p => p.Articles), contributorParameters);
             }
 
-            return await contributors.ToListAsync();
+            return await PagedList<Contributor>.GetPagedList(contributors, contributorParameters.PageNumber, contributorParameters.PageSize);
         }
     }
 }

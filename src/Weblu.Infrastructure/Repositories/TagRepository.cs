@@ -11,6 +11,8 @@ using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Tags;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -32,7 +34,7 @@ namespace Weblu.Infrastructure.Repositories
                 tags = new TagQueryHandler(new FilterByArticleIdStrategy())
                 .ExecuteTagQuery(tags.Include(a => a.Articles), tagParameters);
             }
-            return await tags.ToListAsync();
+            return await PagedList<Tag>.GetPagedList(tags, tagParameters.PageNumber, tagParameters.PageSize);
         }
     }
 }

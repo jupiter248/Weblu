@@ -15,6 +15,9 @@ using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Domain.Entities.Features;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
+
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -42,7 +45,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteFeatureQuery(features.Include(p => p.Portfolios), featureParameters);
             }
 
-            return await features.ToListAsync();
+            return await PagedList<Feature>.GetPagedList(features, featureParameters.PageNumber, featureParameters.PageSize);
         }
     }
 }

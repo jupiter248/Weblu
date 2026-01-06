@@ -11,6 +11,8 @@ using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Domain.Enums.Tokens;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Token;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -43,7 +45,8 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteRefreshTokenQuery(refreshTokens, refreshTokenParameters);
             }
 
-            return await refreshTokens.ToListAsync();
+            return await PagedList<RefreshToken>.GetPagedList(refreshTokens, refreshTokenParameters.PageNumber, refreshTokenParameters.PageSize);
+
         }
 
         public async Task<RefreshToken?> GetByTokenAsync(string refreshToken)

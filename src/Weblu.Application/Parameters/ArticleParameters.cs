@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Application.Common.Parameters;
 using Weblu.Domain.Enums.Articles.Parameters;
 using Weblu.Domain.Enums.Common.Parameters;
 
 namespace Weblu.Application.Parameters
 {
-    public class ArticleParameters
+    public class ArticleParameters : BaseParameters
     {
-        public CreatedDateSort CreatedDateSort { get; set; }
         public int? CategoryId { get; set; }
         public int? ContributorId { get; set; }
         public CommentCountSort CommentCountSort { get; set; }

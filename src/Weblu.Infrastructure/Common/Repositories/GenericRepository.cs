@@ -4,15 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Common.Interfaces;
+using Weblu.Application.Common.Pagination;
+using Weblu.Application.Common.Parameters;
 using Weblu.Domain.Entities.Common;
 using Weblu.Infrastructure.Data;
 
-namespace Weblu.Infrastructure.Repositories
+namespace Weblu.Infrastructure.Common.Repositories
 {
     internal abstract class GenericRepository<TEntity, TEntityParameters>
         : IGenericRepository<TEntity, TEntityParameters>
         where TEntity : BaseEntity
-        where TEntityParameters : class
+        where TEntityParameters : BaseParameters
     {
         protected readonly ApplicationDbContext _context;
         protected GenericRepository(ApplicationDbContext context)
@@ -38,7 +40,9 @@ namespace Weblu.Infrastructure.Repositories
         public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(TEntityParameters entityParameters)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking();
-            return await query.ToListAsync();
+
+            return await PagedList<TEntity>.GetPagedList(query, entityParameters.PageNumber, entityParameters.PageSize);
+            ;
         }
 
         public void Update(TEntity entity)

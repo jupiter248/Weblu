@@ -10,6 +10,8 @@ using Weblu.Domain.Entities.Media;
 using Weblu.Application.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Domain.Enums.Common.Parameters;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -23,13 +25,13 @@ namespace Weblu.Infrastructure.Repositories
         {
             IQueryable<ImageMedia> imageMedia = _context.ImageMedia.AsNoTracking();
 
-            if (imageParameters.AddedDateSort != CreatedDateSort.All)
+            if (imageParameters.CreatedDateSort != CreatedDateSort.All)
             {
                 imageMedia = new ImageQueryHandler(new AddedDateSortStrategy())
                 .ExecuteImageQuery(imageMedia, imageParameters);
             }
 
-            return await imageMedia.ToListAsync();
+            return await PagedList<ImageMedia>.GetPagedList(imageMedia, imageParameters.PageNumber, imageParameters.PageSize);
         }
     }
 }

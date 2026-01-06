@@ -9,6 +9,8 @@ using Weblu.Application.Strategies.AboutUsInfo;
 using Weblu.Domain.Entities.About;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -27,7 +29,8 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteAboutUsQuery(aboutUs, aboutUsParameters);
             }
 
-            return await aboutUs.ToListAsync();
+            return await PagedList<AboutUs>.GetPagedList(aboutUs, aboutUsParameters.PageNumber, aboutUsParameters.PageSize);
+
         }
     }
 }

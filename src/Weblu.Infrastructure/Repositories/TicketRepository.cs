@@ -10,6 +10,8 @@ using Weblu.Domain.Entities.Tickets;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Domain.Enums.Tickets.Parameters;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -39,7 +41,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteTicketQuery(tickets, ticketParameters);
             }
 
-            return await tickets.ToListAsync();
+            return await PagedList<Ticket>.GetPagedList(tickets, ticketParameters.PageNumber, ticketParameters.PageSize);
         }
 
         public async Task<IReadOnlyList<Ticket>> GetAllByUserIdAsync(string userId, TicketParameters ticketParameters)

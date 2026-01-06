@@ -9,6 +9,7 @@ using Weblu.Application.Strategies.FavoriteLists;
 using Weblu.Domain.Entities.Favorites;
 using Weblu.Domain.Enums.Favorites.Parameters;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Common.Repositories;
 
 namespace Weblu.Infrastructure.Repositories
 {
