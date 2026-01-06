@@ -9,6 +9,7 @@ using Weblu.Domain.Entities.Tickets;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
 using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -23,7 +24,7 @@ namespace Weblu.Infrastructure.Repositories
         {
             IQueryable<TicketMessage> ticketMessages = _context.TicketMessages.Where(t => t.TicketId == ticketId);
 
-            return await PagedList<TicketMessage>.GetPagedList(ticketMessages, ticketMessageParameters.PageNumber, ticketMessageParameters.PageSize);
+            return await PaginationExtensions<TicketMessage>.GetPagedList(ticketMessages, ticketMessageParameters.PageNumber, ticketMessageParameters.PageSize);
         }
 
     }

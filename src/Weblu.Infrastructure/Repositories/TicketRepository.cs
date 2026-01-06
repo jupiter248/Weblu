@@ -12,6 +12,7 @@ using Weblu.Domain.Enums.Tickets.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
 using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -20,7 +21,7 @@ namespace Weblu.Infrastructure.Repositories
         public TicketRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public override async Task<IReadOnlyList<Ticket>> GetAllAsync(TicketParameters ticketParameters)
+        public override async Task<PagedList<Ticket>> GetAllAsync(TicketParameters ticketParameters)
         {
             IQueryable<Ticket> tickets = _context.Tickets.AsNoTracking();
             if (ticketParameters.CreatedDateSort != CreatedDateSort.All)
@@ -41,7 +42,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteTicketQuery(tickets, ticketParameters);
             }
 
-            return await PagedList<Ticket>.GetPagedList(tickets, ticketParameters.PageNumber, ticketParameters.PageSize);
+            return await PaginationExtensions<Ticket>.GetPagedList(tickets, ticketParameters.PageNumber, ticketParameters.PageSize);
         }
 
         public async Task<IReadOnlyList<Ticket>> GetAllByUserIdAsync(string userId, TicketParameters ticketParameters)

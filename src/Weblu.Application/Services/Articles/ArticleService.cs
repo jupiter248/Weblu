@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Weblu.Application.Common.Pagination;
+using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ArticleDtos;
 using Weblu.Application.Dtos.ArticleDtos.ArticleImageDtos;
 using Weblu.Application.Exceptions;
@@ -68,8 +70,21 @@ namespace Weblu.Application.Services.Articles
                 articleSummaryDto.CommentCount = await _commentRepository.GetCountAsync(articleSummaryDto.Id);
                 articleSummaryDto.LikeCount = await _articleRepository.GetLikeCountAsync(articleSummaryDto.Id);
             }
-
             return articleSummaryDtos;
+        }
+
+        public async Task<PagedResponse<ArticleSummaryDto>> GetAllPagedArticlesAsync(ArticleParameters articleParameters)
+        {
+            PagedList<Article> articles = await _articleRepository.GetAllAsync(articleParameters);
+            List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
+            foreach (ArticleSummaryDto articleSummaryDto in articleSummaryDtos)
+            {
+                articleSummaryDto.CommentCount = await _commentRepository.GetCountAsync(articleSummaryDto.Id);
+                articleSummaryDto.LikeCount = await _articleRepository.GetLikeCountAsync(articleSummaryDto.Id);
+            }
+            var pagedResponse = _mapper.Map<PagedResponse<ArticleSummaryDto>>(articles);
+            pagedResponse.Items = articleSummaryDtos;
+            return pagedResponse;
         }
 
         public async Task<ArticleDetailDto> GetArticleByIdAsync(int articleId)

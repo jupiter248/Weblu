@@ -9,7 +9,7 @@ namespace Weblu.Application.Parameters
 {
     public class CommentParameters : BaseParameters
     {
-        public int? ArticleId { get; set; }
+        public required int ArticleId { get; set; }
         public string? UserId { get; set; }
         public int? ParentCommentId { get; set; }
     }

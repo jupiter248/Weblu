@@ -1,28 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
-using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Dtos.ServiceDtos;
 using Weblu.Application.Dtos.ServiceDtos.ServiceImageDtos;
 using Weblu.Application.Exceptions;
-using Weblu.Application.Interfaces.Services;
-using Weblu.Domain.Entities;
-using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Services;
-using Weblu.Domain.Errors.Features;
-using Weblu.Domain.Errors.Images;
-using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Errors.Services;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
-using Weblu.Domain.Entities.Methods;
-using Weblu.Domain.Entities.Common;
-using AutoMapper.QueryableExtensions;
-using Weblu.Domain.Entities.Features;
 using Weblu.Application.Interfaces.Services.ServiceServices;
+using Weblu.Application.Common.Responses;
+using Weblu.Application.Common.Pagination;
 
 namespace Weblu.Application.Services
 {
@@ -63,6 +50,16 @@ namespace Weblu.Application.Services
             _serviceRepository.Delete(service);
             await _unitOfWork.CommitAsync();
         }
+
+        public async Task<PagedResponse<ServiceSummaryDto>> GetAllPagedServiceAsync(ServiceParameters serviceParameters)
+        {
+            PagedList<Service> services = await _serviceRepository.GetAllAsync(serviceParameters);
+            List<ServiceSummaryDto> serviceSummaryDtos = _mapper.Map<List<ServiceSummaryDto>>(services);
+            var pagedResponse = _mapper.Map<PagedResponse<ServiceSummaryDto>>(services);
+            pagedResponse.Items = serviceSummaryDtos;
+            return pagedResponse;
+        }
+
         public async Task<List<ServiceSummaryDto>> GetAllServicesAsync(ServiceParameters serviceParameters)
         {
             IReadOnlyList<Service> services = await _serviceRepository.GetAllAsync(serviceParameters);

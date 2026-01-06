@@ -12,6 +12,8 @@ using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -20,7 +22,7 @@ namespace Weblu.Infrastructure.Repositories
         public ProfileImageRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public override async Task<IReadOnlyList<ProfileMedia>> GetAllAsync(ProfileMediaParameters profileMediaParameters)
+        public override async Task<PagedList<ProfileMedia>> GetAllAsync(ProfileMediaParameters profileMediaParameters)
         {
             IQueryable<ProfileMedia> profiles = _context.ProfileMedia.AsNoTracking();
             if (profileMediaParameters.CreatedDateSort != CreatedDateSort.All)
@@ -28,8 +30,7 @@ namespace Weblu.Infrastructure.Repositories
                 profiles = new ProfileMediaQueryHandler(new AddedDateSortStrategy())
                 .ExecuteProfileQuery(profiles, profileMediaParameters);
             }
-
-            return await profiles.ToListAsync();
+            return await PaginationExtensions<ProfileMedia>.GetPagedList(profiles, profileMediaParameters.PageNumber, profileMediaParameters.PageSize);
         }
         public async Task<bool> UserHasMainProfileAsync(string userId)
         {

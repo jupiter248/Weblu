@@ -7,6 +7,7 @@ using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Common.Pagination;
 using Weblu.Application.Common.Parameters;
 using Weblu.Domain.Entities.Common;
+using Weblu.Infrastructure.Common.Pagination;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Common.Repositories
@@ -37,11 +38,11 @@ namespace Weblu.Infrastructure.Common.Repositories
             return entity;
         }
 
-        public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(TEntityParameters entityParameters)
+        public virtual async Task<PagedList<TEntity>> GetAllAsync(TEntityParameters entityParameters)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking();
 
-            return await PagedList<TEntity>.GetPagedList(query, entityParameters.PageNumber, entityParameters.PageSize);
+            return await PaginationExtensions<TEntity>.GetPagedList(query, entityParameters.PageNumber, entityParameters.PageSize);
             ;
         }
 

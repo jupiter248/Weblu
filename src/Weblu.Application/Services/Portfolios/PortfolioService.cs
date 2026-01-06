@@ -1,26 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 using AutoMapper;
-using Weblu.Application.Dtos.ImageDtos;
+using Weblu.Application.Common.Pagination;
+using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.PortfolioDtos;
 using Weblu.Application.Dtos.PortfolioDtos.PortfolioImageDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Parameters;
-using Weblu.Domain.Entities.Contributors;
-using Weblu.Domain.Entities.Features;
-using Weblu.Domain.Entities.Media;
-using Weblu.Domain.Entities.Methods;
 using Weblu.Domain.Entities.Portfolios;
-using Weblu.Domain.Errors.Contributors;
-using Weblu.Domain.Errors.Features;
-using Weblu.Domain.Errors.Images;
-using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Errors.PortfolioCategory;
 using Weblu.Domain.Errors.Portfolios;
 
@@ -73,6 +60,14 @@ namespace Weblu.Application.Services
             IReadOnlyList<Portfolio> portfolios = await _portfolioRepository.GetAllAsync(portfolioParameters);
             List<PortfolioSummaryDto> portfolioSummaryDtos = _mapper.Map<List<PortfolioSummaryDto>>(portfolios);
             return portfolioSummaryDtos;
+        }
+        public async Task<PagedResponse<PortfolioSummaryDto>> GetAllPagedPortfolioAsync(PortfolioParameters portfolioParameters)
+        {
+            PagedList<Portfolio> portfolios = await _portfolioRepository.GetAllAsync(portfolioParameters);
+            List<PortfolioSummaryDto> portfolioSummaryDtos = _mapper.Map<List<PortfolioSummaryDto>>(portfolios);
+            var pagedResponse = _mapper.Map<PagedResponse<PortfolioSummaryDto>>(portfolios);
+            pagedResponse.Items = portfolioSummaryDtos;
+            return pagedResponse;
         }
 
         public async Task<PortfolioDetailDto> GetPortfolioByIdAsync(int portfolioId)

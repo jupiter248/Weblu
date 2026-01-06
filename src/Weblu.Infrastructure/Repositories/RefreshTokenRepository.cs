@@ -13,6 +13,7 @@ using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Token;
 using Weblu.Infrastructure.Common.Repositories;
 using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -21,7 +22,7 @@ namespace Weblu.Infrastructure.Repositories
         public RefreshTokenRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public override async Task<IReadOnlyList<RefreshToken>> GetAllAsync(RefreshTokenParameters refreshTokenParameters)
+        public override async Task<PagedList<RefreshToken>> GetAllAsync(RefreshTokenParameters refreshTokenParameters)
         {
             IQueryable<RefreshToken> refreshTokens = _context.RefreshTokens.AsNoTracking();
             if (!string.IsNullOrEmpty(refreshTokenParameters.FilterByUserId))
@@ -45,7 +46,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteRefreshTokenQuery(refreshTokens, refreshTokenParameters);
             }
 
-            return await PagedList<RefreshToken>.GetPagedList(refreshTokens, refreshTokenParameters.PageNumber, refreshTokenParameters.PageSize);
+            return await PaginationExtensions<RefreshToken>.GetPagedList(refreshTokens, refreshTokenParameters.PageNumber, refreshTokenParameters.PageSize);
 
         }
 

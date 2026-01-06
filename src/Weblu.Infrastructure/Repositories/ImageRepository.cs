@@ -12,6 +12,7 @@ using Weblu.Infrastructure.Data;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Common.Repositories;
 using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -21,7 +22,7 @@ namespace Weblu.Infrastructure.Repositories
         {
         }
 
-        public override async Task<IReadOnlyList<ImageMedia>> GetAllAsync(ImageParameters imageParameters)
+        public override async Task<PagedList<ImageMedia>> GetAllAsync(ImageParameters imageParameters)
         {
             IQueryable<ImageMedia> imageMedia = _context.ImageMedia.AsNoTracking();
 
@@ -31,7 +32,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteImageQuery(imageMedia, imageParameters);
             }
 
-            return await PagedList<ImageMedia>.GetPagedList(imageMedia, imageParameters.PageNumber, imageParameters.PageSize);
+            return await PaginationExtensions<ImageMedia>.GetPagedList(imageMedia, imageParameters.PageNumber, imageParameters.PageSize);
         }
     }
 }

@@ -13,6 +13,7 @@ using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Domain.Enums.Services.Parameters;
 using Weblu.Infrastructure.Common.Repositories;
 using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -22,7 +23,7 @@ namespace Weblu.Infrastructure.Repositories
         {
         }
 
-        public override async Task<IReadOnlyList<Service>> GetAllAsync(ServiceParameters serviceParameters)
+        public override async Task<PagedList<Service>> GetAllAsync(ServiceParameters serviceParameters)
         {
             IQueryable<Service> services = _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).AsNoTracking();
             if (serviceParameters.PriceSort != PriceSort.All)
@@ -41,7 +42,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteServiceQuery(services, serviceParameters);
             }
 
-            return await PagedList<Service>.GetPagedList(services, serviceParameters.PageNumber, serviceParameters.PageSize);
+            return await PaginationExtensions<Service>.GetPagedList(services, serviceParameters.PageNumber, serviceParameters.PageSize);
 
         }
 

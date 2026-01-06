@@ -11,6 +11,7 @@ using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
 using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -19,7 +20,7 @@ namespace Weblu.Infrastructure.Repositories
         public AboutUsRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public override async Task<IReadOnlyList<AboutUs>> GetAllAsync(AboutUsParameters aboutUsParameters)
+        public override async Task<PagedList<AboutUs>> GetAllAsync(AboutUsParameters aboutUsParameters)
         {
             IQueryable<AboutUs> aboutUs = _context.AboutUs.AsNoTracking();
 
@@ -29,7 +30,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteAboutUsQuery(aboutUs, aboutUsParameters);
             }
 
-            return await PagedList<AboutUs>.GetPagedList(aboutUs, aboutUsParameters.PageNumber, aboutUsParameters.PageSize);
+            return await PaginationExtensions<AboutUs>.GetPagedList(aboutUs, aboutUsParameters.PageNumber, aboutUsParameters.PageSize);
 
         }
     }

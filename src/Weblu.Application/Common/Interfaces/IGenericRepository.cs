@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weblu.Application.Common.Pagination;
 using Weblu.Domain.Entities.Common;
 
 namespace Weblu.Application.Common.Interfaces
@@ -10,7 +11,7 @@ namespace Weblu.Application.Common.Interfaces
      where TEntity : BaseEntity
      where TEntityParameters : class
     {
-        Task<IReadOnlyList<TEntity>> GetAllAsync(TEntityParameters entityParameters);
+        Task<PagedList<TEntity>> GetAllAsync(TEntityParameters entityParameters);
         Task<TEntity?> GetByIdAsync(int id);
         Task<bool> ExistsAsync(int id);
         void Add(TEntity entity);
