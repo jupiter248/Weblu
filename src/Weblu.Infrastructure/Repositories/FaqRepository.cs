@@ -9,16 +9,19 @@ using Weblu.Application.Strategies.Faqs;
 using Weblu.Domain.Entities.Faqs;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    internal class FaqRepository : GenericRepository<Faq , FaqParameters>, IFaqRepository
+    internal class FaqRepository : GenericRepository<Faq, FaqParameters>, IFaqRepository
     {
         public FaqRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public override async Task<IReadOnlyList<Faq>> GetAllAsync(FaqParameters faqParameters)
+        public override async Task<PagedList<Faq>> GetAllAsync(FaqParameters faqParameters)
         {
             IQueryable<Faq> faqs = _context.Faqs.Include(c => c.Category).AsNoTracking();
 
@@ -28,7 +31,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteFaqQuery(faqs, faqParameters);
             }
 
-            return await faqs.ToListAsync();
+            return await PaginationExtensions<Faq>.GetPagedList(faqs, faqParameters.PageNumber, faqParameters.PageSize);
         }
 
         public override async Task<Faq?> GetByIdAsync(int faqId)

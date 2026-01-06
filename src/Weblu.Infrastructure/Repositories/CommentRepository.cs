@@ -10,6 +10,9 @@ using Weblu.Application.Strategies.Comments;
 using Weblu.Domain.Entities.Common;
 using Weblu.Infrastructure.Data;
 using Weblu.Domain.Entities.Comments;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -19,18 +22,15 @@ namespace Weblu.Infrastructure.Repositories
         {
         }
 
-        public override async Task<IReadOnlyList<Comment>> GetAllAsync(CommentParameters commentParameters)
+        public override async Task<PagedList<Comment>> GetAllAsync(CommentParameters commentParameters)
         {
             IQueryable<Comment> comments = _context.Comments.AsNoTracking();
+            comments = new CommentQueryHandler(new FilterByArticleIdStrategy())
+            .ExecuteCommentQuery(comments, commentParameters);
 
             if (commentParameters.CreatedDateSort != CreatedDateSort.All)
             {
                 comments = new CommentQueryHandler(new CreatedDateSortStrategy())
-                .ExecuteCommentQuery(comments, commentParameters);
-            }
-            if (commentParameters.ArticleId.HasValue)
-            {
-                comments = new CommentQueryHandler(new FilterByArticleIdStrategy())
                 .ExecuteCommentQuery(comments, commentParameters);
             }
             if (!string.IsNullOrEmpty(commentParameters.UserId))
@@ -44,7 +44,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteCommentQuery(comments, commentParameters);
             }
 
-            return await comments.ToListAsync();
+            return await PaginationExtensions<Comment>.GetPagedList(comments, commentParameters.PageNumber, commentParameters.PageSize);
         }
 
         public async Task<int> GetCountAsync(int articleId)

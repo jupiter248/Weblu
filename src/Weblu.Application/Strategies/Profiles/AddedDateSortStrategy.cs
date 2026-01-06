@@ -13,11 +13,11 @@ namespace Weblu.Application.Strategies.Profiles
     {
         public IQueryable<ProfileMedia> Query(IQueryable<ProfileMedia> profiles, ProfileMediaParameters profileMediaParameters)
         {
-            if (profileMediaParameters.AddedDateSort == CreatedDateSort.Newest)
+            if (profileMediaParameters.CreatedDateSort == CreatedDateSort.Newest)
             {
                 return profiles.OrderByDescending(s => s.AddedAt);
             }
-            else if (profileMediaParameters.AddedDateSort == CreatedDateSort.Oldest)
+            else if (profileMediaParameters.CreatedDateSort == CreatedDateSort.Oldest)
             {
                 return profiles.OrderBy(s => s.AddedAt);
             }

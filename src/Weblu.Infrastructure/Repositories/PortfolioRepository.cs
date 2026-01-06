@@ -10,6 +10,9 @@ using Weblu.Domain.Entities.Contributors;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -18,7 +21,7 @@ namespace Weblu.Infrastructure.Repositories
         public PortfolioRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public override async Task<IReadOnlyList<Portfolio>> GetAllAsync(PortfolioParameters portfolioParameters)
+        public override async Task<PagedList<Portfolio>> GetAllAsync(PortfolioParameters portfolioParameters)
         {
             IQueryable<Portfolio> portfolios = _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages.Where(im => im.IsThumbnail)).ThenInclude(i => i.ImageMedia).AsNoTracking();
 
@@ -38,7 +41,8 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecutePortfolioQuery(portfolios, portfolioParameters);
             }
 
-            return await portfolios.ToListAsync();
+            return await PaginationExtensions<Portfolio>.GetPagedList(portfolios, portfolioParameters.PageNumber, portfolioParameters.PageSize);
+
         }
 
         public override async Task<Portfolio?> GetByIdAsync(int portfolioId)

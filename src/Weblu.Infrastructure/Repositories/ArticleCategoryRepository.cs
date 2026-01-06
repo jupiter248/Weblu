@@ -8,6 +8,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Articles;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Common.Repositories;
 
 namespace Weblu.Infrastructure.Repositories
 {

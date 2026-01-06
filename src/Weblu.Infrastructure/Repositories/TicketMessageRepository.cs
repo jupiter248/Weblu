@@ -7,10 +7,13 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Tickets;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    internal class TicketMessageRepository :GenericRepository<TicketMessage, TicketMessageParameters>, ITicketMessageRepository
+    internal class TicketMessageRepository : GenericRepository<TicketMessage, TicketMessageParameters>, ITicketMessageRepository
     {
         public TicketMessageRepository(ApplicationDbContext context) : base(context)
         {
@@ -21,7 +24,7 @@ namespace Weblu.Infrastructure.Repositories
         {
             IQueryable<TicketMessage> ticketMessages = _context.TicketMessages.Where(t => t.TicketId == ticketId);
 
-            return await ticketMessages.ToListAsync();
+            return await PaginationExtensions<TicketMessage>.GetPagedList(ticketMessages, ticketMessageParameters.PageNumber, ticketMessageParameters.PageSize);
         }
 
     }

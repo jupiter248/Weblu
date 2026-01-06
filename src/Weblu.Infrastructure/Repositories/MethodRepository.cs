@@ -12,6 +12,9 @@ using Weblu.Infrastructure.Data;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Methods;
 using Weblu.Domain.Enums.Common.Parameters;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -20,7 +23,7 @@ namespace Weblu.Infrastructure.Repositories
         public MethodRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public override async Task<IReadOnlyList<Method>> GetAllAsync(MethodParameters methodParameters)
+        public override async Task<PagedList<Method>> GetAllAsync(MethodParameters methodParameters)
         {
             IQueryable<Method> methods = _context.Methods.AsNoTracking();
 
@@ -39,7 +42,7 @@ namespace Weblu.Infrastructure.Repositories
                 methods = new MethodQueryHandler(new FilterByPortfolioIdStrategy())
                 .ExecuteMethodQuery(methods.Include(p => p.Portfolios), methodParameters);
             }
-            return await methods.ToListAsync();
+            return await PaginationExtensions<Method>.GetPagedList(methods, methodParameters.PageNumber, methodParameters.PageSize);
 
         }
     }

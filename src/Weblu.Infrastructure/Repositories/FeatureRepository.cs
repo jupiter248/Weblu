@@ -15,6 +15,10 @@ using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Domain.Entities.Features;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
+
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -23,7 +27,7 @@ namespace Weblu.Infrastructure.Repositories
         public FeatureRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public override async Task<IReadOnlyList<Feature>> GetAllAsync(FeatureParameters featureParameters)
+        public override async Task<PagedList<Feature>> GetAllAsync(FeatureParameters featureParameters)
         {
             IQueryable<Feature> features = _context.Features.AsNoTracking().AsQueryable();
             if (featureParameters.CreatedDateSort != CreatedDateSort.All)
@@ -42,7 +46,7 @@ namespace Weblu.Infrastructure.Repositories
                 .ExecuteFeatureQuery(features.Include(p => p.Portfolios), featureParameters);
             }
 
-            return await features.ToListAsync();
+            return await PaginationExtensions<Feature>.GetPagedList(features, featureParameters.PageNumber, featureParameters.PageSize);
         }
     }
 }

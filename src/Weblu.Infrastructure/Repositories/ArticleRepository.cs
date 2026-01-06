@@ -10,6 +10,9 @@ using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Enums.Articles.Parameters;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
+using Weblu.Infrastructure.Common.Repositories;
+using Weblu.Application.Common.Pagination;
+using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -20,7 +23,7 @@ namespace Weblu.Infrastructure.Repositories
         {
         }
 
-        public override async Task<IReadOnlyList<Article>> GetAllAsync(ArticleParameters articleParameters)
+        public override async Task<PagedList<Article>> GetAllAsync(ArticleParameters articleParameters)
         {
             IQueryable<Article> articles = _context.Articles.Include(a => a.ArticleImages.Where(i => i.IsThumbnail)).ThenInclude(i => i.Image).AsNoTracking();
 
@@ -54,8 +57,9 @@ namespace Weblu.Infrastructure.Repositories
                 articles = new ArticleQueryHandler(new CommentCountSortStrategy())
                 .ExecuteArticleQuery(articles.Include(c => c.Comments), articleParameters);
             }
+            var pagedList = await PaginationExtensions<Article>.GetPagedList(articles, articleParameters.PageNumber, articleParameters.PageSize);
+            return pagedList;
 
-            return await articles.ToListAsync();
         }
 
         public override async Task<Article?> GetByIdAsync(int articleId)

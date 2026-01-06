@@ -14,11 +14,11 @@ namespace Weblu.Application.Strategies.Images
     {
         public IQueryable<ImageMedia> Query(IQueryable<ImageMedia> images, ImageParameters imageParameters)
         {
-            if (imageParameters.AddedDateSort == CreatedDateSort.Newest)
+            if (imageParameters.CreatedDateSort == CreatedDateSort.Newest)
             {
                 return images.OrderByDescending(s => s.AddedAt);
             }
-            else if (imageParameters.AddedDateSort == CreatedDateSort.Oldest)
+            else if (imageParameters.CreatedDateSort == CreatedDateSort.Oldest)
             {
                 return images.OrderBy(s => s.AddedAt);
             }

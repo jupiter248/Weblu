@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
+using Weblu.Application.Common.Pagination;
+using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.CommentDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
@@ -10,7 +8,6 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Entities.Comments;
-using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Errors.Articles;
 using Weblu.Domain.Errors.Comments;
 using Weblu.Domain.Errors.Users;
@@ -40,11 +37,14 @@ namespace Weblu.Application.Services
             Comment comment = _mapper.Map<Comment>(addCommentDto);
             Article article = await _articleRepository.GetByIdAsync(addCommentDto.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             CommentUserDto commentUserDto = await _userRepository.GetUserForCommentAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-
-            if (!article.Comments.Any(c => c.Id == addCommentDto.ParentCommentId))
+            if (addCommentDto.ParentCommentId.HasValue)
             {
-                throw new NotFoundException(CommentErrorCodes.NotFound);
+                if (!article.Comments.Any(c => c.Id == addCommentDto.ParentCommentId))
+                {
+                    throw new NotFoundException(CommentErrorCodes.NotFound);
+                }
             }
+
 
             comment.Article = article;
             comment.UserId = commentUserDto.UserId;
@@ -92,6 +92,26 @@ namespace Weblu.Application.Services
                 }
             }
             return commentDtos;
+        }
+
+        public async Task<PagedResponse<CommentDto>> GetAllPagedCommentsAsync(CommentParameters commentParameters)
+        {
+            PagedList<Comment> comments = await _commentRepository.GetAllAsync(commentParameters);
+            List<CommentDto> commentDtos = _mapper.Map<List<CommentDto>>(comments);
+            foreach (Comment comment in comments)
+            {
+                foreach (CommentDto commentDto in commentDtos)
+                {
+                    if (commentDto.Id == comment.Id)
+                    {
+                        commentDto.User = await _userRepository.GetUserForCommentAsync(comment.UserId) ?? default!;
+                        break;
+                    }
+                }
+            }
+            var pagedResponse = _mapper.Map<PagedResponse<CommentDto>>(comments);
+            pagedResponse.Items = commentDtos;
+            return pagedResponse;
         }
 
         public async Task<CommentDto> GetCommentByIdAsync(int commentId)
