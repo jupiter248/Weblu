@@ -17,15 +17,14 @@ namespace Weblu.Application.Mappers
         public ArticleProfile()
         {
             CreateMap<Article, ArticleSummaryDto>()
-                    .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.ArticleImages.FirstOrDefault(i => i.IsThumbnail).Image.Url ?? string.Empty))
-                    .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.ArticleLikes.Count));
+                    .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.ArticleImages.FirstOrDefault(i => i.IsThumbnail).Image.Url ?? string.Empty));
 
             CreateMap<Article, ArticleDetailDto>()
                     .ForMember(dest => dest.PublishedAt, opt => opt.MapFrom(src => src.PublishedAt.HasValue ? src.PublishedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
-                    .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name ?? string.Empty))
-                    .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.ArticleLikes.Count));
+                    .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name ?? string.Empty));
+
 
 
             CreateMap<AddArticleDto, Article>()

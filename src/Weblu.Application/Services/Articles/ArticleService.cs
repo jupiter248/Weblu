@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Weblu.Application.Common.Pagination;
 using Weblu.Application.Common.Responses;
@@ -64,11 +60,22 @@ namespace Weblu.Application.Services.Articles
         public async Task<List<ArticleSummaryDto>> GetAllArticlesAsync(ArticleParameters articleParameters)
         {
             IReadOnlyList<Article> articles = await _articleRepository.GetAllAsync(articleParameters);
+            var articleIds = articles.Select(a => a.Id).ToList();
+            var commentCounts = await _commentRepository.GetCountByIdsAsync(articleIds);
+            var likesCounts = await _articleRepository.GetLikeCountByIdsAsync(articleIds);
+
             List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
-            foreach (ArticleSummaryDto articleSummaryDto in articleSummaryDtos)
+            foreach (var dto in articleSummaryDtos)
             {
-                articleSummaryDto.CommentCount = await _commentRepository.GetCountAsync(articleSummaryDto.Id);
-                articleSummaryDto.LikeCount = await _articleRepository.GetLikeCountAsync(articleSummaryDto.Id);
+                dto.CommentCount = commentCounts.TryGetValue(dto.Id, out var count)
+                    ? count
+                    : 0;
+            }
+            foreach (var dto in articleSummaryDtos)
+            {
+                dto.LikeCount = likesCounts.TryGetValue(dto.Id, out var count)
+                    ? count
+                    : 0;
             }
             return articleSummaryDtos;
         }
@@ -76,11 +83,22 @@ namespace Weblu.Application.Services.Articles
         public async Task<PagedResponse<ArticleSummaryDto>> GetAllPagedArticlesAsync(ArticleParameters articleParameters)
         {
             PagedList<Article> articles = await _articleRepository.GetAllAsync(articleParameters);
+            var articleIds = articles.Select(a => a.Id).ToList();
+            var commentCounts = await _commentRepository.GetCountByIdsAsync(articleIds);
+            var likesCounts = await _articleRepository.GetLikeCountByIdsAsync(articleIds);
+
             List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
-            foreach (ArticleSummaryDto articleSummaryDto in articleSummaryDtos)
+            foreach (var dto in articleSummaryDtos)
             {
-                articleSummaryDto.CommentCount = await _commentRepository.GetCountAsync(articleSummaryDto.Id);
-                articleSummaryDto.LikeCount = await _articleRepository.GetLikeCountAsync(articleSummaryDto.Id);
+                dto.CommentCount = commentCounts.TryGetValue(dto.Id, out var count)
+                    ? count
+                    : 0;
+            }
+            foreach (var dto in articleSummaryDtos)
+            {
+                dto.LikeCount = likesCounts.TryGetValue(dto.Id, out var count)
+                    ? count
+                    : 0;
             }
             var pagedResponse = _mapper.Map<PagedResponse<ArticleSummaryDto>>(articles);
             pagedResponse.Items = articleSummaryDtos;

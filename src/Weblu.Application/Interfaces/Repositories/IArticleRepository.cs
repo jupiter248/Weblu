@@ -8,6 +8,7 @@ namespace Weblu.Application.Interfaces.Repositories
     public interface IArticleRepository : IGenericRepository<Article, ArticleParameters>
     {
         Task<int> GetLikeCountAsync(int articleId);
+        Task<Dictionary<int, int>> GetLikeCountByIdsAsync(List<int> ids);
         Task LoadContributorsAsync(Article article);
         Task LoadTagsAsync(Article article);
         Task LoadLikesAsync(Article article);

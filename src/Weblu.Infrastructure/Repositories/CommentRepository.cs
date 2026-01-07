@@ -13,6 +13,7 @@ using Weblu.Domain.Entities.Comments;
 using Weblu.Infrastructure.Common.Repositories;
 using Weblu.Application.Common.Pagination;
 using Weblu.Infrastructure.Common.Pagination;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Weblu.Infrastructure.Repositories
 {
@@ -51,6 +52,17 @@ namespace Weblu.Infrastructure.Repositories
         {
             int count = await _context.Comments.CountAsync(c => c.ArticleId == articleId);
             return count;
+        }
+
+        public async Task<Dictionary<int, int>> GetCountByIdsAsync(List<int> articleIds)
+        {
+            return await _context.Comments.Where(c => articleIds.Contains(c.ArticleId)).GroupBy(c => c.ArticleId)
+            .Select(c => new
+            {
+                ArticleId = c.Key,
+                Count = c.Count()
+            })
+            .ToDictionaryAsync(x => x.ArticleId, x => x.Count);
         }
     }
 }

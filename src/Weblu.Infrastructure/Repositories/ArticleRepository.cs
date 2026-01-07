@@ -94,5 +94,16 @@ namespace Weblu.Infrastructure.Repositories
         {
             await _context.Entry(article).Collection(c => c.Tags).LoadAsync();
         }
+
+        public async Task<Dictionary<int, int>> GetLikeCountByIdsAsync(List<int> ids)
+        {
+            return await _context.ArticleLikes.Where(l => ids.Contains(l.Id)).GroupBy(l => l.Id)
+            .Select(l => new
+            {
+                ArticleId = l.Key,
+                Count = l.Count(),
+            })
+            .ToDictionaryAsync(x => x.ArticleId, x => x.Count);
+        }
     }
 }
