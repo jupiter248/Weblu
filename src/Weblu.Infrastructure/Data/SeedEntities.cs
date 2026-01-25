@@ -1,14 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Weblu.Application.Common.Models;
-using Weblu.Domain.Enums.Users;
-using Weblu.Infrastructure.Identity;
+using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
 
 namespace Weblu.Infrastructure.Data
@@ -17,116 +10,119 @@ namespace Weblu.Infrastructure.Data
     {
         public static async Task SeedUserAndAdminAsync(ApplicationDbContext _context)
         {
+            string[] roles = { Roles.HeadAdmin, Roles.Admin, Roles.Editor, Roles.User };
             //Add a user and an admin
-            if (!_context.Users.Any(u => u.NormalizedUserName == "ADMIN"))
+            foreach (string item in roles)
             {
-                AppUser admin = new AppUser()
+                if (!_context.Users.Any(u => u.NormalizedUserName == item.ToUpper()))
                 {
-                    UserName = "admin",
-                    Email = "mmazimifar7@gmail.com",
-                    FirstName = "Admin",
-                    LastName = "Admin",
-                    PhoneNumber = "989031883414"
-                };
+                    AppUser user = new AppUser()
+                    {
+                        UserName = item,
+                        Email = "mmazimifar7@gmail.com",
+                        FirstName = item,
+                        LastName = item,
+                        PhoneNumber = "989031883414"
+                    };
+                    var hasher = new PasswordHasher<AppUser>();
 
-                var hasher = new PasswordHasher<AppUser>();
+                    user.PasswordHash = hasher.HashPassword(user, $"@{item}248");
+                    user.NormalizedUserName = user.UserName.ToUpper();
+                    user.NormalizedEmail = user.Email.ToUpper();
 
-                admin.PasswordHash = hasher.HashPassword(admin, "@Admin248");
+                    IdentityRole role = await _context.Roles.FirstOrDefaultAsync(r => r.NormalizedName == user.UserName.ToUpper()) ?? default!;
+                    IdentityUserRole<string> userRole = new IdentityUserRole<string>();
+                    userRole.RoleId = role.Id;
+                    userRole.UserId = user.Id;
 
-                admin.NormalizedUserName = admin.UserName.ToUpper();
-                admin.NormalizedEmail = admin.Email.ToUpper();
-
-
-                IdentityRole role = await _context.Roles.FirstOrDefaultAsync(r => r.NormalizedName == admin.UserName.ToUpper()) ?? default!;
-
-                IdentityUserRole<string> userRole = new IdentityUserRole<string>();
-                userRole.RoleId = role.Id;
-                userRole.UserId = admin.Id;
-
-                _context.UserRoles.Add(userRole);
-                _context.Users.Add(admin);
-            }
-            if (!_context.Users.Any(u => u.NormalizedUserName == "ADMIN"))
-            {
-                AppUser user = new AppUser()
-                {
-                    UserName = "user",
-                    Email = "mmazimifar7@gmail.com",
-                    FirstName = "User",
-                    LastName = "User",
-                    PhoneNumber = "989031883414"
-                };
-
-                var hasher = new PasswordHasher<AppUser>();
-
-                user.PasswordHash = hasher.HashPassword(user, "@User248");
-                user.NormalizedUserName = user.UserName.ToUpper();
-                user.NormalizedEmail = user.Email.ToUpper();
-
-                IdentityRole role = await _context.Roles.FirstOrDefaultAsync(r => r.NormalizedName == user.UserName.ToUpper()) ?? default!;
-
-                IdentityUserRole<string> userRole = new IdentityUserRole<string>();
-                userRole.RoleId = role.Id;
-                userRole.UserId = user.Id;
-
-                _context.UserRoles.Add(userRole);
-                _context.Users.Add(user);
-
+                    _context.UserRoles.Add(userRole);
+                    _context.Users.Add(user);
+                }
             }
             await _context.SaveChangesAsync();
         }
         public static async Task SeedRolesWithClaimsAsync(ApplicationDbContext _context)
         {
-
-            var rolesWithClaims = new Dictionary<string, List<string>>
+            const string PermissionClaimType = "Permission";
+            var rolesWithClaims = new Dictionary<string, string[]>
             {
-                ["Head-Admin"] = new List<string>
-                {
+                [Roles.HeadAdmin] =
+                [
+                    Permissions.ManageAdmins,
                     Permissions.ManageUsers,
-                    Permissions.ViewDashboard,
-                    Permissions.AddAdmin
-                },
-                ["Admin"] = new List<string>
-                {
+                    Permissions.ManageComments,
+                    Permissions.ManageService,
+                    Permissions.ManagePortfolio,
+                    Permissions.ManageArticle,
+                    Permissions.ViewService,
+                    Permissions.ViewPortfolio,
+                    Permissions.ViewArticle,
+
+                ],
+                [Roles.Admin] =
+                [
                     Permissions.ManageUsers,
-                    Permissions.ViewDashboard
-                },
-                ["User"] = new List<string>
-                {
-                    Permissions.ViewDashboard
-                }
+                    Permissions.ManageComments,
+                    Permissions.ManageService,
+                    Permissions.ManagePortfolio,
+                    Permissions.ManageArticle,
+                    Permissions.ViewService,
+                    Permissions.ViewPortfolio,
+                    Permissions.ViewArticle,
+                ],
+                [Roles.Editor] =
+                [
+                    Permissions.ManageService,
+                    Permissions.ManagePortfolio,
+                    Permissions.ManageArticle,
+                    Permissions.ViewService,
+                    Permissions.ViewPortfolio,
+                    Permissions.ViewArticle,
+                ],
+                [Roles.User] =
+                [
+                    Permissions.ViewService,
+                    Permissions.ViewPortfolio,
+                    Permissions.ViewArticle,
+                ]
             };
 
-            foreach (var roleEntry in rolesWithClaims)
+            foreach (var (roleName, permissions) in rolesWithClaims)
             {
-                string roleName = roleEntry.Key;
-                var claims = roleEntry.Value;
+                // Get or create role
+                var role = await _context.Roles
+                    .FirstOrDefaultAsync(r => r.Name == roleName);
 
-                // Create role if it doesn't exist
-                if (!_context.Roles.Any(x => x.Name == roleName))
+                if (role is null)
                 {
-                    IdentityRole role = new IdentityRole() ?? default!;
-                    role.Name = roleName;
-                    role.NormalizedName = role.Name.ToUpper();
+                    role = new IdentityRole
+                    {
+                        Name = roleName,
+                        NormalizedName = roleName.ToUpperInvariant()
+                    };
 
                     _context.Roles.Add(role);
-
-                    // Add missing claims to role
-
-                    var existingClaims = await _context.RoleClaims.ToListAsync();
-                    foreach (var claimValue in claims)
-                    {
-                        if (!existingClaims.Any(c => c.ClaimType == "permission" && c.ClaimValue == claimValue))
-                        {
-                            var claim = new IdentityRoleClaim<string>();
-                            claim.ClaimValue = claimValue;
-                            claim.ClaimType = claim.ClaimType;
-                            claim.RoleId = role.Id;
-                            _context.RoleClaims.Add(claim);
-                        }
-                    }
+                    await _context.SaveChangesAsync();
                 }
-                await _context.SaveChangesAsync();
+
+                // Get existing claims for this role
+                var existingClaims = await _context.RoleClaims
+                    .Where(c => c.RoleId == role.Id && c.ClaimType == PermissionClaimType)
+                    .Select(c => c.ClaimValue)
+                    .ToListAsync();
+
+                // Add missing claims
+                var missingClaims = permissions.Except(existingClaims);
+
+                foreach (var permission in missingClaims)
+                {
+                    _context.RoleClaims.Add(new IdentityRoleClaim<string>
+                    {
+                        RoleId = role.Id,
+                        ClaimType = PermissionClaimType,
+                        ClaimValue = permission
+                    });
+                }
             }
         }
     }
