@@ -18,7 +18,7 @@ namespace Weblu.Infrastructure.Data
                 {
                     AppUser user = new AppUser()
                     {
-                        UserName = item,
+                        UserName = item.ToLower(),
                         Email = "mmazimifar7@gmail.com",
                         FirstName = item,
                         LastName = item,

@@ -110,7 +110,10 @@ namespace Weblu.Infrastructure.Identity.Services
             {
                 roleAdded = await _userManager.AddToRoleAsync(newUser, UserType.User.ToString());
             }
-
+            else if (userType == UserType.Editor)
+            {
+                roleAdded = await _userManager.AddToRoleAsync(newUser, UserType.Editor.ToString());
+            }
             if (!roleAdded.Succeeded)
             {
                 throw new UnauthorizedException(AuthErrorCodes.RoleAddingFailed);
