@@ -4,6 +4,7 @@ namespace Weblu.Domain.Enums.Users
     {
         HeadAdmin,
         Admin,
+        Editor,
         User
     }
 }

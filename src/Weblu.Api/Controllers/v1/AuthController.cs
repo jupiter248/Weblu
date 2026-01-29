@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Weblu.Application.Common.Responses;
@@ -7,6 +8,7 @@ using Weblu.Application.Services.Interfaces;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Auth;
 using Weblu.Domain.Enums.Users;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -21,8 +23,32 @@ namespace Weblu.Api.Controllers.v1
         {
             _authService = authService;
         }
+        [Authorize(Policy = Permissions.ManageAdmins)]
+        [HttpPost("register-admin")]
+        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterDto registerDto)
+        {
+            Validator.ValidateAndThrow(registerDto, new RegisterValidator());
+            AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto, UserType.Admin);
+            return Ok(ApiResponse<AuthResponseDto>.Success
+            (
+                "User created successfully.",
+                authResponseDto
+            ));
+        }
+        [Authorize(Policy = Permissions.ManageAdmins)]
+        [HttpPost("register-editor")]
+        public async Task<IActionResult> RegisterEditor([FromBody] RegisterDto registerDto)
+        {
+            Validator.ValidateAndThrow(registerDto, new RegisterValidator());
+            AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto, UserType.Editor);
+            return Ok(ApiResponse<AuthResponseDto>.Success
+            (
+                "User created successfully.",
+                authResponseDto
+            ));
+        }
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterDto registerDto)
         {
             Validator.ValidateAndThrow(registerDto, new RegisterValidator());
             AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto, UserType.User);

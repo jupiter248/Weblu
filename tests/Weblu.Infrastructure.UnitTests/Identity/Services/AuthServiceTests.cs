@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Dtos.AuthDtos;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Domain.Entities.Users;
 using Weblu.Domain.Enums.Users;
+using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Identity.Services;
 using Weblu.Infrastructure.Token;
-using Xunit;
 
 namespace Weblu.Infrastructure.UnitTests.Identity.Services
 {
@@ -25,6 +20,7 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IJwtTokenService _jwtTokenService;
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
 
         public AuthServiceTests()
         {
@@ -34,6 +30,7 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             _signInManager = A.Fake<SignInManager<AppUser>>();
             _refreshTokenRepository = A.Fake<IRefreshTokenRepository>();
             _userRepository = A.Fake<IUserRepository>();
+            _roleRepository = A.Fake<IRoleRepository>();
         }
         [Fact]
         public async Task AuthService_LoginAsync_ReturnAuthResponseDto()
@@ -52,14 +49,17 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
                 UserName = "testusername",
             };
             List<string> roles = new List<string>() { "User" };
+            List<string> permissions = new List<string>() { Permissions.ManageComments };
             A.CallTo(() => _userManager.FindByNameAsync(loginDto.Username.ToLowerInvariant())).Returns(user);
             A.CallTo(() => _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, true)).Returns(SignInResult.Success);
             A.CallTo(() => _userManager.GetRolesAsync(user)).Returns(roles);
+            A.CallTo(() => _roleRepository.GetRolePermissionsAsync(roles)).Returns(permissions);
 
-            A.CallTo(() => _jwtTokenService.GenerateAccessToken(user, roles)).Returns("valid-access-token");
+
+            A.CallTo(() => _jwtTokenService.GenerateAccessToken(user, roles, permissions)).Returns("valid-access-token");
             A.CallTo(() => _jwtTokenService.GenerateRefreshToken()).Returns("valid-refresh-token");
 
-            var authService = new AuthService(_userRepository, _jwtTokenService, _userManager, _unitOfWork, _signInManager, _refreshTokenRepository);
+            var authService = new AuthService(_roleRepository, _userRepository, _jwtTokenService, _userManager, _unitOfWork, _signInManager, _refreshTokenRepository);
 
             // Act 
             var act = await authService.LoginAsync(loginDto);
@@ -89,7 +89,7 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             };
             var userType = UserType.User;
             List<string> roles = new List<string> { "User" };
-
+            List<string> permissions = new List<string>() { Permissions.ManageComments };
 
             A.CallTo(() => _userManager.FindByNameAsync(registerDto.Username.ToLowerInvariant())).Returns(Task.FromResult<AppUser?>(null));
             A.CallTo(() => _userRepository.ExistsWithPhoneAsync(registerDto.PhoneNumber)).Returns(false);
@@ -99,11 +99,12 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
 
             A.CallTo(() => _userManager.AddToRoleAsync(A<AppUser>._, userType.ToString())).Returns(IdentityResult.Success);
             A.CallTo(() => _userManager.GetRolesAsync(A<AppUser>._)).Returns(roles);
+            A.CallTo(() => _roleRepository.GetRolePermissionsAsync(roles)).Returns(permissions);
 
-            A.CallTo(() => _jwtTokenService.GenerateAccessToken(A<AppUser>._, roles)).Returns("valid-access-token");
+            A.CallTo(() => _jwtTokenService.GenerateAccessToken(A<AppUser>._, roles, permissions)).Returns("valid-access-token");
             A.CallTo(() => _jwtTokenService.GenerateRefreshToken()).Returns("valid-refresh-token");
 
-            var authService = new AuthService(_userRepository, _jwtTokenService, _userManager, _unitOfWork, _signInManager, _refreshTokenRepository);
+            var authService = new AuthService(_roleRepository, _userRepository, _jwtTokenService, _userManager, _unitOfWork, _signInManager, _refreshTokenRepository);
 
             // Act
             var act = await authService.RegisterAsync(registerDto, userType);

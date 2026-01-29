@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.AboutUsInfo;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -32,7 +34,7 @@ namespace Weblu.Api.Controllers.v1
             AboutUsDto aboutUsDto = await _aboutUsService.GetAboutUsInfoByIdAsync(aboutUsId);
             return Ok(aboutUsDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpPost]
         public async Task<IActionResult> AddAboutUs([FromBody] AddAboutUsDto addAboutUsDto)
         {
@@ -40,7 +42,7 @@ namespace Weblu.Api.Controllers.v1
             AboutUsDto aboutUsDto = await _aboutUsService.AddAboutUsAsync(addAboutUsDto);
             return CreatedAtAction(nameof(GetAboutUsById), new { aboutUsId = aboutUsDto.Id }, ApiResponse<AboutUsDto>.Success("AboutUs information added successfully", aboutUsDto));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpPut("{aboutUsId:int}")]
         public async Task<IActionResult> UpdateAboutUs(int aboutUsId, [FromBody] UpdateAboutUsDto updateAboutUsDto)
         {
@@ -51,7 +53,7 @@ namespace Weblu.Api.Controllers.v1
                 aboutUsDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpDelete("{aboutUsId:int}")]
         public async Task<IActionResult> DeleteAboutUs(int aboutUsId)
         {
@@ -60,7 +62,7 @@ namespace Weblu.Api.Controllers.v1
                 "AboutUs information deleted successfully."
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpPut("{aboutUsId:int}/head-image")]
         public async Task<IActionResult> UpdateImageAboutUs(int aboutUsId, [FromForm] UpdateImageAboutUsDto updateImageAboutUsDto)
         {
@@ -71,7 +73,7 @@ namespace Weblu.Api.Controllers.v1
                 aboutUsDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpDelete("{aboutUsId:int}/head-image")]
         public async Task<IActionResult> DeleteAboutUsHeadImage(int aboutUsId)
         {

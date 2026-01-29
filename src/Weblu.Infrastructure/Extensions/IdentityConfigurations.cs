@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Weblu.Application.Exceptions;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Identity;
+using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Token;
 
@@ -72,6 +73,16 @@ namespace Weblu.Infrastructure.Extensions
                 options.Audience = Environment.GetEnvironmentVariable("JWT_Audience") ?? throw new InvalidOperationException("JWT_Audience missing");
                 options.Issuer = Environment.GetEnvironmentVariable("JWT_Issuer") ?? throw new InvalidOperationException("JWT_Issuer missing");
                 options.ExpiryMinutes = Int32.Parse(Environment.GetEnvironmentVariable("JWT_ExpiryMinutes") ?? throw new InvalidOperationException("JWT_ExpiryMinutes missing"));
+            });
+        }
+        public static void ConfigureAuthorization(this IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                foreach (var permission in Permissions.All)
+                {
+                    options.AddPolicy(permission, policy => policy.RequireClaim(CustomClaimTypes.Permission, permission));
+                }
             });
         }
     }

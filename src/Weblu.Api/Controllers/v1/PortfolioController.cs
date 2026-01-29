@@ -8,6 +8,7 @@ using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Portfolios;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -48,7 +49,7 @@ namespace Weblu.Api.Controllers.v1
             PortfolioDetailDto portfolioDetailDto = await _portfolioService.GetPortfolioByIdAsync(portfolioId);
             return Ok(portfolioDetailDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPost]
         public async Task<IActionResult> AddPortfolio([FromBody] AddPortfolioDto addPortfolioDto)
         {
@@ -56,7 +57,7 @@ namespace Weblu.Api.Controllers.v1
             PortfolioDetailDto portfolioDetailDto = await _portfolioService.AddPortfolioAsync(addPortfolioDto);
             return CreatedAtAction(nameof(GetPortfolioById), new { portfolioId = portfolioDetailDto.Id }, ApiResponse<PortfolioDetailDto>.Success("Portfolio created successfully", portfolioDetailDto));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPut("{portfolioId:int}")]
         public async Task<IActionResult> UpdatePortfolio(int portfolioId, [FromBody] UpdatePortfolioDto updatePortfolioDto)
         {
@@ -70,14 +71,14 @@ namespace Weblu.Api.Controllers.v1
                 )
             );
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpDelete("{portfolioId:int}")]
         public async Task<IActionResult> DeletePortfolio(int portfolioId)
         {
             await _portfolioService.DeletePortfolioAsync(portfolioId);
             return NoContent();
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPost("{portfolioId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> AddFeatureToPortfolio(int portfolioId, int featureId)
         {
@@ -85,7 +86,7 @@ namespace Weblu.Api.Controllers.v1
             return Ok(ApiResponse.Success("Feature added successfully"));
         }
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{portfolioId:int}/feature/{featureId:int}")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         public async Task<IActionResult> DeleteFeatureFromPortfolio(int portfolioId, int featureId)
         {
             await _portfolioFeatureService.DeleteFeatureAsync(portfolioId, featureId);
@@ -98,35 +99,35 @@ namespace Weblu.Api.Controllers.v1
             await _portfolioMethodService.AddMethodAsync(portfolioId, methodId);
             return Ok(ApiResponse.Success("Method added successfully"));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpDelete("{portfolioId:int}/method/{methodId:int}")]
         public async Task<IActionResult> DeleteMethodFromPortfolio(int portfolioId, int methodId)
         {
             await _portfolioMethodService.DeleteMethodAsync(portfolioId, methodId);
             return Ok(ApiResponse.Success("Method deleted successfully"));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPost("{portfolioId:int}/image/{imageId:int}")]
         public async Task<IActionResult> AddImageToPortfolio(int portfolioId, int imageId, [FromBody] AddPortfolioImageDto addPortfolioImageDto)
         {
             await _portfolioImageService.AddImageAsync(portfolioId, imageId, addPortfolioImageDto);
             return Ok(ApiResponse.Success("Image added successfully"));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpDelete("{portfolioId:int}/image/{imageId:int}")]
         public async Task<IActionResult> DeleteImageFromPortfolio(int portfolioId, int imageId)
         {
             await _portfolioImageService.DeleteImageAsync(portfolioId, imageId);
             return Ok(ApiResponse.Success("Image deleted successfully"));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPost("{portfolioId:int}/contributor/{contributorId:int}")]
         public async Task<IActionResult> AddContributorToPortfolio(int portfolioId, int contributorId)
         {
             await _portfolioContributorService.AddContributorAsync(portfolioId, contributorId);
             return Ok(ApiResponse.Success("Contributor added successfully"));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpDelete("{portfolioId:int}/contributor/{contributorId:int}")]
         public async Task<IActionResult> DeleteContributorFromPortfolio(int portfolioId, int contributorId)
         {

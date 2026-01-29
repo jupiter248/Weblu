@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.RefreshTokenDtos;
 using Weblu.Application.Dtos.TokenDtos;
 using Weblu.Application.Exceptions;
@@ -12,7 +8,9 @@ using Weblu.Application.Services.Interfaces;
 using Weblu.Domain.Entities.Users;
 using Weblu.Domain.Errors.Tokens;
 using Weblu.Domain.Errors.Users;
+using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
+using Weblu.Infrastructure.Repositories;
 
 
 namespace Weblu.Infrastructure.Token
@@ -23,12 +21,15 @@ namespace Weblu.Infrastructure.Token
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IJwtTokenService _jwtTokenService;
         private readonly UserManager<AppUser> _userManager;
-        public TokenService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IRefreshTokenRepository refreshTokenRepository , IJwtTokenService jwtTokenService)
+        private readonly IRoleRepository _roleRepository;
+
+        public TokenService(IRoleRepository roleRepository, IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IRefreshTokenRepository refreshTokenRepository, IJwtTokenService jwtTokenService)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _refreshTokenRepository = refreshTokenRepository;
             _jwtTokenService = jwtTokenService;
+            _roleRepository = roleRepository;
         }
         public async Task<TokenDto> RefreshToken(TokenRequestDto addTokenRequestDto)
         {
@@ -48,12 +49,12 @@ namespace Weblu.Infrastructure.Token
 
             AppUser appUser = await _userManager.FindByIdAsync(refreshToken.UserId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             IList<string> roles = await _userManager.GetRolesAsync(appUser) ?? throw new NotFoundException(UserErrorCodes.RoleNotFound);
-
+            IList<string> permissions = await _roleRepository.GetRolePermissionsAsync(roles);
             refreshToken.IsUsed = true;
             _refreshTokenRepository.Update(refreshToken);
 
-            
-            var newAccessToken = _jwtTokenService.GenerateAccessToken(appUser, roles);
+
+            var newAccessToken = _jwtTokenService.GenerateAccessToken(appUser, roles, permissions);
             var newRefreshTokenValue = _jwtTokenService.GenerateRefreshToken();
 
             var newRefreshToken = new RefreshToken

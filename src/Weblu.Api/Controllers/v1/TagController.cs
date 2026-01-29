@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Tags;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -32,7 +33,7 @@ namespace Weblu.Api.Controllers.v1
             TagDto tagDto = await _tagService.GetTagByIdAsync(tagId);
             return Ok(tagDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageTags)]
         [HttpPost]
         public async Task<IActionResult> AddTag([FromBody] AddTagDto addTagDto)
         {
@@ -44,7 +45,7 @@ namespace Weblu.Api.Controllers.v1
                 tagDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageTags)]
         [HttpPut("{tagId:int}")]
         public async Task<IActionResult> UpdateTag(int tagId, [FromBody] UpdateTagDto updateTagDto)
         {
@@ -56,7 +57,7 @@ namespace Weblu.Api.Controllers.v1
                 tagDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageTags)]
         [HttpDelete("{tagId:int}")]
         public async Task<IActionResult> DeleteTag(int tagId)
         {

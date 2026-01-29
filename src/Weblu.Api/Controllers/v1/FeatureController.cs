@@ -7,6 +7,7 @@ using Weblu.Application.Parameters;
 using Weblu.Application.Common.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -32,7 +33,7 @@ namespace Weblu.Api.Controllers.v1
             FeatureDto featureDto = await _featureService.GetFeatureByIdAsync(featureId);
             return Ok(featureDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageFeatures)]
         [HttpPost]
         public async Task<IActionResult> AddFeature([FromBody] AddFeatureDto addFeatureDto)
         {
@@ -44,7 +45,7 @@ namespace Weblu.Api.Controllers.v1
                 featureDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageFeatures)]
         [HttpPut("{featureId:int}")]
         public async Task<IActionResult> UpdateFeature(int featureId, [FromBody] UpdateFeatureDto updateFeatureDto)
         {
@@ -56,7 +57,7 @@ namespace Weblu.Api.Controllers.v1
                 featureDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageFeatures)]
         [HttpDelete("{featureId:int}")]
         public async Task<IActionResult> DeleteFeature(int featureId)
         {

@@ -5,6 +5,7 @@ using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -18,21 +19,21 @@ namespace Weblu.Api.Controllers.v1
         {
             _imageService = imageService;
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageImages)]
         [HttpGet]
         public async Task<IActionResult> GetAllImages([FromQuery] ImageParameters imageParameters)
         {
             List<ImageDto> imageDtos = await _imageService.GetAllImagesAsync(imageParameters);
             return Ok(imageDtos);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageImages)]
         [HttpGet("{imageId:int}")]
         public async Task<IActionResult> GetImageById(int imageId)
         {
             ImageDto imageDto = await _imageService.GetImageByIdAsync(imageId);
             return Ok(imageDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageImages)]
         [HttpPost]
         public async Task<IActionResult> AddImage([FromForm] AddImageDto addImageDto)
         {
@@ -43,7 +44,7 @@ namespace Weblu.Api.Controllers.v1
                 imageDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageImages)]
         [HttpDelete("{imageId:int}")]
         public async Task<IActionResult> DeleteImage(int imageId)
         {

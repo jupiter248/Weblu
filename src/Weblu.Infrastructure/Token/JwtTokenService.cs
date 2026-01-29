@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Weblu.Application.Exceptions;
-using Weblu.Domain.Errors.Tokens;
-using Weblu.Infrastructure.Identity;
+using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
 
 namespace Weblu.Infrastructure.Token
@@ -23,7 +17,7 @@ namespace Weblu.Infrastructure.Token
             _jwtSettings = jwtSettings.Value;
         }
 
-        public string GenerateAccessToken(AppUser user, IList<string> roles)
+        public string GenerateAccessToken(AppUser user, IList<string> roles, IList<string> roleClaims)
         {
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
             var claims = new List<Claim>
@@ -35,6 +29,11 @@ namespace Weblu.Infrastructure.Token
             foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            foreach (var permission in roleClaims)
+            {
+                claims.Add(new Claim(CustomClaimTypes.Permission, permission));
             }
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 

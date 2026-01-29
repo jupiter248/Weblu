@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.SocialMedias;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -32,7 +33,7 @@ namespace Weblu.Api.Controllers.v1
             SocialMediaDto socialMediaDto = await _socialMediaService.GetSocialMediaByIdAsync(socialMediaId);
             return Ok(socialMediaDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageSocialMedia)]
         [HttpPost]
         public async Task<IActionResult> AddSocialMedia([FromBody] AddSocialMediaDto addSocialMediaDto)
         {
@@ -40,7 +41,7 @@ namespace Weblu.Api.Controllers.v1
             SocialMediaDto socialMediaDto = await _socialMediaService.AddSocialMediaAsync(addSocialMediaDto);
             return CreatedAtAction(nameof(GetSocialMediaById), new { socialMediaId = socialMediaDto.Id }, ApiResponse<SocialMediaDto>.Success("Social media added successfully", socialMediaDto));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageSocialMedia)]
         [HttpPut("{socialMediaId:int}")]
         public async Task<IActionResult> UpdateSocialMedia(int socialMediaId, [FromBody] UpdateSocialMediaDto updateSocialMediaDto)
         {
@@ -51,7 +52,7 @@ namespace Weblu.Api.Controllers.v1
                 socialMediaDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageSocialMedia)]
         [HttpDelete("{socialMediaId:int}")]
         public async Task<IActionResult> DeleteSocialMedia(int socialMediaId)
         {
@@ -60,7 +61,7 @@ namespace Weblu.Api.Controllers.v1
                 "Social media deleted successfully."
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageSocialMedia)]
         [HttpPut("{socialMediaId:int}/icon")]
         public async Task<IActionResult> UpdateSocialMediaIcon(int socialMediaId, [FromForm] UpdateSocialMediaIconDto updateSocialMediaIconDto)
         {

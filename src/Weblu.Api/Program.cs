@@ -43,6 +43,7 @@ builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwt();
+builder.Services.ConfigureAuthorization();
 
 
 builder.Services.ApplyCors();
