@@ -23,7 +23,7 @@ namespace Weblu.Api.Controllers.v1
         {
             _authService = authService;
         }
-        [Authorize(Roles = "Head-Admin")]
+        [Authorize(Policy = Permissions.ManageAdmins)]
         [HttpPost("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterDto registerDto)
         {
@@ -35,7 +35,7 @@ namespace Weblu.Api.Controllers.v1
                 authResponseDto
             ));
         }
-        [Authorize(Roles = "Head-Admin")]
+        [Authorize(Policy = Permissions.ManageAdmins)]
         [HttpPost("register-editor")]
         public async Task<IActionResult> RegisterEditor([FromBody] RegisterDto registerDto)
         {

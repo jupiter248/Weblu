@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.HttpResults;
+using System.Globalization;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.AuthDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
@@ -14,6 +9,7 @@ using Weblu.Domain.Entities.Users;
 using Weblu.Domain.Enums.Users;
 using Weblu.Domain.Errors.Auth;
 using Weblu.Domain.Errors.Users;
+using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Token;
 
@@ -27,7 +23,9 @@ namespace Weblu.Infrastructure.Identity.Services
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IJwtTokenService _jwtTokenService;
         private readonly IUserRepository _userRepository;
-        public AuthService(IUserRepository userRepository, IJwtTokenService jwtTokenService, UserManager<AppUser> userManager, IUnitOfWork unitOfWork, SignInManager<AppUser> signInManager, IRefreshTokenRepository refreshTokenRepository)
+        private readonly IRoleRepository _roleRepository;
+
+        public AuthService(IRoleRepository roleRepository, IUserRepository userRepository, IJwtTokenService jwtTokenService, UserManager<AppUser> userManager, IUnitOfWork unitOfWork, SignInManager<AppUser> signInManager, IRefreshTokenRepository refreshTokenRepository)
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
@@ -35,6 +33,7 @@ namespace Weblu.Infrastructure.Identity.Services
             _refreshTokenRepository = refreshTokenRepository;
             _jwtTokenService = jwtTokenService;
             _userRepository = userRepository;
+            _roleRepository = roleRepository;
         }
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
@@ -44,10 +43,12 @@ namespace Weblu.Infrastructure.Identity.Services
             {
                 throw new UnauthorizedException(AuthErrorCodes.IncorrectPassword);
             }
+
             IList<string> roles = await _userManager.GetRolesAsync(appUser);
+            IList<string> permissions = await _roleRepository.GetRolePermissionsAsync(roles);
 
             string newRefreshToken = _jwtTokenService.GenerateRefreshToken();
-            string newAccessToken = _jwtTokenService.GenerateAccessToken(appUser, roles);
+            string newAccessToken = _jwtTokenService.GenerateAccessToken(appUser, roles, permissions);
 
             RefreshToken refreshToken = new RefreshToken()
             {
@@ -120,9 +121,10 @@ namespace Weblu.Infrastructure.Identity.Services
             }
 
             IList<string> roles = await _userManager.GetRolesAsync(newUser);
+            IList<string> permissions = await _roleRepository.GetRolePermissionsAsync(roles);
 
             string newRefreshToken = _jwtTokenService.GenerateRefreshToken();
-            string newAccessToken = _jwtTokenService.GenerateAccessToken(newUser, roles);
+            string newAccessToken = _jwtTokenService.GenerateAccessToken(newUser, roles, permissions);
 
             RefreshToken refreshToken = new RefreshToken()
             {

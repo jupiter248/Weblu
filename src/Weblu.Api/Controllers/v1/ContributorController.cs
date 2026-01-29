@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Contributors;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -32,7 +33,7 @@ namespace Weblu.Api.Controllers.v1
             ContributorDto contributorDto = await _contributorService.GetContributorByIdAsync(contributorId);
             return Ok(contributorDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageContributors)]
         [HttpPost]
         public async Task<IActionResult> AddContributor([FromBody] AddContributorDto addContributorDto)
         {
@@ -40,6 +41,7 @@ namespace Weblu.Api.Controllers.v1
             ContributorDto contributorDto = await _contributorService.AddContributorAsync(addContributorDto);
             return CreatedAtAction(nameof(GetContributorById), new { contributorId = contributorDto.Id }, ApiResponse<ContributorDto>.Success("Contributor added successfully", contributorDto));
         }
+        [Authorize(Policy = Permissions.ManageContributors)]
         [HttpPut("{contributorId:int}")]
         public async Task<IActionResult> UpdateContributor(int contributorId, [FromBody] UpdateContributorDto updateContributorDto)
         {
@@ -50,7 +52,7 @@ namespace Weblu.Api.Controllers.v1
                 contributorDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageContributors)]
         [HttpDelete("{contributorId:int}")]
         public async Task<IActionResult> DeleteContributor(int contributorId)
         {
@@ -59,7 +61,7 @@ namespace Weblu.Api.Controllers.v1
                 "Contributor deleted successfully."
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageContributors)]
         [HttpPut("{contributorId:int}/profile-image")]
         public async Task<IActionResult> UpdateImageProfile(int contributorId, [FromForm] UpdateProfileImageContributorDto updateProfileImageContributorDto)
         {
@@ -70,7 +72,7 @@ namespace Weblu.Api.Controllers.v1
                 contributorDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageContributors)]
         [HttpDelete("{contributorId:int}/profile-image")]
         public async Task<IActionResult> DeleteContributorProfile(int contributorId)
         {

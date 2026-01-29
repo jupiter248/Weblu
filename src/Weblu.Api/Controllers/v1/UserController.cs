@@ -9,6 +9,7 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Users;
 using Weblu.Domain.Errors.Users;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -22,7 +23,7 @@ namespace Weblu.Api.Controllers.v1
         {
             _userService = userService;
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageUsers)]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {

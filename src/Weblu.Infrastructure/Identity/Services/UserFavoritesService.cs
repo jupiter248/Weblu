@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Weblu.Application.Dtos.FavoriteDtos;
 using Weblu.Application.Dtos.PortfolioDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;

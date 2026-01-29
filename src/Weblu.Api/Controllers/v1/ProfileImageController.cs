@@ -5,6 +5,7 @@ using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ProfileDtos;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -18,14 +19,14 @@ namespace Weblu.Api.Controllers.v1
         {
             _profileImageService = profileImageService;
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageProfiles)]
         [HttpGet]
         public async Task<IActionResult> GetAllProfiles([FromQuery] ProfileMediaParameters profileMediaParameters)
         {
             List<ProfileDto> profileDtos = await _profileImageService.GetAllProfilesAsync(profileMediaParameters);
             return Ok(profileDtos);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageProfiles)]
         [HttpGet("{profileId:int}")]
         public async Task<IActionResult> GetProfileById(int profileId)
         {

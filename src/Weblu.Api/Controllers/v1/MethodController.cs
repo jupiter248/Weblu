@@ -7,6 +7,7 @@ using Weblu.Application.Parameters;
 using Weblu.Application.Common.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -32,7 +33,7 @@ namespace Weblu.Api.Controllers.v1
             MethodDto methodDto = await _methodService.GetMethodByIdAsync(methodId);
             return Ok(methodDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageMethods)]
         [HttpPost]
         public async Task<IActionResult> AddMethod([FromBody] AddMethodDto addMethodDto)
         {
@@ -44,7 +45,7 @@ namespace Weblu.Api.Controllers.v1
                 methodDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageMethods)]
         [HttpPut("{methodId:int}")]
         public async Task<IActionResult> UpdateMethod(int methodId, [FromBody] UpdateMethodDto updateMethodDto)
         {
@@ -56,7 +57,7 @@ namespace Weblu.Api.Controllers.v1
                  methodDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageMethods)]
         [HttpPut("{methodId:int}/image")]
         public async Task<IActionResult> UpdateMethodImage(int methodId, [FromForm] UpdateMethodImageDto updateMethodImageDto)
         {
@@ -68,7 +69,7 @@ namespace Weblu.Api.Controllers.v1
                 methodDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageMethods)]
         [HttpDelete("{methodId:int}")]
         public async Task<IActionResult> DeleteMethod(int methodId)
         {
@@ -78,7 +79,7 @@ namespace Weblu.Api.Controllers.v1
                 "Method deleted successfully."
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageMethods)]
         [HttpDelete("{methodId:int}/image")]
         public async Task<IActionResult> DeleteMethodImage(int methodId)
         {

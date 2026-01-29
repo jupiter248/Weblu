@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.FaqCategory;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -32,7 +33,7 @@ namespace Weblu.Api.Controllers.v1
             FaqCategoryDto faqCategoryDto = await _faqCategoryService.GetFaqCategoryByIdAsync(faqCategoryId);
             return Ok(faqCategoryDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageFAQs)]
         [HttpPost]
         public async Task<IActionResult> AddFaqCategory([FromBody] AddFaqCategoryDto addFaqCategoryDto)
         {
@@ -41,7 +42,7 @@ namespace Weblu.Api.Controllers.v1
             FaqCategoryDto faqCategoryDto = await _faqCategoryService.AddFaqCategoryAsync(addFaqCategoryDto);
             return CreatedAtAction(nameof(GetFaqCategoryById), new { faqCategoryId = faqCategoryDto.Id }, ApiResponse<FaqCategoryDto>.Success("Faq category added successfully.", faqCategoryDto));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageFAQs)]
         [HttpPut("{faqCategoryId:int}")]
         public async Task<IActionResult> UpdateFaqCategory(int faqCategoryId, [FromBody] UpdateFaqCategoryDto updateFaqCategoryDto)
         {
@@ -53,7 +54,7 @@ namespace Weblu.Api.Controllers.v1
                 faqCategoryDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageFAQs)]
         [HttpDelete("{faqCategoryId:int}")]
         public async Task<IActionResult> DeleteFaqCategory(int faqCategoryId)
         {

@@ -8,6 +8,7 @@ using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Errors.Users;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -77,7 +78,7 @@ namespace Weblu.Api.Controllers.v1
                 ticketDetailDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageTickets)]
         [HttpPut("{ticketId:int}/status")]
         public async Task<IActionResult> UpdateTicketStatus(int ticketId, [FromBody] UpdateTicketStatusDto updateTicketStatusDto)
         {

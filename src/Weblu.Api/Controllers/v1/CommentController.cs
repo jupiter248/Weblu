@@ -10,6 +10,7 @@ using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Comments;
 using Weblu.Domain.Errors.Users;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -50,7 +51,7 @@ namespace Weblu.Api.Controllers.v1
             CommentDto commentDtos = await _commentService.AddCommentAsync(userId, addCommentDto);
             return CreatedAtAction(nameof(GetCommentById), new { commentId = commentDtos.Id }, ApiResponse<CommentDto>.Success("Comment added successfully.", commentDtos));
         }
-        [Authorize]
+        [Authorize(Policy = Permissions.ManageComments)]
         [HttpPut("{commentId:int}")]
         public async Task<IActionResult> UpdateComment(int commentId, [FromBody] UpdateCommentDTo updateCommentDTo)
         {
@@ -68,7 +69,7 @@ namespace Weblu.Api.Controllers.v1
                 commentDtos
             ));
         }
-        [Authorize]
+        [Authorize(Policy = Permissions.ManageComments)]
         [HttpDelete("{commentId:int}")]
         public async Task<IActionResult> DeleteComment(int commentId)
         {

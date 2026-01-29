@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.ArticleCategories;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -32,7 +33,7 @@ namespace Weblu.Api.Controllers.v1
             ArticleCategoryDto articleCategoryDto = await _articleCategoryService.GetArticleCategoryByIdAsync(articleCategoryId);
             return Ok(articleCategoryDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPost]
         public async Task<IActionResult> AddArticleCategory([FromBody] AddArticleCategoryDto addArticleCategoryDto)
         {
@@ -44,7 +45,7 @@ namespace Weblu.Api.Controllers.v1
                 articleCategoryDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPut("{articleCategoryId:int}")]
         public async Task<IActionResult> UpdateArticleCategory(int articleCategoryId, [FromBody] UpdateArticleCategoryDto updateArticleCategoryDto)
         {
@@ -56,7 +57,7 @@ namespace Weblu.Api.Controllers.v1
                 articleCategoryDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageArticles)]
         [HttpDelete("{articleCategoryId:int}")]
         public async Task<IActionResult> DeleteArticleCategory(int articleCategoryId)
         {

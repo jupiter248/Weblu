@@ -1,18 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Weblu.Application.Exceptions;
+using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Token;
-using Xunit;
 
 namespace Weblu.Infrastructure.UnitTests.Token
 {
@@ -20,6 +11,7 @@ namespace Weblu.Infrastructure.UnitTests.Token
     {
         public readonly AppUser _user;
         public readonly List<string> _roles;
+        public readonly List<string> _permissions;
         public JwtTokenServiceTests()
         {
             _user = new AppUser()
@@ -30,6 +22,7 @@ namespace Weblu.Infrastructure.UnitTests.Token
                 UserName = "TestUsername",
             };
             _roles = new List<string> { "User" };
+            _permissions = new List<string> { Permissions.ManageComments };
 
         }
         public static JwtTokenService CreateSut()
@@ -51,7 +44,7 @@ namespace Weblu.Infrastructure.UnitTests.Token
             var sut = CreateSut();
 
             // Act
-            var act = sut.GenerateAccessToken(_user, _roles);
+            var act = sut.GenerateAccessToken(_user, _roles, _permissions);
 
             // Assert
             act.Should().NotBeNullOrWhiteSpace();
@@ -64,7 +57,7 @@ namespace Weblu.Infrastructure.UnitTests.Token
             var sut = CreateSut();
 
             // Act
-            var token = sut.GenerateAccessToken(_user, _roles);
+            var token = sut.GenerateAccessToken(_user, _roles, _permissions);
             var handler = new JwtSecurityTokenHandler();
             var act = handler.ReadJwtToken(token);
 
@@ -81,7 +74,7 @@ namespace Weblu.Infrastructure.UnitTests.Token
             var sut = CreateSut();
 
             // Act
-            var token = sut.GenerateAccessToken(_user, _roles);
+            var token = sut.GenerateAccessToken(_user, _roles, _permissions);
             var handler = new JwtSecurityTokenHandler();
             var act = handler.ReadJwtToken(token);
 

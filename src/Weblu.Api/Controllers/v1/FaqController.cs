@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Faqs;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -32,7 +33,7 @@ namespace Weblu.Api.Controllers.v1
             FaqDto faqDto = await _faqService.GetFaqByIdAsync(faqId);
             return Ok(faqDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageFAQs)]
         [HttpPost]
         public async Task<IActionResult> AddFaq([FromBody] AddFaqDto addFaqDto)
         {
@@ -41,7 +42,7 @@ namespace Weblu.Api.Controllers.v1
             FaqDto faqDto = await _faqService.AddFaqAsync(addFaqDto);
             return CreatedAtAction(nameof(GetFaqById), new { faqId = faqDto.Id }, ApiResponse<FaqDto>.Success("Faq added successfully.", faqDto));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageFAQs)]
         [HttpPut("{faqId:int}")]
         public async Task<IActionResult> UpdateFaq(int faqId, [FromBody] UpdateFaqDto updateFaqDto)
         {
@@ -54,7 +55,7 @@ namespace Weblu.Api.Controllers.v1
                 faqDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManageFAQs)]
         [HttpDelete("{faqId:int}")]
         public async Task<IActionResult> DeleteFaq(int faqId)
         {

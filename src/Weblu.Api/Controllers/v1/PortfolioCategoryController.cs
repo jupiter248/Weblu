@@ -7,6 +7,7 @@ using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Parameters;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.PortfolioCategory;
+using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1
 {
@@ -32,7 +33,7 @@ namespace Weblu.Api.Controllers.v1
             PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.GetPortfolioCategoryByIdAsync(portfolioCategoryId);
             return Ok(portfolioCategoryDto);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPost]
         public async Task<IActionResult> AddPortfolioCategory([FromBody] AddPortfolioCategoryDto addPortfolioCategoryDto)
         {
@@ -44,7 +45,7 @@ namespace Weblu.Api.Controllers.v1
                 portfolioCategoryDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPut("{portfolioCategoryId:int}")]
         public async Task<IActionResult> UpdatePortfolioCategory(int portfolioCategoryId, [FromBody] UpdatePortfolioCategoryDto updatePortfolioCategoryDto)
         {
@@ -56,7 +57,7 @@ namespace Weblu.Api.Controllers.v1
                 portfolioCategoryDto
             ));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpDelete("{portfolioCategoryId:int}")]
         public async Task<IActionResult> DeletePortfolioCategory(int portfolioCategoryId)
         {

@@ -10,9 +10,8 @@ namespace Weblu.Infrastructure.Data
     {
         public static async Task SeedUserAndAdminAsync(ApplicationDbContext _context)
         {
-            string[] roles = { Roles.HeadAdmin, Roles.Admin, Roles.Editor, Roles.User };
             //Add a user and an admin
-            foreach (string item in roles)
+            foreach (string item in Roles.All)
             {
                 if (!_context.Users.Any(u => u.NormalizedUserName == item.ToUpper()))
                 {
@@ -51,39 +50,43 @@ namespace Weblu.Infrastructure.Data
                     Permissions.ManageAdmins,
                     Permissions.ManageUsers,
                     Permissions.ManageComments,
-                    Permissions.ManageService,
-                    Permissions.ManagePortfolio,
-                    Permissions.ManageArticle,
-                    Permissions.ViewService,
-                    Permissions.ViewPortfolio,
-                    Permissions.ViewArticle,
-
+                    Permissions.ManageServices,
+                    Permissions.ManagePortfolios,
+                    Permissions.ManageArticles,
+                    Permissions.ManageContributors,
+                    Permissions.ManageTags,
+                    Permissions.ManageTickets,
+                    Permissions.ManageFAQs,
+                    Permissions.ManageFeatures,
+                    Permissions.ManageMethods,
+                    Permissions.ManageImages,
+                    Permissions.ManageProfiles,
+                    Permissions.ManageSocialMedia,
                 ],
                 [Roles.Admin] =
                 [
                     Permissions.ManageUsers,
                     Permissions.ManageComments,
-                    Permissions.ManageService,
-                    Permissions.ManagePortfolio,
-                    Permissions.ManageArticle,
-                    Permissions.ViewService,
-                    Permissions.ViewPortfolio,
-                    Permissions.ViewArticle,
+                    Permissions.ManageSocialMedia,
+                    Permissions.ManageImages,
+                    Permissions.ManageProfiles,
+                    Permissions.ManageFAQs,
+                    Permissions.ManageTickets,
                 ],
                 [Roles.Editor] =
                 [
-                    Permissions.ManageService,
-                    Permissions.ManagePortfolio,
-                    Permissions.ManageArticle,
-                    Permissions.ViewService,
-                    Permissions.ViewPortfolio,
-                    Permissions.ViewArticle,
+                    Permissions.ManageServices,
+                    Permissions.ManagePortfolios,
+                    Permissions.ManageArticles,
+                    Permissions.ManageContributors,
+                    Permissions.ManageImages,
+                    Permissions.ManageFeatures,
+                    Permissions.ManageMethods,
+                    Permissions.ManageTags
                 ],
                 [Roles.User] =
                 [
-                    Permissions.ViewService,
-                    Permissions.ViewPortfolio,
-                    Permissions.ViewArticle,
+                    Permissions.ManageComments,
                 ]
             };
 
