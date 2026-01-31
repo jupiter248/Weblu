@@ -29,6 +29,7 @@ namespace Weblu.Infrastructure.Identity.Entities
         public List<ProfileMedia> Profiles { get; set; } = new List<ProfileMedia>();
         public List<Ticket> Tickets { get; set; } = new List<Ticket>();
         public List<FavoritePortfolio> FavoritePortfolios { get; set; } = new List<FavoritePortfolio>();
+        public List<FavoriteArticle> FavoriteArticles { get; set; } = new List<FavoriteArticle>();
         public List<FavoriteList> FavoriteLists { get; set; } = new List<FavoriteList>();
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<ArticleLike> ArticleLikes { get; set; } = new List<ArticleLike>();

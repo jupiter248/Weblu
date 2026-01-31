@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Weblu.Application.Dtos.FavoriteListDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Interfaces.Repositories.Users;
+using Weblu.Application.Interfaces.Repositories.Users.UserFavorites;
+using Weblu.Application.Interfaces.Services.Users.UserFavorites;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Favorites;
 using Weblu.Domain.Entities.Portfolios;
@@ -21,7 +19,7 @@ namespace Weblu.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFavoriteListRepository _favoriteListRepository;
         private readonly IPortfolioRepository _portfolioRepository;
-        private readonly IUserFavoritesRepository _userFavoritesRepository;
+        private readonly IUserPortfolioFavoriteRepository _userPortfolioFavoriteRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         public FavoriteListService(
@@ -30,14 +28,14 @@ namespace Weblu.Application.Services
             IUserRepository userRepository,
             IFavoriteListRepository favoriteListRepository,
             IPortfolioRepository portfolioRepository,
-            IUserFavoritesRepository userFavoritesRepository
+            IUserPortfolioFavoriteRepository userPortfolioFavoriteRepository
             )
         {
             _favoriteListRepository = favoriteListRepository;
             _userRepository = userRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _userFavoritesRepository = userFavoritesRepository;
+            _userPortfolioFavoriteRepository = userPortfolioFavoriteRepository;
             _portfolioRepository = portfolioRepository;
         }
 
@@ -67,7 +65,7 @@ namespace Weblu.Application.Services
             }
             FavoriteList favoriteList = await _favoriteListRepository.GetByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
-            FavoritePortfolio favoritePortfolio = await _userFavoritesRepository.GetFavoritePortfolioByPortfolioIdAsync(userId, portfolio.Id) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            FavoritePortfolio favoritePortfolio = await _userPortfolioFavoriteRepository.GetByPortfolioIdAsync(userId, portfolio.Id) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
             if (favoriteList.FavoritePortfolios.Any(p => p.Id == favoritePortfolio.Id))
             {
@@ -103,7 +101,7 @@ namespace Weblu.Application.Services
             }
             FavoriteList favoriteList = await _favoriteListRepository.GetByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
-            FavoritePortfolio favoritePortfolio = await _userFavoritesRepository.GetFavoritePortfolioByPortfolioIdAsync(userId, portfolio.Id) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            FavoritePortfolio favoritePortfolio = await _userPortfolioFavoriteRepository.GetByPortfolioIdAsync(userId, portfolio.Id) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
             if (!favoriteList.FavoritePortfolios.Any(p => p.Id == favoritePortfolio.Id))
             {

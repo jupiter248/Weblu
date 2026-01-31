@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Dtos.UserDtos;
 
-namespace Weblu.Application.Interfaces.Services
+namespace Weblu.Application.Interfaces.Services.Users
 {
     public interface IUserService
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Application.Dtos.CommentDtos;
 
-namespace Weblu.Application.Interfaces.Repositories
+namespace Weblu.Application.Interfaces.Repositories.Users
 {
     public interface IUserRepository
     {

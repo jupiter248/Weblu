@@ -4,6 +4,7 @@ using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.CommentDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Articles;

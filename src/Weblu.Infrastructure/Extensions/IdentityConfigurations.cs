@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Weblu.Application.Exceptions;
 using Weblu.Infrastructure.Data;
-using Weblu.Infrastructure.Identity;
 using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Token;

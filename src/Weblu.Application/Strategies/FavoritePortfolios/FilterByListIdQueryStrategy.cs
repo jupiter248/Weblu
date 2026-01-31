@@ -8,7 +8,7 @@ using Weblu.Domain.Entities.Favorites;
 
 namespace Weblu.Application.Strategies.FavoritePortfolios
 {
-    public class FilterByListIdQueryStrategy : IFavoritePortfolioQueryStrategy
+    public class FilterPortfoliosByListIdQueryStrategy : IFavoritePortfolioQueryStrategy
     {
         public IQueryable<FavoritePortfolio> Query(IQueryable<FavoritePortfolio> favoritePortfolios, FavoriteParameters favoriteParameters)
         {

@@ -1,20 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using FakeItEasy;
-using FakeItEasy.Sdk;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Weblu.Application.Dtos.UserDtos;
-using Weblu.Application.Helpers;
 using Weblu.Domain.Enums.Users;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Identity.Services;
 using Weblu.Infrastructure.UnitTests.Helpers;
-using Xunit;
 
 namespace Weblu.Infrastructure.UnitTests.Identity.Services
 {

@@ -5,7 +5,7 @@ using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.FavoriteListDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
-using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Interfaces.Services.Users.UserFavorites;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Errors.Users;
 

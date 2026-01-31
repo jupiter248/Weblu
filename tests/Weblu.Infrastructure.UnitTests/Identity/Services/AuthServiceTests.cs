@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Weblu.Application.Dtos.AuthDtos;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Domain.Entities.Users;
 using Weblu.Domain.Enums.Users;
 using Weblu.Infrastructure.Identity.Authorization;
