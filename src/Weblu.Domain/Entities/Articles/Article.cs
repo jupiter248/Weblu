@@ -110,5 +110,21 @@ namespace Weblu.Domain.Entities.Articles
 
             ArticleLikes.Remove(currentArticleLike);
         }
+        public void UpdateViewCount()
+        {
+            ViewCount += 1;
+        }
+        public void UpdatePublishedStatus(bool isPublished)
+        {
+            IsPublished = isPublished;
+            if (isPublished && PublishedAt == DateTimeOffset.MinValue)
+            {
+                PublishedAt = DateTimeOffset.Now;
+            }
+            else if (!isPublished)
+            {
+                PublishedAt = DateTimeOffset.MinValue;
+            }
+        }
     }
 }

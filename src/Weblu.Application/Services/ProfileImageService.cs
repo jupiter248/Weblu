@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Weblu.Application.Dtos.ProfileDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
@@ -12,12 +6,11 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Errors.Images;
-using Weblu.Domain.Enums.Common;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Entities.Media;
-using Microsoft.AspNetCore.Identity;
 using Weblu.Domain.Errors.Users;
 using Weblu.Application.Dtos.MediaDtos;
+using Weblu.Application.Common.Interfaces;
 
 
 namespace Weblu.Application.Services
@@ -27,9 +20,10 @@ namespace Weblu.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
         private readonly IProfileImageRepository _profileImageRepository;
-        private readonly IWebHostEnvironment _webHost;
+        private readonly IFilePathProvider _webHost;
         private readonly IMapper _mapper;
-        public ProfileImageService(IUnitOfWork unitOfWork, IWebHostEnvironment webHost, IMapper mapper,
+        private readonly string _webHostPath;
+        public ProfileImageService(IUnitOfWork unitOfWork, IFilePathProvider webHost, IMapper mapper,
             IProfileImageRepository profileImageRepository, IUserRepository userRepository)
         {
             _unitOfWork = unitOfWork;
@@ -37,6 +31,7 @@ namespace Weblu.Application.Services
             _mapper = mapper;
             _profileImageRepository = profileImageRepository;
             _userRepository = userRepository;
+            _webHostPath = webHost.GetWebRootPath();
         }
 
         public async Task<ProfileDto> AddProfileAsync(AddProfileDto addProfileDto)
@@ -63,9 +58,9 @@ namespace Weblu.Application.Services
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
-            IFormFile image = addProfileDto.Image;
+            var image = addProfileDto.Image;
             string imageName = await MediaManager.UploadMedia(
-                    _webHost,
+                    _webHostPath,
                     new MediaUploaderDto
                     {
                         Media = image,
@@ -95,7 +90,7 @@ namespace Weblu.Application.Services
             ProfileMedia image = await _profileImageRepository.GetByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
             _profileImageRepository.Delete(image);
-            await MediaManager.DeleteMedia(_webHost, image.Url);
+            await MediaManager.DeleteMedia(_webHostPath, image.Url);
             await _unitOfWork.CommitAsync();
         }
 

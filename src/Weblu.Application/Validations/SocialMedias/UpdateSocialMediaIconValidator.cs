@@ -12,7 +12,7 @@ namespace Weblu.Application.Validations.SocialMedias
     {
         public UpdateSocialMediaIconValidator()
         {
-            RuleFor(x => x.Icon)
+            RuleFor(x => x.Image)
                 .NotNull().WithMessage(ImageErrorCodes.IconFileRequired)
                 .Must(f => f.Length <= 5 * 1024 * 1024).WithMessage(ImageErrorCodes.IconFileSize);
 

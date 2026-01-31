@@ -1,6 +1,5 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.ContributorDtos;
 using Weblu.Application.Dtos.MediaDtos;
 using Weblu.Application.Exceptions;
@@ -8,7 +7,6 @@ using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Parameters;
-using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Contributors;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.Contributors;
@@ -21,14 +19,17 @@ namespace Weblu.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IContributorRepository _contributorRepository;
         private readonly IMapper _mapper;
-        private readonly IWebHostEnvironment _webHost;
+        private readonly IFilePathProvider _webHost;
+        private readonly string _webHostPath;
 
-        public ContributorService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment webHost, IContributorRepository contributorRepository)
+        public ContributorService(IUnitOfWork unitOfWork, IMapper mapper, IFilePathProvider webHost, IContributorRepository contributorRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _webHost = webHost;
             _contributorRepository = contributorRepository;
+            _webHostPath = webHost.GetWebRootPath();
+
         }
         public async Task<ContributorDto> AddContributorAsync(AddContributorDto addContributorDto)
         {
@@ -47,7 +48,7 @@ namespace Weblu.Application.Services
 
             if (!string.IsNullOrEmpty(contributor.ProfileImageUrl))
             {
-                await MediaManager.DeleteMedia(_webHost, contributor.ProfileImageUrl);
+                await MediaManager.DeleteMedia(_webHostPath, contributor.ProfileImageUrl);
             }
 
             _contributorRepository.Delete(contributor);
@@ -64,7 +65,7 @@ namespace Weblu.Application.Services
                 throw new BadRequestException(ContributorErrorCodes.ContributorProfileIsEmpty);
             }
             else
-                await MediaManager.DeleteMedia(_webHost, contributor.ProfileImageUrl);
+                await MediaManager.DeleteMedia(_webHostPath, contributor.ProfileImageUrl);
 
             contributor.ProfileImageUrl = null;
             contributor.ProfileImageAltText = null;
@@ -108,11 +109,11 @@ namespace Weblu.Application.Services
             }
             if (!string.IsNullOrEmpty(contributor.ProfileImageUrl))
             {
-                await MediaManager.DeleteMedia(_webHost, contributor.ProfileImageUrl);
+                await MediaManager.DeleteMedia(_webHostPath, contributor.ProfileImageUrl);
             }
-            IFormFile image = updateProfileImage.Image;
+            var image = updateProfileImage.Image;
             string imageName = await MediaManager.UploadMedia(
-                    _webHost,
+                    _webHostPath,
                     new MediaUploaderDto
                     {
                         Media = image,

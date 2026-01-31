@@ -56,49 +56,6 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IPortfolioImageService, PortfolioImageService>();
             services.AddScoped<IPortfolioContributorService, PortfolioContributorService>();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            services.AddAutoMapper(typeof(ServiceProfile));
-            services.AddAutoMapper(typeof(FeatureProfile));
-            services.AddAutoMapper(typeof(MethodProfile));
-            services.AddAutoMapper(typeof(ImageProfile));
-            services.AddAutoMapper(typeof(RefreshTokenProfile));
-            services.AddAutoMapper(typeof(PortfolioProfile));
-            services.AddAutoMapper(typeof(ContributorProfile));
-            services.AddAutoMapper(typeof(TicketProfile));
-            services.AddAutoMapper(typeof(TicketMessageProfile));
-            services.AddAutoMapper(typeof(FaqProfile));
-            services.AddAutoMapper(typeof(FavoriteListProfile));
-            services.AddAutoMapper(typeof(FavoriteProfile));
-            services.AddAutoMapper(typeof(AboutUsProfile));
-            services.AddAutoMapper(typeof(SocialMediaProfile));
-            services.AddAutoMapper(typeof(TagProfile));
-
-
-
-
-
-
-
-
-
-
-
         }
     }
 }

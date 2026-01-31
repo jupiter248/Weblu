@@ -1,19 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using Weblu.Api.IntegrationTests.Common;
 using Weblu.Api.IntegrationTests.Helpers;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.AuthDtos;
-using Weblu.Domain.Entities.Tags;
-using Weblu.Domain.Enums.Users;
-using Weblu.Infrastructure.Data;
 
 namespace Weblu.Api.IntegrationTests.Controllers.v1
 {

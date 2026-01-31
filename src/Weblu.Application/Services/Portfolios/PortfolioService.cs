@@ -91,17 +91,7 @@ namespace Weblu.Application.Services
             PortfolioCategory portfolioCategory = await _portfolioCategoryRepository.GetByIdAsync(updatePortfolioDto.PortfolioCategoryId) ?? throw new NotFoundException(PortfolioCategoryErrorCodes.PortfolioCategoryNotFound);
             currentPortfolio.PortfolioCategory = portfolioCategory;
 
-            if (currentPortfolio.IsActive)
-            {
-                if (currentPortfolio.ActivatedAt == DateTimeOffset.MinValue)
-                {
-                    currentPortfolio.ActivatedAt = DateTimeOffset.Now;
-                }
-            }
-            else if (!currentPortfolio.IsActive)
-            {
-                currentPortfolio.ActivatedAt = DateTimeOffset.MinValue;
-            }
+            currentPortfolio.UpdateActivateStatus(updatePortfolioDto.IsActive);
 
             _portfolioRepository.Update(currentPortfolio);
             await _unitOfWork.CommitAsync();

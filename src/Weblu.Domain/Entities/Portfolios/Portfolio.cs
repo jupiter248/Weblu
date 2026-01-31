@@ -107,5 +107,17 @@ namespace Weblu.Domain.Entities.Portfolios
             }
             PortfolioImages.Remove(portfolioImage);
         }
+        public void UpdateActivateStatus(bool isActive)
+        {
+            IsActive = isActive;
+            if (isActive && ActivatedAt == DateTimeOffset.MinValue)
+            {
+                ActivatedAt = DateTimeOffset.Now;
+            }
+            else if (!isActive)
+            {
+                ActivatedAt =  DateTimeOffset.MinValue;
+            }
+        }
     }
 }

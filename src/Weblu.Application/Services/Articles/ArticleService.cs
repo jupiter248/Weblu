@@ -127,17 +127,7 @@ namespace Weblu.Application.Services.Articles
             ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(updateArticleDto.CategoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
             article.Category = articleCategory;
 
-            if (article.IsPublished)
-            {
-                if (article.PublishedAt == DateTimeOffset.MinValue)
-                {
-                    article.PublishedAt = DateTimeOffset.Now;
-                }
-            }
-            else if (!article.IsPublished)
-            {
-                article.PublishedAt = DateTimeOffset.MinValue;
-            }
+            article.UpdatePublishedStatus(updateArticleDto.IsPublished);
 
             _articleRepository.Update(article);
             await _unitOfWork.CommitAsync();
@@ -149,8 +139,7 @@ namespace Weblu.Application.Services.Articles
         public async Task ViewArticleAsync(int articleId)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            article.ViewCount++;
-
+            article.UpdateViewCount();
             _articleRepository.Update(article);
             await _unitOfWork.CommitAsync();
         }

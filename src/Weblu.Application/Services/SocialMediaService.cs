@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.MediaDtos;
 using Weblu.Application.Dtos.SocialMediaDtos;
 using Weblu.Application.Exceptions;
@@ -24,14 +19,16 @@ namespace Weblu.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISocialMediaRepository _socialMediaRepository;
         private readonly IMapper _mapper;
-        private readonly IWebHostEnvironment _webHost;
+        private readonly IFilePathProvider _webHost;
+        private readonly string _webHostPath;
 
-        public SocialMediaService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment webHost, ISocialMediaRepository socialMediaRepository)
+        public SocialMediaService(IUnitOfWork unitOfWork, IMapper mapper, IFilePathProvider webHost, ISocialMediaRepository socialMediaRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _webHost = webHost;
             _socialMediaRepository = socialMediaRepository;
+            _webHostPath = webHost.GetWebRootPath();
         }
 
         public async Task<SocialMediaDto> AddSocialMediaAsync(AddSocialMediaDto addSocialMediaDto)
@@ -51,7 +48,7 @@ namespace Weblu.Application.Services
 
             if (!string.IsNullOrEmpty(socialMedia.IconUrl))
             {
-                await MediaManager.DeleteMedia(_webHost, socialMedia.IconUrl);
+                await MediaManager.DeleteMedia(_webHostPath, socialMedia.IconUrl);
             }
 
             _socialMediaRepository.Delete(socialMedia);
@@ -76,17 +73,17 @@ namespace Weblu.Application.Services
         {
             SocialMedia socialMedia = await _socialMediaRepository.GetByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
 
-            if (updateSocialMediaIcon.Icon.Length < 0)
+            if (updateSocialMediaIcon.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
             if (!string.IsNullOrEmpty(socialMedia.IconUrl))
             {
-                await MediaManager.DeleteMedia(_webHost, socialMedia.IconUrl);
+                await MediaManager.DeleteMedia(_webHostPath, socialMedia.IconUrl);
             }
-            IFormFile icon = updateSocialMediaIcon.Icon;
+            var icon = updateSocialMediaIcon.Image;
             string iconName = await MediaManager.UploadMedia(
-                    _webHost,
+                    _webHostPath,
                     new MediaUploaderDto
                     {
                         Media = icon,

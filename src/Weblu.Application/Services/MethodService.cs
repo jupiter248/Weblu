@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Weblu.Application.Dtos.MethodDtos;
 using Weblu.Application.Exceptions;
@@ -11,11 +7,10 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Methods;
 using Weblu.Application.Helpers;
-using Microsoft.AspNetCore.Hosting;
 using Weblu.Domain.Errors.Images;
-using Microsoft.AspNetCore.Http;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Application.Dtos.MediaDtos;
+using Weblu.Application.Common.Interfaces;
 
 namespace Weblu.Application.Services
 {
@@ -24,15 +19,16 @@ namespace Weblu.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMethodRepository _methodRepository;
         private readonly IMapper _mapper;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IFilePathProvider _webHost;
+        private readonly string _webHostPath;
 
-
-        public MethodService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment webHostEnvironment, IMethodRepository methodRepository)
+        public MethodService(IUnitOfWork unitOfWork, IMapper mapper, IFilePathProvider webHost, IMethodRepository methodRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _webHostEnvironment = webHostEnvironment;
+            _webHost = webHost;
             _methodRepository = methodRepository;
+            _webHostPath = webHost.GetWebRootPath();
         }
         public async Task<MethodDto> AddMethodAsync(AddMethodDto addMethodDto)
         {
@@ -51,7 +47,7 @@ namespace Weblu.Application.Services
 
             if (!string.IsNullOrEmpty(method.ImageUrl))
             {
-                await MediaManager.DeleteMedia(_webHostEnvironment, method.ImageUrl);
+                await MediaManager.DeleteMedia(_webHostPath, method.ImageUrl);
             }
 
             _methodRepository.Delete(method);
@@ -67,7 +63,7 @@ namespace Weblu.Application.Services
                 throw new BadRequestException(MethodErrorCodes.MethodImageIsEmpty);
             }
             else
-                await MediaManager.DeleteMedia(_webHostEnvironment, method.ImageUrl);
+                await MediaManager.DeleteMedia(_webHostPath, method.ImageUrl);
 
             method.ImageUrl = null;
             method.ImageAltText = null;
@@ -110,11 +106,11 @@ namespace Weblu.Application.Services
             }
             if (!string.IsNullOrEmpty(method.ImageUrl))
             {
-                await MediaManager.DeleteMedia(_webHostEnvironment, method.ImageUrl);
+                await MediaManager.DeleteMedia(_webHostPath, method.ImageUrl);
             }
 
-            IFormFile image = updateMethodImageDto.Image;
-            string imageName = await MediaManager.UploadMedia(_webHostEnvironment, new MediaUploaderDto()
+            var image = updateMethodImageDto.Image;
+            string imageName = await MediaManager.UploadMedia(_webHostPath, new MediaUploaderDto()
             {
                 Media = image,
                 MediaType = Domain.Enums.Common.Media.MediaType.picture

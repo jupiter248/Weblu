@@ -32,7 +32,7 @@ namespace Weblu.Domain.Entities.Services
         public List<Method> Methods { get; set; } = new List<Method>();
         public List<ServiceImage> ServiceImages { get; set; } = new List<ServiceImage>();
 
-        
+
         public void AddMethod(Method method)
         {
             if (Methods.Any(m => m.Id == method.Id))
@@ -85,6 +85,18 @@ namespace Weblu.Domain.Entities.Services
                 throw new DomainException(ImageErrorCodes.ImageNotFound, 404);
             }
             ServiceImages.Remove(serviceImage);
+        }
+        public void UpdateActivateStatus(bool isActive)
+        {
+            IsActive = isActive;
+            if (isActive && ActivatedAt == DateTimeOffset.MinValue)
+            {
+                ActivatedAt = DateTimeOffset.Now;
+            }
+            else if (!isActive)
+            {
+                ActivatedAt = DateTimeOffset.MinValue; 
+            }
         }
     }
 }

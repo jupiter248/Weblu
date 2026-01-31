@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FakeItEasy;
 using FluentAssertions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.MediaDtos;
 using Weblu.Application.Helpers;
 using Xunit;
@@ -14,10 +10,12 @@ namespace Weblu.Application.UnitTests.Helpers
 {
     public class MediaManagerTests
     {
-        private readonly IWebHostEnvironment _webHost;
+        private readonly IFilePathProvider _webHost;
+        private readonly string _webHostPath;
         public MediaManagerTests()
         {
-            _webHost = A.Fake<IWebHostEnvironment>();
+            _webHost = A.Fake<IFilePathProvider>();
+            _webHostPath = _webHost.GetWebRootPath();
         }
         [Fact]
         public void MediaManager_UploadMedia_ReturnMediaName()
@@ -29,7 +27,7 @@ namespace Weblu.Application.UnitTests.Helpers
                 MediaType = Weblu.Domain.Enums.Common.Media.MediaType.picture
             };
             // Act
-            var act = MediaManager.UploadMedia(_webHost, mediaUploaderDto);
+            var act = MediaManager.UploadMedia(_webHostPath, mediaUploaderDto);
 
             // Assert
             act.Should().BeOfType<Task<string>>();
@@ -42,7 +40,7 @@ namespace Weblu.Application.UnitTests.Helpers
             string mediaPath = "uploads/picture/sample.jpg";
 
             // Act
-            Func<Task> act = () => MediaManager.DeleteMedia(_webHost, mediaPath);
+            Func<Task> act = () => MediaManager.DeleteMedia(_webHostPath, mediaPath);
     
             // Assert
             await act.Should().NotThrowAsync();

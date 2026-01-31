@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Weblu.Application.Dtos.ImageDtos;
 
 namespace Weblu.Application.Dtos.AboutUsDtos
 {
-    public class UpdateImageAboutUsDto
+    public class UpdateImageAboutUsDto : AddImageDto
     {
-        public required IFormFile Image { get; set; }
-        public string? AltText { get; set; }
     }
 }

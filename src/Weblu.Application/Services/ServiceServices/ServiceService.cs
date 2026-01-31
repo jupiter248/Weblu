@@ -1,5 +1,4 @@
 using AutoMapper;
-using Microsoft.Extensions.Logging;
 using Weblu.Application.Dtos.ServiceDtos;
 using Weblu.Application.Dtos.ServiceDtos.ServiceImageDtos;
 using Weblu.Application.Exceptions;
@@ -18,17 +17,14 @@ namespace Weblu.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IServiceRepository _serviceRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<ServiceService> _logger;
         public ServiceService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            ILogger<ServiceService> logger,
             IServiceRepository serviceRepository
         )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _logger = logger;
             _serviceRepository = serviceRepository;
         }
         public async Task<ServiceDetailDto> AddServiceAsync(AddServiceDto addServiceDto)
@@ -45,7 +41,6 @@ namespace Weblu.Application.Services
         }
         public async Task DeleteServiceAsync(int serviceId)
         {
-            _logger.LogInformation($"Deleting service {serviceId}");
             Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             _serviceRepository.Delete(service);
             await _unitOfWork.CommitAsync();
@@ -82,17 +77,7 @@ namespace Weblu.Application.Services
         {
             Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             service = _mapper.Map(updateServiceDto, service);
-            if (service.IsActive)
-            {
-                if (service.ActivatedAt == DateTimeOffset.MinValue)
-                {
-                    service.ActivatedAt = DateTimeOffset.Now;
-                }
-            }
-            else if (!service.IsActive)
-            {
-                service.ActivatedAt = DateTimeOffset.MinValue;
-            }
+            service.UpdateActivateStatus(updateServiceDto.IsActive);
             _serviceRepository.Update(service);
             await _unitOfWork.CommitAsync();
             ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(service);

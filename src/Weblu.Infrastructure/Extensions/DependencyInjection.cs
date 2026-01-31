@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Mappers;
 using Weblu.Application.Services.Interfaces;
+using Weblu.Infrastructure.Common.Services;
 using Weblu.Infrastructure.Identity.Mappers;
 using Weblu.Infrastructure.Identity.Services;
 using Weblu.Infrastructure.Localization;
@@ -68,9 +71,25 @@ namespace Weblu.Infrastructure.Extensions
 
 
             services.AddSingleton<IErrorService, ErrorService>();
+            services.AddSingleton<IFilePathProvider, FilePathProvider>();
 
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLoggerService<>));
             services.AddAutoMapper(typeof(UserProfile));
+            services.AddAutoMapper(typeof(ServiceProfile));
+            services.AddAutoMapper(typeof(FeatureProfile));
+            services.AddAutoMapper(typeof(MethodProfile));
+            services.AddAutoMapper(typeof(ImageProfile));
+            services.AddAutoMapper(typeof(RefreshTokenProfile));
+            services.AddAutoMapper(typeof(PortfolioProfile));
+            services.AddAutoMapper(typeof(ContributorProfile));
+            services.AddAutoMapper(typeof(TicketProfile));
+            services.AddAutoMapper(typeof(TicketMessageProfile));
+            services.AddAutoMapper(typeof(FaqProfile));
+            services.AddAutoMapper(typeof(FavoriteListProfile));
+            services.AddAutoMapper(typeof(FavoriteProfile));
+            services.AddAutoMapper(typeof(AboutUsProfile));
+            services.AddAutoMapper(typeof(SocialMediaProfile));
+            services.AddAutoMapper(typeof(TagProfile));
         }
     }
 }

@@ -1,38 +1,33 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Weblu.Application.Dtos.ImageDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services;
-using Weblu.Domain.Entities;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.Images;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Weblu.Application.Dtos.MediaDtos;
+using Weblu.Application.Common.Interfaces;
 namespace Weblu.Application.Services
 {
     public class ImageService : IImageService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IImageRepository _imageRepository;
-        private readonly IWebHostEnvironment _webHost;
+        private readonly IFilePathProvider _webHost;
         private readonly IMapper _mapper;
+        private readonly string _webHostPath;
 
 
-        public ImageService(IUnitOfWork unitOfWork, IWebHostEnvironment webHost, IMapper mapper, IImageRepository imageRepository)
+        public ImageService(IUnitOfWork unitOfWork, IFilePathProvider webHost, IMapper mapper, IImageRepository imageRepository)
         {
             _unitOfWork = unitOfWork;
             _webHost = webHost;
             _mapper = mapper;
             _imageRepository = imageRepository;
+            _webHostPath = webHost.GetWebRootPath();
         }
         public async Task<ImageDto> AddImageAsync(AddImageDto addImageDto)
         {
@@ -40,9 +35,9 @@ namespace Weblu.Application.Services
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
-            IFormFile image = addImageDto.Image;
+            var image = addImageDto.Image;
             string imageName = await MediaManager.UploadMedia(
-                    _webHost,
+                    _webHostPath,
                     new MediaUploaderDto
                     {
                         Media = image,
@@ -69,7 +64,7 @@ namespace Weblu.Application.Services
             ImageMedia image = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
             _imageRepository.Delete(image);
-            await MediaManager.DeleteMedia(_webHost, image.Url);
+            await MediaManager.DeleteMedia(_webHostPath, image.Url);
             await _unitOfWork.CommitAsync();
         }
 

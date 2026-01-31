@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Dtos.AboutUsDtos;
 using Weblu.Application.Dtos.MediaDtos;
 using Weblu.Application.Exceptions;
@@ -24,14 +19,16 @@ namespace Weblu.Application.Services
         private readonly IAboutUsRepository _aboutUsRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IWebHostEnvironment _webHost;
+        private readonly IFilePathProvider _webHost;
+        private readonly string _webHostPath;
 
-        public AboutUsService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment webHost, IAboutUsRepository aboutUsRepository)
+        public AboutUsService(IUnitOfWork unitOfWork, IMapper mapper, IFilePathProvider webHost, IAboutUsRepository aboutUsRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _webHost = webHost;
             _aboutUsRepository = aboutUsRepository;
+            _webHostPath = webHost.GetWebRootPath();
         }
         public async Task<AboutUsDto> AddAboutUsAsync(AddAboutUsDto addAboutUsDto)
         {
@@ -50,7 +47,7 @@ namespace Weblu.Application.Services
 
             if (!string.IsNullOrEmpty(aboutUs.HeadImageUrl))
             {
-                await MediaManager.DeleteMedia(_webHost, aboutUs.HeadImageUrl);
+                await MediaManager.DeleteMedia(_webHostPath, aboutUs.HeadImageUrl);
             }
 
             _aboutUsRepository.Delete(aboutUs);
@@ -66,7 +63,7 @@ namespace Weblu.Application.Services
                 throw new BadRequestException(AboutUsErrorCodes.HeadImageIsEmpty);
             }
             else
-                await MediaManager.DeleteMedia(_webHost, aboutUs.HeadImageUrl);
+                await MediaManager.DeleteMedia(_webHostPath, aboutUs.HeadImageUrl);
 
             aboutUs.HeadImageUrl = null;
             aboutUs.HeadImageAltText = null;
@@ -111,11 +108,11 @@ namespace Weblu.Application.Services
             }
             if (!string.IsNullOrEmpty(aboutUs.HeadImageUrl))
             {
-                await MediaManager.DeleteMedia(_webHost, aboutUs.HeadImageUrl);
+                await MediaManager.DeleteMedia(_webHostPath, aboutUs.HeadImageUrl);
             }
-            IFormFile image = updateImageAboutUs.Image;
+            var image = updateImageAboutUs.Image;
             string imageName = await MediaManager.UploadMedia(
-                    _webHost,
+                    _webHostPath,
                     new MediaUploaderDto
                     {
                         Media = image,

@@ -85,14 +85,14 @@ namespace Weblu.Api.Controllers.v1
             await _portfolioFeatureService.AddFeatureAsync(portfolioId, featureId);
             return Ok(ApiResponse.Success("Feature added successfully"));
         }
-        [Authorize(Roles = "Admin")]
         [Authorize(Policy = Permissions.ManagePortfolios)]
+        [HttpDelete("{portfolioId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> DeleteFeatureFromPortfolio(int portfolioId, int featureId)
         {
             await _portfolioFeatureService.DeleteFeatureAsync(portfolioId, featureId);
             return Ok(ApiResponse.Success("Feature deleted successfully"));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPost("{portfolioId:int}/method/{methodId:int}")]
         public async Task<IActionResult> AddMethodToPortfolio(int portfolioId, int methodId)
         {
