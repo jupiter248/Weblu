@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ArticleDtos;
+using Weblu.Application.Dtos.PortfolioDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services.Users.UserFavorites;
@@ -13,16 +14,18 @@ namespace Weblu.Api.Controllers.v1
 {
     [ApiVersion("1")]
     [ApiController]
-    [Route("api/favorite/article")]
-    public class UserArticleFavoriteController : ControllerBase
+    [Route("api/favorite")]
+    public class UserFavoriteController : ControllerBase
     {
         private readonly IUserArticleFavoriteService _articleFavoriteService;
-        public UserArticleFavoriteController(IUserArticleFavoriteService articleFavoriteService)
+        private readonly IUserPortfolioFavoriteService _userPortfolioFavoriteService;
+        public UserFavoriteController(IUserArticleFavoriteService articleFavoriteService, IUserPortfolioFavoriteService userPortfolioFavoriteService)
         {
             _articleFavoriteService = articleFavoriteService;
+            _userPortfolioFavoriteService = userPortfolioFavoriteService;
         }
         [Authorize]
-        [HttpGet]
+        [HttpGet("article")]
         public async Task<IActionResult> GetAllFavoriteArticles([FromQuery] FavoriteParameters favoriteParameters)
         {
             string? userId = User.GetUserId();
@@ -34,8 +37,8 @@ namespace Weblu.Api.Controllers.v1
             return Ok(articleSummaryDtos);
         }
         [Authorize]
-        [HttpGet("{articleId:int}/status")]
-        public async Task<IActionResult> IsFavorite(int articleId)
+        [HttpGet("article/{articleId:int}/status")]
+        public async Task<IActionResult> IsArticleFavorite(int articleId)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
@@ -49,7 +52,7 @@ namespace Weblu.Api.Controllers.v1
             });
         }
         [Authorize]
-        [HttpPost("{articleId:int}")]
+        [HttpPost("article/{articleId:int}")]
         public async Task<IActionResult> AddArticleToFavorite(int articleId)
         {
             string? userId = User.GetUserId();
@@ -64,7 +67,7 @@ namespace Weblu.Api.Controllers.v1
             ));
         }
         [Authorize]
-        [HttpDelete("{articleId:int}")]
+        [HttpDelete("article/{articleId:int}")]
         public async Task<IActionResult> DeleteArticleFromFavorite(int articleId)
         {
             string? userId = User.GetUserId();
@@ -76,6 +79,63 @@ namespace Weblu.Api.Controllers.v1
             return Ok(ApiResponse.Success
             (
                 "Article deleted from favorites successfully."
+            ));
+        }
+        [Authorize]
+        [HttpGet("portfolio")]
+        public async Task<IActionResult> GetAllFavoritePortfolios([FromQuery] FavoriteParameters favoriteParameters)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            List<PortfolioSummaryDto> portfolioSummaryDtos = await _userPortfolioFavoriteService.GetAllAsync(userId, favoriteParameters);
+            return Ok(portfolioSummaryDtos);
+        }
+        [Authorize]
+        [HttpGet("portfolio/{portfolioId:int}/status")]
+        public async Task<IActionResult> IsPortfolioFavorite(int portfolioId)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            bool isFavorite = await _userPortfolioFavoriteService.IsFavoriteAsync(userId, portfolioId);
+            return Ok(new
+            {
+                isFavorite
+            });
+        }
+        [Authorize]
+        [HttpPost("portfolio/{portfolioId:int}")]
+        public async Task<IActionResult> AddPortfolioToFavorite(int portfolioId)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            await _userPortfolioFavoriteService.AddAsync(userId, portfolioId);
+            return Ok(ApiResponse.Success
+            (
+                "Portfolio added to favorites successfully."
+            ));
+        }
+        [Authorize]
+        [HttpDelete("portfolio/{portfolioId:int}")]
+        public async Task<IActionResult> DeletePortfolioFromFavorite(int portfolioId)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            await _userPortfolioFavoriteService.DeleteAsync(userId, portfolioId);
+            return Ok(ApiResponse.Success
+            (
+                "Portfolio deleted from favorites successfully."
             ));
         }
     }

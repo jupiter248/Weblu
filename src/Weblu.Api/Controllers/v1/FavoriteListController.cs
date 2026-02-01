@@ -6,6 +6,7 @@ using Weblu.Application.Dtos.FavoriteListDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services.Users.UserFavorites;
+using Weblu.Application.Interfaces.Services.Users.UserFavorites.FavoriteLists;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Errors.Users;
 
@@ -17,9 +18,13 @@ namespace Weblu.Api.Controllers.v1
     public class FavoriteListController : ControllerBase
     {
         private readonly IFavoriteListService _favoriteListService;
-        public FavoriteListController(IFavoriteListService favoriteListService)
+        private readonly IFavoriteListPortfolioService _favoriteListPortfolioService;
+        private readonly IFavoriteListArticleService _favoriteListArticleService;
+        public FavoriteListController(IFavoriteListService favoriteListService, IFavoriteListPortfolioService favoriteListPortfolioService, IFavoriteListArticleService favoriteListArticleService)
         {
             _favoriteListService = favoriteListService;
+            _favoriteListPortfolioService = favoriteListPortfolioService;
+            _favoriteListArticleService = favoriteListArticleService;
         }
         [Authorize]
         [HttpGet]
@@ -90,7 +95,7 @@ namespace Weblu.Api.Controllers.v1
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            await _favoriteListService.AddPortfolioToFavoriteListAsync(userId, favoriteListId, portfolioId);
+            await _favoriteListPortfolioService.AddAsync(userId, favoriteListId, portfolioId);
             return Ok(ApiResponse.Success(
                 "Portfolio added to Favorite list successfully."
             ));
@@ -104,9 +109,37 @@ namespace Weblu.Api.Controllers.v1
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            await _favoriteListService.DeletePortfolioFromFavoriteListAsync(userId, favoriteListId, portfolioId);
+            await _favoriteListPortfolioService.DeleteAsync(userId, favoriteListId, portfolioId);
             return Ok(ApiResponse.Success(
                 "Portfolio deleted to Favorite list successfully."
+            ));
+        }
+        [Authorize]
+        [HttpPost("{favoriteListId:int}/article/{articleId:int}")]
+        public async Task<IActionResult> AddArticleToFavoriteList(int favoriteListId, int articleId)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            await _favoriteListArticleService.AddAsync(userId, favoriteListId, articleId);
+            return Ok(ApiResponse.Success(
+                "Article added to Favorite list successfully."
+            ));
+        }
+        [Authorize]
+        [HttpDelete("{favoriteListId:int}/article/{articleId:int}")]
+        public async Task<IActionResult> DeleteArticleFromFavoriteList(int favoriteListId, int articleId)
+        {
+            string? userId = User.GetUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+            }
+            await _favoriteListArticleService.DeleteAsync(userId, favoriteListId, articleId);
+            return Ok(ApiResponse.Success(
+                "Article deleted to Favorite list successfully."
             ));
         }
     }

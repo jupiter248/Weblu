@@ -11,5 +11,6 @@ namespace Weblu.Application.Interfaces.Repositories.Users.UserFavorites
         Task AddAsync(FavoritePortfolio favoritePortfolio);
         Task<bool> IsFavoriteAsync(string userId, int portfolioId);
         Task DeleteAsync(string userId, int portfolioId);
+        
     }
 }

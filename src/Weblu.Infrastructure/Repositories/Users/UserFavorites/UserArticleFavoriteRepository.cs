@@ -49,9 +49,9 @@ namespace Weblu.Infrastructure.Repositories.Users.UserFavorites
             return favoriteArticles;
         }
 
-        public async Task<FavoriteArticle?> GetByArticleIdAsync(string userId, int portfolioId)
+        public async Task<FavoriteArticle?> GetByArticleIdAsync(string userId, int articleId)
         {
-            FavoriteArticle? favoriteArticles = await _context.FavoriteArticles.FirstOrDefaultAsync(u => u.UserId == userId && u.ArticleId == portfolioId);
+            FavoriteArticle? favoriteArticles = await _context.FavoriteArticles.Include(a => a.Article).FirstOrDefaultAsync(u => u.UserId == userId && u.ArticleId == articleId);
             return favoriteArticles;
         }
     }
