@@ -97,7 +97,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<Dictionary<int, int>> GetLikeCountByIdsAsync(List<int> ids)
         {
-            return await _context.ArticleLikes.Where(l => ids.Contains(l.Id)).GroupBy(l => l.Id)
+            return await _context.ArticleLikes.Where(l => ids.Contains(l.ArticleId)).GroupBy(l => l.ArticleId)
             .Select(l => new
             {
                 ArticleId = l.Key,

@@ -18,12 +18,14 @@ namespace Weblu.Application.Services.UserFavorites
         private readonly IArticleRepository _articleRepository;
         private readonly IUserArticleFavoriteRepository _userArticleFavoriteRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public UserArticleFavoriteService(IMapper mapper, IUnitOfWork unitOfWork, IArticleRepository articleRepository, IUserArticleFavoriteRepository userArticleFavoriteRepository)
+        private readonly ICommentRepository _commentRepository;
+        public UserArticleFavoriteService(ICommentRepository commentRepository, IMapper mapper, IUnitOfWork unitOfWork, IArticleRepository articleRepository, IUserArticleFavoriteRepository userArticleFavoriteRepository)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _articleRepository = articleRepository;
             _userArticleFavoriteRepository = userArticleFavoriteRepository;
+            _commentRepository = commentRepository;
         }
 
         public async Task AddAsync(string userId, int articleId)
@@ -60,12 +62,20 @@ namespace Weblu.Application.Services.UserFavorites
         public async Task<List<ArticleSummaryDto>> GetAllAsync(string userId, FavoriteParameters favoriteParameters)
         {
             IEnumerable<FavoriteArticle> favoriteArticles = await _userArticleFavoriteRepository.GetAllAsync(userId, favoriteParameters);
-            List<Article> articles = new List<Article>();
-            foreach (FavoriteArticle item in favoriteArticles)
-            {
-                articles.Add(item.Article);
-            }
+            List<Article> articles = favoriteArticles.Select(x => x.Article).ToList();
+            var articleIds = articles.Select(a => a.Id).ToList();
+
+            var commentCounts = await _commentRepository.GetCountByIdsAsync(articleIds);
+            var likesCounts = await _articleRepository.GetLikeCountByIdsAsync(articleIds);
+
+
             List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles) ?? default!;
+
+            foreach (var dto in articleSummaryDtos)
+            {
+                dto.CommentCount = commentCounts.TryGetValue(dto.Id, out var cCount) ? cCount : 0;
+                dto.LikeCount = likesCounts.TryGetValue(dto.Id, out var lCount) ? lCount : 0;
+            }
             return articleSummaryDtos;
         }
 

@@ -64,11 +64,7 @@ namespace Weblu.Application.Services
         public async Task<ServiceDetailDto> GetServiceByIdAsync(int serviceId)
         {
             Service? service = await _serviceRepository.GetByIdWithImagesAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
-            List<ServiceImageDto> imageDtos = new List<ServiceImageDto>();
-            foreach (var item in service.ServiceImages)
-            {
-                imageDtos.Add(_mapper.Map<ServiceImageDto>(item));
-            }
+            List<ServiceImageDto> imageDtos = service.ServiceImages.Select(x => _mapper.Map<ServiceImageDto>(x)).ToList();
             ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(service);
             serviceDto.Images = imageDtos;
             return serviceDto;

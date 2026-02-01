@@ -60,11 +60,7 @@ namespace Weblu.Application.Services.UserFavorites
         public async Task<List<PortfolioSummaryDto>> GetAllAsync(string userId, FavoriteParameters favoriteParameters)
         {
             IReadOnlyList<FavoritePortfolio> favoritePortfolios = await _userPortfolioFavoriteRepository.GetAllAsync(userId, favoriteParameters);
-            List<Portfolio> portfolios = new List<Portfolio>();
-            foreach (FavoritePortfolio item in favoritePortfolios)
-            {
-                portfolios.Add(item.Portfolio);
-            }
+            List<Portfolio> portfolios = favoritePortfolios.Select(x => x.Portfolio).ToList();
             List<PortfolioSummaryDto> portfolioSummaryDtos = _mapper.Map<List<PortfolioSummaryDto>>(portfolios) ?? default!;
             return portfolioSummaryDtos;
         }
