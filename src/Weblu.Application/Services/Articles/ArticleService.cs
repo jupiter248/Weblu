@@ -61,22 +61,20 @@ namespace Weblu.Application.Services.Articles
         {
             IReadOnlyList<Article> articles = await _articleRepository.GetAllAsync(articleParameters);
             var articleIds = articles.Select(a => a.Id).ToList();
+
             var commentCounts = await _commentRepository.GetCountByIdsAsync(articleIds);
             var likesCounts = await _articleRepository.GetLikeCountByIdsAsync(articleIds);
 
-            List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
+
+            var articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles)
+                                     ?? new List<ArticleSummaryDto>();
+
             foreach (var dto in articleSummaryDtos)
             {
-                dto.CommentCount = commentCounts.TryGetValue(dto.Id, out var count)
-                    ? count
-                    : 0;
+                dto.CommentCount = commentCounts.TryGetValue(dto.Id, out var cCount) ? cCount : 0;
+                dto.LikeCount = likesCounts.TryGetValue(dto.Id, out var lCount) ? lCount : 0;
             }
-            foreach (var dto in articleSummaryDtos)
-            {
-                dto.LikeCount = likesCounts.TryGetValue(dto.Id, out var count)
-                    ? count
-                    : 0;
-            }
+
             return articleSummaryDtos;
         }
 
@@ -90,16 +88,10 @@ namespace Weblu.Application.Services.Articles
             List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
             foreach (var dto in articleSummaryDtos)
             {
-                dto.CommentCount = commentCounts.TryGetValue(dto.Id, out var count)
-                    ? count
-                    : 0;
+                dto.CommentCount = commentCounts.TryGetValue(dto.Id, out var cCount) ? cCount : 0;
+                dto.LikeCount = likesCounts.TryGetValue(dto.Id, out var lCount) ? lCount : 0;
             }
-            foreach (var dto in articleSummaryDtos)
-            {
-                dto.LikeCount = likesCounts.TryGetValue(dto.Id, out var count)
-                    ? count
-                    : 0;
-            }
+
             var pagedResponse = _mapper.Map<PagedResponse<ArticleSummaryDto>>(articles);
             pagedResponse.Items = articleSummaryDtos;
             return pagedResponse;
@@ -108,11 +100,7 @@ namespace Weblu.Application.Services.Articles
         public async Task<ArticleDetailDto> GetArticleByIdAsync(int articleId)
         {
             Article article = await _articleRepository.GetByIdWithImagesAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            List<ArticleImageDto> imageDtos = new List<ArticleImageDto>();
-            foreach (ArticleImage item in article.ArticleImages)
-            {
-                imageDtos.Add(_mapper.Map<ArticleImageDto>(item));
-            }
+            List<ArticleImageDto> imageDtos = article.ArticleImages.Select(x => _mapper.Map<ArticleImageDto>(x)).ToList();
             ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
             articleDetailDto.ArticleImages = imageDtos;
             articleDetailDto.CommentCount = await _commentRepository.GetCountAsync(articleId);

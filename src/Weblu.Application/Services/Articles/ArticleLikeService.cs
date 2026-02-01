@@ -1,5 +1,6 @@
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Errors.Articles;
@@ -23,12 +24,10 @@ namespace Weblu.Application.Services.Articles
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             bool userExists = await _userRepository.UserExistsAsync(userId);
-
             if (!userExists)
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-
             ArticleLike articleLike = new ArticleLike()
             {
                 ArticleId = articleId,

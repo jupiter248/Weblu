@@ -6,6 +6,7 @@ using Weblu.Application.Dtos.UserDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Interfaces.Services.Users;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Users;
 using Weblu.Domain.Errors.Users;

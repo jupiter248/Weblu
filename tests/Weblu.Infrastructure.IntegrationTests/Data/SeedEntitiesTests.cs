@@ -28,10 +28,12 @@ namespace Weblu.Infrastructure.IntegrationTests.Data
 
             // Assert
             db.Roles.Should().NotBeEmpty();
-            db.Roles.Should().HaveCount(3);
+            db.Roles.Should().HaveCount(4);
             db.Roles.Should().Contain(u => u.NormalizedName == "ADMIN");
             db.Roles.Should().Contain(u => u.NormalizedName == "HEAD-ADMIN");
             db.Roles.Should().Contain(u => u.NormalizedName == "USER");
+            db.Roles.Should().Contain(u => u.NormalizedName == "EDITOR");
+
 
 
         }
@@ -47,7 +49,7 @@ namespace Weblu.Infrastructure.IntegrationTests.Data
             // Assert
             db.Users.Should().NotBeEmpty();
             db.UserRoles.Should().NotBeEmpty();
-            db.Users.Should().HaveCount(2);
+            db.Users.Should().HaveCount(4);
             db.Users.Should().Contain(u => u.NormalizedUserName == "USER");
             db.Users.Should().Contain(u => u.NormalizedUserName == "ADMIN");
         }

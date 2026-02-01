@@ -26,15 +26,20 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<FavoriteList>> GetAllByUserIdAsync(string userId, FavoriteListParameters favoriteListParameters)
         {
-            IQueryable<FavoriteList> favoriteLists = _context.FavoriteLists.Where(u => u.UserId == userId).Include(f => f.FavoritePortfolios).AsNoTracking().AsQueryable();
+            IQueryable<FavoriteList> favoriteLists = _context.FavoriteLists.Where(u => u.UserId == userId).Include(f => f.FavoritePortfolios).Include(a => a.FavoriteArticles).AsNoTracking().AsQueryable();
 
             if (favoriteListParameters.FavoriteListTypeSort != FavoriteListTypeSort.All)
             {
                 favoriteLists = new FavoriteListQueryHandler(new FavoriteListTypeSortQueryStrategy())
                 .ExecuteFavoriteListQuery(favoriteLists, favoriteListParameters);
             }
-
             return await favoriteLists.ToListAsync();
+        }
+
+        public async Task<FavoriteList?> GetByUserAndListIdAsync(string userId, int favoriteListId)
+        {
+            FavoriteList? favoriteList = await _context.FavoriteLists.Include(f => f.FavoritePortfolios).Include(a => a.FavoriteArticles).FirstOrDefaultAsync(i => i.Id == favoriteListId && i.UserId == userId);
+            return favoriteList;
         }
     }
 }

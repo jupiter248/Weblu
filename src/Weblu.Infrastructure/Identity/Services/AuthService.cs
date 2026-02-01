@@ -1,15 +1,13 @@
-using System.Globalization;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Weblu.Application.Dtos.AuthDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Application.Services.Interfaces;
 using Weblu.Domain.Entities.Users;
 using Weblu.Domain.Enums.Users;
 using Weblu.Domain.Errors.Auth;
 using Weblu.Domain.Errors.Users;
-using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Token;
 

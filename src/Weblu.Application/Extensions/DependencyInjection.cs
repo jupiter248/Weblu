@@ -8,11 +8,16 @@ using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Interfaces.Services.ServiceServices;
+using Weblu.Application.Interfaces.Services.Users.UserFavorites;
+using Weblu.Application.Interfaces.Services.Users.UserFavorites.FavoriteLists;
 using Weblu.Application.Mappers;
 using Weblu.Application.Services;
 using Weblu.Application.Services.Articles;
+using Weblu.Application.Services.FavoriteLists;
 using Weblu.Application.Services.Portfolios;
 using Weblu.Application.Services.ServiceServices;
+using Weblu.Application.Services.UserFavorites;
+using Weblu.Application.Services.UserFavorites.FavoriteLists;
 
 namespace Weblu.Application.Extensions
 {
@@ -32,6 +37,10 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IFaqService, FaqService>();
             services.AddScoped<IFaqCategoryService, FaqCategoryService>();
             services.AddScoped<IFavoriteListService, FavoriteListService>();
+            services.AddScoped<IFavoriteListPortfolioService, FavoriteListPortfolioService>();
+            services.AddScoped<IFavoriteListArticleService, FavoriteListArticleService>();
+            services.AddScoped<IUserArticleFavoriteService, UserArticleFavoriteService>();
+            services.AddScoped<IUserPortfolioFavoriteService, UserPortfolioFavoriteService>();
             services.AddScoped<IAboutUsService, AboutUsService>();
             services.AddScoped<ISocialMediaService, SocialMediaService>();
             services.AddScoped<IArticleCategoryService, ArticleCategoryService>();

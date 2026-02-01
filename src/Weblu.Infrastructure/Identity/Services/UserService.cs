@@ -6,6 +6,7 @@ using Weblu.Application.Dtos.UserDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Interfaces.Services.Users;
 using Weblu.Domain.Enums.Users;
 using Weblu.Domain.Errors.Users;
 using Weblu.Infrastructure.Identity.Entities;
@@ -40,7 +41,7 @@ namespace Weblu.Infrastructure.Identity.Services
 
             bool checkOldPass = await _userManager.CheckPasswordAsync(currentUser, changePasswordDto.OldPassword);
             if (!checkOldPass)
-            {   
+            {
                 throw new UnauthorizedException(UserErrorCodes.OldPasswordIsIncorrect);
             }
 
@@ -72,7 +73,7 @@ namespace Weblu.Infrastructure.Identity.Services
         public async Task<List<UserDto>> GetAllUsersAsync()
         {
             List<AppUser> users = await _userManager.Users.Include(p => p.Profiles).ToListAsync();
-            List<UserDto> userDtos = _mapper.Map<List<UserDto>>(users);
+            List<UserDto> userDtos = _mapper.Map<List<UserDto>>(users) ?? default!;
             foreach (UserDto userDto in userDtos)
             {
                 foreach (AppUser user in users)
@@ -88,7 +89,7 @@ namespace Weblu.Infrastructure.Identity.Services
         {
             AppUser user = await _userManager.Users.Include(p => p.Profiles).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             IList<string> roles = await _userManager.GetRolesAsync(user);
-            UserDto userDto = _mapper.Map<UserDto>(user);
+            UserDto userDto = _mapper.Map<UserDto>(user) ?? default!;
             userDto.Roles.AddRange(roles);
             return userDto;
         }
@@ -130,9 +131,9 @@ namespace Weblu.Infrastructure.Identity.Services
 
             AppUser currentUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             // IList<string> roles = await _userManager.GetRolesAsync(user);
-            currentUser = _mapper.Map(updateUserDto, currentUser);
+            currentUser = _mapper.Map(updateUserDto, currentUser) ?? default!;
             await _userManager.UpdateAsync(currentUser);
-            UserDto userDto = _mapper.Map<UserDto>(currentUser);
+            UserDto userDto = _mapper.Map<UserDto>(currentUser) ?? default!;
             return userDto;
         }
     }

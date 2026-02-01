@@ -6,15 +6,22 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Users;
+using Weblu.Application.Interfaces.Repositories.Users.UserFavorites;
 using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Interfaces.Services.Users;
+using Weblu.Application.Interfaces.Services.Users.UserFavorites;
 using Weblu.Application.Mappers;
 using Weblu.Application.Services.Interfaces;
+using Weblu.Application.Services.UserFavorites;
 using Weblu.Infrastructure.Common.Services;
 using Weblu.Infrastructure.Identity.Mappers;
 using Weblu.Infrastructure.Identity.Services;
 using Weblu.Infrastructure.Localization;
 using Weblu.Infrastructure.Logger;
 using Weblu.Infrastructure.Repositories;
+using Weblu.Infrastructure.Repositories.Users;
+using Weblu.Infrastructure.Repositories.Users.UserFavorites;
 using Weblu.Infrastructure.Token;
 
 namespace Weblu.Infrastructure.Extensions
@@ -24,7 +31,7 @@ namespace Weblu.Infrastructure.Extensions
         public static void AddInfrastructure(this IServiceCollection services)
         {
             // services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
-
+            // Repositories
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IMethodRepository, MethodRepository>();
@@ -41,7 +48,9 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IFaqRepository, FaqRepository>();
             services.AddScoped<IFaqCategoryRepository, FaqCategoryRepository>();
             services.AddScoped<IFavoriteListRepository, FavoriteListRepository>();
-            services.AddScoped<IUserFavoritesRepository, UserFavoritesRepository>();
+            
+            services.AddScoped<IUserPortfolioFavoriteRepository, UserPortfolioFavoriteRepository>();
+            services.AddScoped<IUserArticleFavoriteRepository, UserArticleFavoriteRepository>();
             services.AddScoped<IAboutUsRepository, AboutUsRepository>();
             services.AddScoped<ISocialMediaRepository, SocialMediaRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
@@ -50,29 +59,17 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+            // Services
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserFavoriteService, UserFavoritesService>();
-
-
+            services.AddScoped<IUserPortfolioFavoriteService, UserPortfolioFavoriteService>();
+            services.AddScoped<IUserArticleFavoriteService, UserArticleFavoriteService>();
             services.AddSingleton<IErrorService, ErrorService>();
             services.AddSingleton<IFilePathProvider, FilePathProvider>();
 
+            // Mappers
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLoggerService<>));
             services.AddAutoMapper(typeof(UserProfile));
             services.AddAutoMapper(typeof(ServiceProfile));

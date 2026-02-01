@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Application.Strategies.Comments;
-using Weblu.Domain.Entities.Common;
 using Weblu.Infrastructure.Data;
 using Weblu.Domain.Entities.Comments;
 using Weblu.Infrastructure.Common.Repositories;
 using Weblu.Application.Common.Pagination;
 using Weblu.Infrastructure.Common.Pagination;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Weblu.Infrastructure.Repositories
 {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Weblu.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Weblu.Infrastructure.Data;
 namespace Weblu.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260131192305_AddedFavoriteArticleTable")]
+    partial class AddedFavoriteArticleTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,21 +68,6 @@ namespace Weblu.Infrastructure.Migrations
                     b.HasIndex("PortfoliosId");
 
                     b.ToTable("ContributorPortfolio");
-                });
-
-            modelBuilder.Entity("FavoriteArticleFavoriteList", b =>
-                {
-                    b.Property<int>("FavoriteArticlesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FavoriteListsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FavoriteArticlesId", "FavoriteListsId");
-
-                    b.HasIndex("FavoriteListsId");
-
-                    b.ToTable("FavoriteArticleFavoriteList");
                 });
 
             modelBuilder.Entity("FavoriteListFavoritePortfolio", b =>
@@ -701,6 +689,9 @@ namespace Weblu.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int?>("FavoriteArticleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("FavoriteListType")
                         .HasColumnType("int");
 
@@ -716,6 +707,8 @@ namespace Weblu.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FavoriteArticleId");
 
                     b.HasIndex("UserId");
 
@@ -1330,21 +1323,6 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FavoriteArticleFavoriteList", b =>
-                {
-                    b.HasOne("Weblu.Domain.Entities.Favorites.FavoriteArticle", null)
-                        .WithMany()
-                        .HasForeignKey("FavoriteArticlesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Weblu.Domain.Entities.Favorites.FavoriteList", null)
-                        .WithMany()
-                        .HasForeignKey("FavoriteListsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("FavoriteListFavoritePortfolio", b =>
                 {
                     b.HasOne("Weblu.Domain.Entities.Favorites.FavoriteList", null)
@@ -1563,6 +1541,10 @@ namespace Weblu.Infrastructure.Migrations
 
             modelBuilder.Entity("Weblu.Domain.Entities.Favorites.FavoriteList", b =>
                 {
+                    b.HasOne("Weblu.Domain.Entities.Favorites.FavoriteArticle", null)
+                        .WithMany("FavoriteLists")
+                        .HasForeignKey("FavoriteArticleId");
+
                     b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
                         .WithMany("FavoriteLists")
                         .HasForeignKey("UserId")
@@ -1691,6 +1673,11 @@ namespace Weblu.Infrastructure.Migrations
             modelBuilder.Entity("Weblu.Domain.Entities.Faqs.FaqCategory", b =>
                 {
                     b.Navigation("Faqs");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Favorites.FavoriteArticle", b =>
+                {
+                    b.Navigation("FavoriteLists");
                 });
 
             modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.Portfolio", b =>

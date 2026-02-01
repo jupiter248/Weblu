@@ -1,7 +1,7 @@
 using Weblu.Application.Dtos.FavoriteListDtos;
 using Weblu.Application.Parameters;
 
-namespace Weblu.Application.Interfaces.Services
+namespace Weblu.Application.Interfaces.Services.Users.UserFavorites
 {
     public interface IFavoriteListService
     {
@@ -10,9 +10,6 @@ namespace Weblu.Application.Interfaces.Services
         Task<FavoriteListDto> AddFavoriteListAsync(string userId, AddFavoriteListDto addFavoriteListDto);
         Task<FavoriteListDto> UpdateFavoriteListAsync(string userId, int favoriteListId, UpdateFavoriteListDto updateFavoriteListDto);
         Task DeleteFavoriteListAsync(string userId, int favoriteListId);
-        Task AddPortfolioToFavoriteListAsync(string userId, int favoriteListId, int portfolioId);
-        Task DeletePortfolioFromFavoriteListAsync(string userId, int favoriteListId, int portfolioId);
-
 
     }
 }

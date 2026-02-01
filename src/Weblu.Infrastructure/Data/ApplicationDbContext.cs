@@ -50,6 +50,7 @@ namespace Weblu.Infrastructure.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<ArticleLike> ArticleLikes { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<FavoriteArticle> FavoriteArticles { get; set; }
 
 
 

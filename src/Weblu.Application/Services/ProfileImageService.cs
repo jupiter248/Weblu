@@ -11,6 +11,7 @@ using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Errors.Users;
 using Weblu.Application.Dtos.MediaDtos;
 using Weblu.Application.Common.Interfaces;
+using Weblu.Application.Interfaces.Repositories.Users;
 
 
 namespace Weblu.Application.Services
