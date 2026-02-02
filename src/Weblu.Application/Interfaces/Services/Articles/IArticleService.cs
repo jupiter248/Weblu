@@ -13,7 +13,6 @@ namespace Weblu.Application.Interfaces.Services.Articles
     {
         Task<List<ArticleSummaryDto>> GetAllArticlesAsync(ArticleParameters articleParameters);
         Task<PagedResponse<ArticleSummaryDto>> GetAllPagedArticlesAsync(ArticleParameters articleParameters);
-
         Task<ArticleDetailDto> GetArticleByIdAsync(int articleId);
         Task<ArticleDetailDto> AddArticleAsync(AddArticleDto addArticleDto);
         Task<ArticleDetailDto> UpdateArticleAsync(int articleId, UpdateArticleDto updateArticleDto);

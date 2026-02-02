@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Weblu.Application.Dtos.ArticleCategoryDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Parameters;
 using Weblu.Domain.Entities.Articles;

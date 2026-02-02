@@ -14,5 +14,7 @@ namespace Weblu.Application.Interfaces.Repositories
         Task LoadMethodsAsync(Portfolio portfolio);
         Task LoadFeaturesAsync(Portfolio portfolio);
         Task<Portfolio?> GetByIdWithImagesAsync(int portfolioId);
+        Task<IEnumerable<Portfolio>> GetByTitleAsync(string title);
+
     }
 }

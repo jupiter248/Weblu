@@ -46,6 +46,7 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<ITagService, TagService>();
+            services.AddScoped<ISearchService, SearchService>();
             // Services
             services.AddScoped<IServiceService, ServiceService>();
             services.AddScoped<IServiceFeatureService, ServiceFeatureService>();

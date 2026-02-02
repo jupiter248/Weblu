@@ -13,5 +13,6 @@ namespace Weblu.Application.Interfaces.Repositories
         Task LoadTagsAsync(Article article);
         Task LoadLikesAsync(Article article);
         Task<Article?> GetByIdWithImagesAsync(int articleId);
+        Task<IEnumerable<Article>> GetByTitleAsync(string title);
     }
 }

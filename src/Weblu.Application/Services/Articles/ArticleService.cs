@@ -107,6 +107,7 @@ namespace Weblu.Application.Services.Articles
             articleDetailDto.LikeCount = await _articleRepository.GetLikeCountAsync(articleId);
             return articleDetailDto;
         }
+
         public async Task<ArticleDetailDto> UpdateArticleAsync(int articleId, UpdateArticleDto updateArticleDto)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);

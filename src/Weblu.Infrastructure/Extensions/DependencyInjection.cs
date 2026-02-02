@@ -48,7 +48,6 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IFaqRepository, FaqRepository>();
             services.AddScoped<IFaqCategoryRepository, FaqCategoryRepository>();
             services.AddScoped<IFavoriteListRepository, FavoriteListRepository>();
-            
             services.AddScoped<IUserPortfolioFavoriteRepository, UserPortfolioFavoriteRepository>();
             services.AddScoped<IUserArticleFavoriteRepository, UserArticleFavoriteRepository>();
             services.AddScoped<IAboutUsRepository, AboutUsRepository>();
@@ -58,6 +57,7 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<ISearchRepository, SearchRepository>();
 
             // Services
             services.AddScoped<IAuthService, AuthService>();
@@ -87,6 +87,8 @@ namespace Weblu.Infrastructure.Extensions
             services.AddAutoMapper(typeof(AboutUsProfile));
             services.AddAutoMapper(typeof(SocialMediaProfile));
             services.AddAutoMapper(typeof(TagProfile));
+            services.AddAutoMapper(typeof(SearchProfile));
+
         }
     }
 }
