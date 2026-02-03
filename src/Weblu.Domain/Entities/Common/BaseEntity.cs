@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Weblu.Domain.Entities.Common
 {
@@ -11,5 +6,10 @@ namespace Weblu.Domain.Entities.Common
     {
         [Key]
         public int Id { get; set; }
+        public Guid PublicId { get; private set; }
+        protected BaseEntity()
+        {
+            PublicId = Guid.NewGuid();
+        }
     }
 }

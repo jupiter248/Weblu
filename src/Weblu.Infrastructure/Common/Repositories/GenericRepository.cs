@@ -56,5 +56,11 @@ namespace Weblu.Infrastructure.Common.Repositories
             bool entityExists = await _context.Set<TEntity>().AnyAsync(e => e.Id == id);
             return entityExists;
         }
+
+        public async Task<TEntity?> GetByPublicIdAsync(Guid publicId)
+        {
+            TEntity? entity = await _context.Set<TEntity>().FirstOrDefaultAsync(e => e.PublicId == publicId);
+            return entity;
+        }
     }
 }

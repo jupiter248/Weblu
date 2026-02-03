@@ -14,6 +14,8 @@ using Weblu.Domain.Errors.Contributors;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Errors.Portfolios;
+using Weblu.Domain.Events.Common;
+using Weblu.Domain.Events.Portfolios;
 using Weblu.Domain.Exceptions;
 
 namespace Weblu.Domain.Entities.Portfolios
@@ -37,6 +39,25 @@ namespace Weblu.Domain.Entities.Portfolios
         public List<PortfolioImage> PortfolioImages { get; set; } = new List<PortfolioImage>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>();
         public List<FavoritePortfolio> FavoritePortfolios { get; set; } = new List<FavoritePortfolio>();
+        private readonly List<IDomainEvent> _events = new();
+        public IReadOnlyCollection<IDomainEvent> Events => _events;
+        public void Add()
+        {
+            AddDomainEvent(new PortfolioAddedEvent(PublicId));
+        }
+        public void Delete()
+        {
+            AddDomainEvent(new PortfolioDeletedEvent(PublicId));
+        }
+        public void Update()
+        {
+            AddDomainEvent(new PortfolioUpdatedEvent(PublicId));
+        }
+
+        public void AddDomainEvent(IDomainEvent domainEvent)
+            => _events.Add(domainEvent);
+        public void ClearDomainEvents()
+            => _events.Clear();
 
         public void AddMethod(Method method)
         {
@@ -109,14 +130,15 @@ namespace Weblu.Domain.Entities.Portfolios
         }
         public void UpdateActivateStatus(bool isActive)
         {
+            if (IsActive == isActive) return;
             IsActive = isActive;
-            if (isActive && ActivatedAt == DateTimeOffset.MinValue)
+            if (isActive)
             {
                 ActivatedAt = DateTimeOffset.Now;
             }
-            else if (!isActive)
+            else
             {
-                ActivatedAt =  DateTimeOffset.MinValue;
+                ActivatedAt = null;
             }
         }
     }

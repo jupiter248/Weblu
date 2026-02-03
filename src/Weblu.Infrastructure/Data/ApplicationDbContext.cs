@@ -10,6 +10,7 @@ using Weblu.Domain.Entities.Features;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Methods;
 using Weblu.Domain.Entities.Portfolios;
+using Weblu.Domain.Entities.Search;
 using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Entities.Tags;
 using Weblu.Domain.Entities.Tickets;
@@ -51,8 +52,7 @@ namespace Weblu.Infrastructure.Data
         public DbSet<ArticleLike> ArticleLikes { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<FavoriteArticle> FavoriteArticles { get; set; }
-
-
+        public DbSet<SearchItem> SearchItems { get; set; }
 
 
 

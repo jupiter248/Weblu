@@ -105,5 +105,10 @@ namespace Weblu.Infrastructure.Repositories
             })
             .ToDictionaryAsync(x => x.ArticleId, x => x.Count);
         }
+
+        public async Task<IEnumerable<Article>> GetByTitleAsync(string title)
+        {
+            return await _context.Articles.Where(a => a.Title.ToLower().Contains(title.ToLower())).ToListAsync();
+        }
     }
 }

@@ -1,20 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Application.Interfaces.Repositories.Users.UserFavorites;
-using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Interfaces.Services.Users;
 using Weblu.Application.Interfaces.Services.Users.UserFavorites;
 using Weblu.Application.Mappers;
 using Weblu.Application.Services.Interfaces;
 using Weblu.Application.Services.UserFavorites;
 using Weblu.Infrastructure.Common.Services;
+using Weblu.Infrastructure.EventDispatching;
 using Weblu.Infrastructure.Identity.Mappers;
 using Weblu.Infrastructure.Identity.Services;
 using Weblu.Infrastructure.Localization;
@@ -48,7 +43,6 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IFaqRepository, FaqRepository>();
             services.AddScoped<IFaqCategoryRepository, FaqCategoryRepository>();
             services.AddScoped<IFavoriteListRepository, FavoriteListRepository>();
-            
             services.AddScoped<IUserPortfolioFavoriteRepository, UserPortfolioFavoriteRepository>();
             services.AddScoped<IUserArticleFavoriteRepository, UserArticleFavoriteRepository>();
             services.AddScoped<IAboutUsRepository, AboutUsRepository>();
@@ -58,6 +52,7 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<ISearchRepository, SearchRepository>();
 
             // Services
             services.AddScoped<IAuthService, AuthService>();
@@ -87,6 +82,11 @@ namespace Weblu.Infrastructure.Extensions
             services.AddAutoMapper(typeof(AboutUsProfile));
             services.AddAutoMapper(typeof(SocialMediaProfile));
             services.AddAutoMapper(typeof(TagProfile));
+            services.AddAutoMapper(typeof(SearchProfile));
+
+            // DisPatcher
+            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
+
         }
     }
 }

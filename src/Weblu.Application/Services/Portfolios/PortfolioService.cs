@@ -1,4 +1,5 @@
 using AutoMapper;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Common.Pagination;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.PortfolioDtos;
@@ -19,17 +20,21 @@ namespace Weblu.Application.Services
         private readonly IPortfolioRepository _portfolioRepository;
         private readonly IPortfolioCategoryRepository _portfolioCategoryRepository;
         private readonly IMapper _mapper;
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
+
         public PortfolioService(
         IUnitOfWork unitOfWork,
         IMapper mapper,
         IPortfolioCategoryRepository portfolioCategoryRepository,
-        IPortfolioRepository portfolioRepository
+        IPortfolioRepository portfolioRepository,
+        IDomainEventDispatcher domainEventDispatcher
         )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _portfolioCategoryRepository = portfolioCategoryRepository;
             _portfolioRepository = portfolioRepository;
+            _domainEventDispatcher = domainEventDispatcher;
         }
 
         public async Task<PortfolioDetailDto> AddPortfolioAsync(AddPortfolioDto addPortfolioDto)
@@ -39,8 +44,13 @@ namespace Weblu.Application.Services
             PortfolioCategory portfolioCategory = await _portfolioCategoryRepository.GetByIdAsync(addPortfolioDto.PortfolioCategoryId) ?? throw new NotFoundException(PortfolioCategoryErrorCodes.PortfolioCategoryNotFound);
             portfolio.PortfolioCategory = portfolioCategory;
 
+            portfolio.Add();
+
             _portfolioRepository.Add(portfolio);
             await _unitOfWork.CommitAsync();
+
+            await _domainEventDispatcher.DispatchAsync(portfolio.Events);
+            portfolio.ClearDomainEvents();
 
             PortfolioDetailDto portfolioDetailDto = _mapper.Map<PortfolioDetailDto>(portfolio);
             return portfolioDetailDto;
@@ -51,8 +61,13 @@ namespace Weblu.Application.Services
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
+            portfolio.Delete();
+
             _portfolioRepository.Delete(portfolio);
             await _unitOfWork.CommitAsync();
+
+            await _domainEventDispatcher.DispatchAsync(portfolio.Events);
+            portfolio.ClearDomainEvents();
         }
 
         public async Task<List<PortfolioSummaryDto>> GetAllPortfolioAsync(PortfolioParameters portfolioParameters)
@@ -88,9 +103,13 @@ namespace Weblu.Application.Services
             currentPortfolio.PortfolioCategory = portfolioCategory;
 
             currentPortfolio.UpdateActivateStatus(updatePortfolioDto.IsActive);
+            currentPortfolio.Update();
 
             _portfolioRepository.Update(currentPortfolio);
             await _unitOfWork.CommitAsync();
+
+            await _domainEventDispatcher.DispatchAsync(currentPortfolio.Events);
+            currentPortfolio.ClearDomainEvents();
 
             PortfolioDetailDto portfolioDetailDto = _mapper.Map<PortfolioDetailDto>(currentPortfolio);
             return portfolioDetailDto;

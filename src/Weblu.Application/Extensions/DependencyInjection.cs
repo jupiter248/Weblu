@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Dtos.FavoriteListDtos;
+using Weblu.Application.EventHandlers;
+using Weblu.Application.EventHandlers.Articles;
+using Weblu.Application.EventHandlers.Portfolios;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Interfaces.Services.Portfolios;
@@ -18,6 +21,9 @@ using Weblu.Application.Services.Portfolios;
 using Weblu.Application.Services.ServiceServices;
 using Weblu.Application.Services.UserFavorites;
 using Weblu.Application.Services.UserFavorites.FavoriteLists;
+using Weblu.Domain.Events.Articles;
+using Weblu.Domain.Events.Portfolios;
+using Weblu.Domain.Interfaces;
 
 namespace Weblu.Application.Extensions
 {
@@ -46,6 +52,7 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<ITagService, TagService>();
+            services.AddScoped<ISearchService, SearchService>();
             // Services
             services.AddScoped<IServiceService, ServiceService>();
             services.AddScoped<IServiceFeatureService, ServiceFeatureService>();
@@ -64,6 +71,15 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IPortfolioMethodService, PortfolioMethodService>();
             services.AddScoped<IPortfolioImageService, PortfolioImageService>();
             services.AddScoped<IPortfolioContributorService, PortfolioContributorService>();
+
+            //Events
+            services.AddScoped<IDomainEventHandler<ArticleAddedEvent>, ArticleSearchIndexHandler>();
+            services.AddScoped<IDomainEventHandler<ArticleUpdatedEvent>, ArticleSearchUpdateHandler>();
+            services.AddScoped<IDomainEventHandler<ArticleDeletedEvent>, ArticleSearchDeleteHandler>();
+            services.AddScoped<IDomainEventHandler<PortfolioAddedEvent>, PortfolioSearchIndexHandler>();
+            services.AddScoped<IDomainEventHandler<PortfolioUpdatedEvent>, PortfolioSearchUpdateHandler>();
+            services.AddScoped<IDomainEventHandler<PortfolioDeletedEvent>, PortfolioSearchDeleteHandler>();
+
 
         }
     }
