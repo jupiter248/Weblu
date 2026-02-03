@@ -1,4 +1,5 @@
 using AutoMapper;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Common.Pagination;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.ArticleDtos;
@@ -20,13 +21,15 @@ namespace Weblu.Application.Services.Articles
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICommentRepository _commentRepository;
         private readonly IMapper _mapper;
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
 
         public ArticleService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IArticleCategoryRepository articleCategoryRepository,
             IArticleRepository articleRepository,
-            ICommentRepository commentRepository
+            ICommentRepository commentRepository,
+            IDomainEventDispatcher domainEventDispatcher
             )
 
         {
@@ -35,6 +38,7 @@ namespace Weblu.Application.Services.Articles
             _articleRepository = articleRepository;
             _articleCategoryRepository = articleCategoryRepository;
             _commentRepository = commentRepository;
+            _domainEventDispatcher = domainEventDispatcher;
         }
         public async Task<ArticleDetailDto> AddArticleAsync(AddArticleDto addArticleDto)
         {
@@ -45,6 +49,10 @@ namespace Weblu.Application.Services.Articles
 
             _articleRepository.Add(article);
             await _unitOfWork.CommitAsync();
+
+            await _domainEventDispatcher.DispatchAsync(article.Events);
+
+            article.ClearDomainEvents();
 
             ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
             return articleDetailDto;

@@ -12,13 +12,14 @@ using Weblu.Domain.Errors.Articles;
 using Weblu.Domain.Errors.Contributors;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Tags;
+using Weblu.Domain.Events.Articles;
+using Weblu.Domain.Events.Common;
 using Weblu.Domain.Exceptions;
 
 namespace Weblu.Domain.Entities.Articles
 {
     public class Article : BaseEntity
     {
-
         public string Title { get; set; } = default!;
         public string? BelowTitle { get; set; }
         public string Slug { get; set; } = default!;
@@ -38,6 +39,14 @@ namespace Weblu.Domain.Entities.Articles
         public List<ArticleLike> ArticleLikes { get; set; } = new List<ArticleLike>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
 
+        private readonly List<IDomainEvent> _events = new();
+        public IReadOnlyCollection<IDomainEvent> Events => _events;
+        public Article()
+        {
+            _events.Add(new ArticleAddedEvent(PublicId));
+        }
+        public void ClearDomainEvents()
+            => _events.Clear();
         public void AddTag(Tag tag)
         {
             if (Tags.Any(t => t.Id == tag.Id))

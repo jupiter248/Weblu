@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Weblu.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Weblu.Infrastructure.Data;
 namespace Weblu.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260203051058_AddEventToArticle")]
+    partial class AddEventToArticle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -317,9 +320,6 @@ namespace Weblu.Infrastructure.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("SubTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -364,9 +364,6 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -398,9 +395,6 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.Property<bool>("IsPublished")
                         .HasColumnType("bit");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("PublishedAt")
                         .HasColumnType("datetimeoffset");
@@ -452,9 +446,6 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -480,9 +471,6 @@ namespace Weblu.Infrastructure.Migrations
                     b.Property<bool>("IsThumbnail")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ArticleId");
@@ -505,9 +493,6 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset>("LikedAt")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -541,9 +526,6 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.Property<int?>("ParentCommentId")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -605,9 +587,6 @@ namespace Weblu.Infrastructure.Migrations
                     b.Property<string>("ProfileImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -644,9 +623,6 @@ namespace Weblu.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Question")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -679,9 +655,6 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -706,9 +679,6 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.Property<int>("ArticleId")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -741,9 +711,6 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -771,9 +738,6 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.Property<int>("PortfolioId")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -807,9 +771,6 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -840,9 +801,6 @@ namespace Weblu.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -882,9 +840,6 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -922,9 +877,6 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.Property<int>("PortfolioCategoryId")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ShortDescription")
                         .IsRequired()
@@ -967,9 +919,6 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -994,9 +943,6 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.Property<int>("PortfolioId")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -1027,9 +973,6 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset>("IndexedAt")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -1067,9 +1010,6 @@ namespace Weblu.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ShortDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1104,9 +1044,6 @@ namespace Weblu.Infrastructure.Migrations
                     b.Property<bool>("IsThumbnail")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
@@ -1137,9 +1074,6 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -1161,9 +1095,6 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -1204,9 +1135,6 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("SenderId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1243,9 +1171,6 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.Property<bool>("IsUsed")
                         .HasColumnType("bit");
-
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Token")
                         .IsRequired()

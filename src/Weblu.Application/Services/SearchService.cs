@@ -29,10 +29,12 @@ namespace Weblu.Application.Services
         }
         public async Task<PagedResponse<SearchItemDto>> SearchAsync(string text, SearchParameters searchParameters)
         {
-            PagedList<SearchItem>? searchItems = await _searchRepository.SearchAsync(text, searchParameters);
-            List<SearchItemDto> searchItemDtos = _mapper.Map<List<SearchItemDto>>(searchItems);
-            var pagedResponse = _mapper.Map<PagedResponse<SearchItemDto>>(searchItemDtos);
+            if (string.IsNullOrEmpty(text)) throw new BadRequestException(SearchErrorCodes.TextIsEmpty);
 
+            PagedList<SearchItem> searchItems = await _searchRepository.SearchAsync(text, searchParameters);
+            List<SearchItemDto> searchItemDtos = _mapper.Map<List<SearchItemDto>>(searchItems);
+            var pagedResponse = _mapper.Map<PagedResponse<SearchItemDto>>(searchItems);
+            pagedResponse.Items = searchItemDtos;
             return pagedResponse;
         }
     }

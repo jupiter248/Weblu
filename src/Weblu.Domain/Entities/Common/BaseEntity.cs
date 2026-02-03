@@ -11,5 +11,6 @@ namespace Weblu.Domain.Entities.Common
     {
         [Key]
         public int Id { get; set; }
+        public Guid PublicId { get; set; } = Guid.NewGuid();
     }
 }

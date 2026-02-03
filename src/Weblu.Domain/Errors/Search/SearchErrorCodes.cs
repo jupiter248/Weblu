@@ -8,5 +8,6 @@ namespace Weblu.Domain.Errors.Search
     public class SearchErrorCodes
     {
         public const string NotFound = "NOT-FOUND";
+        public const string TextIsEmpty = "TEXT-IS-EMPTY";
     }
 }
