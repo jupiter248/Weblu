@@ -50,6 +50,7 @@ namespace Weblu.Application.Services.Articles
             _articleRepository.Add(article);
             await _unitOfWork.CommitAsync();
 
+            article.Add();
             await _domainEventDispatcher.DispatchAsync(article.Events);
             article.ClearDomainEvents();
 
@@ -61,8 +62,13 @@ namespace Weblu.Application.Services.Articles
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
 
+            article.Delete();
+
             _articleRepository.Delete(article);
             await _unitOfWork.CommitAsync();
+
+            await _domainEventDispatcher.DispatchAsync(article.Events);
+            article.ClearDomainEvents();
         }
         public async Task<List<ArticleSummaryDto>> GetAllArticlesAsync(ArticleParameters articleParameters)
         {
@@ -124,9 +130,13 @@ namespace Weblu.Application.Services.Articles
             article.Category = articleCategory;
 
             article.UpdatePublishedStatus(updateArticleDto.IsPublished);
+            article.Update();
 
             _articleRepository.Update(article);
             await _unitOfWork.CommitAsync();
+
+            await _domainEventDispatcher.DispatchAsync(article.Events);
+            article.ClearDomainEvents();
 
             ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
             return articleDetailDto;

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Weblu.Domain.Entities.Comments;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Contributors;
@@ -40,14 +35,26 @@ namespace Weblu.Domain.Entities.Articles
         public List<Tag> Tags { get; set; } = new List<Tag>();
         private readonly List<IDomainEvent> _events = new();
         public IReadOnlyCollection<IDomainEvent> Events => _events;
-        public Article()
+        public void Add()
         {
             AddDomainEvent(new ArticleAddedEvent(PublicId));
         }
+        public void Update()
+        {
+            AddDomainEvent(new ArticleUpdatedEvent(PublicId));
+        }
+        public void Delete()
+        {
+            AddDomainEvent(new ArticleDeletedEvent(PublicId));
+        }
+
+
         public void AddDomainEvent(IDomainEvent domainEvent)
-         => _events.Add(domainEvent);
+            => _events.Add(domainEvent);
         public void ClearDomainEvents()
             => _events.Clear();
+
+
         public void AddTag(Tag tag)
         {
             if (Tags.Any(t => t.Id == tag.Id))
@@ -126,14 +133,15 @@ namespace Weblu.Domain.Entities.Articles
         }
         public void UpdatePublishedStatus(bool isPublished)
         {
+            if (IsPublished == isPublished) return;
             IsPublished = isPublished;
-            if (isPublished && PublishedAt == DateTimeOffset.MinValue)
+            if (isPublished)
             {
                 PublishedAt = DateTimeOffset.Now;
             }
-            else if (!isPublished)
+            else
             {
-                PublishedAt = DateTimeOffset.MinValue;
+                PublishedAt = null;
             }
         }
     }

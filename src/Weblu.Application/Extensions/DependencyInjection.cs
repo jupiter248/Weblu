@@ -74,7 +74,11 @@ namespace Weblu.Application.Extensions
 
             //Events
             services.AddScoped<IDomainEventHandler<ArticleAddedEvent>, ArticleSearchIndexHandler>();
+            services.AddScoped<IDomainEventHandler<ArticleUpdatedEvent>, ArticleSearchUpdateHandler>();
+            services.AddScoped<IDomainEventHandler<ArticleDeletedEvent>, ArticleSearchDeleteHandler>();
             services.AddScoped<IDomainEventHandler<PortfolioAddedEvent>, PortfolioSearchIndexHandler>();
+            services.AddScoped<IDomainEventHandler<PortfolioUpdatedEvent>, PortfolioSearchUpdateHandler>();
+            services.AddScoped<IDomainEventHandler<PortfolioDeletedEvent>, PortfolioSearchDeleteHandler>();
 
 
         }

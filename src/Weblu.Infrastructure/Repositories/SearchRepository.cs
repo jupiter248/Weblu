@@ -19,7 +19,7 @@ namespace Weblu.Infrastructure.Repositories
         }
         public void Delete(SearchItem searchItem)
         {
-            _context.Remove(searchItem);
+            _context.SearchItems.Remove(searchItem);
         }
 
         public async Task<SearchItem?> GetByEntityIdAsync(int entityId, SearchEntityType entityType)
@@ -52,7 +52,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public void Update(SearchItem searchItem)
         {
-            _context.Update(searchItem);
+            _context.SearchItems.Update(searchItem);
         }
     }
 }
