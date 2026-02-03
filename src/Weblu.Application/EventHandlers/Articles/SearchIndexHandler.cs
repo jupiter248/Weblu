@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Domain.Entities.Articles;
@@ -11,14 +7,14 @@ using Weblu.Domain.Errors.Articles;
 using Weblu.Domain.Events.Articles;
 using Weblu.Domain.Interfaces;
 
-namespace Weblu.Application.EventHandlers
+namespace Weblu.Application.EventHandlers.Articles
 {
-    public class UpdateSearchIndexHandler : IDomainEventHandler<ArticleAddedEvent>
+    public class ArticleSearchIndexHandler : IDomainEventHandler<ArticleAddedEvent>
     {
         private readonly ISearchRepository _searchRepository;
         private readonly IArticleRepository _articleRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public UpdateSearchIndexHandler(ISearchRepository searchRepository, IArticleRepository articleRepository, IUnitOfWork unitOfWork)
+        public ArticleSearchIndexHandler(ISearchRepository searchRepository, IArticleRepository articleRepository, IUnitOfWork unitOfWork)
         {
             _searchRepository = searchRepository;
             _articleRepository = articleRepository;

@@ -51,7 +51,6 @@ namespace Weblu.Application.Services.Articles
             await _unitOfWork.CommitAsync();
 
             await _domainEventDispatcher.DispatchAsync(article.Events);
-
             article.ClearDomainEvents();
 
             ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);

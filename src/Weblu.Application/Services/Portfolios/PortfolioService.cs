@@ -1,4 +1,5 @@
 using AutoMapper;
+using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Common.Pagination;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.PortfolioDtos;
@@ -19,17 +20,21 @@ namespace Weblu.Application.Services
         private readonly IPortfolioRepository _portfolioRepository;
         private readonly IPortfolioCategoryRepository _portfolioCategoryRepository;
         private readonly IMapper _mapper;
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
+
         public PortfolioService(
         IUnitOfWork unitOfWork,
         IMapper mapper,
         IPortfolioCategoryRepository portfolioCategoryRepository,
-        IPortfolioRepository portfolioRepository
+        IPortfolioRepository portfolioRepository,
+        IDomainEventDispatcher domainEventDispatcher
         )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _portfolioCategoryRepository = portfolioCategoryRepository;
             _portfolioRepository = portfolioRepository;
+            _domainEventDispatcher = domainEventDispatcher;
         }
 
         public async Task<PortfolioDetailDto> AddPortfolioAsync(AddPortfolioDto addPortfolioDto)
@@ -41,6 +46,9 @@ namespace Weblu.Application.Services
 
             _portfolioRepository.Add(portfolio);
             await _unitOfWork.CommitAsync();
+
+            await _domainEventDispatcher.DispatchAsync(portfolio.Events);
+            portfolio.ClearDomainEvents();
 
             PortfolioDetailDto portfolioDetailDto = _mapper.Map<PortfolioDetailDto>(portfolio);
             return portfolioDetailDto;

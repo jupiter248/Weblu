@@ -14,6 +14,8 @@ using Weblu.Domain.Errors.Contributors;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Errors.Portfolios;
+using Weblu.Domain.Events.Common;
+using Weblu.Domain.Events.Portfolios;
 using Weblu.Domain.Exceptions;
 
 namespace Weblu.Domain.Entities.Portfolios
@@ -37,6 +39,16 @@ namespace Weblu.Domain.Entities.Portfolios
         public List<PortfolioImage> PortfolioImages { get; set; } = new List<PortfolioImage>();
         public List<Contributor> Contributors { get; set; } = new List<Contributor>();
         public List<FavoritePortfolio> FavoritePortfolios { get; set; } = new List<FavoritePortfolio>();
+        private readonly List<IDomainEvent> _events = new();
+        public IReadOnlyCollection<IDomainEvent> Events => _events;
+        public Portfolio()
+        {
+            AddDomainEvent(new PortfolioAddedEvent(PublicId));
+        }
+        public void AddDomainEvent(IDomainEvent domainEvent)
+         => _events.Add(domainEvent);
+        public void ClearDomainEvents()
+            => _events.Clear();
 
         public void AddMethod(Method method)
         {
@@ -116,7 +128,7 @@ namespace Weblu.Domain.Entities.Portfolios
             }
             else if (!isActive)
             {
-                ActivatedAt =  DateTimeOffset.MinValue;
+                ActivatedAt = DateTimeOffset.MinValue;
             }
         }
     }

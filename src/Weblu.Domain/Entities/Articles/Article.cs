@@ -38,13 +38,14 @@ namespace Weblu.Domain.Entities.Articles
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<ArticleLike> ArticleLikes { get; set; } = new List<ArticleLike>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
-
         private readonly List<IDomainEvent> _events = new();
         public IReadOnlyCollection<IDomainEvent> Events => _events;
         public Article()
         {
-            _events.Add(new ArticleAddedEvent(PublicId));
+            AddDomainEvent(new ArticleAddedEvent(PublicId));
         }
+        public void AddDomainEvent(IDomainEvent domainEvent)
+         => _events.Add(domainEvent);
         public void ClearDomainEvents()
             => _events.Clear();
         public void AddTag(Tag tag)

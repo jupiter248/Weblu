@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Dtos.FavoriteListDtos;
 using Weblu.Application.EventHandlers;
+using Weblu.Application.EventHandlers.Articles;
+using Weblu.Application.EventHandlers.Portfolios;
 using Weblu.Application.Interfaces.Services;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Interfaces.Services.Portfolios;
@@ -20,6 +22,7 @@ using Weblu.Application.Services.ServiceServices;
 using Weblu.Application.Services.UserFavorites;
 using Weblu.Application.Services.UserFavorites.FavoriteLists;
 using Weblu.Domain.Events.Articles;
+using Weblu.Domain.Events.Portfolios;
 using Weblu.Domain.Interfaces;
 
 namespace Weblu.Application.Extensions
@@ -70,7 +73,9 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IPortfolioContributorService, PortfolioContributorService>();
 
             //Events
-            services.AddScoped<IDomainEventHandler<ArticleAddedEvent>, UpdateSearchIndexHandler>();
+            services.AddScoped<IDomainEventHandler<ArticleAddedEvent>, ArticleSearchIndexHandler>();
+            services.AddScoped<IDomainEventHandler<PortfolioAddedEvent>, PortfolioSearchIndexHandler>();
+
 
         }
     }
