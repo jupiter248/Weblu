@@ -40,7 +40,6 @@ namespace Weblu.Application.Services
             MethodDto methodDto = _mapper.Map<MethodDto>(method);
             return methodDto;
         }
-
         public async Task DeleteMethodAsync(int methodId)
         {
             Method? method = await _methodRepository.GetByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
@@ -50,10 +49,9 @@ namespace Weblu.Application.Services
                 await MediaManager.DeleteMedia(_webHostPath, method.ImageUrl);
             }
 
-            _methodRepository.Delete(method);
+            method.Delete();
             await _unitOfWork.CommitAsync();
         }
-
         public async Task DeleteMethodImageAsync(int methodId)
         {
             Method? method = await _methodRepository.GetByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);

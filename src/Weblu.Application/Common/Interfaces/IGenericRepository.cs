@@ -13,10 +13,10 @@ namespace Weblu.Application.Common.Interfaces
     {
         Task<PagedList<TEntity>> GetAllAsync(TEntityParameters entityParameters);
         Task<TEntity?> GetByIdAsync(int id);
-        Task<TEntity?> GetByPublicIdAsync(Guid publicId);
+        Task<TEntity?> GetByGuidIdAsync(Guid guidId);
         Task<bool> ExistsAsync(int id);
         void Add(TEntity entity);
         void Update(TEntity entity);
-        void Delete(TEntity entity);
+        void Remove(TEntity entity);
     }
 }

@@ -78,12 +78,10 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
 
             // Act
 
-            await userService.DeleteUserAsync(_user.Id);
+            _user.Delete();
 
             // Assert
-            A.CallTo(() => _userManager.DeleteAsync(
-                    _user))
-                .MustHaveHappenedOnceExactly();
+            _user.IsDeleted.Should().Be(true);
         }
         [Fact]
         public async Task UserService_UpdateUserAsync_ReturnUserDto()

@@ -35,10 +35,9 @@ namespace Weblu.Application.Services
         {
             Tag tag = await _tagRepository.GetByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);
 
-            _tagRepository.Delete(tag);
+            tag.Delete();
             await _unitOfWork.CommitAsync();
         }
-
         public async Task<List<TagDto>> GetAllTagsAsync(TagParameters tagParameters)
         {
             IReadOnlyList<Tag> tags = await _tagRepository.GetAllAsync(tagParameters);

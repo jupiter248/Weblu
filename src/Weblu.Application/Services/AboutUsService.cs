@@ -50,10 +50,9 @@ namespace Weblu.Application.Services
                 await MediaManager.DeleteMedia(_webHostPath, aboutUs.HeadImageUrl);
             }
 
-            _aboutUsRepository.Delete(aboutUs);
+            aboutUs.Delete();
             await _unitOfWork.CommitAsync();
         }
-
         public async Task DeleteAboutUsHeadImageAsync(int aboutUsId)
         {
             AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);

@@ -37,15 +37,18 @@ namespace Weblu.Domain.Entities.Articles
         public IReadOnlyCollection<IDomainEvent> Events => _events;
         public void Add()
         {
-            AddDomainEvent(new ArticleAddedEvent(PublicId));
+            AddDomainEvent(new ArticleAddedEvent(GuidId));
         }
         public void Update()
         {
-            AddDomainEvent(new ArticleUpdatedEvent(PublicId));
+            AddDomainEvent(new ArticleUpdatedEvent(GuidId));
         }
-        public void Delete()
+        public override void Delete()
         {
-            AddDomainEvent(new ArticleDeletedEvent(PublicId));
+            if (IsDeleted) return;
+            IsDeleted = true;
+            DeletedAt = DateTimeOffset.Now;
+            AddDomainEvent(new ArticleDeletedEvent(GuidId));
         }
 
 

@@ -43,15 +43,18 @@ namespace Weblu.Domain.Entities.Portfolios
         public IReadOnlyCollection<IDomainEvent> Events => _events;
         public void Add()
         {
-            AddDomainEvent(new PortfolioAddedEvent(PublicId));
+            AddDomainEvent(new PortfolioAddedEvent(GuidId));
         }
-        public void Delete()
+        public override void Delete()
         {
-            AddDomainEvent(new PortfolioDeletedEvent(PublicId));
+            if (IsDeleted) return;
+            IsDeleted = true;
+            DeletedAt = DateTimeOffset.Now;
+            AddDomainEvent(new PortfolioDeletedEvent(GuidId));
         }
         public void Update()
         {
-            AddDomainEvent(new PortfolioUpdatedEvent(PublicId));
+            AddDomainEvent(new PortfolioUpdatedEvent(GuidId));
         }
 
         public void AddDomainEvent(IDomainEvent domainEvent)

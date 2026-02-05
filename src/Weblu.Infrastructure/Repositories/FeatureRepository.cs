@@ -29,7 +29,7 @@ namespace Weblu.Infrastructure.Repositories
         }
         public override async Task<PagedList<Feature>> GetAllAsync(FeatureParameters featureParameters)
         {
-            IQueryable<Feature> features = _context.Features.AsNoTracking().AsQueryable();
+            IQueryable<Feature> features = _context.Features.Where(a => !a.IsDeleted).AsNoTracking().AsQueryable();
             if (featureParameters.CreatedDateSort != CreatedDateSort.All)
             {
                 features = new FeatureQueryHandler(new CreatedDateSortStrategy())

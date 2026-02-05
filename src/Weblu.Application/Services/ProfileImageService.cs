@@ -90,7 +90,7 @@ namespace Weblu.Application.Services
         {
             ProfileMedia image = await _profileImageRepository.GetByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
-            _profileImageRepository.Delete(image);
+            _profileImageRepository.Remove(image);
             await MediaManager.DeleteMedia(_webHostPath, image.Url);
             await _unitOfWork.CommitAsync();
         }

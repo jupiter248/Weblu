@@ -39,12 +39,11 @@ namespace Weblu.Application.Services
             FaqDto faqDto = _mapper.Map<FaqDto>(faq);
             return faqDto;
         }
-
         public async Task DeleteFaqAsync(int faqId)
         {
             Faq faq = await _faqRepository.GetByIdAsync(faqId) ?? throw new NotFoundException(FaqErrorCodes.NotFound);
 
-            _faqRepository.Delete(faq);
+            faq.Delete();
             await _unitOfWork.CommitAsync();
         }
 

@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Weblu.Application.Dtos.FeatureDtos;
 using Weblu.Application.Exceptions;
 using Weblu.Application.Interfaces.Services;
-using Weblu.Domain.Entities;
-using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Errors.Features;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Parameters;
-using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Features;
 
 namespace Weblu.Application.Services
@@ -35,11 +28,10 @@ namespace Weblu.Application.Services
             FeatureDto featureDto = _mapper.Map<FeatureDto>(feature);
             return featureDto;
         }
-
         public async Task DeleteFeatureAsync(int featureId)
         {
             Feature feature = await _featureRepository.GetByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
-            _featureRepository.Delete(feature);
+            feature.Delete();
             await _unitOfWork.CommitAsync();
         }
 

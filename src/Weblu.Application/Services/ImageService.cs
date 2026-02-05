@@ -63,7 +63,7 @@ namespace Weblu.Application.Services
         {
             ImageMedia image = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
-            _imageRepository.Delete(image);
+            _imageRepository.Remove(image);
             await MediaManager.DeleteMedia(_webHostPath, image.Url);
             await _unitOfWork.CommitAsync();
         }

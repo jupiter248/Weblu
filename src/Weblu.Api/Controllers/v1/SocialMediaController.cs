@@ -22,7 +22,7 @@ namespace Weblu.Api.Controllers.v1
             _socialMediaService = socialMediaService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllSocialMedia([FromQuery] SocialMediaParameters socialMediaParameters )
+        public async Task<IActionResult> GetAllSocialMedia([FromQuery] SocialMediaParameters socialMediaParameters)
         {
             List<SocialMediaDto> socialMediaDtos = await _socialMediaService.GetAllSocialMediasAsync(socialMediaParameters);
             return Ok(socialMediaDtos);

@@ -30,15 +30,15 @@ namespace Weblu.Application.Services
             FaqCategoryDto faqCategoryDto = _mapper.Map<FaqCategoryDto>(faqCategory);
             return faqCategoryDto;
         }
-
         public async Task DeleteFaqCategoryAsync(int faqCategoryId)
         {
             FaqCategory faqCategory = await _faqCategoryRepository.GetByIdAsync(faqCategoryId) ?? throw new NotFoundException(FaqCategoryErrorCodes.NotFound);
 
-            _faqCategoryRepository.Delete(faqCategory);
+            faqCategory.Delete();
             await _unitOfWork.CommitAsync();
 
         }
+
 
         public async Task<List<FaqCategoryDto>> GetAllFaqCategoriesAsync(FaqCategoryParameters faqCategoryParameters)
         {

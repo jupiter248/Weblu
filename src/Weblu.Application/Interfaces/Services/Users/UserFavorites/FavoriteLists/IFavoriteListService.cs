@@ -10,6 +10,5 @@ namespace Weblu.Application.Interfaces.Services.Users.UserFavorites
         Task<FavoriteListDto> AddFavoriteListAsync(string userId, AddFavoriteListDto addFavoriteListDto);
         Task<FavoriteListDto> UpdateFavoriteListAsync(string userId, int favoriteListId, UpdateFavoriteListDto updateFavoriteListDto);
         Task DeleteFavoriteListAsync(string userId, int favoriteListId);
-
     }
 }

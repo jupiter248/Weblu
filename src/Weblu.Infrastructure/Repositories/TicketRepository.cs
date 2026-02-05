@@ -47,7 +47,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<Ticket>> GetAllByUserIdAsync(string userId, TicketParameters ticketParameters)
         {
-            IQueryable<Ticket> tickets = _context.Tickets.Where(t => t.UserId == userId).AsNoTracking();
+            IQueryable<Ticket> tickets = _context.Tickets.Where(a => !a.IsDeleted).Where(t => t.UserId == userId).AsNoTracking();
             if (ticketParameters.CreatedDateSort != CreatedDateSort.All)
             {
                 tickets = new TicketQueryHandler(new CreatedDateSortStrategy())

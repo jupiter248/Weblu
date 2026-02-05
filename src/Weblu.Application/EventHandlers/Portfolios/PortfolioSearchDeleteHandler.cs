@@ -23,7 +23,7 @@ namespace Weblu.Application.EventHandlers.Portfolios
         }
         public async Task Handle(PortfolioDeletedEvent domainEvent)
         {
-            Portfolio? portfolio = await _portfolioRepository.GetByPublicIdAsync(domainEvent.PortfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            Portfolio? portfolio = await _portfolioRepository.GetByGuidIdAsync(domainEvent.PortfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             SearchItem? searchItem = await _searchRepository.GetByEntityIdAsync(portfolio.Id, SearchEntityType.Portfolio) ?? throw new NotFoundException(SearchErrorCodes.NotFound);
             _searchRepository.Delete(searchItem);
             await _unitOfWork.CommitAsync();

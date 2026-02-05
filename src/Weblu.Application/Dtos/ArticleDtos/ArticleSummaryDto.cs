@@ -7,7 +7,6 @@ namespace Weblu.Application.Dtos.ArticleDtos
 {
     public class ArticleSummaryDto
     {
-        public Guid PublicId { get; set; }
         public int Id { get; set; }
         public string Title { get; set; } = default!;
         public string Slug { get; set; } = default!;

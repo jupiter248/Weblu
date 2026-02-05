@@ -55,21 +55,17 @@ namespace Weblu.Application.Services
             PortfolioDetailDto portfolioDetailDto = _mapper.Map<PortfolioDetailDto>(portfolio);
             return portfolioDetailDto;
         }
-
-
         public async Task DeletePortfolioAsync(int portfolioId)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
             portfolio.Delete();
 
-            _portfolioRepository.Delete(portfolio);
-            await _unitOfWork.CommitAsync();
-
             await _domainEventDispatcher.DispatchAsync(portfolio.Events);
             portfolio.ClearDomainEvents();
-        }
 
+            await _unitOfWork.CommitAsync();
+        }
         public async Task<List<PortfolioSummaryDto>> GetAllPortfolioAsync(PortfolioParameters portfolioParameters)
         {
             IReadOnlyList<Portfolio> portfolios = await _portfolioRepository.GetAllAsync(portfolioParameters);

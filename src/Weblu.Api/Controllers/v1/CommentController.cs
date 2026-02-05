@@ -51,7 +51,7 @@ namespace Weblu.Api.Controllers.v1
             CommentDto commentDtos = await _commentService.AddCommentAsync(userId, addCommentDto);
             return CreatedAtAction(nameof(GetCommentById), new { commentId = commentDtos.Id }, ApiResponse<CommentDto>.Success("Comment added successfully.", commentDtos));
         }
-        [Authorize(Policy = Permissions.ManageComments)]
+        [Authorize]
         [HttpPut("{commentId:int}")]
         public async Task<IActionResult> UpdateComment(int commentId, [FromBody] UpdateCommentDTo updateCommentDTo)
         {
@@ -69,7 +69,7 @@ namespace Weblu.Api.Controllers.v1
                 commentDtos
             ));
         }
-        [Authorize(Policy = Permissions.ManageComments)]
+        [Authorize]
         [HttpDelete("{commentId:int}")]
         public async Task<IActionResult> DeleteComment(int commentId)
         {

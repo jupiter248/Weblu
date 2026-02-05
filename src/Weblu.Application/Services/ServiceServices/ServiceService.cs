@@ -42,10 +42,9 @@ namespace Weblu.Application.Services
         public async Task DeleteServiceAsync(int serviceId)
         {
             Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
-            _serviceRepository.Delete(service);
+            service.Delete();
             await _unitOfWork.CommitAsync();
         }
-
         public async Task<PagedResponse<ServiceSummaryDto>> GetAllPagedServiceAsync(ServiceParameters serviceParameters)
         {
             PagedList<Service> services = await _serviceRepository.GetAllAsync(serviceParameters);

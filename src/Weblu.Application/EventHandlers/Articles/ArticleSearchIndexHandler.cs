@@ -22,7 +22,7 @@ namespace Weblu.Application.EventHandlers.Articles
         }
         public async Task Handle(ArticleAddedEvent domainEvent)
         {
-            Article? article = await _articleRepository.GetByPublicIdAsync(domainEvent.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Article? article = await _articleRepository.GetByGuidIdAsync(domainEvent.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             SearchItem searchItem = new SearchItem()
             {
                 EntityId = article.Id,

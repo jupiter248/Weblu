@@ -51,10 +51,9 @@ namespace Weblu.Application.Services
                 await MediaManager.DeleteMedia(_webHostPath, socialMedia.IconUrl);
             }
 
-            _socialMediaRepository.Delete(socialMedia);
+            socialMedia.Delete();
             await _unitOfWork.CommitAsync();
         }
-
         public async Task<List<SocialMediaDto>> GetAllSocialMediasAsync(SocialMediaParameters socialMediaParameters)
         {
             IReadOnlyList<SocialMedia> socialMedias = await _socialMediaRepository.GetAllAsync(socialMediaParameters);

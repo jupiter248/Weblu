@@ -51,9 +51,8 @@ namespace Weblu.Application.Services
                 await MediaManager.DeleteMedia(_webHostPath, contributor.ProfileImageUrl);
             }
 
-            _contributorRepository.Delete(contributor);
+            contributor.Delete();
             await _unitOfWork.CommitAsync();
-
         }
 
         public async Task DeleteContributorProfileAsync(int contributorId)

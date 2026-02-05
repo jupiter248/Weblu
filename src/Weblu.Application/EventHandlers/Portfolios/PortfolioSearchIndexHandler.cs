@@ -22,7 +22,7 @@ namespace Weblu.Application.EventHandlers.Portfolios
         }
         public async Task Handle(PortfolioAddedEvent domainEvent)
         {
-            Portfolio? portfolio = await _portfolioRepository.GetByPublicIdAsync(domainEvent.PortfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
+            Portfolio? portfolio = await _portfolioRepository.GetByGuidIdAsync(domainEvent.PortfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             SearchItem searchItem = new SearchItem()
             {
                 EntityId = portfolio.Id,

@@ -18,7 +18,7 @@ namespace Weblu.Infrastructure.Repositories
         }
         public override async Task<PagedList<Portfolio>> GetAllAsync(PortfolioParameters portfolioParameters)
         {
-            IQueryable<Portfolio> portfolios = _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages.Where(im => im.IsThumbnail)).ThenInclude(i => i.ImageMedia).AsNoTracking();
+            IQueryable<Portfolio> portfolios = _context.Portfolios.Where(a => !a.IsDeleted).Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages.Where(im => im.IsThumbnail)).ThenInclude(i => i.ImageMedia).AsNoTracking();
 
             if (portfolioParameters.CreatedDateSort != CreatedDateSort.All)
             {
@@ -40,19 +40,19 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<Portfolio?> GetByIdAsync(int portfolioId)
         {
-            Portfolio? portfolio = await _context.Portfolios.Include(c => c.PortfolioCategory).FirstOrDefaultAsync(p => p.Id == portfolioId);
+            Portfolio? portfolio = await _context.Portfolios.Where(a => !a.IsDeleted).Include(c => c.PortfolioCategory).FirstOrDefaultAsync(p => p.Id == portfolioId);
             return portfolio;
         }
 
         public async Task<Portfolio?> GetByIdWithImagesAsync(int portfolioId)
         {
-            Portfolio? portfolio = await _context.Portfolios.Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).FirstOrDefaultAsync(p => p.Id == portfolioId);
+            Portfolio? portfolio = await _context.Portfolios.Where(a => !a.IsDeleted).Include(c => c.PortfolioCategory).Include(i => i.PortfolioImages).ThenInclude(i => i.ImageMedia).FirstOrDefaultAsync(p => p.Id == portfolioId);
             return portfolio;
         }
 
         public async Task<IEnumerable<Portfolio>> GetByTitleAsync(string title)
         {
-            return await _context.Portfolios.Where(a => a.Title.ToLower().Contains(title.ToLower())).ToListAsync();
+            return await _context.Portfolios.Where(a => !a.IsDeleted).Where(a => a.Title.ToLower().Contains(title.ToLower())).ToListAsync();
         }
 
         public async Task LoadContributorsAsync(Portfolio portfolio)

@@ -55,7 +55,6 @@ namespace Weblu.Application.Services
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;
         }
-
         public async Task DeleteTicketAsync(string userId, int ticketId)
         {
             bool userExists = await _userRepository.UserExistsAsync(userId);
@@ -71,10 +70,9 @@ namespace Weblu.Application.Services
                 throw new UnauthorizedException(TicketErrorCodes.TicketDeleteForbidden);
             }
 
-            _ticketRepository.Delete(ticket);
+            ticket.Delete();
             await _unitOfWork.CommitAsync();
         }
-
         public async Task<List<TicketSummaryDto>> GetAllTicketsAsync(string userId, TicketParameters ticketParameters)
         {
             var isAdmin = await _userRepository.IsAdminAsync(userId);

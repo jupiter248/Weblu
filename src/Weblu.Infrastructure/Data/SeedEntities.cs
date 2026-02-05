@@ -86,7 +86,6 @@ namespace Weblu.Infrastructure.Data
                 ],
                 [Roles.User] =
                 [
-                    Permissions.ManageComments,
                 ]
             };
 
