@@ -36,11 +36,10 @@ namespace Weblu.Application.Services
             PortfolioCategoryDto portfolioCategoryDto = _mapper.Map<PortfolioCategoryDto>(portfolioCategory);
             return portfolioCategoryDto;
         }
-
         public async Task DeletePortfolioCategoryAsync(int categoryId)
         {
             PortfolioCategory portfolioCategory = await _portfolioCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(PortfolioCategoryErrorCodes.PortfolioCategoryNotFound);
-            _portfolioCategoryRepository.Delete(portfolioCategory);
+            portfolioCategory.Delete();
             await _unitOfWork.CommitAsync();
 
         }

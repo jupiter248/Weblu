@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Common.Pagination;
@@ -27,20 +23,20 @@ namespace Weblu.Infrastructure.Common.Repositories
             _context.Set<TEntity>().Add(entity);
         }
 
-        public void Delete(TEntity entity)
+        public void Remove(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
         }
 
         public virtual async Task<TEntity?> GetByIdAsync(int id)
         {
-            TEntity? entity = await _context.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
+            TEntity? entity = await _context.Set<TEntity>().Where(e => !e.IsDeleted).FirstOrDefaultAsync(e => e.Id == id);
             return entity;
         }
 
         public virtual async Task<PagedList<TEntity>> GetAllAsync(TEntityParameters entityParameters)
         {
-            IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking();
+            IQueryable<TEntity> query = _context.Set<TEntity>().Where(e => !e.IsDeleted).AsNoTracking();
 
             return await PaginationExtensions<TEntity>.GetPagedList(query, entityParameters.PageNumber, entityParameters.PageSize);
             ;
@@ -53,13 +49,13 @@ namespace Weblu.Infrastructure.Common.Repositories
 
         public async Task<bool> ExistsAsync(int id)
         {
-            bool entityExists = await _context.Set<TEntity>().AnyAsync(e => e.Id == id);
+            bool entityExists = await _context.Set<TEntity>().Where(a => !a.IsDeleted).AnyAsync(e => e.Id == id);
             return entityExists;
         }
 
-        public async Task<TEntity?> GetByPublicIdAsync(Guid publicId)
+        public async Task<TEntity?> GetByGuidIdAsync(Guid guidId)
         {
-            TEntity? entity = await _context.Set<TEntity>().FirstOrDefaultAsync(e => e.PublicId == publicId);
+            TEntity? entity = await _context.Set<TEntity>().Where(a => !a.IsDeleted).FirstOrDefaultAsync(e => e.GuidId == guidId);
             return entity;
         }
     }

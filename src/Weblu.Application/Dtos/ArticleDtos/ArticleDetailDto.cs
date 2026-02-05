@@ -11,7 +11,6 @@ namespace Weblu.Application.Dtos.ArticleDtos
 {
     public class ArticleDetailDto
     {
-        public Guid PublicId { get; set; }
         public int Id { get; set; }
         public string Title { get; set; } = default!;
         public string? AboveTitle { get; set; }

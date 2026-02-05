@@ -25,7 +25,7 @@ namespace Weblu.Infrastructure.Repositories
         }
         public override async Task<PagedList<Method>> GetAllAsync(MethodParameters methodParameters)
         {
-            IQueryable<Method> methods = _context.Methods.AsNoTracking();
+            IQueryable<Method> methods = _context.Methods.Where(a => !a.IsDeleted).AsNoTracking();
 
             if (methodParameters.CreatedDateSort != CreatedDateSort.All)
             {

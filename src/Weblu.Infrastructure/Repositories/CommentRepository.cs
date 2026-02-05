@@ -19,7 +19,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<PagedList<Comment>> GetAllAsync(CommentParameters commentParameters)
         {
-            IQueryable<Comment> comments = _context.Comments.AsNoTracking();
+            IQueryable<Comment> comments = _context.Comments.Where(a => !a.IsDeleted).AsNoTracking();
             comments = new CommentQueryHandler(new FilterByArticleIdStrategy())
             .ExecuteCommentQuery(comments, commentParameters);
 
@@ -44,13 +44,13 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<int> GetCountAsync(int articleId)
         {
-            int count = await _context.Comments.CountAsync(c => c.ArticleId == articleId);
+            int count = await _context.Comments.Where(a => !a.IsDeleted).CountAsync(c => c.ArticleId == articleId);
             return count;
         }
 
         public async Task<Dictionary<int, int>> GetCountByIdsAsync(List<int> articleIds)
         {
-            return await _context.Comments.Where(c => articleIds.Contains(c.ArticleId)).GroupBy(c => c.ArticleId)
+            return await _context.Comments.Where(a => !a.IsDeleted).Where(c => articleIds.Contains(c.ArticleId)).GroupBy(c => c.ArticleId)
             .Select(c => new
             {
                 ArticleId = c.Key,

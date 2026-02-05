@@ -24,7 +24,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<PagedList<Contributor>> GetAllAsync(ContributorParameters contributorParameters)
         {
-            IQueryable<Contributor> contributors = _context.Contributors.AsNoTracking();
+            IQueryable<Contributor> contributors = _context.Contributors.Where(a => !a.IsDeleted).AsNoTracking();
 
             if (contributorParameters.CreatedDateSort != CreatedDateSort.All)
             {

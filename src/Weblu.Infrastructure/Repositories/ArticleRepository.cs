@@ -25,7 +25,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<PagedList<Article>> GetAllAsync(ArticleParameters articleParameters)
         {
-            IQueryable<Article> articles = _context.Articles.Include(a => a.ArticleImages.Where(i => i.IsThumbnail)).ThenInclude(i => i.Image).AsNoTracking();
+            IQueryable<Article> articles = _context.Articles.Where(a => !a.IsDeleted).Include(a => a.ArticleImages.Where(i => i.IsThumbnail)).ThenInclude(i => i.Image).AsNoTracking();
 
             if (articleParameters.CreatedDateSort != CreatedDateSort.All)
             {
@@ -64,7 +64,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<Article?> GetByIdAsync(int articleId)
         {
-            Article? article = await _context.Articles.Include(c => c.Category).FirstOrDefaultAsync(a => a.Id == articleId);
+            Article? article = await _context.Articles.Where(a => !a.IsDeleted).Include(c => c.Category).FirstOrDefaultAsync(a => a.Id == articleId);
             return article;
         }
 
@@ -97,7 +97,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<Dictionary<int, int>> GetLikeCountByIdsAsync(List<int> ids)
         {
-            return await _context.ArticleLikes.Where(l => ids.Contains(l.ArticleId)).GroupBy(l => l.ArticleId)
+            return await _context.ArticleLikes.Where(a => !a.IsDeleted).Where(l => ids.Contains(l.ArticleId)).GroupBy(l => l.ArticleId)
             .Select(l => new
             {
                 ArticleId = l.Key,
@@ -108,7 +108,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IEnumerable<Article>> GetByTitleAsync(string title)
         {
-            return await _context.Articles.Where(a => a.Title.ToLower().Contains(title.ToLower())).ToListAsync();
+            return await _context.Articles.Where(a => !a.IsDeleted).Where(a => a.Title.ToLower().Contains(title.ToLower())).ToListAsync();
         }
     }
 }

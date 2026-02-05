@@ -48,10 +48,9 @@ namespace Weblu.Application.Services
                 throw new UnauthorizedException(TicketErrorCodes.TicketDeleteForbidden);
             }
 
-            _ticketMessageRepository.Delete(ticketMessage);
+            ticketMessage.Delete();
             await _unitOfWork.CommitAsync();
         }
-
         public async Task<TicketMessageDto> GetTicketMessageByIdAsync(int ticketMessageId)
         {
             TicketMessage ticketMessage = await _ticketMessageRepository.GetByIdAsync(ticketMessageId) ?? throw new NotFoundException(TicketMessageErrorCodes.TicketMessageNotFound);

@@ -11,6 +11,5 @@ namespace Weblu.Application.Services.Interfaces
     {
         public Task<TokenDto> RefreshToken(TokenRequestDto addTokenRequestDto);
         public Task RevokeToken(RevokeRequestDto revokeRequestDto , string userId);
-
     }
 }

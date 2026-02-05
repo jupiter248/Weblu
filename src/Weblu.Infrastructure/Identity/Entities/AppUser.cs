@@ -25,6 +25,8 @@ namespace Weblu.Infrastructure.Identity.Entities
         public required string LastName { get; set; }
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
         public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public List<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
         public List<ProfileMedia> Profiles { get; set; } = new List<ProfileMedia>();
         public List<Ticket> Tickets { get; set; } = new List<Ticket>();
@@ -33,5 +35,11 @@ namespace Weblu.Infrastructure.Identity.Entities
         public List<FavoriteList> FavoriteLists { get; set; } = new List<FavoriteList>();
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public List<ArticleLike> ArticleLikes { get; set; } = new List<ArticleLike>();
+        public void Delete()
+        {
+            if (IsDeleted) return;
+            IsDeleted = true;
+            DeletedAt = DateTimeOffset.Now;
+        }
     }
 }

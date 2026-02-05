@@ -6,10 +6,18 @@ namespace Weblu.Domain.Entities.Common
     {
         [Key]
         public int Id { get; set; }
-        public Guid PublicId { get; private set; }
+        public Guid GuidId { get; private set; }
+        public bool IsDeleted { get; set; } = false;
+        public DateTimeOffset? DeletedAt { get; set; }
+        public virtual void Delete()
+        {
+            if (IsDeleted) return;
+            IsDeleted = true;
+            DeletedAt = DateTimeOffset.Now;
+        }
         protected BaseEntity()
         {
-            PublicId = Guid.NewGuid();
+            GuidId = Guid.NewGuid();
         }
     }
 }

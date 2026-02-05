@@ -25,7 +25,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<PagedList<Service>> GetAllAsync(ServiceParameters serviceParameters)
         {
-            IQueryable<Service> services = _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).AsNoTracking();
+            IQueryable<Service> services = _context.Services.Where(a => !a.IsDeleted).Include(i => i.ServiceImages).ThenInclude(i => i.Image).AsNoTracking();
             if (serviceParameters.PriceSort != PriceSort.All)
             {
                 services = new ServiceQueryHandler(new PriceSortStrategy())
@@ -48,13 +48,13 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<Service?> GetByIdAsync(int serviceId)
         {
-            Service? service = await _context.Services.FirstOrDefaultAsync(s => s.Id == serviceId);
+            Service? service = await _context.Services.Where(a => !a.IsDeleted).FirstOrDefaultAsync(s => s.Id == serviceId);
             return service;
         }
 
         public async Task<Service?> GetByIdWithImagesAsync(int serviceId)
         {
-            Service? service = await _context.Services.Include(i => i.ServiceImages).ThenInclude(i => i.Image).FirstOrDefaultAsync(s => s.Id == serviceId);
+            Service? service = await _context.Services.Where(a => !a.IsDeleted).Include(i => i.ServiceImages).ThenInclude(i => i.Image).FirstOrDefaultAsync(s => s.Id == serviceId);
             return service;
         }
 

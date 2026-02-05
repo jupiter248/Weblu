@@ -22,7 +22,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<TicketMessage>> GetAllByTicketIdAsync(int ticketId, TicketMessageParameters ticketMessageParameters)
         {
-            IQueryable<TicketMessage> ticketMessages = _context.TicketMessages.Where(t => t.TicketId == ticketId);
+            IQueryable<TicketMessage> ticketMessages = _context.TicketMessages.Where(a => !a.IsDeleted).Where(t => t.TicketId == ticketId);
 
             return await PaginationExtensions<TicketMessage>.GetPagedList(ticketMessages, ticketMessageParameters.PageNumber, ticketMessageParameters.PageSize);
         }

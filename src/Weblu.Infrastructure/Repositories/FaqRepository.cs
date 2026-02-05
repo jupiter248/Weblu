@@ -23,7 +23,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<PagedList<Faq>> GetAllAsync(FaqParameters faqParameters)
         {
-            IQueryable<Faq> faqs = _context.Faqs.Include(c => c.Category).AsNoTracking();
+            IQueryable<Faq> faqs = _context.Faqs.Where(a => !a.IsDeleted).Include(c => c.Category).AsNoTracking();
 
             if (faqParameters.CreatedDateSort != CreatedDateSort.All)
             {
@@ -36,7 +36,7 @@ namespace Weblu.Infrastructure.Repositories
 
         public override async Task<Faq?> GetByIdAsync(int faqId)
         {
-            Faq? faq = await _context.Faqs.Include(c => c.Category).FirstOrDefaultAsync(f => f.Id == faqId);
+            Faq? faq = await _context.Faqs.Where(a => !a.IsDeleted).Include(c => c.Category).FirstOrDefaultAsync(f => f.Id == faqId);
             if (faq == null)
             {
                 return null;

@@ -67,9 +67,8 @@ namespace Weblu.Infrastructure.Identity.Services
             }
 
             AppUser currentUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            await _userManager.DeleteAsync(currentUser);
+            currentUser.Delete();
         }
-
         public async Task<List<UserDto>> GetAllUsersAsync()
         {
             List<AppUser> users = await _userManager.Users.Include(p => p.Profiles).ToListAsync();

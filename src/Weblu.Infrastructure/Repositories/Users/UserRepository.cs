@@ -15,12 +15,12 @@ namespace Weblu.Infrastructure.Repositories.Users
 
         public async Task<bool> ExistsWithPhoneAsync(string phoneNumber)
         {
-            return await _context.Users.AnyAsync(u => u.PhoneNumber == phoneNumber);
+            return await _context.Users.Where(a => !a.IsDeleted).AnyAsync(u => u.PhoneNumber == phoneNumber);
         }
 
         public async Task<CommentUserDto?> GetUserForCommentAsync(string userId)
         {
-            CommentUserDto? commentUserDto = await _context.Users.Where(u => u.Id == userId).Select(c => new CommentUserDto()
+            CommentUserDto? commentUserDto = await _context.Users.Where(a => !a.IsDeleted).Where(u => u.Id == userId).Select(c => new CommentUserDto()
             {
                 UserId = c.Id,
                 UserName = c.UserName,
@@ -40,7 +40,7 @@ namespace Weblu.Infrastructure.Repositories.Users
 
         public async Task<bool> UserExistsAsync(string userId)
         {
-            bool userExists = await _context.Users.AnyAsync(u => u.Id == userId);
+            bool userExists = await _context.Users.Where(a => !a.IsDeleted).AnyAsync(u => u.Id == userId);
 
             return userExists;
         }

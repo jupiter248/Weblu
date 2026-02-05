@@ -17,9 +17,5 @@ namespace Weblu.Application.Interfaces.Services.ServiceServices
         Task<ServiceDetailDto> AddServiceAsync(AddServiceDto addServiceDto);
         Task<ServiceDetailDto> UpdateServiceAsync(int serviceId, UpdateServiceDto updateServiceDto);
         Task DeleteServiceAsync(int serviceId);
-
-
-
-
     }
 }

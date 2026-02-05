@@ -64,11 +64,10 @@ namespace Weblu.Application.Services.Articles
 
             article.Delete();
 
-            _articleRepository.Delete(article);
-            await _unitOfWork.CommitAsync();
-
             await _domainEventDispatcher.DispatchAsync(article.Events);
             article.ClearDomainEvents();
+
+            await _unitOfWork.CommitAsync();
         }
         public async Task<List<ArticleSummaryDto>> GetAllArticlesAsync(ArticleParameters articleParameters)
         {

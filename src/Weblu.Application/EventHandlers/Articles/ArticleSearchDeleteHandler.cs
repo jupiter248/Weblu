@@ -23,7 +23,7 @@ namespace Weblu.Application.EventHandlers.Articles
         }
         public async Task Handle(ArticleDeletedEvent domainEvent)
         {
-            Article? article = await _articleRepository.GetByPublicIdAsync(domainEvent.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Article? article = await _articleRepository.GetByGuidIdAsync(domainEvent.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             SearchItem? searchItem = await _searchRepository.GetByEntityIdAsync(article.Id, SearchEntityType.Article) ?? throw new NotFoundException(SearchErrorCodes.NotFound);
 
             _searchRepository.Delete(searchItem);

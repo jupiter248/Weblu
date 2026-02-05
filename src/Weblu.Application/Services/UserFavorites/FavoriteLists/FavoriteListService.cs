@@ -60,7 +60,7 @@ namespace Weblu.Application.Services.FavoriteLists
             {
                 throw new UnauthorizedException(FavoriteListErrorCodes.DeleteForbidden);
             }
-            _favoriteListRepository.Delete(favoriteList);
+            _favoriteListRepository.Remove(favoriteList);
             await _unitOfWork.CommitAsync();
         }
         public async Task<List<FavoriteListDto>> GetAllFavoriteListsAsync(string userId, FavoriteListParameters favoriteListParameters)

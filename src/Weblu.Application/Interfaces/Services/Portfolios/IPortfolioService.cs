@@ -17,7 +17,5 @@ namespace Weblu.Application.Interfaces.Services.Portfolios
         Task<PortfolioDetailDto> AddPortfolioAsync(AddPortfolioDto addPortfolioDto);
         Task<PortfolioDetailDto> UpdatePortfolioAsync(int portfolioId, UpdatePortfolioDto updatePortfolioDto);
         Task DeletePortfolioAsync(int portfolioId);
-
-
     }
 }

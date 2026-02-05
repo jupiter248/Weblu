@@ -32,12 +32,6 @@ namespace Weblu.Application.Services
             return articleCategoryDto;
         }
 
-        public async Task DeleteArticleCategoryAsync(int categoryId)
-        {
-            ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
-            _articleCategoryRepository.Delete(articleCategory);
-            await _unitOfWork.CommitAsync();
-        }
 
         public async Task<List<ArticleCategoryDto>> GetAllArticleCategoriesAsync(ArticleCategoryParameters articleCategoryParameters)
         {
@@ -52,7 +46,6 @@ namespace Weblu.Application.Services
             ArticleCategoryDto articleCategoryDto = _mapper.Map<ArticleCategoryDto>(articleCategory);
             return articleCategoryDto;
         }
-
         public async Task<ArticleCategoryDto> UpdateArticleCategoryAsync(int categoryId, UpdateArticleCategoryDto updateArticleCategoryDto)
         {
             ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
@@ -63,6 +56,13 @@ namespace Weblu.Application.Services
 
             ArticleCategoryDto articleCategoryDto = _mapper.Map<ArticleCategoryDto>(articleCategory);
             return articleCategoryDto;
+        }
+
+        public async Task DeleteArticleCategoryAsync(int categoryId)
+        {
+            ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
+            articleCategory.Delete();
+            await _unitOfWork.CommitAsync();
         }
     }
 }

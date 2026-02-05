@@ -45,8 +45,6 @@ namespace Weblu.Application.Services
                     throw new NotFoundException(CommentErrorCodes.NotFound);
                 }
             }
-
-
             comment.Article = article;
             comment.UserId = commentUserDto.UserId;
 
@@ -73,10 +71,9 @@ namespace Weblu.Application.Services
                 throw new UnauthorizedException(CommentErrorCodes.DeleteForbidden);
             }
 
-            _commentRepository.Delete(comment);
+            comment.Delete();
             await _unitOfWork.CommitAsync();
         }
-
         public async Task<List<CommentDto>> GetAllCommentsAsync(CommentParameters commentParameters)
         {
             IReadOnlyList<Comment> comments = await _commentRepository.GetAllAsync(commentParameters);

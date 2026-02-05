@@ -24,7 +24,7 @@ namespace Weblu.Infrastructure.Repositories
         }
         public override async Task<PagedList<Tag>> GetAllAsync(TagParameters tagParameters)
         {
-            IQueryable<Tag> tags = _context.Tags.AsNoTracking();
+            IQueryable<Tag> tags = _context.Tags.Where(a => !a.IsDeleted).AsNoTracking();
             if (tagParameters.CreatedDateSort != CreatedDateSort.All)
             {
                 tags = new TagQueryHandler(new CreatedDateSortStrategy())

@@ -6,6 +6,7 @@ using Weblu.Application.Interfaces.Repositories.Users.UserFavorites;
 using Weblu.Application.Interfaces.Services.Users;
 using Weblu.Application.Interfaces.Services.Users.UserFavorites;
 using Weblu.Application.Mappers;
+using Weblu.Application.Services.Common.Interfaces;
 using Weblu.Application.Services.Interfaces;
 using Weblu.Application.Services.UserFavorites;
 using Weblu.Infrastructure.Common.Services;
