@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.ArticleDtos;
-using Weblu.Application.Dtos.ArticleDtos.ArticleImageDtos;
+using Weblu.Application.Dtos.Articles.ArticleDtos;
 using Weblu.Application.Parameters;
+using Weblu.Application.Parameters.Articles;
 
 namespace Weblu.Application.Interfaces.Services.Articles
 {

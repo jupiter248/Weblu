@@ -1,13 +1,14 @@
 using AutoMapper;
-using Weblu.Application.Dtos.ArticleCategoryDtos;
-using Weblu.Application.Exceptions;
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Dtos.Articles.ArticleCategoryDtos;
+using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories.Articles;
+using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Articles;
-using Weblu.Application.Parameters;
+using Weblu.Application.Parameters.Articles;
 using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Errors.Articles;
 
-namespace Weblu.Application.Services
+namespace Weblu.Application.Services.Articles
 {
     public class ArticleCategoryService : IArticleCategoryService
     {

@@ -1,7 +1,8 @@
-using Weblu.Application.Exceptions;
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories.Articles;
+using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Domain.Entities.Articles;
-using Weblu.Domain.Entities.Search;
+using Weblu.Domain.Entities.Common.Search;
 using Weblu.Domain.Enums.Common.Search;
 using Weblu.Domain.Errors.Articles;
 using Weblu.Domain.Events.Articles;

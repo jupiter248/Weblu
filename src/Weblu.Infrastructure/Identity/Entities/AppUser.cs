@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Weblu.Domain.Entities.Articles;
-using Weblu.Domain.Entities.Comments;
-using Weblu.Domain.Entities.Common;
-using Weblu.Domain.Entities.Favorites;
+using Weblu.Domain.Entities.Articles.Comments;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Tickets;
-using Weblu.Domain.Entities.Users;
+using Weblu.Domain.Entities.Users.Favorites;
+using Weblu.Domain.Entities.Users.Tokens;
 
 namespace Weblu.Infrastructure.Identity.Entities
 {

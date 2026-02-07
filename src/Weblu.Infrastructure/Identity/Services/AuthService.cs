@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Identity;
-using Weblu.Application.Dtos.AuthDtos;
-using Weblu.Application.Exceptions;
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Dtos.Auth.AuthDtos;
+using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Users;
-using Weblu.Application.Services.Interfaces;
-using Weblu.Domain.Entities.Users;
+using Weblu.Application.Interfaces.Repositories.Users.Tokens;
+using Weblu.Application.Services.Interfaces.Auth;
+using Weblu.Domain.Entities.Users.Tokens;
 using Weblu.Domain.Enums.Users;
 using Weblu.Domain.Errors.Auth;
 using Weblu.Domain.Errors.Users;
 using Weblu.Infrastructure.Identity.Entities;
-using Weblu.Infrastructure.Token;
+using Weblu.Infrastructure.Identity.Token;
 
 namespace Weblu.Infrastructure.Identity.Services
 {

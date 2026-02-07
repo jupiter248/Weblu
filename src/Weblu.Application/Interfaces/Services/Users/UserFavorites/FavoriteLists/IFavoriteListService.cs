@@ -1,7 +1,8 @@
-using Weblu.Application.Dtos.FavoriteListDtos;
+using Weblu.Application.Dtos.Users.Favorites.FavoriteListDtos;
 using Weblu.Application.Parameters;
+using Weblu.Application.Parameters.Users;
 
-namespace Weblu.Application.Interfaces.Services.Users.UserFavorites
+namespace Weblu.Application.Interfaces.Services.Users.UserFavorites.FavoriteLists
 {
     public interface IFavoriteListService
     {

@@ -2,19 +2,19 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Weblu.Domain.Entities.About;
 using Weblu.Domain.Entities.Articles;
-using Weblu.Domain.Entities.Comments;
-using Weblu.Domain.Entities.Contributors;
+using Weblu.Domain.Entities.Articles.Comments;
+using Weblu.Domain.Entities.Common.Contributors;
+using Weblu.Domain.Entities.Common.Features;
+using Weblu.Domain.Entities.Common.Methods;
+using Weblu.Domain.Entities.Common.Search;
 using Weblu.Domain.Entities.Faqs;
-using Weblu.Domain.Entities.Favorites;
-using Weblu.Domain.Entities.Features;
 using Weblu.Domain.Entities.Media;
-using Weblu.Domain.Entities.Methods;
 using Weblu.Domain.Entities.Portfolios;
-using Weblu.Domain.Entities.Search;
 using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Entities.Tags;
 using Weblu.Domain.Entities.Tickets;
-using Weblu.Domain.Entities.Users;
+using Weblu.Domain.Entities.Users.Favorites;
+using Weblu.Domain.Entities.Users.Tokens;
 using Weblu.Infrastructure.Identity.Entities;
 
 namespace Weblu.Infrastructure.Data

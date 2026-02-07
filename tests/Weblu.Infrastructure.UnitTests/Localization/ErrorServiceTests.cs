@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Resources;
-using System.Threading.Tasks;
-using FakeItEasy;
 using FluentAssertions;
 using Weblu.Infrastructure.Localization;
-using Xunit;
 
 namespace Weblu.Infrastructure.UnitTests.Localization
 {

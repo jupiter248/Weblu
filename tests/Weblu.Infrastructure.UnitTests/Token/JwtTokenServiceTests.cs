@@ -3,7 +3,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
-using Weblu.Infrastructure.Token;
+using Weblu.Infrastructure.Identity.Token;
 
 namespace Weblu.Infrastructure.UnitTests.Token
 {

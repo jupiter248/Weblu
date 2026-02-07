@@ -1,3 +1,4 @@
+using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Domain.Exceptions;
 
 namespace Weblu.Application.Exceptions.Mappers

@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using Weblu.Application.Dtos.UserDtos;
+using Weblu.Application.Dtos.Users.UserDtos;
 using Weblu.Application.Helpers;
 using Weblu.Infrastructure.Identity.Entities;
 

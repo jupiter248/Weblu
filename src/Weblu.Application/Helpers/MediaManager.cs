@@ -1,6 +1,6 @@
-using Weblu.Application.Dtos.MediaDtos;
-using Weblu.Application.Exceptions;
-using Weblu.Domain.Errors.Commons;
+using Weblu.Application.Dtos.Images.MediaDtos;
+using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Domain.Errors.Common;
 
 namespace Weblu.Application.Helpers
 {

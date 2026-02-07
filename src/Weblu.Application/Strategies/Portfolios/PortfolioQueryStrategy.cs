@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Interfaces.Strategies;
-using Weblu.Application.Parameters;
+using Weblu.Application.Interfaces.Strategies.Portfolios;
+using Weblu.Application.Parameters.Portfolios;
 using Weblu.Domain.Entities.Portfolios;
 
 namespace Weblu.Application.Strategies.Portfolios

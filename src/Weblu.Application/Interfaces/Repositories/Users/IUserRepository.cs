@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Dtos.CommentDtos;
+using Weblu.Application.Dtos.Articles.CommentDtos;
 
 namespace Weblu.Application.Interfaces.Repositories.Users
 {

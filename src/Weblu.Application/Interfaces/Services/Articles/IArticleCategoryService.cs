@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Dtos.ArticleCategoryDtos;
+using Weblu.Application.Dtos.Articles.ArticleCategoryDtos;
 using Weblu.Application.Parameters;
+using Weblu.Application.Parameters.Articles;
 
 namespace Weblu.Application.Interfaces.Services.Articles
 {

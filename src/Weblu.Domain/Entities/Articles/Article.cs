@@ -1,12 +1,11 @@
-using Weblu.Domain.Entities.Comments;
+using Weblu.Domain.Entities.Articles.Comments;
 using Weblu.Domain.Entities.Common;
-using Weblu.Domain.Entities.Contributors;
+using Weblu.Domain.Entities.Common.Contributors;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Tags;
 using Weblu.Domain.Errors.Articles;
-using Weblu.Domain.Errors.Contributors;
 using Weblu.Domain.Errors.Images;
-using Weblu.Domain.Errors.Tags;
+using Weblu.Domain.Errors.Common;
 using Weblu.Domain.Events.Articles;
 using Weblu.Domain.Events.Common;
 using Weblu.Domain.Exceptions;

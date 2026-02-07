@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Weblu.Domain.Errors.Faqs
+namespace Weblu.Domain.Errors.FAQs
 {
     public class FaqErrorCodes
     {

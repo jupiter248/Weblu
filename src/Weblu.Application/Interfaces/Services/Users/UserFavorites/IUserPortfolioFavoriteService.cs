@@ -1,5 +1,6 @@
-using Weblu.Application.Dtos.PortfolioDtos;
+using Weblu.Application.Dtos.Portfolios.PortfolioDtos;
 using Weblu.Application.Parameters;
+using Weblu.Application.Parameters.Users;
 
 namespace Weblu.Application.Interfaces.Services.Users.UserFavorites
 {

@@ -1,15 +1,16 @@
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
-using Weblu.Application.Dtos.AuthDtos;
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Dtos.Auth.AuthDtos;
+using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Users;
-using Weblu.Domain.Entities.Users;
+using Weblu.Application.Interfaces.Repositories.Users.Tokens;
+using Weblu.Domain.Entities.Users.Tokens;
 using Weblu.Domain.Enums.Users;
 using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Identity.Services;
-using Weblu.Infrastructure.Token;
+using Weblu.Infrastructure.Identity.Token;
 
 namespace Weblu.Infrastructure.UnitTests.Identity.Services
 {

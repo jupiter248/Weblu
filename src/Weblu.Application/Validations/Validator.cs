@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentValidation;
-using Weblu.Domain.Errors.Commons;
+using Weblu.Domain.Errors.Common;
 
 namespace Weblu.Application.Validations
 {
@@ -20,7 +16,7 @@ namespace Weblu.Application.Validations
                 // Group errors by property and get localized error messages
                 var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-                throw new Exceptions.ValidationException(CommonErrorCodes.ValidationError, errors);
+                throw new Exceptions.CustomExceptions.ValidationException(CommonErrorCodes.ValidationError, errors);
             }
         }
     }

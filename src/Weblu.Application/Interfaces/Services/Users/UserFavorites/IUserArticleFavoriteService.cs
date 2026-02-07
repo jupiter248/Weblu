@@ -1,5 +1,6 @@
-using Weblu.Application.Dtos.ArticleDtos;
+using Weblu.Application.Dtos.Articles.ArticleDtos;
 using Weblu.Application.Parameters;
+using Weblu.Application.Parameters.Users;
 
 namespace Weblu.Application.Interfaces.Services.Users.UserFavorites
 {

@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.PortfolioDtos;
-using Weblu.Application.Dtos.PortfolioDtos.PortfolioImageDtos;
+using Weblu.Application.Dtos.Portfolios.PortfolioDtos;
 using Weblu.Application.Parameters;
+using Weblu.Application.Parameters.Portfolios;
 
 namespace Weblu.Application.Interfaces.Services.Portfolios
 {

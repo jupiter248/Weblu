@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Exceptions;
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
-using Weblu.Domain.Entities.Contributors;
+using Weblu.Domain.Entities.Common.Contributors;
 using Weblu.Domain.Entities.Portfolios;
-using Weblu.Domain.Errors.Contributors;
+using Weblu.Domain.Errors.Common;
 using Weblu.Domain.Errors.Portfolios;
 
 namespace Weblu.Application.Services.Portfolios

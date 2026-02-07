@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 using Weblu.Domain.Entities.Common;
-using Weblu.Domain.Entities.Features;
+using Weblu.Domain.Entities.Common.Features;
+using Weblu.Domain.Entities.Common.Methods;
 using Weblu.Domain.Entities.Media;
-using Weblu.Domain.Entities.Methods;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Errors.Services;

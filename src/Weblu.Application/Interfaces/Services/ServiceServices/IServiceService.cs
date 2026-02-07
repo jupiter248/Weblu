@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.ServiceDtos;
-using Weblu.Application.Dtos.ServiceDtos.ServiceImageDtos;
-using Weblu.Application.Parameters;
+using Weblu.Application.Dtos.Services.ServiceDtos;
+using Weblu.Application.Parameters.Services;
 
 namespace Weblu.Application.Interfaces.Services.ServiceServices
 {

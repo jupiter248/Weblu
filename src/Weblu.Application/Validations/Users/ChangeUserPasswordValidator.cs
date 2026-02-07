@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentValidation;
-using Weblu.Application.Dtos.UserDtos;
-using Weblu.Domain.Errors.Auth;
+using Weblu.Application.Dtos.Users.UserDtos;
 using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Application.Validations.Users

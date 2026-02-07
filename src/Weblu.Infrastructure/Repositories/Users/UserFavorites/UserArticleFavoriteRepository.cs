@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Interfaces.Repositories.Users.UserFavorites;
-using Weblu.Application.Parameters;
-using Weblu.Application.Strategies.FavoriteArticles;
-using Weblu.Domain.Entities.Favorites;
+using Weblu.Application.Parameters.Users;
+using Weblu.Application.Strategies.Favorites.FavoriteArticles;
+using Weblu.Domain.Entities.Users.Favorites;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories.Users.UserFavorites

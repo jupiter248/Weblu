@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentValidation;
-using Weblu.Application.Dtos.ImageDtos;
+using Weblu.Application.Dtos.Images.ImageDtos;
 using Weblu.Domain.Errors.Images;
 
 namespace Weblu.Application.Validations.Images

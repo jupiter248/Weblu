@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Asp.Versioning;
-using Microsoft.AspNetCore.Routing.Patterns;
 
 namespace Weblu.Api.Extensions
 {
-    public static class VersioningConfigurations
+    public static class ConfigureVersioning
     {
         public static void ApplyVersioning(this IServiceCollection services)
         {

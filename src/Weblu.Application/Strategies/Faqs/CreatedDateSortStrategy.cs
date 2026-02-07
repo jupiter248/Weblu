@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Interfaces.Strategies;
-using Weblu.Application.Parameters;
+using Weblu.Application.Interfaces.Strategies.FAQs;
+using Weblu.Application.Parameters.FAQs;
 using Weblu.Domain.Entities.Faqs;
 using Weblu.Domain.Enums.Common.Parameters;
 

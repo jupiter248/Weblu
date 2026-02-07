@@ -1,18 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using Weblu.Application.Dtos.PortfolioCategory;
-using Weblu.Application.Exceptions;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Services;
+using Weblu.Application.Dtos.Portfolios.PortfolioCategory;
+using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
-using Weblu.Application.Parameters;
+using Weblu.Application.Parameters.Portfolios;
 using Weblu.Domain.Entities.Portfolios;
-using Weblu.Domain.Errors.PortfolioCategory;
+using Weblu.Domain.Errors.Portfolios;
 
-namespace Weblu.Application.Services
+namespace Weblu.Application.Services.Portfolios
 {
     public class PortfolioCategoryService : IPortfolioCategoryService
     {

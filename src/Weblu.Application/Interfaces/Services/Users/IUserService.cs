@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Dtos.UserDtos;
+using Weblu.Application.Dtos.Users.UserDtos;
 
 namespace Weblu.Application.Interfaces.Services.Users
 {

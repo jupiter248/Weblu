@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Exceptions;
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Application.Interfaces.Repositories.Services;
 using Weblu.Application.Interfaces.Services.ServiceServices;
-using Weblu.Domain.Entities.Features;
+using Weblu.Domain.Entities.Common.Features;
 using Weblu.Domain.Entities.Services;
-using Weblu.Domain.Errors.Features;
+using Weblu.Domain.Errors.Common;
 using Weblu.Domain.Errors.Services;
 
 namespace Weblu.Application.Services.ServiceServices

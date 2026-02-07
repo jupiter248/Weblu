@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Weblu.Domain.Entities.Common;
 
 namespace Weblu.Domain.Entities.Portfolios

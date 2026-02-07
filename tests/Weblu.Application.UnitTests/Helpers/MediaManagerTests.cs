@@ -2,7 +2,7 @@ using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Weblu.Application.Common.Interfaces;
-using Weblu.Application.Dtos.MediaDtos;
+using Weblu.Application.Dtos.Images.MediaDtos;
 using Weblu.Application.Helpers;
 using Xunit;
 

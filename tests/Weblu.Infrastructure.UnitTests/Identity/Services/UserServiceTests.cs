@@ -3,7 +3,7 @@ using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Weblu.Application.Dtos.UserDtos;
+using Weblu.Application.Dtos.Users.UserDtos;
 using Weblu.Domain.Enums.Users;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Identity.Services;

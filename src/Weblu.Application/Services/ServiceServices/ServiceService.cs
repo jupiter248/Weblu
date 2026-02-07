@@ -1,14 +1,15 @@
 using AutoMapper;
-using Weblu.Application.Dtos.ServiceDtos;
-using Weblu.Application.Dtos.ServiceDtos.ServiceImageDtos;
-using Weblu.Application.Exceptions;
 using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Errors.Services;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Parameters;
 using Weblu.Application.Interfaces.Services.ServiceServices;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Common.Pagination;
+using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Application.Interfaces.Repositories.Services;
+using Weblu.Application.Dtos.Services.ServiceDtos;
+using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Parameters.Services;
+using Weblu.Application.Dtos.Services.ServiceDtos.ServiceImageDtos;
 
 namespace Weblu.Application.Services
 {

@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories
