@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.FAQs.FaqCategoryDtos
+namespace Weblu.Application.Dtos.FAQs.FAQCategoryDtos
 {
-    public class FaqCategoryDto
+    public class FAQCategoryDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = default!;

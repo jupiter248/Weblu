@@ -7,11 +7,11 @@ namespace Weblu.Application.Interfaces.Services.Articles
 {
     public interface ICommentService
     {
-        Task<List<CommentDto>> GetAllCommentsAsync(CommentParameters commentParameters);
-        Task<PagedResponse<CommentDto>> GetAllPagedCommentsAsync(CommentParameters commentParameters);
-        Task<CommentDto> GetCommentByIdAsync(int commentId);
-        Task<CommentDto> AddCommentAsync(string userId, AddCommentDto addCommentDto);
-        Task<CommentDto> UpdateCommentAsync(string userId, int commentId, UpdateCommentDTo updateCommentDTo);
-        Task DeleteCommentAsync(string userId, int commentId);
+        Task<List<CommentDto>> GetAllAsync(CommentParameters commentParameters);
+        Task<PagedResponse<CommentDto>> GetAllPagedAsync(CommentParameters commentParameters);
+        Task<CommentDto> GetByIdAsync(int commentId);
+        Task<CommentDto> CreateAsync(string userId, CreateCommentDto createCommentDto);
+        Task<CommentDto> EditAsync(string userId, int commentId, UpdateCommentDto updateCommentDto);
+        Task DeleteAsync(string userId, int commentId);
     }
 }

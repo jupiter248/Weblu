@@ -1,6 +1,6 @@
 namespace Weblu.Domain.Errors.FAQs
 {
-    public class FaqErrorCodes
+    public class FAQErrorCodes
     {
         public const string NotFound = "FAQ_NOT_FOUND";
         public const string AnswerRequired = "FAQ_ANSWER_REQUIRED";

@@ -4,7 +4,7 @@ namespace Weblu.Application.Interfaces.Services.ServiceServices
 {
     public interface IServiceImageService
     {
-        Task AddImageAsync(int serviceId, int imageId, AddServiceImageDto addServiceImageDto);
-        Task DeleteImageAsync(int serviceId, int imageId);
+        Task AddAsync(int serviceId, int imageId, AddServiceImageDto addServiceImageDto);
+        Task DeleteAsync(int serviceId, int imageId);
     }
 }

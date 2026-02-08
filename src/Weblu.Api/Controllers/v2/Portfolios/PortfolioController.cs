@@ -18,9 +18,9 @@ namespace Weblu.Api.Controllers.v2.Portfolios
             _portfolioService = portfolioService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllPortfolios([FromQuery] PortfolioParameters portfolioParameters)
+        public async Task<IActionResult> GetAll([FromQuery] PortfolioParameters portfolioParameters)
         {
-            PagedResponse<PortfolioSummaryDto> portfolioSummaryDtos = await _portfolioService.GetAllPagedPortfolioAsync(portfolioParameters);
+            PagedResponse<PortfolioSummaryDto> portfolioSummaryDtos = await _portfolioService.GetAllPagedAsync(portfolioParameters);
             return Ok(portfolioSummaryDtos);
         }
     }

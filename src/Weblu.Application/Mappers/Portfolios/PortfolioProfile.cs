@@ -12,7 +12,7 @@ namespace Weblu.Application.Mappers.Portfolios
     {
         public PortfolioProfile()
         {
-            CreateMap<Portfolio, PortfolioSummaryDto>() 
+            CreateMap<Portfolio, PortfolioSummaryDto>()
                             .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.PortfolioImages.FirstOrDefault(i => i.IsThumbnail).ImageMedia.Url ?? string.Empty));
 
             CreateMap<Portfolio, PortfolioDetailDto>()
@@ -20,7 +20,7 @@ namespace Weblu.Application.Mappers.Portfolios
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                     .ForMember(dest => dest.PortfolioCategoryName, opt => opt.MapFrom(src => src.PortfolioCategory.Name ?? string.Empty));
-            CreateMap<AddPortfolioDto, Portfolio>()
+            CreateMap<CreatePortfolioDto, Portfolio>()
                     .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()))
                     .ForMember(dest => dest.ActivatedAt, opt =>
                     {
@@ -34,7 +34,7 @@ namespace Weblu.Application.Mappers.Portfolios
             CreateMap<PortfolioCategory, PortfolioCategoryDto>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null));
-            CreateMap<AddPortfolioCategoryDto, PortfolioCategory>();
+            CreateMap<CreatePortfolioCategoryDto, PortfolioCategory>();
             CreateMap<UpdatePortfolioCategoryDto, PortfolioCategory>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
 

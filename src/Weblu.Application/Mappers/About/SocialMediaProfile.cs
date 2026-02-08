@@ -12,7 +12,7 @@ namespace Weblu.Application.Mappers.About
             CreateMap<SocialMedia, SocialMediaDto>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<AddSocialMediaDto, SocialMedia>();
+            CreateMap<CreateSocialMediaDto, SocialMedia>();
             CreateMap<UpdateSocialMediaDto, SocialMedia>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
         }

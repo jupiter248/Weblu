@@ -1,17 +1,17 @@
 using Weblu.Application.Interfaces.Strategies.FAQs;
 using Weblu.Application.Parameters.FAQs;
-using Weblu.Domain.Entities.Faqs;
+using Weblu.Domain.Entities.FAQs;
 
-namespace Weblu.Application.Strategies.Faqs
+namespace Weblu.Application.Strategies.FAQs
 {
-    public class FaqQueryHandler
+    public class FAQQueryHandler
     {
-        private readonly IFaqQueryStrategy _faqQueryStrategy;
-        public FaqQueryHandler(IFaqQueryStrategy faqQueryStrategy)
+        private readonly IFAQQueryStrategy _faqQueryStrategy;
+        public FAQQueryHandler(IFAQQueryStrategy faqQueryStrategy)
         {
             _faqQueryStrategy = faqQueryStrategy;
         }
-        public IQueryable<Faq> ExecuteFaqQuery(IQueryable<Faq> faqs, FaqParameters faqParameters)
+        public IQueryable<FAQ> ExecuteFAQQuery(IQueryable<FAQ> faqs, FAQParameters faqParameters)
         {
             return _faqQueryStrategy.Query(faqs, faqParameters);
         }

@@ -1,8 +1,8 @@
 using Weblu.Domain.Entities.Common;
 
-namespace Weblu.Domain.Entities.Faqs
+namespace Weblu.Domain.Entities.FAQs
 {
-    public class Faq : BaseEntity
+    public class FAQ : BaseEntity
     {
         public string Question { get; set; } = default!;
         public string Answer { get; set; } = default!;
@@ -11,6 +11,6 @@ namespace Weblu.Domain.Entities.Faqs
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
         public int CategoryId { get; set; }
-        public FaqCategory Category { get; set; } = default!;
+        public FAQCategory Category { get; set; } = default!;
     }
 }

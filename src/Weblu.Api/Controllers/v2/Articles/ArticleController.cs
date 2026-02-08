@@ -22,9 +22,9 @@ namespace Weblu.Api.Controllers.v2.Articles
 
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllArticles([FromQuery] ArticleParameters articleParameters)
+        public async Task<IActionResult> GetAll([FromQuery] ArticleParameters articleParameters)
         {
-            PagedResponse<ArticleSummaryDto> articleSummaryDtos = await _articleService.GetAllPagedArticlesAsync(articleParameters);
+            PagedResponse<ArticleSummaryDto> articleSummaryDtos = await _articleService.GetAllPagedAsync(articleParameters);
             return Ok(articleSummaryDtos);
         }
     }

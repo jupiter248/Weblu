@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Weblu.Application.Interfaces.Repositories.Users;
+using Weblu.Application.Interfaces.Repositories.Users.Roles;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Identity.Authorization;
 

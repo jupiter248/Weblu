@@ -132,14 +132,14 @@ namespace Weblu.Infrastructure.Migrations
 
             migrationBuilder.AddColumn<Guid>(
                 name: "PublicId",
-                table: "Faqs",
+                table: "FAQs",
                 type: "uniqueidentifier",
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
             migrationBuilder.AddColumn<Guid>(
                 name: "PublicId",
-                table: "FaqCategories",
+                table: "FAQCategories",
                 type: "uniqueidentifier",
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
@@ -267,11 +267,11 @@ namespace Weblu.Infrastructure.Migrations
 
             migrationBuilder.DropColumn(
                 name: "PublicId",
-                table: "Faqs");
+                table: "FAQs");
 
             migrationBuilder.DropColumn(
                 name: "PublicId",
-                table: "FaqCategories");
+                table: "FAQCategories");
 
             migrationBuilder.DropColumn(
                 name: "PublicId",

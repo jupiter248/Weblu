@@ -5,11 +5,11 @@ namespace Weblu.Application.Interfaces.Services.About
 {
     public interface ISocialMediaService
     {
-        Task<List<SocialMediaDto>> GetAllSocialMediasAsync(SocialMediaParameters socialMediaParameters);
-        Task<SocialMediaDto> GetSocialMediaByIdAsync(int socialMediaId);
-        Task<SocialMediaDto> AddSocialMediaAsync(AddSocialMediaDto addSocialMediaDto);
-        Task<SocialMediaDto> UpdateSocialMediaAsync(int socialMediaId, UpdateSocialMediaDto updateSocialMediaDto);
-        Task<SocialMediaDto> UpdateSocialMediaIconAsync(int socialMediaId, UpdateSocialMediaIconDto updateSocialMediaIcon);
-        Task DeleteSocialMediaAsync(int socialMediaId);
+        Task<List<SocialMediaDto>> GetAllAsync(SocialMediaParameters socialMediaParameters);
+        Task<SocialMediaDto> GetByIdAsync(int socialMediaId);
+        Task<SocialMediaDto> CreateAsync(CreateSocialMediaDto createSocialMediaDto);
+        Task<SocialMediaDto> UpdateAsync(int socialMediaId, UpdateSocialMediaDto updateSocialMediaDto);
+        Task<SocialMediaDto> ChangeIconAsync(int socialMediaId, ChangeSocialMediaIconDto changeSocialMediaIconDto);
+        Task DeleteAsync(int socialMediaId);
     }
 }

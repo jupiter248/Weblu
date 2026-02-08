@@ -3,6 +3,7 @@ using Weblu.Application.Common.Pagination;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.Common.SearchDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Parameters.Common;

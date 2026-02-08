@@ -22,24 +22,24 @@ namespace Weblu.Api.Controllers.v1.Common
             _tagService = tagService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllTags([FromQuery] TagParameters tagParameters)
+        public async Task<IActionResult> GetAll([FromQuery] TagParameters tagParameters)
         {
-            List<TagDto> tagDtos = await _tagService.GetAllTagsAsync(tagParameters);
+            List<TagDto> tagDtos = await _tagService.GetAllAsync(tagParameters);
             return Ok(tagDtos);
         }
         [HttpGet("{tagId:int}")]
-        public async Task<IActionResult> GetTagById(int tagId)
+        public async Task<IActionResult> GetById(int tagId)
         {
-            TagDto tagDto = await _tagService.GetTagByIdAsync(tagId);
+            TagDto tagDto = await _tagService.GetByIdAsync(tagId);
             return Ok(tagDto);
         }
         [Authorize(Policy = Permissions.ManageTags)]
         [HttpPost]
-        public async Task<IActionResult> AddTag([FromBody] AddTagDto addTagDto)
+        public async Task<IActionResult> Create([FromBody] CreateTagDto createTagDto)
         {
-            Validator.ValidateAndThrow(addTagDto, new AddTagValidator());
-            TagDto tagDto = await _tagService.AddTagAsync(addTagDto);
-            return CreatedAtAction(nameof(GetTagById), new { tagId = tagDto.Id }, ApiResponse<TagDto>.Success
+            Validator.ValidateAndThrow(createTagDto, new CreateTagValidator());
+            TagDto tagDto = await _tagService.CreateAsync(createTagDto);
+            return CreatedAtAction(nameof(GetById), new { tagId = tagDto.Id }, ApiResponse<TagDto>.Success
             (
                 "Tag created successfully.",
                 tagDto
@@ -47,10 +47,10 @@ namespace Weblu.Api.Controllers.v1.Common
         }
         [Authorize(Policy = Permissions.ManageTags)]
         [HttpPut("{tagId:int}")]
-        public async Task<IActionResult> UpdateTag(int tagId, [FromBody] UpdateTagDto updateTagDto)
+        public async Task<IActionResult> Update(int tagId, [FromBody] UpdateTagDto updateTagDto)
         {
             Validator.ValidateAndThrow(updateTagDto, new UpdateTagValidator());
-            TagDto tagDto = await _tagService.UpdateTagAsync(tagId, updateTagDto);
+            TagDto tagDto = await _tagService.UpdateAsync(tagId, updateTagDto);
             return Ok(ApiResponse<TagDto>.Success
             (
                 "Tag updated successfully.",
@@ -59,9 +59,9 @@ namespace Weblu.Api.Controllers.v1.Common
         }
         [Authorize(Policy = Permissions.ManageTags)]
         [HttpDelete("{tagId:int}")]
-        public async Task<IActionResult> DeleteTag(int tagId)
+        public async Task<IActionResult> Delete(int tagId)
         {
-            await _tagService.DeleteTagAsync(tagId);
+            await _tagService.DeleteAsync(tagId);
             return Ok(ApiResponse.Success
             (
                 "Tag deleted successfully."

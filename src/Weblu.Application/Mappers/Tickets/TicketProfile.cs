@@ -13,9 +13,9 @@ namespace Weblu.Application.Mappers.Tickets
             CreateMap<Ticket, TicketDetailDto>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<UpdateTicketDto, Ticket>()
+            CreateMap<EditTicketDto, Ticket>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
-            CreateMap<UpdateTicketStatusDto, Ticket>()
+            CreateMap<ChangeTicketStatusDto, Ticket>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
             CreateMap<CreateTicketDto, Ticket>();
         }

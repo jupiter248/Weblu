@@ -20,16 +20,16 @@ namespace Weblu.Api.Controllers.v1.Tokens
         }
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllRefreshTokens([FromQuery] RefreshTokenParameters refreshTokenParameters)
+        public async Task<IActionResult> GetAll([FromQuery] RefreshTokenParameters refreshTokenParameters)
         {
-            List<RefreshTokenDto> refreshTokenDtos = await _refreshTokenService.GetAllRefreshTokensAsync(refreshTokenParameters);
+            List<RefreshTokenDto> refreshTokenDtos = await _refreshTokenService.GetAllAsync(refreshTokenParameters);
             return Ok(refreshTokenDtos);
         }
         [Authorize]
         [HttpPut("{refreshTokenId:int}")]
-        public async Task<IActionResult> UpdateRefreshToken(int refreshTokenId, [FromBody] UpdateRefreshTokenDto updateRefreshTokenDto)
+        public async Task<IActionResult> Update(int refreshTokenId, [FromBody] UpdateRefreshTokenDto updateRefreshTokenDto)
         {
-            RefreshTokenDto refreshTokenDto = await _refreshTokenService.UpdateRefreshToken(refreshTokenId, updateRefreshTokenDto);
+            RefreshTokenDto refreshTokenDto = await _refreshTokenService.UpdateAsync(refreshTokenId, updateRefreshTokenDto);
             return Ok(
                 ApiResponse<RefreshTokenDto>.Success(
                     "Refresh token updated successfully",

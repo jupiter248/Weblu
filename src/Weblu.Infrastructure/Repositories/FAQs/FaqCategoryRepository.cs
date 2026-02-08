@@ -1,4 +1,4 @@
-using Weblu.Domain.Entities.Faqs;
+using Weblu.Domain.Entities.FAQs;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
 using Weblu.Application.Parameters.FAQs;
@@ -6,9 +6,9 @@ using Weblu.Application.Interfaces.Repositories.FAQs;
 
 namespace Weblu.Infrastructure.Repositories
 {
-    internal class FaqCategoryRepository : GenericRepository<FaqCategory , FaqCategoryParameters>, IFaqCategoryRepository
+    internal class FAQCategoryRepository : GenericRepository<FAQCategory, FAQCategoryParameters>, IFAQCategoryRepository
     {
-        public FaqCategoryRepository(ApplicationDbContext context) : base(context)
+        public FAQCategoryRepository(ApplicationDbContext context) : base(context)
         {
         }
     }

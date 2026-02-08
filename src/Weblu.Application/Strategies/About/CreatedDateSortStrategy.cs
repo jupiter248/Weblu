@@ -1,4 +1,4 @@
-using Weblu.Application.Interfaces.Strategies.AboutUsInformation;
+using Weblu.Application.Interfaces.Strategies.About;
 using Weblu.Application.Parameters.About;
 using Weblu.Domain.Entities.About;
 using Weblu.Domain.Enums.Common.Parameters;

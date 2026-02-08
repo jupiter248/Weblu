@@ -1,7 +1,7 @@
 using Weblu.Application.Dtos.Auth.AuthDtos;
 using Weblu.Domain.Enums.Users;
 
-namespace Weblu.Application.Services.Interfaces.Auth
+namespace Weblu.Application.Interfaces.Services.Auth
 {
     public interface IAuthService
     {

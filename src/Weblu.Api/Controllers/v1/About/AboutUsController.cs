@@ -22,31 +22,31 @@ namespace Weblu.Api.Controllers.v1.About
             _aboutUsService = aboutUsService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllAboutUsInfos([FromQuery] AboutUsParameters aboutUsParameters)
+        public async Task<IActionResult> GetAll([FromQuery] AboutUsParameters aboutUsParameters)
         {
-            List<AboutUsDto> aboutUsDtos = await _aboutUsService.GetAllAboutUsInfosAsync(aboutUsParameters);
+            List<AboutUsDto> aboutUsDtos = await _aboutUsService.GetAllAsync(aboutUsParameters);
             return Ok(aboutUsDtos);
         }
         [HttpGet("{aboutUsId:int}")]
-        public async Task<IActionResult> GetAboutUsById(int aboutUsId)
+        public async Task<IActionResult> GetById(int aboutUsId)
         {
-            AboutUsDto aboutUsDto = await _aboutUsService.GetAboutUsInfoByIdAsync(aboutUsId);
+            AboutUsDto aboutUsDto = await _aboutUsService.GetByIdAsync(aboutUsId);
             return Ok(aboutUsDto);
         }
         [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpPost]
-        public async Task<IActionResult> AddAboutUs([FromBody] AddAboutUsDto addAboutUsDto)
+        public async Task<IActionResult> Create([FromBody] CreateAboutUsDto createAboutUsDto)
         {
-            Validator.ValidateAndThrow(addAboutUsDto, new AddAboutUsValidator());
-            AboutUsDto aboutUsDto = await _aboutUsService.AddAboutUsAsync(addAboutUsDto);
-            return CreatedAtAction(nameof(GetAboutUsById), new { aboutUsId = aboutUsDto.Id }, ApiResponse<AboutUsDto>.Success("AboutUs information added successfully", aboutUsDto));
+            Validator.ValidateAndThrow(createAboutUsDto, new CreateAboutUsValidator());
+            AboutUsDto aboutUsDto = await _aboutUsService.CreateAsync(createAboutUsDto);
+            return CreatedAtAction(nameof(GetById), new { aboutUsId = aboutUsDto.Id }, ApiResponse<AboutUsDto>.Success("AboutUs information added successfully", aboutUsDto));
         }
         [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpPut("{aboutUsId:int}")]
-        public async Task<IActionResult> UpdateAboutUs(int aboutUsId, [FromBody] UpdateAboutUsDto updateAboutUsDto)
+        public async Task<IActionResult> Update(int aboutUsId, [FromBody] UpdateAboutUsDto updateAboutUsDto)
         {
             Validator.ValidateAndThrow(updateAboutUsDto, new UpdateAboutUsValidator());
-            AboutUsDto aboutUsDto = await _aboutUsService.UpdateAboutUsAsync(aboutUsId, updateAboutUsDto);
+            AboutUsDto aboutUsDto = await _aboutUsService.UpdateAsync(aboutUsId, updateAboutUsDto);
             return Ok(ApiResponse<AboutUsDto>.Success(
                 "AboutUs information updated successfully",
                 aboutUsDto
@@ -54,19 +54,19 @@ namespace Weblu.Api.Controllers.v1.About
         }
         [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpDelete("{aboutUsId:int}")]
-        public async Task<IActionResult> DeleteAboutUs(int aboutUsId)
+        public async Task<IActionResult> Delete(int aboutUsId)
         {
-            await _aboutUsService.DeleteAboutUsAsync(aboutUsId);
+            await _aboutUsService.DeleteAsync(aboutUsId);
             return Ok(ApiResponse.Success(
                 "AboutUs information deleted successfully."
             ));
         }
         [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpPut("{aboutUsId:int}/head-image")]
-        public async Task<IActionResult> UpdateImageAboutUs(int aboutUsId, [FromForm] UpdateImageAboutUsDto updateImageAboutUsDto)
+        public async Task<IActionResult> UpdateImage(int aboutUsId, [FromForm] ChangeAboutUsImageDto changeAboutUsImageDto)
         {
-            Validator.ValidateAndThrow(updateImageAboutUsDto, new UpdateImageAboutUsValidator());
-            AboutUsDto aboutUsDto = await _aboutUsService.UpdateHeadImageAboutUsAsync(aboutUsId, updateImageAboutUsDto);
+            Validator.ValidateAndThrow(changeAboutUsImageDto, new ChangeAboutUsImageValidator());
+            AboutUsDto aboutUsDto = await _aboutUsService.ChangeHeadImageAsync(aboutUsId, changeAboutUsImageDto);
             return Ok(ApiResponse<AboutUsDto>.Success(
                 "AboutUs head image updated",
                 aboutUsDto
@@ -74,9 +74,9 @@ namespace Weblu.Api.Controllers.v1.About
         }
         [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpDelete("{aboutUsId:int}/head-image")]
-        public async Task<IActionResult> DeleteAboutUsHeadImage(int aboutUsId)
+        public async Task<IActionResult> DeleteImage(int aboutUsId)
         {
-            await _aboutUsService.DeleteAboutUsHeadImageAsync(aboutUsId);
+            await _aboutUsService.DeleteHeadImageAsync(aboutUsId);
             return Ok(ApiResponse.Success(
                 "AboutUs head image deleted successfully."
             ));

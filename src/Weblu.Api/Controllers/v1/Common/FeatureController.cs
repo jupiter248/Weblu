@@ -22,24 +22,24 @@ namespace Weblu.Api.Controllers.v1.Common
             _featureService = featureService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllFeatures([FromQuery] FeatureParameters featureParameters)
+        public async Task<IActionResult> GetAll([FromQuery] FeatureParameters featureParameters)
         {
-            List<FeatureDto> featureDtos = await _featureService.GetAllFeaturesAsync(featureParameters);
+            List<FeatureDto> featureDtos = await _featureService.GetAllAsync(featureParameters);
             return Ok(featureDtos);
         }
         [HttpGet("{featureId:int}")]
-        public async Task<IActionResult> GetFeatureById(int featureId)
+        public async Task<IActionResult> GetById(int featureId)
         {
-            FeatureDto featureDto = await _featureService.GetFeatureByIdAsync(featureId);
+            FeatureDto featureDto = await _featureService.GetByIdAsync(featureId);
             return Ok(featureDto);
         }
         [Authorize(Policy = Permissions.ManageFeatures)]
         [HttpPost]
-        public async Task<IActionResult> AddFeature([FromBody] AddFeatureDto addFeatureDto)
+        public async Task<IActionResult> Create([FromBody] CreateFeatureDto createFeatureDto)
         {
-            Validator.ValidateAndThrow(addFeatureDto, new AddFeatureValidator());
-            FeatureDto featureDto = await _featureService.AddFeatureAsync(addFeatureDto);
-            return CreatedAtAction(nameof(GetFeatureById), new { featureId = featureDto.Id }, ApiResponse<FeatureDto>.Success
+            Validator.ValidateAndThrow(createFeatureDto, new CreateFeatureValidator());
+            FeatureDto featureDto = await _featureService.CreateAsync(createFeatureDto);
+            return CreatedAtAction(nameof(GetById), new { featureId = featureDto.Id }, ApiResponse<FeatureDto>.Success
             (
                 "Feature created successfully.",
                 featureDto
@@ -47,10 +47,10 @@ namespace Weblu.Api.Controllers.v1.Common
         }
         [Authorize(Policy = Permissions.ManageFeatures)]
         [HttpPut("{featureId:int}")]
-        public async Task<IActionResult> UpdateFeature(int featureId, [FromBody] UpdateFeatureDto updateFeatureDto)
+        public async Task<IActionResult> Update(int featureId, [FromBody] UpdateFeatureDto updateFeatureDto)
         {
             Validator.ValidateAndThrow(updateFeatureDto, new UpdateFeatureValidator());
-            FeatureDto featureDto = await _featureService.UpdateFeatureAsync(featureId, updateFeatureDto);
+            FeatureDto featureDto = await _featureService.UpdateAsync(featureId, updateFeatureDto);
             return Ok(ApiResponse<FeatureDto>.Success
             (
                 "Feature updated successfully.",
@@ -59,9 +59,9 @@ namespace Weblu.Api.Controllers.v1.Common
         }
         [Authorize(Policy = Permissions.ManageFeatures)]
         [HttpDelete("{featureId:int}")]
-        public async Task<IActionResult> DeleteFeature(int featureId)
+        public async Task<IActionResult> Delete(int featureId)
         {
-            await _featureService.DeleteFeatureAsync(featureId);
+            await _featureService.DeleteAsync(featureId);
             return Ok(ApiResponse.Success
             (
                 "Feature deleted successfully."

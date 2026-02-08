@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Weblu.Application.Dtos.Auth.AuthDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Users;
+using Weblu.Application.Interfaces.Repositories.Users.Roles;
 using Weblu.Application.Interfaces.Repositories.Users.Tokens;
-using Weblu.Application.Services.Interfaces.Auth;
+using Weblu.Application.Interfaces.Services.Auth;
 using Weblu.Domain.Entities.Users.Tokens;
 using Weblu.Domain.Enums.Users;
 using Weblu.Domain.Errors.Auth;

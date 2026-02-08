@@ -12,8 +12,8 @@ namespace Weblu.Application.Mappers.Articles
             CreateMap<Comment, CommentDto>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<AddCommentDto, Comment>();
-            CreateMap<UpdateCommentDTo, Comment>()
+            CreateMap<CreateCommentDto, Comment>();
+            CreateMap<UpdateCommentDto, Comment>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now))
                     .ForMember(dest => dest.IsEdited, opt => opt.MapFrom(src => true));
         }

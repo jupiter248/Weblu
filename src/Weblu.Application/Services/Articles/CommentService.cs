@@ -3,8 +3,8 @@ using Weblu.Application.Common.Pagination;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.Articles.CommentDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Articles;
-using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Parameters.Articles;
@@ -33,14 +33,14 @@ namespace Weblu.Application.Services.Articles
             _articleRepository = articleRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<CommentDto> AddCommentAsync(string userId, AddCommentDto addCommentDto)
+        public async Task<CommentDto> CreateAsync(string userId, CreateCommentDto createCommentDto)
         {
-            Comment comment = _mapper.Map<Comment>(addCommentDto);
-            Article article = await _articleRepository.GetByIdAsync(addCommentDto.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            Comment comment = _mapper.Map<Comment>(createCommentDto);
+            Article article = await _articleRepository.GetByIdAsync(createCommentDto.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             CommentUserDto commentUserDto = await _userRepository.GetUserForCommentAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            if (addCommentDto.ParentCommentId.HasValue)
+            if (createCommentDto.ParentCommentId.HasValue)
             {
-                if (!article.Comments.Any(c => c.Id == addCommentDto.ParentCommentId))
+                if (!article.Comments.Any(c => c.Id == createCommentDto.ParentCommentId))
                 {
                     throw new NotFoundException(CommentErrorCodes.NotFound);
                 }
@@ -57,7 +57,7 @@ namespace Weblu.Application.Services.Articles
             return commentDto;
         }
 
-        public async Task DeleteCommentAsync(string userId, int commentId)
+        public async Task DeleteAsync(string userId, int commentId)
         {
             Comment comment = await _commentRepository.GetByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.NotFound);
             bool userExists = await _userRepository.UserExistsAsync(userId);
@@ -74,7 +74,7 @@ namespace Weblu.Application.Services.Articles
             comment.Delete();
             await _unitOfWork.CommitAsync();
         }
-        public async Task<List<CommentDto>> GetAllCommentsAsync(CommentParameters commentParameters)
+        public async Task<List<CommentDto>> GetAllAsync(CommentParameters commentParameters)
         {
             IReadOnlyList<Comment> comments = await _commentRepository.GetAllAsync(commentParameters);
             List<CommentDto> commentDtos = _mapper.Map<List<CommentDto>>(comments);
@@ -92,7 +92,7 @@ namespace Weblu.Application.Services.Articles
             return commentDtos;
         }
 
-        public async Task<PagedResponse<CommentDto>> GetAllPagedCommentsAsync(CommentParameters commentParameters)
+        public async Task<PagedResponse<CommentDto>> GetAllPagedAsync(CommentParameters commentParameters)
         {
             PagedList<Comment> comments = await _commentRepository.GetAllAsync(commentParameters);
             List<CommentDto> commentDtos = _mapper.Map<List<CommentDto>>(comments);
@@ -112,7 +112,7 @@ namespace Weblu.Application.Services.Articles
             return pagedResponse;
         }
 
-        public async Task<CommentDto> GetCommentByIdAsync(int commentId)
+        public async Task<CommentDto> GetByIdAsync(int commentId)
         {
             Comment comment = await _commentRepository.GetByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.NotFound);
             CommentUserDto commentUserDto = await _userRepository.GetUserForCommentAsync(comment.UserId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
@@ -121,7 +121,7 @@ namespace Weblu.Application.Services.Articles
             return commentDto;
         }
 
-        public async Task<CommentDto> UpdateCommentAsync(string userId, int commentId, UpdateCommentDTo updateCommentDTo)
+        public async Task<CommentDto> EditAsync(string userId, int commentId, UpdateCommentDto updateCommentDto)
         {
             Comment comment = await _commentRepository.GetByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.NotFound);
             Article article = await _articleRepository.GetByIdAsync(comment.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
@@ -134,11 +134,11 @@ namespace Weblu.Application.Services.Articles
             {
                 throw new UnauthorizedException(CommentErrorCodes.UpdateForbidden);
             }
-            if (!article.Comments.Any(c => c.Id == updateCommentDTo.ParentCommentId))
+            if (!article.Comments.Any(c => c.Id == updateCommentDto.ParentCommentId))
             {
                 throw new NotFoundException(CommentErrorCodes.NotFound);
             }
-            comment = _mapper.Map(updateCommentDTo, comment);
+            comment = _mapper.Map(updateCommentDto, comment);
             _commentRepository.Update(comment);
             await _unitOfWork.CommitAsync();
 

@@ -24,22 +24,22 @@ namespace Weblu.Api.Controllers.v1.Articles
             _commentService = commentService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllComments([FromQuery] CommentParameters commentParameters)
+        public async Task<IActionResult> GetAll([FromQuery] CommentParameters commentParameters)
         {
-            List<CommentDto> commentDtos = await _commentService.GetAllCommentsAsync(commentParameters);
+            List<CommentDto> commentDtos = await _commentService.GetAllAsync(commentParameters);
             return Ok(commentDtos);
         }
         [HttpGet("{commentId:int}")]
-        public async Task<IActionResult> GetCommentById(int commentId)
+        public async Task<IActionResult> GetById(int commentId)
         {
-            CommentDto commentDtos = await _commentService.GetCommentByIdAsync(commentId);
+            CommentDto commentDtos = await _commentService.GetByIdAsync(commentId);
             return Ok(commentDtos);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddComment([FromBody] AddCommentDto addCommentDto)
+        public async Task<IActionResult> Create([FromBody] CreateCommentDto createCommentDto)
         {
-            Validator.ValidateAndThrow(addCommentDto, new AddCommentValidator());
+            Validator.ValidateAndThrow(createCommentDto, new CreateCommentValidator());
 
             var userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId))
@@ -47,14 +47,14 @@ namespace Weblu.Api.Controllers.v1.Articles
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
 
-            CommentDto commentDtos = await _commentService.AddCommentAsync(userId, addCommentDto);
-            return CreatedAtAction(nameof(GetCommentById), new { commentId = commentDtos.Id }, ApiResponse<CommentDto>.Success("Comment added successfully.", commentDtos));
+            CommentDto commentDtos = await _commentService.CreateAsync(userId, createCommentDto);
+            return CreatedAtAction(nameof(GetById), new { commentId = commentDtos.Id }, ApiResponse<CommentDto>.Success("Comment added successfully.", commentDtos));
         }
         [Authorize]
         [HttpPut("{commentId:int}")]
-        public async Task<IActionResult> UpdateComment(int commentId, [FromBody] UpdateCommentDTo updateCommentDTo)
+        public async Task<IActionResult> Edit(int commentId, [FromBody] UpdateCommentDto updateCommentDto)
         {
-            Validator.ValidateAndThrow(updateCommentDTo, new UpdateCommentValidator());
+            Validator.ValidateAndThrow(updateCommentDto, new UpdateCommentValidator());
 
             var userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId))
@@ -62,7 +62,7 @@ namespace Weblu.Api.Controllers.v1.Articles
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
 
-            CommentDto commentDtos = await _commentService.UpdateCommentAsync(userId, commentId, updateCommentDTo);
+            CommentDto commentDtos = await _commentService.EditAsync(userId, commentId, updateCommentDto);
             return Ok(ApiResponse<CommentDto>.Success(
                 "Comment updated successfully.",
                 commentDtos
@@ -70,14 +70,14 @@ namespace Weblu.Api.Controllers.v1.Articles
         }
         [Authorize]
         [HttpDelete("{commentId:int}")]
-        public async Task<IActionResult> DeleteComment(int commentId)
+        public async Task<IActionResult> Delete(int commentId)
         {
             var userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            await _commentService.DeleteCommentAsync(userId, commentId);
+            await _commentService.DeleteAsync(userId, commentId);
             return Ok(ApiResponse.Success("Comment deleted successfully."));
         }
     }

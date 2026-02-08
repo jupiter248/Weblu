@@ -8,6 +8,7 @@ using Weblu.Domain.Events.Portfolios;
 using Weblu.Domain.Interfaces;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Portfolios;
+using Weblu.Application.Interfaces.Repositories;
 
 namespace Weblu.Application.EventHandlers.Portfolios
 {

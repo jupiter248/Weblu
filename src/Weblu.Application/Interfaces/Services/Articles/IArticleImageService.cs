@@ -4,7 +4,7 @@ namespace Weblu.Application.Interfaces.Services.Articles
 {
     public interface IArticleImageService
     {
-        Task AddImageAsync(int articleId, int imageId, AddArticleImageDto addArticleImageDto);
-        Task DeleteImageAsync(int articleId, int imageId);
+        Task AddAsync(int articleId, int imageId, AddArticleImageDto addArticleImageDto);
+        Task DeleteAsync(int articleId, int imageId);
     }
 }

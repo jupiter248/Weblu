@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.FAQs.FaqDtos
+namespace Weblu.Application.Dtos.FAQs.FAQDtos
 {
-    public class FaqDto
+    public class FAQDto
     {
         public int Id { get; set; }
         public string Question { get; set; } = default!;

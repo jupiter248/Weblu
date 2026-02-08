@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.Auth.AuthDtos;
-using Weblu.Application.Services.Interfaces.Auth;
+using Weblu.Application.Interfaces.Services.Auth;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Auth;
 using Weblu.Domain.Enums.Users;
@@ -48,7 +48,7 @@ namespace Weblu.Api.Controllers.v1.Auth
             ));
         }
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterUser([FromBody] RegisterDto registerDto)
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
             Validator.ValidateAndThrow(registerDto, new RegisterValidator());
             AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto, UserType.User);

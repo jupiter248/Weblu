@@ -12,7 +12,7 @@ namespace Weblu.Application.Mappers.Tickets
             CreateMap<TicketMessage, TicketMessageDto>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<UpdateTicketMessageDto, TicketMessage>()
+            CreateMap<EditTicketMessageDto, TicketMessage>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
             CreateMap<ReplyTicketDto, TicketMessage>();
         }

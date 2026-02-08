@@ -5,12 +5,12 @@ namespace Weblu.Application.Interfaces.Services.About
 {
     public interface IAboutUsService
     {
-        Task<List<AboutUsDto>> GetAllAboutUsInfosAsync(AboutUsParameters aboutUsParameters);
-        Task<AboutUsDto> GetAboutUsInfoByIdAsync(int aboutUsId);
-        Task<AboutUsDto> AddAboutUsAsync(AddAboutUsDto addAboutUsDto);
-        Task<AboutUsDto> UpdateAboutUsAsync(int aboutUsId, UpdateAboutUsDto updateAboutUsDto);
-        Task<AboutUsDto> UpdateHeadImageAboutUsAsync(int aboutUsId, UpdateImageAboutUsDto updateImageAboutUs);
-        Task DeleteAboutUsAsync(int aboutUsId);
-        Task DeleteAboutUsHeadImageAsync(int aboutUsId);
+        Task<List<AboutUsDto>> GetAllAsync(AboutUsParameters aboutUsParameters);
+        Task<AboutUsDto> GetByIdAsync(int aboutUsId);
+        Task<AboutUsDto> CreateAsync(CreateAboutUsDto createAboutUsDto);
+        Task<AboutUsDto> UpdateAsync(int aboutUsId, UpdateAboutUsDto updateAboutUsDto);
+        Task<AboutUsDto> ChangeHeadImageAsync(int aboutUsId, ChangeAboutUsImageDto changeAboutUsImageDto);
+        Task DeleteAsync(int aboutUsId);
+        Task DeleteHeadImageAsync(int aboutUsId);
     }
 }

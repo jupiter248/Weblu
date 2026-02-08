@@ -1,10 +1,10 @@
 using AutoMapper;
 using Weblu.Application.Dtos.Portfolios.PortfolioDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Repositories.Users.UserFavorites;
-using Weblu.Application.Interfaces.Services.Users.UserFavorites;
+using Weblu.Application.Interfaces.Services.Users.Favorites;
 using Weblu.Application.Parameters.Users;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Entities.Users.Favorites;

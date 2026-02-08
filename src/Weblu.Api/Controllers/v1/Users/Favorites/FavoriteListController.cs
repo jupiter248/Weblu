@@ -5,6 +5,7 @@ using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.Users.Favorites.FavoriteListDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
+using Weblu.Application.Interfaces.Services.Users.Favorites.FavoriteLists;
 using Weblu.Application.Interfaces.Services.Users.UserFavorites.FavoriteLists;
 using Weblu.Application.Parameters.Users;
 using Weblu.Domain.Errors.Users;
@@ -27,45 +28,45 @@ namespace Weblu.Api.Controllers.v1.Users.Favorites
         }
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllFavoriteLists([FromQuery] FavoriteListParameters favoriteListParameters)
+        public async Task<IActionResult> GetAll([FromQuery] FavoriteListParameters favoriteListParameters)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            List<FavoriteListDto> favoriteListDtos = await _favoriteListService.GetAllFavoriteListsAsync(userId, favoriteListParameters);
+            List<FavoriteListDto> favoriteListDtos = await _favoriteListService.GetAllAsync(userId, favoriteListParameters);
             return Ok(favoriteListDtos);
         }
         [Authorize]
         [HttpGet("{favoriteListId:int}")]
-        public async Task<IActionResult> GetFavoriteListById(int favoriteListId)
+        public async Task<IActionResult> GetById(int favoriteListId)
         {
-            FavoriteListDto favoriteListDto = await _favoriteListService.GetFavoriteListByIdAsync(favoriteListId);
+            FavoriteListDto favoriteListDto = await _favoriteListService.GetByIdAsync(favoriteListId);
             return Ok(favoriteListDto);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateFavoriteList([FromBody] AddFavoriteListDto addFavoriteListDto)
+        public async Task<IActionResult> Create([FromBody] CreateFavoriteListDto createFavoriteListDto)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            FavoriteListDto favoriteListDto = await _favoriteListService.AddFavoriteListAsync(userId, addFavoriteListDto);
-            return CreatedAtAction(nameof(GetFavoriteListById), new { favoriteListId = favoriteListDto.Id }, ApiResponse<FavoriteListDto>.Success("Favorite list created successfully", favoriteListDto));
+            FavoriteListDto favoriteListDto = await _favoriteListService.CreateAsync(userId, createFavoriteListDto);
+            return CreatedAtAction(nameof(GetById), new { favoriteListId = favoriteListDto.Id }, ApiResponse<FavoriteListDto>.Success("Favorite list created successfully", favoriteListDto));
         }
         [Authorize]
         [HttpPut("{favoriteListId:int}")]
-        public async Task<IActionResult> UpdateFavoriteList(int favoriteListId, [FromBody] UpdateFavoriteListDto updateFavoriteListDto)
+        public async Task<IActionResult> Update(int favoriteListId, [FromBody] UpdateFavoriteListDto updateFavoriteListDto)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            FavoriteListDto favoriteListDto = await _favoriteListService.UpdateFavoriteListAsync(userId, favoriteListId, updateFavoriteListDto);
+            FavoriteListDto favoriteListDto = await _favoriteListService.UpdateAsync(userId, favoriteListId, updateFavoriteListDto);
             return Ok(ApiResponse<FavoriteListDto>.Success(
                 "Favorite list updated successfully.",
                 favoriteListDto
@@ -73,21 +74,21 @@ namespace Weblu.Api.Controllers.v1.Users.Favorites
         }
         [Authorize]
         [HttpDelete("{favoriteListId:int}")]
-        public async Task<IActionResult> DeleteFavoriteList(int favoriteListId)
+        public async Task<IActionResult> Delete(int favoriteListId)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            await _favoriteListService.DeleteFavoriteListAsync(userId, favoriteListId);
+            await _favoriteListService.DeleteAsync(userId, favoriteListId);
             return Ok(ApiResponse.Success(
                 "Favorite list deleted successfully."
             ));
         }
         [Authorize]
         [HttpPost("{favoriteListId:int}/portfolio/{portfolioId:int}")]
-        public async Task<IActionResult> AddPortfolioToFavoriteList(int favoriteListId, int portfolioId)
+        public async Task<IActionResult> AddPortfolio(int favoriteListId, int portfolioId)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
@@ -101,7 +102,7 @@ namespace Weblu.Api.Controllers.v1.Users.Favorites
         }
         [Authorize]
         [HttpDelete("{favoriteListId:int}/portfolio/{portfolioId:int}")]
-        public async Task<IActionResult> DeletePortfolioFromFavoriteList(int favoriteListId, int portfolioId)
+        public async Task<IActionResult> DeletePortfolio(int favoriteListId, int portfolioId)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
@@ -115,7 +116,7 @@ namespace Weblu.Api.Controllers.v1.Users.Favorites
         }
         [Authorize]
         [HttpPost("{favoriteListId:int}/article/{articleId:int}")]
-        public async Task<IActionResult> AddArticleToFavoriteList(int favoriteListId, int articleId)
+        public async Task<IActionResult> AddArticleTo(int favoriteListId, int articleId)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
@@ -129,7 +130,7 @@ namespace Weblu.Api.Controllers.v1.Users.Favorites
         }
         [Authorize]
         [HttpDelete("{favoriteListId:int}/article/{articleId:int}")]
-        public async Task<IActionResult> DeleteArticleFromFavoriteList(int favoriteListId, int articleId)
+        public async Task<IActionResult> DeleteArticle(int favoriteListId, int articleId)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))

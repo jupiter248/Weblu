@@ -1,6 +1,7 @@
 using AutoMapper;
 using Weblu.Application.Dtos.Common.TagDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Parameters.Common;
@@ -20,9 +21,9 @@ namespace Weblu.Application.Services.Common
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
-        public async Task<TagDto> AddTagAsync(AddTagDto addTagDto)
+        public async Task<TagDto> CreateAsync(CreateTagDto createTagDto)
         {
-            Tag tag = _mapper.Map<Tag>(addTagDto);
+            Tag tag = _mapper.Map<Tag>(createTagDto);
 
             _tagRepository.Add(tag);
             await _unitOfWork.CommitAsync();
@@ -31,28 +32,28 @@ namespace Weblu.Application.Services.Common
             return tagDto;
         }
 
-        public async Task DeleteTagAsync(int tagId)
+        public async Task DeleteAsync(int tagId)
         {
             Tag tag = await _tagRepository.GetByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);
 
             tag.Delete();
             await _unitOfWork.CommitAsync();
         }
-        public async Task<List<TagDto>> GetAllTagsAsync(TagParameters tagParameters)
+        public async Task<List<TagDto>> GetAllAsync(TagParameters tagParameters)
         {
             IReadOnlyList<Tag> tags = await _tagRepository.GetAllAsync(tagParameters);
             List<TagDto> tagDtos = _mapper.Map<List<TagDto>>(tags);
             return tagDtos;
         }
 
-        public async Task<TagDto> GetTagByIdAsync(int tagId)
+        public async Task<TagDto> GetByIdAsync(int tagId)
         {
             Tag tag = await _tagRepository.GetByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);
             TagDto tagDto = _mapper.Map<TagDto>(tag);
             return tagDto;
         }
 
-        public async Task<TagDto> UpdateTagAsync(int tagId, UpdateTagDto updateTagDto)
+        public async Task<TagDto> UpdateAsync(int tagId, UpdateTagDto updateTagDto)
         {
             Tag tag = await _tagRepository.GetByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);
             tag = _mapper.Map(updateTagDto, tag);

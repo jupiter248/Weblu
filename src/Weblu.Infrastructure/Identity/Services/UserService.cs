@@ -24,7 +24,7 @@ namespace Weblu.Infrastructure.Identity.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task ChangeUserPasswordAsync(string userId, ChangePasswordDto changePasswordDto)
+        public async Task ChangePasswordAsync(string userId, ChangePasswordDto changePasswordDto)
         {
             var authorizedUser = _httpContextAccessor.HttpContext?.User;
             string? authorizedUserId = authorizedUser?.GetUserId();
@@ -51,7 +51,7 @@ namespace Weblu.Infrastructure.Identity.Services
             }
         }
 
-        public async Task DeleteUserAsync(string userId)
+        public async Task DeleteAsync(string userId)
         {
             var authorizedUser = _httpContextAccessor.HttpContext?.User;
             string? authorizedUserId = authorizedUser?.GetUserId();
@@ -68,7 +68,7 @@ namespace Weblu.Infrastructure.Identity.Services
             AppUser currentUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             currentUser.Delete();
         }
-        public async Task<List<UserDto>> GetAllUsersAsync()
+        public async Task<List<UserDto>> GetAllAsync()
         {
             List<AppUser> users = await _userManager.Users.Include(p => p.Profiles).ToListAsync();
             List<UserDto> userDtos = _mapper.Map<List<UserDto>>(users) ?? default!;
@@ -83,7 +83,7 @@ namespace Weblu.Infrastructure.Identity.Services
             return userDtos;
         }
 
-        public async Task<UserDto> GetCurrentUserAsync(string userId)
+        public async Task<UserDto> GetCurrentAsync(string userId)
         {
             AppUser user = await _userManager.Users.Include(p => p.Profiles).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             IList<string> roles = await _userManager.GetRolesAsync(user);
@@ -113,7 +113,7 @@ namespace Weblu.Infrastructure.Identity.Services
             return isAdmin;
         }
 
-        public async Task<UserDto> UpdateUserAsync(string userId, UpdateUserDto updateUserDto)
+        public async Task<UserDto> UpdateAsync(string userId, UpdateUserDto updateUserDto)
         {
             var authorizedUser = _httpContextAccessor.HttpContext?.User;
             string? authorizedUserId = authorizedUser?.GetUserId();

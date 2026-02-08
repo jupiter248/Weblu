@@ -1,4 +1,5 @@
 using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Articles;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Articles;
@@ -21,7 +22,7 @@ namespace Weblu.Application.Services.Articles
             _unitOfWork = unitOfWork;
             _articleRepository = articleRepository;
         }
-        public async Task AddContributorAsync(int articleId, int contributorId)
+        public async Task AddAsync(int articleId, int contributorId)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
@@ -31,7 +32,7 @@ namespace Weblu.Application.Services.Articles
             article.AddContributor(contributor);
             await _unitOfWork.CommitAsync();
         }
-        public async Task DeleteContributorAsync(int articleId, int contributorId)
+        public async Task DeleteAsync(int articleId, int contributorId)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);

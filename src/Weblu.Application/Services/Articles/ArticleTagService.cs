@@ -1,4 +1,5 @@
 using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Articles;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Articles;
@@ -21,7 +22,7 @@ namespace Weblu.Application.Services.Articles
             _unitOfWork = unitOfWork;
             _articleRepository = articleRepository;
         }
-        public async Task AddTagAsync(int articleId, int tagId)
+        public async Task AddAsync(int articleId, int tagId)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             Tag tag = await _tagRepository.GetByIdAsync(tagId) ??
@@ -32,7 +33,7 @@ namespace Weblu.Application.Services.Articles
             article.AddTag(tag);
             await _unitOfWork.CommitAsync();
         }
-        public async Task DeleteTagAsync(int articleId, int tagId)
+        public async Task DeleteAsync(int articleId, int tagId)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             Tag tag = await _tagRepository.GetByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);

@@ -42,31 +42,31 @@ namespace Weblu.Api.Controllers.v1.Articles
 
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllArticles([FromQuery] ArticleParameters articleParameters)
+        public async Task<IActionResult> GetAll([FromQuery] ArticleParameters articleParameters)
         {
-            List<ArticleSummaryDto> articleSummaryDtos = await _articleService.GetAllArticlesAsync(articleParameters);
+            List<ArticleSummaryDto> articleSummaryDtos = await _articleService.GetAllAsync(articleParameters);
             return Ok(articleSummaryDtos);
         }
         [HttpGet("{articleId:int}")]
-        public async Task<IActionResult> GetArticleById(int articleId)
+        public async Task<IActionResult> GetById(int articleId)
         {
-            ArticleDetailDto articleDetailDto = await _articleService.GetArticleByIdAsync(articleId);
+            ArticleDetailDto articleDetailDto = await _articleService.GetByIdAsync(articleId);
             return Ok(articleDetailDto);
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPost]
-        public async Task<IActionResult> AddArticle([FromBody] AddArticleDto addArticleDto)
+        public async Task<IActionResult> Create([FromBody] CreateArticleDto createArticleDto)
         {
-            Validator.ValidateAndThrow(addArticleDto, new AddArticleValidator());
-            ArticleDetailDto articleDetailDto = await _articleService.AddArticleAsync(addArticleDto);
-            return CreatedAtAction(nameof(GetArticleById), new { articleId = articleDetailDto.Id }, ApiResponse<ArticleDetailDto>.Success("Article created successfully", articleDetailDto));
+            Validator.ValidateAndThrow(createArticleDto, new CreateArticleValidator());
+            ArticleDetailDto articleDetailDto = await _articleService.CreateAsync(createArticleDto);
+            return CreatedAtAction(nameof(GetById), new { articleId = articleDetailDto.Id }, ApiResponse<ArticleDetailDto>.Success("Article created successfully", articleDetailDto));
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPut("{articleId:int}")]
-        public async Task<IActionResult> UpdateArticle(int articleId, [FromBody] UpdateArticleDto updateArticleDto)
+        public async Task<IActionResult> Edit(int articleId, [FromBody] UpdateArticleDto updateArticleDto)
         {
             Validator.ValidateAndThrow(updateArticleDto, new UpdateArticleValidator());
-            ArticleDetailDto articleDetailDto = await _articleService.UpdateArticleAsync(articleId, updateArticleDto);
+            ArticleDetailDto articleDetailDto = await _articleService.EditAsync(articleId, updateArticleDto);
             return Ok(
                 ApiResponse<ArticleDetailDto>.Success
                 (
@@ -77,42 +77,42 @@ namespace Weblu.Api.Controllers.v1.Articles
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpDelete("{articleId:int}")]
-        public async Task<IActionResult> DeleteArticle(int articleId)
+        public async Task<IActionResult> Delete(int articleId)
         {
-            await _articleService.DeleteArticleAsync(articleId);
+            await _articleService.DeleteAsync(articleId);
             return NoContent();
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPost("{articleId:int}/image/{imageId:int}")]
-        public async Task<IActionResult> AddImageToArticle(int articleId, int imageId, [FromBody] AddArticleImageDto addArticleImageDto)
+        public async Task<IActionResult> AddImage(int articleId, int imageId, [FromBody] AddArticleImageDto addArticleImageDto)
         {
-            await _articleImageService.AddImageAsync(articleId, imageId, addArticleImageDto);
+            await _articleImageService.AddAsync(articleId, imageId, addArticleImageDto);
             return Ok(ApiResponse.Success("Image added successfully"));
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpDelete("{articleId:int}/image/{imageId:int}")]
-        public async Task<IActionResult> DeleteImageFromArticle(int articleId, int imageId)
+        public async Task<IActionResult> DeleteImage(int articleId, int imageId)
         {
-            await _articleImageService.DeleteImageAsync(articleId, imageId);
+            await _articleImageService.DeleteAsync(articleId, imageId);
             return Ok(ApiResponse.Success("Image deleted successfully"));
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPost("{articleId:int}/contributor/{contributorId:int}")]
-        public async Task<IActionResult> AddContributorToArticle(int articleId, int contributorId)
+        public async Task<IActionResult> AddContributor(int articleId, int contributorId)
         {
-            await _articleContributorService.AddContributorAsync(articleId, contributorId);
+            await _articleContributorService.AddAsync(articleId, contributorId);
             return Ok(ApiResponse.Success("Contributor added successfully"));
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpDelete("{articleId:int}/contributor/{contributorId:int}")]
-        public async Task<IActionResult> DeleteContributorFromArticle(int articleId, int contributorId)
+        public async Task<IActionResult> DeleteContributor(int articleId, int contributorId)
         {
-            await _articleContributorService.DeleteContributorAsync(articleId, contributorId);
+            await _articleContributorService.DeleteAsync(articleId, contributorId);
             return Ok(ApiResponse.Success("Contributor deleted successfully"));
         }
         [Authorize]
         [HttpPost("{articleId:int}/like")]
-        public async Task<IActionResult> LikeArticle(int articleId)
+        public async Task<IActionResult> Like(int articleId)
         {
             var userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId))
@@ -124,7 +124,7 @@ namespace Weblu.Api.Controllers.v1.Articles
         }
         [Authorize]
         [HttpDelete("{articleId:int}/unlike")]
-        public async Task<IActionResult> UnlikeArticle(int articleId)
+        public async Task<IActionResult> Unlike(int articleId)
         {
             var userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId))
@@ -137,23 +137,23 @@ namespace Weblu.Api.Controllers.v1.Articles
         [Authorize]
         [EnableRateLimiting("ArticleViewPolicy")]
         [HttpPost("{articleId:int}/View")]
-        public async Task<IActionResult> ViewArticle(int articleId)
+        public async Task<IActionResult> View(int articleId)
         {
-            await _articleService.ViewArticleAsync(articleId);
+            await _articleService.ViewAsync(articleId);
             return Ok(ApiResponse.Success("User Viewed the article successfully"));
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPost("{articleId:int}/tag/{tagId:int}")]
-        public async Task<IActionResult> AddTagToArticle(int articleId, int tagId)
+        public async Task<IActionResult> AddTag(int articleId, int tagId)
         {
-            await _articleTagService.AddTagAsync(articleId, tagId);
+            await _articleTagService.AddAsync(articleId, tagId);
             return Ok(ApiResponse.Success("Tag added successfully"));
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpDelete("{articleId:int}/tag/{tagId:int}")]
-        public async Task<IActionResult> DeleteTagFromArticle(int articleId, int tagId)
+        public async Task<IActionResult> DeleteTag(int articleId, int tagId)
         {
-            await _articleTagService.DeleteTagAsync(articleId, tagId);
+            await _articleTagService.DeleteAsync(articleId, tagId);
             return Ok(ApiResponse.Success("Tag deleted successfully"));
         }
     }

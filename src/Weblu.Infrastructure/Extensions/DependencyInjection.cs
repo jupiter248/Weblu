@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Interfaces;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.About;
 using Weblu.Application.Interfaces.Repositories.Articles;
 using Weblu.Application.Interfaces.Repositories.Common;
@@ -9,10 +10,13 @@ using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Repositories.Services;
 using Weblu.Application.Interfaces.Repositories.Tickets;
 using Weblu.Application.Interfaces.Repositories.Users;
+using Weblu.Application.Interfaces.Repositories.Users.Favorites;
+using Weblu.Application.Interfaces.Repositories.Users.Roles;
 using Weblu.Application.Interfaces.Repositories.Users.Tokens;
 using Weblu.Application.Interfaces.Repositories.Users.UserFavorites;
+using Weblu.Application.Interfaces.Services.Auth;
 using Weblu.Application.Interfaces.Services.Users;
-using Weblu.Application.Interfaces.Services.Users.UserFavorites;
+using Weblu.Application.Interfaces.Services.Users.Favorites;
 using Weblu.Application.Mappers.About;
 using Weblu.Application.Mappers.Common;
 using Weblu.Application.Mappers.FAQs;
@@ -20,9 +24,7 @@ using Weblu.Application.Mappers.Images;
 using Weblu.Application.Mappers.Portfolios;
 using Weblu.Application.Mappers.Services;
 using Weblu.Application.Mappers.Tickets;
-using Weblu.Application.Mappers.Tokens;
 using Weblu.Application.Mappers.Users;
-using Weblu.Application.Services.Interfaces.Auth;
 using Weblu.Application.Services.Interfaces.Users.Tokens;
 using Weblu.Application.Services.Users.Favorites;
 using Weblu.Infrastructure.Common.Services;
@@ -66,8 +68,8 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IContributorRepository, ContributorRepository>();
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<ITicketMessageRepository, TicketMessageRepository>();
-            services.AddScoped<IFaqRepository, FaqRepository>();
-            services.AddScoped<IFaqCategoryRepository, FaqCategoryRepository>();
+            services.AddScoped<IFAQRepository, FAQRepository>();
+            services.AddScoped<IFAQCategoryRepository, FAQCategoryRepository>();
             services.AddScoped<IFavoriteListRepository, FavoriteListRepository>();
             services.AddScoped<IUserPortfolioFavoriteRepository, UserPortfolioFavoriteRepository>();
             services.AddScoped<IUserArticleFavoriteRepository, UserArticleFavoriteRepository>();
@@ -88,7 +90,7 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<IUserPortfolioFavoriteService, UserPortfolioFavoriteService>();
             services.AddScoped<IUserArticleFavoriteService, UserArticleFavoriteService>();
             services.AddSingleton<IErrorService, ErrorService>();
-            services.AddSingleton<IFilePathProvider, FilePathProvider>();
+            services.AddSingleton<IFilePathProviderService, FilePathProviderService>();
 
             // Mappers
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLoggerService<>));
@@ -102,9 +104,8 @@ namespace Weblu.Infrastructure.Extensions
             services.AddAutoMapper(typeof(ContributorProfile));
             services.AddAutoMapper(typeof(TicketProfile));
             services.AddAutoMapper(typeof(TicketMessageProfile));
-            services.AddAutoMapper(typeof(FaqProfile));
+            services.AddAutoMapper(typeof(FAQProfile));
             services.AddAutoMapper(typeof(FavoriteListProfile));
-            services.AddAutoMapper(typeof(FavoriteProfile));
             services.AddAutoMapper(typeof(AboutUsProfile));
             services.AddAutoMapper(typeof(SocialMediaProfile));
             services.AddAutoMapper(typeof(TagProfile));

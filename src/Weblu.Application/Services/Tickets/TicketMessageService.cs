@@ -1,7 +1,7 @@
 using AutoMapper;
 using Weblu.Application.Dtos.Tickets.TicketMessageDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Tickets;
 using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Application.Interfaces.Services.Tickets;
@@ -34,7 +34,7 @@ namespace Weblu.Application.Services.Tickets
             _ticketRepository = ticketRepository;
             _userRepository = userRepository;
         }
-        public async Task DeleteTicketMessageAsync(string senderId, int messageId)
+        public async Task DeleteAsync(string senderId, int messageId)
         {
             bool userExists = await _userRepository.UserExistsAsync(senderId);
             if (!userExists)
@@ -52,14 +52,14 @@ namespace Weblu.Application.Services.Tickets
             ticketMessage.Delete();
             await _unitOfWork.CommitAsync();
         }
-        public async Task<TicketMessageDto> GetTicketMessageByIdAsync(int ticketMessageId)
+        public async Task<TicketMessageDto> GetByIdAsync(int ticketMessageId)
         {
             TicketMessage ticketMessage = await _ticketMessageRepository.GetByIdAsync(ticketMessageId) ?? throw new NotFoundException(TicketMessageErrorCodes.TicketMessageNotFound);
             TicketMessageDto ticketMessageDto = _mapper.Map<TicketMessageDto>(ticketMessage);
             return ticketMessageDto;
         }
 
-        public async Task<TicketMessageDto> ReplyToTicketAsync(string senderId, int ticketId, ReplyTicketDto replyTicketDto)
+        public async Task<TicketMessageDto> ReplyAsync(string senderId, int ticketId, ReplyTicketDto replyTicketDto)
         {
             bool userExists = await _userRepository.UserExistsAsync(senderId);
             if (!userExists)
@@ -87,7 +87,7 @@ namespace Weblu.Application.Services.Tickets
 
         }
 
-        public async Task<TicketMessageDto> UpdateTicketMessageAsync(string senderId, int messageId, UpdateTicketMessageDto updateTicketMessageDto)
+        public async Task<TicketMessageDto> EditAsync(string senderId, int messageId, EditTicketMessageDto editTicketMessageDto)
         {
             bool userExists = await _userRepository.UserExistsAsync(senderId);
             if (!userExists)
@@ -100,7 +100,7 @@ namespace Weblu.Application.Services.Tickets
             {
                 throw new UnauthorizedException(TicketMessageErrorCodes.TicketMessageUpdateForbidden);
             }
-            ticketMessage = _mapper.Map(updateTicketMessageDto, ticketMessage);
+            ticketMessage = _mapper.Map(editTicketMessageDto, ticketMessage);
 
             _ticketMessageRepository.Update(ticketMessage);
             await _unitOfWork.CommitAsync();

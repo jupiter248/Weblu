@@ -1,10 +1,10 @@
 using Weblu.Application.Parameters.FAQs;
-using Weblu.Domain.Entities.Faqs;
+using Weblu.Domain.Entities.FAQs;
 
 namespace Weblu.Application.Interfaces.Strategies.FAQs
 {
-    public interface IFaqQueryStrategy
+    public interface IFAQQueryStrategy
     {
-        IQueryable<Faq> Query(IQueryable<Faq> faqs, FaqParameters faqParameters);
+        IQueryable<FAQ> Query(IQueryable<FAQ> faqs, FAQParameters fAQParameters);
     }
 }

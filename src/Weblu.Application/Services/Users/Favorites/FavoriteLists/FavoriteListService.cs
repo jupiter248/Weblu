@@ -1,9 +1,9 @@
 using AutoMapper;
 using Weblu.Application.Dtos.Users.Favorites.FavoriteListDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Users;
-using Weblu.Application.Interfaces.Repositories.Users.UserFavorites;
+using Weblu.Application.Interfaces.Repositories.Users.Favorites;
 using Weblu.Application.Interfaces.Services.Users.UserFavorites.FavoriteLists;
 using Weblu.Application.Parameters.Users;
 using Weblu.Domain.Entities.Users.Favorites;
@@ -30,14 +30,14 @@ namespace Weblu.Application.Services.Users.Favorites.FavoriteLists
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
-        public async Task<FavoriteListDto> AddFavoriteListAsync(string userId, AddFavoriteListDto addFavoriteListDto)
+        public async Task<FavoriteListDto> CreateAsync(string userId, CreateFavoriteListDto createFavoriteListDto)
         {
             bool userExists = await _userRepository.UserExistsAsync(userId);
             if (!userExists)
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            FavoriteList favoriteList = _mapper.Map<FavoriteList>(addFavoriteListDto);
+            FavoriteList favoriteList = _mapper.Map<FavoriteList>(createFavoriteListDto);
             favoriteList.UserId = userId;
 
             _favoriteListRepository.Add(favoriteList);
@@ -46,7 +46,7 @@ namespace Weblu.Application.Services.Users.Favorites.FavoriteLists
             FavoriteListDto favoriteListDto = _mapper.Map<FavoriteListDto>(favoriteList);
             return favoriteListDto;
         }
-        public async Task DeleteFavoriteListAsync(string userId, int favoriteListId)
+        public async Task DeleteAsync(string userId, int favoriteListId)
         {
             bool userExists = await _userRepository.UserExistsAsync(userId);
             if (!userExists)
@@ -61,21 +61,21 @@ namespace Weblu.Application.Services.Users.Favorites.FavoriteLists
             _favoriteListRepository.Remove(favoriteList);
             await _unitOfWork.CommitAsync();
         }
-        public async Task<List<FavoriteListDto>> GetAllFavoriteListsAsync(string userId, FavoriteListParameters favoriteListParameters)
+        public async Task<List<FavoriteListDto>> GetAllAsync(string userId, FavoriteListParameters favoriteListParameters)
         {
             IReadOnlyList<FavoriteList> favoriteLists = await _favoriteListRepository.GetAllByUserIdAsync(userId, favoriteListParameters);
             List<FavoriteListDto> favoriteListDtos = _mapper.Map<List<FavoriteListDto>>(favoriteLists);
             return favoriteListDtos;
         }
 
-        public async Task<FavoriteListDto> GetFavoriteListByIdAsync(int favoriteListId)
+        public async Task<FavoriteListDto> GetByIdAsync(int favoriteListId)
         {
             FavoriteList favoriteList = await _favoriteListRepository.GetByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
             FavoriteListDto favoriteListDto = _mapper.Map<FavoriteListDto>(favoriteList);
             return favoriteListDto;
         }
 
-        public async Task<FavoriteListDto> UpdateFavoriteListAsync(string userId, int favoriteListId, UpdateFavoriteListDto updateFavoriteListDto)
+        public async Task<FavoriteListDto> UpdateAsync(string userId, int favoriteListId, UpdateFavoriteListDto updateFavoriteListDto)
         {
             bool userExists = await _userRepository.UserExistsAsync(userId);
             if (!userExists)

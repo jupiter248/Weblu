@@ -6,6 +6,7 @@ namespace Weblu.Application.Helpers
 {
     public static class MediaManager
     {
+        
         public static async Task<string> UploadMedia(string webRootPath, MediaUploaderDto mediaUploaderDto)
         {
             var media = mediaUploaderDto.Media;

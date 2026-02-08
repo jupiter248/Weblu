@@ -20,7 +20,7 @@ namespace Weblu.Api.Controllers.v2.Articles
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] CommentParameters commentParameters)
         {
-            PagedResponse<CommentDto> commentDtos = await _commentService.GetAllPagedCommentsAsync(commentParameters);
+            PagedResponse<CommentDto> commentDtos = await _commentService.GetAllPagedAsync(commentParameters);
             return Ok(commentDtos);
         }
     }

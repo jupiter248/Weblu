@@ -1,6 +1,7 @@
 using AutoMapper;
 using Weblu.Application.Dtos.Portfolios.PortfolioCategory;
 using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
@@ -22,9 +23,9 @@ namespace Weblu.Application.Services.Portfolios
             _mapper = mapper;
             _portfolioCategoryRepository = portfolioCategoryRepository;
         }
-        public async Task<PortfolioCategoryDto> AddPortfolioCategoryAsync(AddPortfolioCategoryDto addPortfolioCategoryDto)
+        public async Task<PortfolioCategoryDto> CreateAsync(CreatePortfolioCategoryDto createPortfolioCategoryDto)
         {
-            PortfolioCategory portfolioCategory = _mapper.Map<PortfolioCategory>(addPortfolioCategoryDto);
+            PortfolioCategory portfolioCategory = _mapper.Map<PortfolioCategory>(createPortfolioCategoryDto);
 
             _portfolioCategoryRepository.Add(portfolioCategory);
             await _unitOfWork.CommitAsync();
@@ -32,7 +33,7 @@ namespace Weblu.Application.Services.Portfolios
             PortfolioCategoryDto portfolioCategoryDto = _mapper.Map<PortfolioCategoryDto>(portfolioCategory);
             return portfolioCategoryDto;
         }
-        public async Task DeletePortfolioCategoryAsync(int categoryId)
+        public async Task DeleteAsync(int categoryId)
         {
             PortfolioCategory portfolioCategory = await _portfolioCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(PortfolioCategoryErrorCodes.PortfolioCategoryNotFound);
             portfolioCategory.Delete();
@@ -40,21 +41,21 @@ namespace Weblu.Application.Services.Portfolios
 
         }
 
-        public async Task<List<PortfolioCategoryDto>> GetAllPortfolioCategoriesAsync(PortfolioCategoryParameters portfolioCategoryParameters)
+        public async Task<List<PortfolioCategoryDto>> GetAllAsync(PortfolioCategoryParameters portfolioCategoryParameters)
         {
             IReadOnlyList<PortfolioCategory> portfolioCategories = await _portfolioCategoryRepository.GetAllAsync(portfolioCategoryParameters);
             List<PortfolioCategoryDto> portfolioCategoryDtos = _mapper.Map<List<PortfolioCategoryDto>>(portfolioCategories);
             return portfolioCategoryDtos;
         }
 
-        public async Task<PortfolioCategoryDto> GetPortfolioCategoryByIdAsync(int categoryId)
+        public async Task<PortfolioCategoryDto> GetByIdAsync(int categoryId)
         {
             PortfolioCategory portfolioCategory = await _portfolioCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(PortfolioCategoryErrorCodes.PortfolioCategoryNotFound);
             PortfolioCategoryDto portfolioCategoryDto = _mapper.Map<PortfolioCategoryDto>(portfolioCategory);
             return portfolioCategoryDto;
         }
 
-        public async Task<PortfolioCategoryDto> UpdatePortfolioCategoryAsync(int categoryId, UpdatePortfolioCategoryDto updatePortfolioCategoryDto)
+        public async Task<PortfolioCategoryDto> UpdateAsync(int categoryId, UpdatePortfolioCategoryDto updatePortfolioCategoryDto)
         {
             PortfolioCategory portfolioCategory = await _portfolioCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(PortfolioCategoryErrorCodes.PortfolioCategoryNotFound);
             portfolioCategory = _mapper.Map(updatePortfolioCategoryDto, portfolioCategory);

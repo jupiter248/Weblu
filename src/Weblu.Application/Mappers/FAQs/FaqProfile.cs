@@ -1,36 +1,36 @@
 using AutoMapper;
-using Weblu.Application.Dtos.FAQs.FaqCategoryDtos;
-using Weblu.Application.Dtos.FAQs.FaqDtos;
+using Weblu.Application.Dtos.FAQs.FAQCategoryDtos;
+using Weblu.Application.Dtos.FAQs.FAQDtos;
 using Weblu.Application.Helpers;
-using Weblu.Domain.Entities.Faqs;
+using Weblu.Domain.Entities.FAQs;
 
 namespace Weblu.Application.Mappers.FAQs
 {
-    public class FaqProfile : Profile
+    public class FAQProfile : Profile
     {
-        public FaqProfile()
+        public FAQProfile()
         {
-            CreateMap<Faq, FaqDto>()
+            CreateMap<FAQ, FAQDto>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(f => f.CreatedAt.ToShamsi()))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(f => f.UpdatedAt.HasValue ? f.UpdatedAt.Value.ToShamsi() : null))
                 .ForMember(dest => dest.ActivatedAt, opt => opt.MapFrom(f => f.ActivatedAt.HasValue ? f.ActivatedAt.Value.ToShamsi() : null))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name ?? string.Empty));
 
-            CreateMap<UpdateFaqDto, Faq>()
+            CreateMap<UpdateFAQDto, FAQ>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(_ => DateTimeOffset.Now));
 
-            CreateMap<AddFaqDto, Faq>()
+            CreateMap<CreateFAQDto, FAQ>()
                 .ForMember(dest => dest.ActivatedAt, opt =>
                 {
                     opt.PreCondition(a => a.IsActive);
                     opt.MapFrom(_ => DateTimeOffset.Now);
                 });
 
-            CreateMap<FaqCategory, FaqCategoryDto>()
+            CreateMap<FAQCategory, FAQCategoryDto>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null));
-            CreateMap<AddFaqCategoryDto, FaqCategory>();
-            CreateMap<UpdateFaqCategoryDto, FaqCategory>()
+            CreateMap<CreateFAQCategoryDto, FAQCategory>();
+            CreateMap<UpdateFAQCategoryDto, FAQCategory>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
         }
     }

@@ -9,8 +9,9 @@ using Weblu.Application.Interfaces.Services.Images;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Interfaces.Services.ServiceServices;
 using Weblu.Application.Interfaces.Services.Tickets;
+using Weblu.Application.Interfaces.Services.Users.Favorites;
+using Weblu.Application.Interfaces.Services.Users.Favorites.FavoriteLists;
 using Weblu.Application.Interfaces.Services.Users.Tokens;
-using Weblu.Application.Interfaces.Services.Users.UserFavorites;
 using Weblu.Application.Interfaces.Services.Users.UserFavorites.FavoriteLists;
 using Weblu.Application.Services;
 using Weblu.Application.Services.About;
@@ -51,8 +52,8 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IUserPortfolioFavoriteService, UserPortfolioFavoriteService>();
             services.AddScoped<IFavoriteListArticleService, FavoriteListArticleService>();
             // FAQs
-            services.AddScoped<IFaqService, FaqService>();
-            services.AddScoped<IFaqCategoryService, FaqCategoryService>();
+            services.AddScoped<IFAQService, FAQService>();
+            services.AddScoped<IFAQCategoryService, FAQCategoryService>();
             // Common
             services.AddScoped<ISearchService, SearchService>();
             services.AddScoped<IContributorService, ContributorService>();

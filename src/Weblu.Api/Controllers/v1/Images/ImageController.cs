@@ -21,24 +21,24 @@ namespace Weblu.Api.Controllers.v1.Images
         }
         [Authorize(Policy = Permissions.ManageImages)]
         [HttpGet]
-        public async Task<IActionResult> GetAllImages([FromQuery] ImageParameters imageParameters)
+        public async Task<IActionResult> GetAll([FromQuery] ImageParameters imageParameters)
         {
-            List<ImageDto> imageDtos = await _imageService.GetAllImagesAsync(imageParameters);
+            List<ImageDto> imageDtos = await _imageService.GetAllAsync(imageParameters);
             return Ok(imageDtos);
         }
         [Authorize(Policy = Permissions.ManageImages)]
         [HttpGet("{imageId:int}")]
-        public async Task<IActionResult> GetImageById(int imageId)
+        public async Task<IActionResult> GetById(int imageId)
         {
-            ImageDto imageDto = await _imageService.GetImageByIdAsync(imageId);
+            ImageDto imageDto = await _imageService.GetByIdAsync(imageId);
             return Ok(imageDto);
         }
         [Authorize(Policy = Permissions.ManageImages)]
         [HttpPost]
-        public async Task<IActionResult> AddImage([FromForm] AddImageDto addImageDto)
+        public async Task<IActionResult> Add([FromForm] AddImageDto addImageDto)
         {
-            ImageDto imageDto = await _imageService.AddImageAsync(addImageDto);
-            return CreatedAtAction(nameof(GetImageById), new { imageId = imageDto.Id }, ApiResponse<ImageDto>.Success
+            ImageDto imageDto = await _imageService.AddAsync(addImageDto);
+            return CreatedAtAction(nameof(GetById), new { imageId = imageDto.Id }, ApiResponse<ImageDto>.Success
             (
                 "Image uploaded successfully.",
                 imageDto
@@ -46,9 +46,9 @@ namespace Weblu.Api.Controllers.v1.Images
         }
         [Authorize(Policy = Permissions.ManageImages)]
         [HttpDelete("{imageId:int}")]
-        public async Task<IActionResult> DeleteImage(int imageId)
+        public async Task<IActionResult> Delete(int imageId)
         {
-            await _imageService.DeleteImageAsync(imageId);
+            await _imageService.DeleteAsync(imageId);
             return Ok(ApiResponse.Success
             (
                 "Image deleted successfully."

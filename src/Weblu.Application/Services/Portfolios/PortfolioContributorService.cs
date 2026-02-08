@@ -1,4 +1,5 @@
 using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
@@ -25,7 +26,7 @@ namespace Weblu.Application.Services.Portfolios
             _portfolioRepository = portfolioRepository;
             _contributorRepository = contributorRepository;
         }
-        public async Task AddContributorAsync(int portfolioId, int contributorId)
+        public async Task AddAsync(int portfolioId, int contributorId)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
@@ -36,7 +37,7 @@ namespace Weblu.Application.Services.Portfolios
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task DeleteContributorAsync(int portfolioId, int contributorId)
+        public async Task DeleteAsync(int portfolioId, int contributorId)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);

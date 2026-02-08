@@ -1,4 +1,5 @@
 using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
@@ -22,7 +23,7 @@ namespace Weblu.Application.Services.Portfolios
             _unitOfWork = unitOfWork;
         }
 
-        public async Task AddMethodAsync(int portfolioId, int methodId)
+        public async Task AddAsync(int portfolioId, int methodId)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             Method method = await _methodRepository.GetByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
@@ -33,7 +34,7 @@ namespace Weblu.Application.Services.Portfolios
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task DeleteMethodAsync(int portfolioId, int methodId)
+        public async Task DeleteAsync(int portfolioId, int methodId)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             Method method = await _methodRepository.GetByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);

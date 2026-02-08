@@ -668,7 +668,7 @@ namespace Weblu.Infrastructure.Migrations
                     b.ToTable("Contributors");
                 });
 
-            modelBuilder.Entity("Weblu.Domain.Entities.Faqs.Faq", b =>
+            modelBuilder.Entity("Weblu.Domain.Entities.FAQs.FAQ", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -712,10 +712,10 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Faqs");
+                    b.ToTable("FAQs");
                 });
 
-            modelBuilder.Entity("Weblu.Domain.Entities.Faqs.FaqCategory", b =>
+            modelBuilder.Entity("Weblu.Domain.Entities.FAQs.FAQCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -747,7 +747,7 @@ namespace Weblu.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FaqCategories");
+                    b.ToTable("FAQCategories");
                 });
 
             modelBuilder.Entity("Weblu.Domain.Entities.Favorites.FavoriteArticle", b =>
@@ -1805,10 +1805,10 @@ namespace Weblu.Infrastructure.Migrations
                     b.Navigation("Article");
                 });
 
-            modelBuilder.Entity("Weblu.Domain.Entities.Faqs.Faq", b =>
+            modelBuilder.Entity("Weblu.Domain.Entities.FAQs.FAQ", b =>
                 {
-                    b.HasOne("Weblu.Domain.Entities.Faqs.FaqCategory", "Category")
-                        .WithMany("Faqs")
+                    b.HasOne("Weblu.Domain.Entities.FAQs.FAQCategory", "Category")
+                        .WithMany("FAQs")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1958,9 +1958,9 @@ namespace Weblu.Infrastructure.Migrations
                     b.Navigation("Articles");
                 });
 
-            modelBuilder.Entity("Weblu.Domain.Entities.Faqs.FaqCategory", b =>
+            modelBuilder.Entity("Weblu.Domain.Entities.FAQs.FAQCategory", b =>
                 {
-                    b.Navigation("Faqs");
+                    b.Navigation("FAQs");
                 });
 
             modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.Portfolio", b =>

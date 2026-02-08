@@ -6,10 +6,10 @@ namespace Weblu.Application.Interfaces.Services.Articles
 {
     public interface IArticleCategoryService
     {
-        Task<List<ArticleCategoryDto>> GetAllArticleCategoriesAsync(ArticleCategoryParameters articleCategoryParameters);
-        Task<ArticleCategoryDto> GetArticleCategoryByIdAsync(int categoryId);
-        Task<ArticleCategoryDto> AddArticleCategoryAsync(AddArticleCategoryDto addArticleCategoryDto);
-        Task<ArticleCategoryDto> UpdateArticleCategoryAsync(int categoryId, UpdateArticleCategoryDto updateArticleCategoryDto);
-        Task DeleteArticleCategoryAsync(int categoryId);
+        Task<List<ArticleCategoryDto>> GetAllAsync(ArticleCategoryParameters articleCategoryParameters);
+        Task<ArticleCategoryDto> GetByIdAsync(int categoryId);
+        Task<ArticleCategoryDto> CreateAsync(CreateArticleCategoryDto createArticleCategoryDto);
+        Task<ArticleCategoryDto> UpdateAsync(int categoryId, UpdateArticleCategoryDto updateArticleCategoryDto);
+        Task DeleteAsync(int categoryId);
     }
 }

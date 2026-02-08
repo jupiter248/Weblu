@@ -10,11 +10,11 @@ namespace Weblu.Application.UnitTests.Helpers
 {
     public class MediaManagerTests
     {
-        private readonly IFilePathProvider _webHost;
+        private readonly IFilePathProviderService _webHost;
         private readonly string _webHostPath;
         public MediaManagerTests()
         {
-            _webHost = A.Fake<IFilePathProvider>();
+            _webHost = A.Fake<IFilePathProviderService>();
             _webHostPath = _webHost.GetWebRootPath();
         }
         [Fact]

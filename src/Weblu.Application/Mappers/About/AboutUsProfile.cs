@@ -12,7 +12,7 @@ namespace Weblu.Application.Mappers.About
             CreateMap<AboutUs, AboutUsDto>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<AddAboutUsDto, AboutUs>();
+            CreateMap<CreateAboutUsDto, AboutUs>();
             CreateMap<UpdateAboutUsDto, AboutUs>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
         }

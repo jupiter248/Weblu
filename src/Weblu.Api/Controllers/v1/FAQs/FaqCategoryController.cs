@@ -2,11 +2,11 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.FAQs.FaqCategoryDtos;
+using Weblu.Application.Dtos.FAQs.FAQCategoryDtos;
 using Weblu.Application.Interfaces.Services.FAQs;
 using Weblu.Application.Parameters.FAQs;
 using Weblu.Application.Validations;
-using Weblu.Application.Validations.FAQs.FaqCategory;
+using Weblu.Application.Validations.FAQs.FAQCategory;
 using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1.FAQs
@@ -14,51 +14,51 @@ namespace Weblu.Api.Controllers.v1.FAQs
     [ApiVersion("1")]
     [ApiController]
     [Route("api/faq-category")]
-    public class FaqCategoryController : ControllerBase
+    public class FAQCategoryController : ControllerBase
     {
-        private readonly IFaqCategoryService _faqCategoryService;
-        public FaqCategoryController(IFaqCategoryService faqCategoryService)
+        private readonly IFAQCategoryService _faqCategoryService;
+        public FAQCategoryController(IFAQCategoryService faqCategoryService)
         {
             _faqCategoryService = faqCategoryService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllFaqCategories([FromQuery] FaqCategoryParameters faqCategoryParameters)
+        public async Task<IActionResult> GetAll([FromQuery] FAQCategoryParameters faqCategoryParameters)
         {
-            List<FaqCategoryDto> faqCategoryDtos = await _faqCategoryService.GetAllFaqCategoriesAsync(faqCategoryParameters);
+            List<FAQCategoryDto> faqCategoryDtos = await _faqCategoryService.GetAllAsync(faqCategoryParameters);
             return Ok(faqCategoryDtos);
         }
         [HttpGet("{faqCategoryId:int}")]
-        public async Task<IActionResult> GetFaqCategoryById(int faqCategoryId)
+        public async Task<IActionResult> GetById(int faqCategoryId)
         {
-            FaqCategoryDto faqCategoryDto = await _faqCategoryService.GetFaqCategoryByIdAsync(faqCategoryId);
+            FAQCategoryDto faqCategoryDto = await _faqCategoryService.GetByIdAsync(faqCategoryId);
             return Ok(faqCategoryDto);
         }
         [Authorize(Policy = Permissions.ManageFAQs)]
         [HttpPost]
-        public async Task<IActionResult> AddFaqCategory([FromBody] AddFaqCategoryDto addFaqCategoryDto)
+        public async Task<IActionResult> Create([FromBody] CreateFAQCategoryDto createFAQCategoryDto)
         {
-            Validator.ValidateAndThrow(addFaqCategoryDto, new AddFaqCategoryValidator());
+            Validator.ValidateAndThrow(createFAQCategoryDto, new CreateFAQCategoryValidator());
 
-            FaqCategoryDto faqCategoryDto = await _faqCategoryService.AddFaqCategoryAsync(addFaqCategoryDto);
-            return CreatedAtAction(nameof(GetFaqCategoryById), new { faqCategoryId = faqCategoryDto.Id }, ApiResponse<FaqCategoryDto>.Success("Faq category added successfully.", faqCategoryDto));
+            FAQCategoryDto faqCategoryDto = await _faqCategoryService.CreateAsync(createFAQCategoryDto);
+            return CreatedAtAction(nameof(GetById), new { faqCategoryId = faqCategoryDto.Id }, ApiResponse<FAQCategoryDto>.Success("FAQ category added successfully.", faqCategoryDto));
         }
         [Authorize(Policy = Permissions.ManageFAQs)]
         [HttpPut("{faqCategoryId:int}")]
-        public async Task<IActionResult> UpdateFaqCategory(int faqCategoryId, [FromBody] UpdateFaqCategoryDto updateFaqCategoryDto)
+        public async Task<IActionResult> Update(int faqCategoryId, [FromBody] UpdateFAQCategoryDto updateFAQCategoryDto)
         {
-            Validator.ValidateAndThrow(updateFaqCategoryDto, new UpdateFaqCategoryValidator());
+            Validator.ValidateAndThrow(updateFAQCategoryDto, new UpdateFAQCategoryValidator());
 
-            FaqCategoryDto faqCategoryDto = await _faqCategoryService.UpdateFaqCategoryAsync(faqCategoryId, updateFaqCategoryDto);
-            return Ok(ApiResponse<FaqCategoryDto>.Success(
-                "Faq category updated successfully.",
+            FAQCategoryDto faqCategoryDto = await _faqCategoryService.UpdateAsync(faqCategoryId, updateFAQCategoryDto);
+            return Ok(ApiResponse<FAQCategoryDto>.Success(
+                "FAQ category updated successfully.",
                 faqCategoryDto
             ));
         }
         [Authorize(Policy = Permissions.ManageFAQs)]
         [HttpDelete("{faqCategoryId:int}")]
-        public async Task<IActionResult> DeleteFaqCategory(int faqCategoryId)
+        public async Task<IActionResult> Delete(int faqCategoryId)
         {
-            await _faqCategoryService.DeleteFaqCategoryAsync(faqCategoryId);
+            await _faqCategoryService.DeleteAsync(faqCategoryId);
             return NoContent();
         }
     }

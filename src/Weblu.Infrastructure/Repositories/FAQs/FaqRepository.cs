@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Weblu.Application.Strategies.Faqs;
-using Weblu.Domain.Entities.Faqs;
+using Weblu.Application.Strategies.FAQs;
+using Weblu.Domain.Entities.FAQs;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
@@ -11,28 +11,28 @@ using Weblu.Application.Interfaces.Repositories.FAQs;
 
 namespace Weblu.Infrastructure.Repositories.FAQs
 {
-    internal class FaqRepository : GenericRepository<Faq, FaqParameters>, IFaqRepository
+    internal class FAQRepository : GenericRepository<FAQ, FAQParameters>, IFAQRepository
     {
-        public FaqRepository(ApplicationDbContext context) : base(context)
+        public FAQRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public override async Task<PagedList<Faq>> GetAllAsync(FaqParameters faqParameters)
+        public override async Task<PagedList<FAQ>> GetAllAsync(FAQParameters faqParameters)
         {
-            IQueryable<Faq> faqs = _context.Faqs.Where(a => !a.IsDeleted).Include(c => c.Category).AsNoTracking();
+            IQueryable<FAQ> faqs = _context.FAQs.Where(a => !a.IsDeleted).Include(c => c.Category).AsNoTracking();
 
             if (faqParameters.CreatedDateSort != CreatedDateSort.All)
             {
-                faqs = new FaqQueryHandler(new CreatedDateSortStrategy())
-                .ExecuteFaqQuery(faqs, faqParameters);
+                faqs = new FAQQueryHandler(new CreatedDateSortStrategy())
+                .ExecuteFAQQuery(faqs, faqParameters);
             }
 
-            return await PaginationExtensions<Faq>.GetPagedList(faqs, faqParameters.PageNumber, faqParameters.PageSize);
+            return await PaginationExtensions<FAQ>.GetPagedList(faqs, faqParameters.PageNumber, faqParameters.PageSize);
         }
 
-        public override async Task<Faq?> GetByIdAsync(int faqId)
+        public override async Task<FAQ?> GetByIdAsync(int faqId)
         {
-            Faq? faq = await _context.Faqs.Where(a => !a.IsDeleted).Include(c => c.Category).FirstOrDefaultAsync(f => f.Id == faqId);
+            FAQ? faq = await _context.FAQs.Where(a => !a.IsDeleted).Include(c => c.Category).FirstOrDefaultAsync(f => f.Id == faqId);
             if (faq == null)
             {
                 return null;

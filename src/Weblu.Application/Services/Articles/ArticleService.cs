@@ -5,6 +5,7 @@ using Weblu.Application.Common.Responses;
 using Weblu.Application.Dtos.Articles.ArticleDtos;
 using Weblu.Application.Dtos.Articles.ArticleDtos.ArticleImageDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Articles;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Articles;
@@ -41,9 +42,9 @@ namespace Weblu.Application.Services.Articles
             _commentRepository = commentRepository;
             _domainEventDispatcher = domainEventDispatcher;
         }
-        public async Task<ArticleDetailDto> AddArticleAsync(AddArticleDto addArticleDto)
+        public async Task<ArticleDetailDto> CreateAsync(CreateArticleDto createArticleDto)
         {
-            Article article = _mapper.Map<Article>(addArticleDto);
+            Article article = _mapper.Map<Article>(createArticleDto);
 
             ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(article.CategoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
             article.Category = articleCategory;
@@ -59,7 +60,7 @@ namespace Weblu.Application.Services.Articles
             return articleDetailDto;
         }
 
-        public async Task DeleteArticleAsync(int articleId)
+        public async Task DeleteAsync(int articleId)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
 
@@ -70,7 +71,7 @@ namespace Weblu.Application.Services.Articles
 
             await _unitOfWork.CommitAsync();
         }
-        public async Task<List<ArticleSummaryDto>> GetAllArticlesAsync(ArticleParameters articleParameters)
+        public async Task<List<ArticleSummaryDto>> GetAllAsync(ArticleParameters articleParameters)
         {
             IReadOnlyList<Article> articles = await _articleRepository.GetAllAsync(articleParameters);
             var articleIds = articles.Select(a => a.Id).ToList();
@@ -91,7 +92,7 @@ namespace Weblu.Application.Services.Articles
             return articleSummaryDtos;
         }
 
-        public async Task<PagedResponse<ArticleSummaryDto>> GetAllPagedArticlesAsync(ArticleParameters articleParameters)
+        public async Task<PagedResponse<ArticleSummaryDto>> GetAllPagedAsync(ArticleParameters articleParameters)
         {
             PagedList<Article> articles = await _articleRepository.GetAllAsync(articleParameters);
             var articleIds = articles.Select(a => a.Id).ToList();
@@ -110,7 +111,7 @@ namespace Weblu.Application.Services.Articles
             return pagedResponse;
         }
 
-        public async Task<ArticleDetailDto> GetArticleByIdAsync(int articleId)
+        public async Task<ArticleDetailDto> GetByIdAsync(int articleId)
         {
             Article article = await _articleRepository.GetByIdWithImagesAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             List<ArticleImageDto> imageDtos = article.ArticleImages.Select(x => _mapper.Map<ArticleImageDto>(x)).ToList();
@@ -121,7 +122,7 @@ namespace Weblu.Application.Services.Articles
             return articleDetailDto;
         }
 
-        public async Task<ArticleDetailDto> UpdateArticleAsync(int articleId, UpdateArticleDto updateArticleDto)
+        public async Task<ArticleDetailDto> EditAsync(int articleId, UpdateArticleDto updateArticleDto)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             article = _mapper.Map(updateArticleDto, article);
@@ -142,7 +143,7 @@ namespace Weblu.Application.Services.Articles
             return articleDetailDto;
         }
 
-        public async Task ViewArticleAsync(int articleId)
+        public async Task ViewAsync(int articleId)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             article.UpdateViewCount();

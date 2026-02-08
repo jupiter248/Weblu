@@ -4,7 +4,7 @@ using Weblu.Domain.Errors.Articles;
 
 namespace Weblu.Application.Validations.Articles.Comments
 {
-    public class UpdateCommentValidator : AbstractValidator<UpdateCommentDTo>
+    public class UpdateCommentValidator : AbstractValidator<UpdateCommentDto>
     {
         public UpdateCommentValidator()
         {

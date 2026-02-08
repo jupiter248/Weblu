@@ -5,24 +5,24 @@ using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.Images;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Services.Images;
-using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Images;
 using Weblu.Application.Dtos.Images.ImageDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Dtos.Images.MediaDtos;
 using Weblu.Application.Parameters.Images;
+using Weblu.Application.Interfaces.Repositories;
 namespace Weblu.Application.Services.Images
 {
     public class ImageService : IImageService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IImageRepository _imageRepository;
-        private readonly IFilePathProvider _webHost;
+        private readonly IFilePathProviderService _webHost;
         private readonly IMapper _mapper;
         private readonly string _webHostPath;
 
 
-        public ImageService(IUnitOfWork unitOfWork, IFilePathProvider webHost, IMapper mapper, IImageRepository imageRepository)
+        public ImageService(IUnitOfWork unitOfWork, IFilePathProviderService webHost, IMapper mapper, IImageRepository imageRepository)
         {
             _unitOfWork = unitOfWork;
             _webHost = webHost;
@@ -30,7 +30,7 @@ namespace Weblu.Application.Services.Images
             _imageRepository = imageRepository;
             _webHostPath = webHost.GetWebRootPath();
         }
-        public async Task<ImageDto> AddImageAsync(AddImageDto addImageDto)
+        public async Task<ImageDto> AddAsync(AddImageDto addImageDto)
         {
             if (addImageDto.Image.Length < 0)
             {
@@ -60,7 +60,7 @@ namespace Weblu.Application.Services.Images
             return imageDto;
         }
 
-        public async Task DeleteImageAsync(int imageId)
+        public async Task DeleteAsync(int imageId)
         {
             ImageMedia image = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
@@ -69,14 +69,14 @@ namespace Weblu.Application.Services.Images
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<ImageDto>> GetAllImagesAsync(ImageParameters imageParameters)
+        public async Task<List<ImageDto>> GetAllAsync(ImageParameters imageParameters)
         {
             IReadOnlyList<ImageMedia> images = await _imageRepository.GetAllAsync(imageParameters);
             List<ImageDto> imageDtos = _mapper.Map<List<ImageDto>>(images);
             return imageDtos;
         }
 
-        public async Task<ImageDto> GetImageByIdAsync(int imageId)
+        public async Task<ImageDto> GetByIdAsync(int imageId)
         {
             ImageMedia image = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
             ImageDto imageDto = _mapper.Map<ImageDto>(image);

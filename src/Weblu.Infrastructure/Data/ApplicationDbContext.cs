@@ -7,7 +7,7 @@ using Weblu.Domain.Entities.Common.Contributors;
 using Weblu.Domain.Entities.Common.Features;
 using Weblu.Domain.Entities.Common.Methods;
 using Weblu.Domain.Entities.Common.Search;
-using Weblu.Domain.Entities.Faqs;
+using Weblu.Domain.Entities.FAQs;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Entities.Services;
@@ -39,8 +39,8 @@ namespace Weblu.Infrastructure.Data
         public DbSet<Contributor> Contributors { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketMessage> TicketMessages { get; set; }
-        public DbSet<Faq> Faqs { get; set; }
-        public DbSet<FaqCategory> FaqCategories { get; set; }
+        public DbSet<FAQ> FAQs { get; set; }
+        public DbSet<FAQCategory> FAQCategories { get; set; }
         public DbSet<FavoriteList> FavoriteLists { get; set; }
         public DbSet<FavoritePortfolio> FavoritePortfolios { get; set; }
         public DbSet<AboutUs> AboutUs { get; set; }

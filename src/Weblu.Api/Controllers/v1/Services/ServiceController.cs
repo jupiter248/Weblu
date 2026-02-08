@@ -35,31 +35,31 @@ namespace Weblu.Api.Controllers.v1.Services
             _serviceImageService = serviceImageService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllServices([FromQuery] ServiceParameters serviceParameters)
+        public async Task<IActionResult> GetAll([FromQuery] ServiceParameters serviceParameters)
         {
-            List<ServiceSummaryDto> serviceDtos = await _serviceService.GetAllServicesAsync(serviceParameters);
+            List<ServiceSummaryDto> serviceDtos = await _serviceService.GetAllAsync(serviceParameters);
             return Ok(serviceDtos);
         }
         [HttpGet("{serviceId:int}")]
-        public async Task<IActionResult> GetServiceById(int serviceId)
+        public async Task<IActionResult> GetById(int serviceId)
         {
-            ServiceDetailDto serviceDto = await _serviceService.GetServiceByIdAsync(serviceId);
+            ServiceDetailDto serviceDto = await _serviceService.GetByIdAsync(serviceId);
             return Ok(serviceDto);
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpPost]
-        public async Task<IActionResult> AddService([FromBody] AddServiceDto addServiceDto)
+        public async Task<IActionResult> Create([FromBody] CreateServiceDto createServiceDto)
         {
-            Validator.ValidateAndThrow(addServiceDto, new AddServiceValidator());
-            ServiceDetailDto serviceDto = await _serviceService.AddServiceAsync(addServiceDto);
-            return CreatedAtAction(nameof(GetServiceById), new { serviceId = serviceDto.Id }, ApiResponse<ServiceDetailDto>.Success("Service created successfully", serviceDto));
+            Validator.ValidateAndThrow(createServiceDto, new CreateServiceValidator());
+            ServiceDetailDto serviceDto = await _serviceService.CreateAsync(createServiceDto);
+            return CreatedAtAction(nameof(GetById), new { serviceId = serviceDto.Id }, ApiResponse<ServiceDetailDto>.Success("Service created successfully", serviceDto));
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpPut("{serviceId:int}")]
-        public async Task<IActionResult> UpdateService(int serviceId, [FromBody] UpdateServiceDto updateServiceDto)
+        public async Task<IActionResult> Update(int serviceId, [FromBody] UpdateServiceDto updateServiceDto)
         {
             Validator.ValidateAndThrow(updateServiceDto, new UpdateServiceValidator());
-            ServiceDetailDto serviceDto = await _serviceService.UpdateServiceAsync(serviceId, updateServiceDto);
+            ServiceDetailDto serviceDto = await _serviceService.UpdateAsync(serviceId, updateServiceDto);
             return Ok(
                 ApiResponse<ServiceDetailDto>.Success
                 (
@@ -70,51 +70,51 @@ namespace Weblu.Api.Controllers.v1.Services
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpDelete("{serviceId:int}")]
-        public async Task<IActionResult> DeleteService(int serviceId)
+        public async Task<IActionResult> Delete(int serviceId)
         {
-            await _serviceService.DeleteServiceAsync(serviceId);
+            await _serviceService.DeleteAsync(serviceId);
             return NoContent();
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpPost("{serviceId:int}/feature/{featureId:int}")]
-        public async Task<IActionResult> AddFeatureToService(int serviceId, int featureId)
+        public async Task<IActionResult> AddFeature(int serviceId, int featureId)
         {
-            await _serviceFeatureService.AddFeatureAsync(serviceId, featureId);
+            await _serviceFeatureService.AddAsync(serviceId, featureId);
             return Ok(ApiResponse.Success("Feature added successfully"));
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpDelete("{serviceId:int}/feature/{featureId:int}")]
-        public async Task<IActionResult> DeleteFeatureFromService(int serviceId, int featureId)
+        public async Task<IActionResult> DeleteFeature(int serviceId, int featureId)
         {
-            await _serviceFeatureService.DeleteFeatureAsync(serviceId, featureId);
+            await _serviceFeatureService.DeleteAsync(serviceId, featureId);
             return Ok(ApiResponse.Success("Feature deleted successfully"));
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpPost("{serviceId:int}/method/{methodId:int}")]
-        public async Task<IActionResult> AddMethodToService(int serviceId, int methodId)
+        public async Task<IActionResult> AddMethod(int serviceId, int methodId)
         {
-            await _serviceMethodService.AddMethodAsync(serviceId, methodId);
+            await _serviceMethodService.AddAsync(serviceId, methodId);
             return Ok(ApiResponse.Success("Method added successfully"));
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpDelete("{serviceId:int}/method/{methodId:int}")]
-        public async Task<IActionResult> DeleteMethodFromService(int serviceId, int methodId)
+        public async Task<IActionResult> DeleteMethod(int serviceId, int methodId)
         {
-            await _serviceMethodService.DeleteMethodAsync(serviceId, methodId);
+            await _serviceMethodService.DeleteAsync(serviceId, methodId);
             return Ok(ApiResponse.Success("Method deleted successfully"));
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpPost("{serviceId:int}/image/{imageId:int}")]
-        public async Task<IActionResult> AddImageToService(int serviceId, int imageId, [FromBody] AddServiceImageDto addServiceImageDto)
+        public async Task<IActionResult> AddImage(int serviceId, int imageId, [FromBody] AddServiceImageDto addServiceImageDto)
         {
-            await _serviceImageService.AddImageAsync(serviceId, imageId, addServiceImageDto);
+            await _serviceImageService.AddAsync(serviceId, imageId, addServiceImageDto);
             return Ok(ApiResponse.Success("Image added successfully"));
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpDelete("{serviceId:int}/image/{imageId:int}")]
-        public async Task<IActionResult> DeleteImageFromService(int serviceId, int imageId)
+        public async Task<IActionResult> DeleteImage(int serviceId, int imageId)
         {
-            await _serviceImageService.DeleteImageAsync(serviceId, imageId);
+            await _serviceImageService.DeleteAsync(serviceId, imageId);
             return Ok(ApiResponse.Success("Image deleted successfully"));
         }
     }

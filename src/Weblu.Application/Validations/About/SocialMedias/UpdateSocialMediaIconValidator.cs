@@ -4,9 +4,9 @@ using Weblu.Domain.Errors.Images;
 
 namespace Weblu.Application.Validations.About.SocialMedias
 {
-    public class UpdateSocialMediaIconValidator : AbstractValidator<UpdateSocialMediaIconDto>
+    public class ChangeSocialMediaIconValidator : AbstractValidator<ChangeSocialMediaIconDto>
     {
-        public UpdateSocialMediaIconValidator()
+        public ChangeSocialMediaIconValidator()
         {
             RuleFor(x => x.Image)
                 .NotNull().WithMessage(ImageErrorCodes.IconFileRequired)

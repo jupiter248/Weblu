@@ -12,7 +12,7 @@ namespace Weblu.Application.Mappers.Common
             CreateMap<Method, MethodDto>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<AddMethodDto, Method>();
+            CreateMap<CreateMethodDto, Method>();
             CreateMap<UpdateMethodDto, Method>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
         }

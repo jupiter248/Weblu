@@ -1,88 +1,89 @@
 using AutoMapper;
-using Weblu.Application.Dtos.FAQs.FaqDtos;
+using Weblu.Application.Dtos.FAQs.FAQDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.FAQs;
 using Weblu.Application.Interfaces.Services.FAQs;
 using Weblu.Application.Parameters.FAQs;
-using Weblu.Domain.Entities.Faqs;
+using Weblu.Domain.Entities.FAQs;
 using Weblu.Domain.Errors.FAQs;
 
 namespace Weblu.Application.Services.FAQs
 {
-    public class FaqService : IFaqService
+    public class FAQService : IFAQService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IFaqCategoryRepository _faqCategoryRepository;
-        private readonly IFaqRepository _faqRepository;
+        private readonly IFAQCategoryRepository _faqCategoryRepository;
+        private readonly IFAQRepository _faqRepository;
         private readonly IMapper _mapper;
-        public FaqService(IUnitOfWork unitOfWork, IMapper mapper, IFaqCategoryRepository faqCategoryRepository, IFaqRepository faqRepository)
+        public FAQService(IUnitOfWork unitOfWork, IMapper mapper, IFAQCategoryRepository faqCategoryRepository, IFAQRepository faqRepository)
         {
             _faqCategoryRepository = faqCategoryRepository;
             _faqRepository = faqRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<FaqDto> AddFaqAsync(AddFaqDto addFaqDto)
+        public async Task<FAQDto> CreateAsync(CreateFAQDto createFAQDto)
         {
-            Faq faq = _mapper.Map<Faq>(addFaqDto);
+            FAQ faq = _mapper.Map<FAQ>(createFAQDto);
 
-            FaqCategory faqCategory = await _faqCategoryRepository.GetByIdAsync(addFaqDto.CategoryId) ?? throw new NotFoundException(FaqCategoryErrorCodes.NotFound);
+            FAQCategory faqCategory = await _faqCategoryRepository.GetByIdAsync(createFAQDto.CategoryId) ?? throw new NotFoundException(FAQCategoryErrorCodes.NotFound);
             faq.Category = faqCategory;
 
             _faqRepository.Add(faq);
             await _unitOfWork.CommitAsync();
 
-            FaqDto faqDto = _mapper.Map<FaqDto>(faq);
+            FAQDto faqDto = _mapper.Map<FAQDto>(faq);
             return faqDto;
         }
-        public async Task DeleteFaqAsync(int faqId)
+        public async Task DeleteAsync(int faqId)
         {
-            Faq faq = await _faqRepository.GetByIdAsync(faqId) ?? throw new NotFoundException(FaqErrorCodes.NotFound);
+            FAQ faq = await _faqRepository.GetByIdAsync(faqId) ?? throw new NotFoundException(FAQErrorCodes.NotFound);
 
             faq.Delete();
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<FaqDto>> GetAllFaqsAsync(FaqParameters faqParameters)
+        public async Task<List<FAQDto>> GetAllAsync(FAQParameters faqParameters)
         {
-            IReadOnlyList<Faq> faqs = await _faqRepository.GetAllAsync(faqParameters);
-            List<FaqDto> faqDtos = _mapper.Map<List<FaqDto>>(faqs);
+            IReadOnlyList<FAQ> faqs = await _faqRepository.GetAllAsync(faqParameters);
+            List<FAQDto> faqDtos = _mapper.Map<List<FAQDto>>(faqs);
             return faqDtos;
         }
 
-        public async Task<FaqDto> GetFaqByIdAsync(int faqId)
+        public async Task<FAQDto> GetByIdAsync(int faqId)
         {
-            Faq faq = await _faqRepository.GetByIdAsync(faqId) ?? throw new NotFoundException(FaqErrorCodes.NotFound);
-            FaqDto faqDto = _mapper.Map<FaqDto>(faq);
+            FAQ faq = await _faqRepository.GetByIdAsync(faqId) ?? throw new NotFoundException(FAQErrorCodes.NotFound);
+            FAQDto faqDto = _mapper.Map<FAQDto>(faq);
             return faqDto;
         }
 
-        public async Task<FaqDto> UpdateFaqAsync(int currentFaqId, UpdateFaqDto updateFaqDto)
+        public async Task<FAQDto> UpdateAsync(int currentFAQId, UpdateFAQDto updateFAQDto)
         {
-            Faq currentFaq = await _faqRepository.GetByIdAsync(currentFaqId) ?? throw new NotFoundException(FaqCategoryErrorCodes.NotFound);
-            currentFaq = _mapper.Map(updateFaqDto, currentFaq);
+            FAQ currentFAQ = await _faqRepository.GetByIdAsync(currentFAQId) ?? throw new NotFoundException(FAQCategoryErrorCodes.NotFound);
+            currentFAQ = _mapper.Map(updateFAQDto, currentFAQ);
 
-            FaqCategory faqCategory = await _faqCategoryRepository.GetByIdAsync(updateFaqDto.CategoryId) ?? throw new NotFoundException(FaqCategoryErrorCodes.NotFound);
-            currentFaq.Category = faqCategory;
+            FAQCategory faqCategory = await _faqCategoryRepository.GetByIdAsync(updateFAQDto.CategoryId) ?? throw new NotFoundException(FAQCategoryErrorCodes.NotFound);
+            currentFAQ.Category = faqCategory;
 
-            if (currentFaq.IsActive)
+            if (currentFAQ.IsActive)
             {
-                if (currentFaq.ActivatedAt == DateTimeOffset.MinValue || currentFaq.ActivatedAt == null)
+                if (currentFAQ.ActivatedAt == DateTimeOffset.MinValue || currentFAQ.ActivatedAt == null)
                 {
-                    currentFaq.ActivatedAt = DateTimeOffset.Now;
+                    currentFAQ.ActivatedAt = DateTimeOffset.Now;
                 }
             }
-            else if (!currentFaq.IsActive)
+            else if (!currentFAQ.IsActive)
             {
-                currentFaq.ActivatedAt = DateTimeOffset.MinValue;
+                currentFAQ.ActivatedAt = DateTimeOffset.MinValue;
             }
 
 
-            _faqRepository.Update(currentFaq);
+            _faqRepository.Update(currentFAQ);
             await _unitOfWork.CommitAsync();
 
-            FaqDto faqDto = _mapper.Map<FaqDto>(currentFaq);
+            FAQDto faqDto = _mapper.Map<FAQDto>(currentFAQ);
             return faqDto;
         }
     }

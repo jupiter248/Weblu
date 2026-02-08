@@ -1,6 +1,6 @@
 namespace Weblu.Application.Common.Interfaces
 {
-    public interface IFilePathProvider
+    public interface IFilePathProviderService
     {
         public string GetWebRootPath();
     }

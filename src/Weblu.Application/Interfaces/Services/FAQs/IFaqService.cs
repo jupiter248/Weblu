@@ -1,15 +1,14 @@
-using Weblu.Application.Dtos.FAQs.FaqDtos;
-using Weblu.Application.Parameters;
+using Weblu.Application.Dtos.FAQs.FAQDtos;
 using Weblu.Application.Parameters.FAQs;
 
 namespace Weblu.Application.Interfaces.Services.FAQs
 {
-    public interface IFaqService
+    public interface IFAQService
     {
-        Task<List<FaqDto>> GetAllFaqsAsync(FaqParameters faqParameters);
-        Task<FaqDto> GetFaqByIdAsync(int faqId);
-        Task<FaqDto> AddFaqAsync(AddFaqDto addFaqDto);
-        Task<FaqDto> UpdateFaqAsync(int currentFaqId, UpdateFaqDto updateFaqDto);
-        Task DeleteFaqAsync(int faqId);
+        Task<List<FAQDto>> GetAllAsync(FAQParameters faqParameters);
+        Task<FAQDto> GetByIdAsync(int faqId);
+        Task<FAQDto> CreateAsync(CreateFAQDto createFAQDto);
+        Task<FAQDto> UpdateAsync(int currentFAQId, UpdateFAQDto updateFAQDto);
+        Task DeleteAsync(int faqId);
     }
 }

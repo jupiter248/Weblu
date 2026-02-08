@@ -5,9 +5,9 @@ using Weblu.Domain.Errors.About;
 
 namespace Weblu.Application.Validations.About.SocialMedias
 {
-    public class AddSocialMediaValidator : AbstractValidator<AddSocialMediaDto>
+    public class CreateSocialMediaValidator : AbstractValidator<CreateSocialMediaDto>
     {
-        public AddSocialMediaValidator()
+        public CreateSocialMediaValidator()
         {
             RuleFor(n => n.Name)
                 .NotEmpty().WithMessage(SocialMediaErrorCodes.NameRequired)

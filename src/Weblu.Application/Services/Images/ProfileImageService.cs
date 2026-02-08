@@ -13,6 +13,7 @@ using Weblu.Application.Dtos.Images.ProfileDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Dtos.Images.MediaDtos;
 using Weblu.Application.Parameters.Images;
+using Weblu.Application.Interfaces.Repositories;
 
 
 namespace Weblu.Application.Services.Images
@@ -22,10 +23,10 @@ namespace Weblu.Application.Services.Images
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
         private readonly IProfileImageRepository _profileImageRepository;
-        private readonly IFilePathProvider _webHost;
+        private readonly IFilePathProviderService _webHost;
         private readonly IMapper _mapper;
         private readonly string _webHostPath;
-        public ProfileImageService(IUnitOfWork unitOfWork, IFilePathProvider webHost, IMapper mapper,
+        public ProfileImageService(IUnitOfWork unitOfWork, IFilePathProviderService webHost, IMapper mapper,
             IProfileImageRepository profileImageRepository, IUserRepository userRepository)
         {
             _unitOfWork = unitOfWork;
@@ -36,7 +37,7 @@ namespace Weblu.Application.Services.Images
             _webHostPath = webHost.GetWebRootPath();
         }
 
-        public async Task<ProfileDto> AddProfileAsync(AddProfileDto addProfileDto)
+        public async Task<ProfileDto> AddAsync(AddProfileDto addProfileDto)
         {
             if (addProfileDto.OwnerType == ProfileMediaType.User)
             {
@@ -87,7 +88,7 @@ namespace Weblu.Application.Services.Images
             return profileDto;
         }
 
-        public async Task DeleteProfileAsync(int profileId)
+        public async Task DeleteAsync(int profileId)
         {
             ProfileMedia image = await _profileImageRepository.GetByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
@@ -96,14 +97,14 @@ namespace Weblu.Application.Services.Images
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<ProfileDto>> GetAllProfilesAsync(ProfileMediaParameters profileMediaParameters)
+        public async Task<List<ProfileDto>> GetAllAsync(ProfileMediaParameters profileMediaParameters)
         {
             IReadOnlyList<ProfileMedia> images = await _profileImageRepository.GetAllAsync(profileMediaParameters);
             List<ProfileDto> imageDtos = _mapper.Map<List<ProfileDto>>(images);
             return imageDtos;
         }
 
-        public async Task<ProfileDto> GetProfileByIdAsync(int profileId)
+        public async Task<ProfileDto> GetByIdAsync(int profileId)
         {
             ProfileMedia image = await _profileImageRepository.GetByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
             ProfileDto imageDto = _mapper.Map<ProfileDto>(image);

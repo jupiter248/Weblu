@@ -22,24 +22,24 @@ namespace Weblu.Api.Controllers.v1.Portfolios
             _portfolioCategoryService = portfolioCategoryService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllPortfolioCategories([FromQuery] PortfolioCategoryParameters portfolioCategoryParameters)
+        public async Task<IActionResult> GetAll([FromQuery] PortfolioCategoryParameters portfolioCategoryParameters)
         {
-            List<PortfolioCategoryDto> portfolioCategoryDtos = await _portfolioCategoryService.GetAllPortfolioCategoriesAsync(portfolioCategoryParameters);
+            List<PortfolioCategoryDto> portfolioCategoryDtos = await _portfolioCategoryService.GetAllAsync(portfolioCategoryParameters);
             return Ok(portfolioCategoryDtos);
         }
         [HttpGet("{portfolioCategoryId:int}")]
-        public async Task<IActionResult> GetArticleCategoryById(int portfolioCategoryId)
+        public async Task<IActionResult> GetById(int portfolioCategoryId)
         {
-            PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.GetPortfolioCategoryByIdAsync(portfolioCategoryId);
+            PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.GetByIdAsync(portfolioCategoryId);
             return Ok(portfolioCategoryDto);
         }
         [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPost]
-        public async Task<IActionResult> AddPortfolioCategory([FromBody] AddPortfolioCategoryDto addPortfolioCategoryDto)
+        public async Task<IActionResult> Create([FromBody] CreatePortfolioCategoryDto createPortfolioCategoryDto)
         {
-            Validator.ValidateAndThrow(addPortfolioCategoryDto, new AddPortfolioCategoryValidator());
-            PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.AddPortfolioCategoryAsync(addPortfolioCategoryDto);
-            return CreatedAtAction(nameof(GetArticleCategoryById), new { portfolioCategoryId = portfolioCategoryDto.Id }, ApiResponse<PortfolioCategoryDto>.Success
+            Validator.ValidateAndThrow(createPortfolioCategoryDto, new CreatePortfolioCategoryValidator());
+            PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.CreateAsync(createPortfolioCategoryDto);
+            return CreatedAtAction(nameof(GetById), new { portfolioCategoryId = portfolioCategoryDto.Id }, ApiResponse<PortfolioCategoryDto>.Success
             (
                 "Portfolio Category added successfully.",
                 portfolioCategoryDto
@@ -47,10 +47,10 @@ namespace Weblu.Api.Controllers.v1.Portfolios
         }
         [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPut("{portfolioCategoryId:int}")]
-        public async Task<IActionResult> UpdatePortfolioCategory(int portfolioCategoryId, [FromBody] UpdatePortfolioCategoryDto updatePortfolioCategoryDto)
+        public async Task<IActionResult> Update(int portfolioCategoryId, [FromBody] UpdatePortfolioCategoryDto updatePortfolioCategoryDto)
         {
             Validator.ValidateAndThrow(updatePortfolioCategoryDto, new UpdatePortfolioCategoryValidator());
-            PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.UpdatePortfolioCategoryAsync(portfolioCategoryId, updatePortfolioCategoryDto);
+            PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.UpdateAsync(portfolioCategoryId, updatePortfolioCategoryDto);
             return Ok(ApiResponse<PortfolioCategoryDto>.Success
             (
                 "Portfolio Category updated successfully.",
@@ -59,9 +59,9 @@ namespace Weblu.Api.Controllers.v1.Portfolios
         }
         [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpDelete("{portfolioCategoryId:int}")]
-        public async Task<IActionResult> DeletePortfolioCategory(int portfolioCategoryId)
+        public async Task<IActionResult> Delete(int portfolioCategoryId)
         {
-            await _portfolioCategoryService.DeletePortfolioCategoryAsync(portfolioCategoryId);
+            await _portfolioCategoryService.DeleteAsync(portfolioCategoryId);
             return Ok(ApiResponse.Success
             (
                 "Portfolio Category deleted successfully."

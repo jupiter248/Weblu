@@ -18,9 +18,9 @@ namespace Weblu.Api.Controllers.v2.Services
             _serviceService = serviceService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllServices([FromQuery] ServiceParameters serviceParameters)
+        public async Task<IActionResult> GetAll([FromQuery] ServiceParameters serviceParameters)
         {
-            PagedResponse<ServiceSummaryDto> serviceSummaryDtos = await _serviceService.GetAllPagedServiceAsync(serviceParameters);
+            PagedResponse<ServiceSummaryDto> serviceSummaryDtos = await _serviceService.GetAllPagedAsync(serviceParameters);
             return Ok(serviceSummaryDtos);
         }
     }

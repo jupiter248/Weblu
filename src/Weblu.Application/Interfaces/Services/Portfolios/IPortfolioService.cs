@@ -7,11 +7,11 @@ namespace Weblu.Application.Interfaces.Services.Portfolios
 {
     public interface IPortfolioService
     {
-        Task<List<PortfolioSummaryDto>> GetAllPortfolioAsync(PortfolioParameters portfolioParameters);
-        Task<PagedResponse<PortfolioSummaryDto>> GetAllPagedPortfolioAsync(PortfolioParameters portfolioParameters);
-        Task<PortfolioDetailDto> GetPortfolioByIdAsync(int portfolioId);
-        Task<PortfolioDetailDto> AddPortfolioAsync(AddPortfolioDto addPortfolioDto);
-        Task<PortfolioDetailDto> UpdatePortfolioAsync(int portfolioId, UpdatePortfolioDto updatePortfolioDto);
-        Task DeletePortfolioAsync(int portfolioId);
+        Task<List<PortfolioSummaryDto>> GetAllAsync(PortfolioParameters portfolioParameters);
+        Task<PagedResponse<PortfolioSummaryDto>> GetAllPagedAsync(PortfolioParameters portfolioParameters);
+        Task<PortfolioDetailDto> GetByIdAsync(int portfolioId);
+        Task<PortfolioDetailDto> CreateAsync(CreatePortfolioDto createPortfolioDto);
+        Task<PortfolioDetailDto> UpdateAsync(int portfolioId, UpdatePortfolioDto updatePortfolioDto);
+        Task DeleteAsync(int portfolioId);
     }
 }

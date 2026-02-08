@@ -1,19 +1,19 @@
 using FluentValidation;
-using Weblu.Application.Dtos.FAQs.FaqCategoryDtos;
+using Weblu.Application.Dtos.FAQs.FAQCategoryDtos;
 using Weblu.Domain.Errors.FAQs;
 
-namespace Weblu.Application.Validations.FAQs.FaqCategory
+namespace Weblu.Application.Validations.FAQs.FAQCategory
 {
-    public class UpdateFaqCategoryValidator : AbstractValidator<UpdateFaqCategoryDto>
+    public class UpdateFAQCategoryValidator : AbstractValidator<UpdateFAQCategoryDto>
     {
-        public UpdateFaqCategoryValidator()
+        public UpdateFAQCategoryValidator()
         {
             RuleFor(f => f.Name)
-                .NotEmpty().WithMessage(FaqCategoryErrorCodes.NameRequired)
-                .MaximumLength(100).WithMessage(FaqCategoryErrorCodes.NameMaximumLength);
+                .NotEmpty().WithMessage(FAQCategoryErrorCodes.NameRequired)
+                .MaximumLength(100).WithMessage(FAQCategoryErrorCodes.NameMaximumLength);
 
             RuleFor(f => f.Description)
-                .MaximumLength(500).WithMessage(FaqCategoryErrorCodes.DescriptionMaximumLength);
+                .MaximumLength(500).WithMessage(FAQCategoryErrorCodes.DescriptionMaximumLength);
         }
     }
 }

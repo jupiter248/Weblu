@@ -3,8 +3,10 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Weblu.Application.Dtos.Users.Tokens.RefreshTokenDtos;
 using Weblu.Application.Dtos.Users.Tokens.TokenDtos;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Users;
+using Weblu.Application.Interfaces.Repositories.Users.Roles;
 using Weblu.Application.Interfaces.Repositories.Users.Tokens;
 using Weblu.Domain.Entities.Users.Tokens;
 using Weblu.Infrastructure.Identity.Authorization;
@@ -15,7 +17,6 @@ namespace Weblu.Infrastructure.UnitTests.Token
 {
     public class TokenServiceTests
     {
-        // private readonly ITokenService _tokenService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly UserManager<AppUser> _userManager;

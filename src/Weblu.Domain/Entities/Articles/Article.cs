@@ -49,8 +49,6 @@ namespace Weblu.Domain.Entities.Articles
             DeletedAt = DateTimeOffset.Now;
             AddDomainEvent(new ArticleDeletedEvent(GuidId));
         }
-
-
         public void AddDomainEvent(IDomainEvent domainEvent)
             => _events.Add(domainEvent);
         public void ClearDomainEvents()

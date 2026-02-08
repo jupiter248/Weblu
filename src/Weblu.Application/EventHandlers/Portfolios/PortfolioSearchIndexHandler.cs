@@ -1,4 +1,5 @@
 using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Domain.Entities.Common.Search;

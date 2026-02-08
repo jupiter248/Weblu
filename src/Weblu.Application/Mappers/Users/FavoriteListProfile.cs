@@ -13,7 +13,7 @@ namespace Weblu.Application.Mappers.Users
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                     .ForMember(dest => dest.ItemCount, opt => opt.MapFrom(src => src.FavoritePortfolios.Count));
-            CreateMap<AddFavoriteListDto, FavoriteList>();
+            CreateMap<CreateFavoriteListDto, FavoriteList>();
             CreateMap<UpdateFavoriteListDto, FavoriteList>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
         }

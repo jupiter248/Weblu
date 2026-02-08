@@ -27,27 +27,27 @@ namespace Weblu.Api.Controllers.v1.Users.Tokens
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            List<UserDto> userDtos = await _userService.GetAllUsersAsync();
+            List<UserDto> userDtos = await _userService.GetAllAsync();
             return Ok(userDtos);
         }
         [Authorize]
         [HttpGet("current")]
-        public async Task<IActionResult> GetCurrentUser()
+        public async Task<IActionResult> GetCurrent()
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            UserDto userDto = await _userService.GetCurrentUserAsync(userId);
+            UserDto userDto = await _userService.GetCurrentAsync(userId);
             return Ok(userDto);
         }
         [Authorize]
         [HttpPut("{userId}")]
-        public async Task<IActionResult> UpdateUser(string userId, [FromBody] UpdateUserDto updateUserDto)
+        public async Task<IActionResult> Update(string userId, [FromBody] UpdateUserDto updateUserDto)
         {
             Validator.ValidateAndThrow(updateUserDto, new UpdateUserValidator());
-            UserDto userDto = await _userService.UpdateUserAsync(userId, updateUserDto);
+            UserDto userDto = await _userService.UpdateAsync(userId, updateUserDto);
             return Ok(ApiResponse<UserDto>.Success
             (
                 "User updated successfully.",
@@ -56,10 +56,10 @@ namespace Weblu.Api.Controllers.v1.Users.Tokens
         }
         [Authorize]
         [HttpPut("{userId}/change-password")]
-        public async Task<IActionResult> ChangeUserPassword(string userId, [FromBody] ChangePasswordDto changePasswordDto)
+        public async Task<IActionResult> ChangePassword(string userId, [FromBody] ChangePasswordDto changePasswordDto)
         {
             Validator.ValidateAndThrow(changePasswordDto, new ChangeUserPasswordValidator());
-            await _userService.ChangeUserPasswordAsync(userId, changePasswordDto);
+            await _userService.ChangePasswordAsync(userId, changePasswordDto);
             return Ok(ApiResponse.Success
             (
                 "User password changed successfully."
@@ -67,9 +67,9 @@ namespace Weblu.Api.Controllers.v1.Users.Tokens
         }
         [Authorize]
         [HttpDelete("{userId}")]
-        public async Task<IActionResult> DeleteUser(string userId)
+        public async Task<IActionResult> Delete(string userId)
         {
-            await _userService.DeleteUserAsync(userId);
+            await _userService.DeleteAsync(userId);
             return Ok(ApiResponse.Success
             (
                 "User deleted successfully."

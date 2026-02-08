@@ -5,9 +5,9 @@ using Weblu.Domain.Errors.Auth;
 
 namespace Weblu.Application.Validations.About.AboutUs
 {
-    public class AddAboutUsValidator : AbstractValidator<AddAboutUsDto>
+    public class CreateAboutUsValidator : AbstractValidator<CreateAboutUsDto>
     {
-        public AddAboutUsValidator()
+        public CreateAboutUsValidator()
         {
             RuleFor(s => s.Title)
                 .NotEmpty()

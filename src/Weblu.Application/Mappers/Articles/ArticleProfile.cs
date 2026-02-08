@@ -23,7 +23,7 @@ namespace Weblu.Application.Mappers.Articles
 
 
 
-            CreateMap<AddArticleDto, Article>()
+            CreateMap<CreateArticleDto, Article>()
                     .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()))
                     .ForMember(dest => dest.PublishedAt, opt =>
                     {
@@ -37,7 +37,7 @@ namespace Weblu.Application.Mappers.Articles
             CreateMap<ArticleCategory, ArticleCategoryDto>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null));
-            CreateMap<AddArticleCategoryDto, ArticleCategory>();
+            CreateMap<CreateArticleCategoryDto, ArticleCategory>();
             CreateMap<UpdateArticleCategoryDto, ArticleCategory>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
 

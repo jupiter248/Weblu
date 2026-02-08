@@ -98,12 +98,12 @@ namespace Weblu.Infrastructure.Migrations
 
             migrationBuilder.RenameColumn(
                 name: "PublicId",
-                table: "Faqs",
+                table: "FAQs",
                 newName: "GuidId");
 
             migrationBuilder.RenameColumn(
                 name: "PublicId",
-                table: "FaqCategories",
+                table: "FAQCategories",
                 newName: "GuidId");
 
             migrationBuilder.RenameColumn(
@@ -364,26 +364,26 @@ namespace Weblu.Infrastructure.Migrations
 
             migrationBuilder.AddColumn<DateTimeOffset>(
                 name: "DeletedAt",
-                table: "Faqs",
+                table: "FAQs",
                 type: "datetimeoffset",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "IsDeleted",
-                table: "Faqs",
+                table: "FAQs",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<DateTimeOffset>(
                 name: "DeletedAt",
-                table: "FaqCategories",
+                table: "FAQCategories",
                 type: "datetimeoffset",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "IsDeleted",
-                table: "FaqCategories",
+                table: "FAQCategories",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
@@ -634,19 +634,19 @@ namespace Weblu.Infrastructure.Migrations
 
             migrationBuilder.DropColumn(
                 name: "DeletedAt",
-                table: "Faqs");
+                table: "FAQs");
 
             migrationBuilder.DropColumn(
                 name: "IsDeleted",
-                table: "Faqs");
+                table: "FAQs");
 
             migrationBuilder.DropColumn(
                 name: "DeletedAt",
-                table: "FaqCategories");
+                table: "FAQCategories");
 
             migrationBuilder.DropColumn(
                 name: "IsDeleted",
-                table: "FaqCategories");
+                table: "FAQCategories");
 
             migrationBuilder.DropColumn(
                 name: "DeletedAt",
@@ -799,12 +799,12 @@ namespace Weblu.Infrastructure.Migrations
 
             migrationBuilder.RenameColumn(
                 name: "GuidId",
-                table: "Faqs",
+                table: "FAQs",
                 newName: "PublicId");
 
             migrationBuilder.RenameColumn(
                 name: "GuidId",
-                table: "FaqCategories",
+                table: "FAQCategories",
                 newName: "PublicId");
 
             migrationBuilder.RenameColumn(

@@ -21,24 +21,24 @@ namespace Weblu.Api.Controllers.v1.Images
         }
         [Authorize(Policy = Permissions.ManageProfiles)]
         [HttpGet]
-        public async Task<IActionResult> GetAllProfiles([FromQuery] ProfileMediaParameters profileMediaParameters)
+        public async Task<IActionResult> GetAll([FromQuery] ProfileMediaParameters profileMediaParameters)
         {
-            List<ProfileDto> profileDtos = await _profileImageService.GetAllProfilesAsync(profileMediaParameters);
+            List<ProfileDto> profileDtos = await _profileImageService.GetAllAsync(profileMediaParameters);
             return Ok(profileDtos);
         }
         [Authorize(Policy = Permissions.ManageProfiles)]
         [HttpGet("{profileId:int}")]
-        public async Task<IActionResult> GetProfileById(int profileId)
+        public async Task<IActionResult> GetById(int profileId)
         {
-            ProfileDto profileDto = await _profileImageService.GetProfileByIdAsync(profileId);
+            ProfileDto profileDto = await _profileImageService.GetByIdAsync(profileId);
             return Ok(profileDto);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddProfile([FromForm] AddProfileDto addProfileDto)
+        public async Task<IActionResult> Add([FromForm] AddProfileDto addProfileDto)
         {
-            ProfileDto profileDto = await _profileImageService.AddProfileAsync(addProfileDto);
-            return CreatedAtAction(nameof(GetProfileById), new { profileId = profileDto.Id }, ApiResponse<ProfileDto>.Success
+            ProfileDto profileDto = await _profileImageService.AddAsync(addProfileDto);
+            return CreatedAtAction(nameof(GetById), new { profileId = profileDto.Id }, ApiResponse<ProfileDto>.Success
             (
                 "Profile image uploaded successfully.",
                 profileDto
@@ -46,9 +46,9 @@ namespace Weblu.Api.Controllers.v1.Images
         }
         [Authorize]
         [HttpDelete("{profileId:int}")]
-        public async Task<IActionResult> DeleteProfile(int profileId)
+        public async Task<IActionResult> Delete(int profileId)
         {
-            await _profileImageService.DeleteProfileAsync(profileId);
+            await _profileImageService.DeleteAsync(profileId);
             return Ok(ApiResponse.Success
             (
                 "Profile image successfully."
