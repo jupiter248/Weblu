@@ -1,18 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Dtos.ArticleCategoryDtos;
+using Weblu.Application.Dtos.Articles.ArticleCategoryDtos;
 using Weblu.Application.Parameters;
+using Weblu.Application.Parameters.Articles;
 
 namespace Weblu.Application.Interfaces.Services.Articles
 {
     public interface IArticleCategoryService
     {
-        Task<List<ArticleCategoryDto>> GetAllArticleCategoriesAsync(ArticleCategoryParameters articleCategoryParameters);
-        Task<ArticleCategoryDto> GetArticleCategoryByIdAsync(int categoryId);
-        Task<ArticleCategoryDto> AddArticleCategoryAsync(AddArticleCategoryDto addArticleCategoryDto);
-        Task<ArticleCategoryDto> UpdateArticleCategoryAsync(int categoryId, UpdateArticleCategoryDto updateArticleCategoryDto);
-        Task DeleteArticleCategoryAsync(int categoryId);
+        Task<List<ArticleCategoryDto>> GetAllAsync(ArticleCategoryParameters articleCategoryParameters);
+        Task<ArticleCategoryDto> GetByIdAsync(int categoryId);
+        Task<ArticleCategoryDto> CreateAsync(CreateArticleCategoryDto createArticleCategoryDto);
+        Task<ArticleCategoryDto> UpdateAsync(int categoryId, UpdateArticleCategoryDto updateArticleCategoryDto);
+        Task DeleteAsync(int categoryId);
     }
 }

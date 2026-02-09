@@ -1,21 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.PortfolioDtos;
-using Weblu.Application.Dtos.PortfolioDtos.PortfolioImageDtos;
+using Weblu.Application.Dtos.Portfolios.PortfolioDtos;
 using Weblu.Application.Parameters;
+using Weblu.Application.Parameters.Portfolios;
 
 namespace Weblu.Application.Interfaces.Services.Portfolios
 {
     public interface IPortfolioService
     {
-        Task<List<PortfolioSummaryDto>> GetAllPortfolioAsync(PortfolioParameters portfolioParameters);
-        Task<PagedResponse<PortfolioSummaryDto>> GetAllPagedPortfolioAsync(PortfolioParameters portfolioParameters);
-        Task<PortfolioDetailDto> GetPortfolioByIdAsync(int portfolioId);
-        Task<PortfolioDetailDto> AddPortfolioAsync(AddPortfolioDto addPortfolioDto);
-        Task<PortfolioDetailDto> UpdatePortfolioAsync(int portfolioId, UpdatePortfolioDto updatePortfolioDto);
-        Task DeletePortfolioAsync(int portfolioId);
+        Task<List<PortfolioSummaryDto>> GetAllAsync(PortfolioParameters portfolioParameters);
+        Task<PagedResponse<PortfolioSummaryDto>> GetAllPagedAsync(PortfolioParameters portfolioParameters);
+        Task<PortfolioDetailDto> GetByIdAsync(int portfolioId);
+        Task<PortfolioDetailDto> CreateAsync(CreatePortfolioDto createPortfolioDto);
+        Task<PortfolioDetailDto> UpdateAsync(int portfolioId, UpdatePortfolioDto updatePortfolioDto);
+        Task DeleteAsync(int portfolioId);
+        Task Publish(int portfolioId);
+        Task Unpublish(int portfolioId);
     }
 }

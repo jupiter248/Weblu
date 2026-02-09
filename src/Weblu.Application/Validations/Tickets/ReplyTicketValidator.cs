@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentValidation;
-using Weblu.Application.Dtos.TicketDtos;
+using Weblu.Application.Dtos.Tickets.TicketMessageDtos;
 using Weblu.Domain.Errors.Tickets;
 
 namespace Weblu.Application.Validations.Tickets

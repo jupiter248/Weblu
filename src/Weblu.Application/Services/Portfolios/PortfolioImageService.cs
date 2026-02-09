@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Dtos.PortfolioDtos.PortfolioImageDtos;
-using Weblu.Application.Exceptions;
+using Weblu.Application.Dtos.Portfolios.PortfolioDtos.PortfolioImageDtos;
+using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Images;
+using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Portfolios;
@@ -28,7 +26,7 @@ namespace Weblu.Application.Services.Portfolios
             _portfolioRepository = portfolioRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task AddImageAsync(int portfolioId, int imageId, AddPortfolioImageDto addPortfolioImageDto)
+        public async Task AddAsync(int portfolioId, int imageId, AddPortfolioImageDto addPortfolioImageDto)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdWithImagesAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             ImageMedia imageMedia = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
@@ -46,12 +44,12 @@ namespace Weblu.Application.Services.Portfolios
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task DeleteImageAsync(int portfolioId, int imageId)
+        public async Task DeleteAsync(int portfolioId, int imageId)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdWithImagesAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             ImageMedia imageMedia = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
-            portfolio.DeleteImage(imageMedia);
+            portfolio.RemoveImage(imageMedia);
             await _unitOfWork.CommitAsync();
         }
     }

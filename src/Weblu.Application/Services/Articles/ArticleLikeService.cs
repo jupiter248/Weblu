@@ -1,5 +1,7 @@
-using Weblu.Application.Exceptions;
+using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Articles;
+using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Domain.Entities.Articles;
@@ -52,7 +54,7 @@ namespace Weblu.Application.Services.Articles
 
             await _articleRepository.LoadLikesAsync(article);
 
-            article.UnLike(userId);
+            article.Unlike(userId);
             await _unitOfWork.CommitAsync();
         }
     }

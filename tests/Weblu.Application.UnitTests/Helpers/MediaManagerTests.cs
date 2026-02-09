@@ -2,7 +2,7 @@ using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Weblu.Application.Common.Interfaces;
-using Weblu.Application.Dtos.MediaDtos;
+using Weblu.Application.Dtos.Images.MediaDtos;
 using Weblu.Application.Helpers;
 using Xunit;
 
@@ -10,11 +10,11 @@ namespace Weblu.Application.UnitTests.Helpers
 {
     public class MediaManagerTests
     {
-        private readonly IFilePathProvider _webHost;
+        private readonly IFilePathProviderService _webHost;
         private readonly string _webHostPath;
         public MediaManagerTests()
         {
-            _webHost = A.Fake<IFilePathProvider>();
+            _webHost = A.Fake<IFilePathProviderService>();
             _webHostPath = _webHost.GetWebRootPath();
         }
         [Fact]

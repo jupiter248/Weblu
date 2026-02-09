@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Exceptions;
+using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Exceptions.Mappers;
-using Weblu.Application.Services.Common.Interfaces;
-using Weblu.Application.Services.Interfaces;
 using Weblu.Domain.Exceptions;
 
 namespace Weblu.Api.Middlewares

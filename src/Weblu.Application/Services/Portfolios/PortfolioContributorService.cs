@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Exceptions;
+using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
-using Weblu.Domain.Entities.Contributors;
+using Weblu.Domain.Entities.Common.Contributors;
 using Weblu.Domain.Entities.Portfolios;
-using Weblu.Domain.Errors.Contributors;
+using Weblu.Domain.Errors.Common;
 using Weblu.Domain.Errors.Portfolios;
 
 namespace Weblu.Application.Services.Portfolios
@@ -28,7 +26,7 @@ namespace Weblu.Application.Services.Portfolios
             _portfolioRepository = portfolioRepository;
             _contributorRepository = contributorRepository;
         }
-        public async Task AddContributorAsync(int portfolioId, int contributorId)
+        public async Task AddAsync(int portfolioId, int contributorId)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
@@ -39,14 +37,14 @@ namespace Weblu.Application.Services.Portfolios
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task DeleteContributorAsync(int portfolioId, int contributorId)
+        public async Task DeleteAsync(int portfolioId, int contributorId)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
 
             await _portfolioRepository.LoadContributorsAsync(portfolio);
 
-            portfolio.DeleteContributor(contributor);
+            portfolio.RemoveContributor(contributor);
             await _unitOfWork.CommitAsync();
         }
     }

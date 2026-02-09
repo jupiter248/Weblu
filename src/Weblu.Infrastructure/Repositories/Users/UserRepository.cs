@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Weblu.Application.Dtos.CommentDtos;
+using Weblu.Application.Dtos.Articles.CommentDtos;
 using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Infrastructure.Data;
 

@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Exceptions;
+using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Articles;
+using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Domain.Entities.Articles;
-using Weblu.Domain.Entities.Contributors;
+using Weblu.Domain.Entities.Common.Contributors;
 using Weblu.Domain.Errors.Articles;
-using Weblu.Domain.Errors.Contributors;
+using Weblu.Domain.Errors.Common;
 
 namespace Weblu.Application.Services.Articles
 {
@@ -24,7 +22,7 @@ namespace Weblu.Application.Services.Articles
             _unitOfWork = unitOfWork;
             _articleRepository = articleRepository;
         }
-        public async Task AddContributorAsync(int articleId, int contributorId)
+        public async Task AddAsync(int articleId, int contributorId)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
@@ -34,14 +32,14 @@ namespace Weblu.Application.Services.Articles
             article.AddContributor(contributor);
             await _unitOfWork.CommitAsync();
         }
-        public async Task DeleteContributorAsync(int articleId, int contributorId)
+        public async Task DeleteAsync(int articleId, int contributorId)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
 
             await _articleRepository.LoadContributorsAsync(article);
 
-            article.DeleteContributor(contributor);
+            article.RemoveContributor(contributor);
             await _unitOfWork.CommitAsync();
         }
     }

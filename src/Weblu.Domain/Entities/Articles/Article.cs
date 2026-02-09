@@ -1,62 +1,66 @@
-using Weblu.Domain.Entities.Comments;
+using Weblu.Domain.Entities.Articles.Comments;
 using Weblu.Domain.Entities.Common;
-using Weblu.Domain.Entities.Contributors;
+using Weblu.Domain.Entities.Common.Contributors;
 using Weblu.Domain.Entities.Media;
-using Weblu.Domain.Entities.Tags;
 using Weblu.Domain.Errors.Articles;
-using Weblu.Domain.Errors.Contributors;
 using Weblu.Domain.Errors.Images;
-using Weblu.Domain.Errors.Tags;
+using Weblu.Domain.Errors.Common;
 using Weblu.Domain.Events.Articles;
 using Weblu.Domain.Events.Common;
 using Weblu.Domain.Exceptions;
+using Weblu.Domain.Entities.Common.Tags;
 
 namespace Weblu.Domain.Entities.Articles
 {
     public class Article : BaseEntity
     {
+        // Required properties
         public string Title { get; set; } = default!;
         public string? BelowTitle { get; set; }
+        public int ReadingTimeMinutes { get; set; }
         public string Slug { get; set; } = default!;
         public string Text { get; set; } = default!;
         public string Description { get; set; } = default!;
         public string ShortDescription { get; set; } = default!;
         public int ViewCount { get; set; } = 0;
+        // Publishing info
         public bool IsPublished { get; set; } = false;
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset? PublishedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
+        public DateTimeOffset? PublishedAt { get; private set; }
+        // Relationships
         public int CategoryId { get; set; }
         public ArticleCategory Category { get; set; } = default!;
-        public List<ArticleImage> ArticleImages { get; set; } = new List<ArticleImage>();
-        public List<Contributor> Contributors { get; set; } = new List<Contributor>();
-        public List<Comment> Comments { get; set; } = new List<Comment>();
-        public List<ArticleLike> ArticleLikes { get; set; } = new List<ArticleLike>();
-        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public List<ArticleImage> ArticleImages { get; set; } = new();
+        public List<Contributor> Contributors { get; set; } = new();
+        public List<Comment> Comments { get; set; } = new();
+        public List<ArticleLike> ArticleLikes { get; set; } = new();
+        public List<Tag> Tags { get; set; } = new();
+        // Domain events
         private readonly List<IDomainEvent> _events = new();
         public IReadOnlyCollection<IDomainEvent> Events => _events;
-        public void Add()
-        {
-            AddDomainEvent(new ArticleAddedEvent(GuidId));
-        }
+        // Domain behavior methods
         public void Update()
         {
-            AddDomainEvent(new ArticleUpdatedEvent(GuidId));
+            MarkUpdated();
+            RaiseEvent(new ArticleUpdatedEvent(GuidId));
         }
-        public override void Delete()
+        public void IncreaseViewCount()
         {
-            if (IsDeleted) return;
-            IsDeleted = true;
-            DeletedAt = DateTimeOffset.Now;
-            AddDomainEvent(new ArticleDeletedEvent(GuidId));
+            ViewCount++;
         }
-
-
-        public void AddDomainEvent(IDomainEvent domainEvent)
-            => _events.Add(domainEvent);
-        public void ClearDomainEvents()
-            => _events.Clear();
-
+        public void Publish()
+        {
+            if (IsPublished) throw new DomainException(ArticleErrorCodes.AlreadyPublished, 409);
+            IsPublished = true;
+            PublishedAt = DateTimeOffset.Now;
+            RaiseEvent(new ArticlePublishedEvent(GuidId));
+        }
+        public void Unpublish()
+        {
+            if (!IsPublished) throw new DomainException(ArticleErrorCodes.DidNotPublish, 409); ;
+            IsPublished = false;
+            PublishedAt = null;
+            RaiseEvent(new ArticleUnpublishedEvent(GuidId));
+        }
 
         public void AddTag(Tag tag)
         {
@@ -95,7 +99,7 @@ namespace Weblu.Domain.Entities.Articles
 
             ArticleLikes.Add(articleLike);
         }
-        public void DeleteTag(Tag tag)
+        public void RemoveTag(Tag tag)
         {
             if (!Tags.Any(c => c.Id == tag.Id))
             {
@@ -103,7 +107,7 @@ namespace Weblu.Domain.Entities.Articles
             }
             Tags.Remove(tag);
         }
-        public void DeleteContributor(Contributor contributor)
+        public void RemoveContributor(Contributor contributor)
         {
             if (!Contributors.Any(c => c.Id == contributor.Id))
             {
@@ -111,7 +115,7 @@ namespace Weblu.Domain.Entities.Articles
             }
             Contributors.Remove(contributor);
         }
-        public void DeleteImage(ImageMedia imageMedia)
+        public void RemoveImage(ImageMedia imageMedia)
         {
             ArticleImage? articleImage = ArticleImages.FirstOrDefault(i => i.ImageId == imageMedia.Id);
             if (articleImage == null)
@@ -120,7 +124,7 @@ namespace Weblu.Domain.Entities.Articles
             }
             ArticleImages.Remove(articleImage);
         }
-        public void UnLike(string userId)
+        public void Unlike(string userId)
         {
             ArticleLike? currentArticleLike = ArticleLikes.FirstOrDefault(u => u.UserId == userId);
             if (currentArticleLike == null)
@@ -130,22 +134,9 @@ namespace Weblu.Domain.Entities.Articles
 
             ArticleLikes.Remove(currentArticleLike);
         }
-        public void UpdateViewCount()
-        {
-            ViewCount += 1;
-        }
-        public void UpdatePublishedStatus(bool isPublished)
-        {
-            if (IsPublished == isPublished) return;
-            IsPublished = isPublished;
-            if (isPublished)
-            {
-                PublishedAt = DateTimeOffset.Now;
-            }
-            else
-            {
-                PublishedAt = null;
-            }
-        }
+        public void RaiseEvent(IDomainEvent domainEvent)
+            => _events.Add(domainEvent);
+        public void ClearEvents()
+            => _events.Clear();
     }
 }

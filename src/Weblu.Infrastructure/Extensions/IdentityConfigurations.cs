@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Weblu.Application.Exceptions;
+using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
-using Weblu.Infrastructure.Token;
+using Weblu.Infrastructure.Identity.Token;
 
 namespace Weblu.Infrastructure.Extensions
 {

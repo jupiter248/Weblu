@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Dtos.PortfolioDtos.PortfolioImageDtos;
+using Weblu.Application.Dtos.Portfolios.PortfolioDtos.PortfolioImageDtos;
 
 namespace Weblu.Application.Interfaces.Services.Portfolios
 {
     public interface IPortfolioImageService
     {
-        Task AddImageAsync(int portfolioId, int imageId, AddPortfolioImageDto addPortfolioImageDto);
-        Task DeleteImageAsync(int portfolioId, int imageId);
+        Task AddAsync(int portfolioId, int imageId, AddPortfolioImageDto addPortfolioImageDto);
+        Task DeleteAsync(int portfolioId, int imageId);
     }
 }

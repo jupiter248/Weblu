@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Exceptions;
+using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
-using Weblu.Domain.Entities.Features;
+using Weblu.Domain.Entities.Common.Features;
 using Weblu.Domain.Entities.Portfolios;
-using Weblu.Domain.Errors.Features;
+using Weblu.Domain.Errors.Common;
 using Weblu.Domain.Errors.Portfolios;
 
 namespace Weblu.Application.Services.Portfolios
@@ -27,7 +25,7 @@ namespace Weblu.Application.Services.Portfolios
             _unitOfWork = unitOfWork;
             _portfolioRepository = portfolioRepository;
         }
-        public async Task AddFeatureAsync(int portfolioId, int featureId)
+        public async Task AddAsync(int portfolioId, int featureId)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             Feature feature = await _featureRepository.GetByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
@@ -38,14 +36,14 @@ namespace Weblu.Application.Services.Portfolios
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task DeleteFeatureAsync(int portfolioId, int featureId)
+        public async Task DeleteAsync(int portfolioId, int featureId)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             Feature feature = await _featureRepository.GetByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
 
             await _portfolioRepository.LoadFeaturesAsync(portfolio);
 
-            portfolio.DeleteFeature(feature);
+            portfolio.RemoveFeature(feature);
             await _unitOfWork.CommitAsync();
         }
     }

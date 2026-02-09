@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Weblu.Domain.Errors.Articles
 {
     public class ArticleErrorCodes
@@ -21,6 +16,9 @@ namespace Weblu.Domain.Errors.Articles
         public const string ContributorAlreadyAddedToArticle = "CONTRIBUTOR_ALREADY_ADDED_TO_ARTICLE";
         public const string ImageAlreadyAddedToArticle = "CONTRIBUTOR_ALREADY_ADDED_TO_ARTICLE";
         public const string ArticleHasThumbnailImage = "ARTICLE_HAS_THUMBNAIL_IMAGE";
+        public const string AlreadyPublished = "ARTICLE_ALREADY_PUBLISHED";
+        public const string DidNotPublish = "ARTICLE_DID_NOT_PUBLISHED";
+        public const string IsPublish = "ARTICLE_IS_PUBLISH";
 
         public const string TagAlreadyAddedToArticle = "TAG_ALREADY_ADDED_TO_ARTICLE";
 

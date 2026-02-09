@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Weblu.Domain.Errors.Faqs
+namespace Weblu.Domain.Errors.FAQs
 {
-    public class FaqCategoryErrorCodes
+    public class FAQCategoryErrorCodes
     {
         public const string NotFound = "FAQ_CATEGORY_NOT_FOUND";
         public const string NameRequired = "FAQ_CATEGORY_NAME_REQUIRED";

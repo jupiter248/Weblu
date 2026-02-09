@@ -3,7 +3,7 @@ using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Weblu.Application.Dtos.UserDtos;
+using Weblu.Application.Dtos.Users.UserDtos;
 using Weblu.Domain.Enums.Users;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Identity.Services;
@@ -53,7 +53,7 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
 
             // Act
 
-            await userService.ChangeUserPasswordAsync(_user.Id, changePasswordDto);
+            await userService.ChangePasswordAsync(_user.Id, changePasswordDto);
 
             // Assert
             A.CallTo(() => _userManager.ChangePasswordAsync(
@@ -117,7 +117,7 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             var userService = new UserService(_userManager, _mapper, _httpContextAccessor);
 
             // Act
-            var act = await userService.UpdateUserAsync(_user.Id, updateUserDto);
+            var act = await userService.UpdateAsync(_user.Id, updateUserDto);
 
             // Assert
             act.Should().BeOfType<UserDto>();

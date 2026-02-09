@@ -1,6 +1,6 @@
 using System.Globalization;
 using System.Resources;
-using Weblu.Application.Services.Common.Interfaces;
+using Weblu.Application.Common.Interfaces;
 
 namespace Weblu.Infrastructure.Localization
 {

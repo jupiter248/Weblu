@@ -79,7 +79,7 @@ namespace Weblu.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FaqCategories",
+                name: "FAQCategories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -91,7 +91,7 @@ namespace Weblu.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FaqCategories", x => x.Id);
+                    table.PrimaryKey("PK_FAQCategories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -375,7 +375,7 @@ namespace Weblu.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Faqs",
+                name: "FAQs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -390,11 +390,11 @@ namespace Weblu.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Faqs", x => x.Id);
+                    table.PrimaryKey("PK_FAQs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Faqs_FaqCategories_CategoryId",
+                        name: "FK_FAQs_FAQCategories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "FaqCategories",
+                        principalTable: "FAQCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -722,8 +722,8 @@ namespace Weblu.Infrastructure.Migrations
                 column: "PortfoliosId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Faqs_CategoryId",
-                table: "Faqs",
+                name: "IX_FAQs_CategoryId",
+                table: "FAQs",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
@@ -834,7 +834,7 @@ namespace Weblu.Infrastructure.Migrations
                 name: "ContributorPortfolio");
 
             migrationBuilder.DropTable(
-                name: "Faqs");
+                name: "FAQs");
 
             migrationBuilder.DropTable(
                 name: "FavoriteListFavoritePortfolio");
@@ -870,7 +870,7 @@ namespace Weblu.Infrastructure.Migrations
                 name: "Contributors");
 
             migrationBuilder.DropTable(
-                name: "FaqCategories");
+                name: "FAQCategories");
 
             migrationBuilder.DropTable(
                 name: "FavoriteLists");

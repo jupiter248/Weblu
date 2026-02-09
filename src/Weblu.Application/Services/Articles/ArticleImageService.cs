@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Weblu.Application.Dtos.ArticleDtos.ArticleImageDtos;
-using Weblu.Application.Exceptions;
+using Weblu.Application.Dtos.Articles.ArticleDtos.ArticleImageDtos;
+using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
+using Weblu.Application.Interfaces.Repositories.Articles;
+using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Application.Interfaces.Repositories.Images;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Entities.Media;
@@ -25,7 +24,7 @@ namespace Weblu.Application.Services.Articles
             _unitOfWork = unitOfWork;
             _articleRepository = articleRepository;
         }
-        public async Task AddImageAsync(int articleId, int imageId, AddArticleImageDto addArticleImageDto)
+        public async Task AddAsync(int articleId, int imageId, AddArticleImageDto addArticleImageDto)
         {
             Article article = await _articleRepository.GetByIdWithImagesAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             ImageMedia imageMedia = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
@@ -42,12 +41,12 @@ namespace Weblu.Application.Services.Articles
             article.AddImage(newImage);
             await _unitOfWork.CommitAsync();
         }
-        public async Task DeleteImageAsync(int articleId, int imageId)
+        public async Task DeleteAsync(int articleId, int imageId)
         {
             Article article = await _articleRepository.GetByIdWithImagesAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             ImageMedia imageMedia = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
-            article.DeleteImage(imageMedia);
+            article.RemoveImage(imageMedia);
             await _unitOfWork.CommitAsync();
         }
     }

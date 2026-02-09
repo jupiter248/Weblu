@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 using Weblu.Domain.Entities.Common;
-using Weblu.Domain.Entities.Features;
+using Weblu.Domain.Entities.Common.Features;
+using Weblu.Domain.Entities.Common.Methods;
 using Weblu.Domain.Entities.Media;
-using Weblu.Domain.Entities.Methods;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Errors.Services;
@@ -17,21 +12,20 @@ namespace Weblu.Domain.Entities.Services
 {
     public class Service : BaseEntity
     {
-        public required string Title { get; set; }
-        public required string Slug { get; set; }
+        public string Title { get; set; } = default!;
+        public string Slug { get; set; } = default!;
         public string Description { get; set; } = default!;
-        public required string ShortDescription { get; set; }
+        public string ShortDescription { get; set; } = default!;
         public int BaseDurationInDays { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal BasePrice { get; set; }
-        public bool IsActive { get; set; }
-        public DateTimeOffset? ActivatedAt { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
-        public List<Feature> Features { get; set; } = new List<Feature>();
-        public List<Method> Methods { get; set; } = new List<Method>();
-        public List<ServiceImage> ServiceImages { get; set; } = new List<ServiceImage>();
-
+        // Publishing info
+        public bool IsPublished { get; private set; }
+        public DateTimeOffset? PublishedAt { get; private set; }
+        // Relationships
+        public List<Feature> Features { get; set; } = new();
+        public List<Method> Methods { get; set; } = new();
+        public List<ServiceImage> ServiceImages { get; set; } = new();
 
         public void AddMethod(Method method)
         {
@@ -61,7 +55,7 @@ namespace Weblu.Domain.Entities.Services
             }
             ServiceImages.Add(image);
         }
-        public void DeleteMethod(Method method)
+        public void RemoveMethod(Method method)
         {
             if (!Methods.Any(c => c.Id == method.Id))
             {
@@ -69,7 +63,7 @@ namespace Weblu.Domain.Entities.Services
             }
             Methods.Remove(method);
         }
-        public void DeleteFeature(Feature feature)
+        public void RemoveFeature(Feature feature)
         {
             if (!Features.Any(c => c.Id == feature.Id))
             {
@@ -77,7 +71,7 @@ namespace Weblu.Domain.Entities.Services
             }
             Features.Remove(feature);
         }
-        public void DeleteImage(ImageMedia imageMedia)
+        public void RemoveImage(ImageMedia imageMedia)
         {
             ServiceImage? serviceImage = ServiceImages.FirstOrDefault(i => i.ImageId == imageMedia.Id);
             if (serviceImage == null)
@@ -86,17 +80,17 @@ namespace Weblu.Domain.Entities.Services
             }
             ServiceImages.Remove(serviceImage);
         }
-        public void UpdateActivateStatus(bool isActive)
+        public void Publish()
         {
-            IsActive = isActive;
-            if (isActive && ActivatedAt == DateTimeOffset.MinValue)
-            {
-                ActivatedAt = DateTimeOffset.Now;
-            }
-            else if (!isActive)
-            {
-                ActivatedAt = DateTimeOffset.MinValue; 
-            }
+            if (IsPublished) throw new DomainException(ServiceErrorCodes.AlreadyPublished, 409);
+            IsPublished = true;
+            PublishedAt = DateTimeOffset.Now;
+        }
+        public void Unpublish()
+        {
+            if (!IsPublished) throw new DomainException(ServiceErrorCodes.DidNotPublish, 409);
+            IsPublished = false;
+            PublishedAt = null;
         }
     }
 }

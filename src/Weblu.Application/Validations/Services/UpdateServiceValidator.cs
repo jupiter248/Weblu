@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentValidation;
-using Weblu.Application.Dtos.ServiceDtos;
+using Weblu.Application.Dtos.Services.ServiceDtos;
 using Weblu.Domain.Errors.Services;
 
 namespace Weblu.Application.Validations.Services
@@ -37,10 +33,6 @@ namespace Weblu.Application.Validations.Services
             RuleFor(s => s.BasePrice)
                 .NotEmpty()
                 .WithMessage(ServiceErrorCodes.ServiceBasePriceRequired);
-
-            RuleFor(s => s.IsActive)
-                .NotNull()
-                .WithMessage(ServiceErrorCodes.ServiceIsActiveRequired);
         }
     }
 }

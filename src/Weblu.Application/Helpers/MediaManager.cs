@@ -1,11 +1,12 @@
-using Weblu.Application.Dtos.MediaDtos;
-using Weblu.Application.Exceptions;
-using Weblu.Domain.Errors.Commons;
+using Weblu.Application.Dtos.Images.MediaDtos;
+using Weblu.Application.Exceptions.CustomExceptions;
+using Weblu.Domain.Errors.Common;
 
 namespace Weblu.Application.Helpers
 {
     public static class MediaManager
     {
+        
         public static async Task<string> UploadMedia(string webRootPath, MediaUploaderDto mediaUploaderDto)
         {
             var media = mediaUploaderDto.Media;

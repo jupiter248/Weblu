@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Weblu.Application.Dtos.FavoriteDtos;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Parameters;
-using Weblu.Application.Strategies.FavoritePortfolios;
-using Weblu.Domain.Entities.Favorites;
 using Weblu.Infrastructure.Data;
-using Weblu.Infrastructure.Common.Repositories;
 using Weblu.Application.Interfaces.Repositories.Users.UserFavorites;
+using Weblu.Domain.Entities.Users.Favorites;
+using Weblu.Application.Strategies.Favorites.FavoritePortfolios;
+using Weblu.Application.Parameters.Users;
 
 namespace Weblu.Infrastructure.Repositories.Users.UserFavorites
 {

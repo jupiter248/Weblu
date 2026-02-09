@@ -1,21 +1,33 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Weblu.Domain.Entities.Common;
+using Weblu.Domain.Errors.FAQs;
+using Weblu.Domain.Exceptions;
 
-namespace Weblu.Domain.Entities.Faqs
+namespace Weblu.Domain.Entities.FAQs
 {
-    public class Faq : BaseEntity
+    public class FAQ : BaseEntity
     {
+        // Required properties
         public string Question { get; set; } = default!;
         public string Answer { get; set; } = default!;
-        public bool IsActive { get; set; }
-        public DateTimeOffset? ActivatedAt { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
+        // Publishing info
+        public bool IsPublished { get; set; }
+        public DateTimeOffset? PublishedAt { get; set; }
+        // Relationships
         public int CategoryId { get; set; }
-        public FaqCategory Category { get; set; } = default!;
+        public FAQCategory Category { get; set; } = default!;
+
+        public void Publish()
+        {
+            if (IsPublished) throw new DomainException(FAQErrorCodes.AlreadyPublished, 409);
+            IsPublished = true;
+            PublishedAt = DateTimeOffset.Now;
+        }
+        public void Unpublish()
+        {
+            if (!IsPublished) throw new DomainException(FAQErrorCodes.DidNotPublish, 409);
+            IsPublished = false;
+            PublishedAt = null;
+        }
+
     }
 }

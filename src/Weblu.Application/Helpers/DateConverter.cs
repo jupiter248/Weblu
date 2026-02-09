@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Weblu.Application.Helpers
 {
     public static class DateConverter
     {
+        // Gets the current date and time and return persian form in string
         public static string ToShamsi(this DateTimeOffset dateTimeOffset)
         {
             if (dateTimeOffset.UtcTicks <= 0)

@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Weblu.Application.Helpers
 {
     public static class UserFinder
     {
+        // Retrieves the user ID from the claims of the provided ClaimsPrincipal object
         public static string? GetUserId(this ClaimsPrincipal user)
         {
             // get the authorize user  
