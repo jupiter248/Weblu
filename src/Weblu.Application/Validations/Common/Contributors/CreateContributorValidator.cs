@@ -1,11 +1,11 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Common.ContributorDtos;
+using Weblu.Application.DTOs.Common.ContributorDTOs;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Errors.Common;
 
 namespace Weblu.Application.Validations.Common.Contributors
 {
-    public class CreateContributorValidator : AbstractValidator<CreateContributorDto>
+    public class CreateContributorValidator : AbstractValidator<CreateContributorDTO>
     {
         public CreateContributorValidator()
         {

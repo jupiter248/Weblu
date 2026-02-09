@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using Weblu.Application.Dtos.Auth.AuthDtos;
+using Weblu.Application.DTOs.Auth.AuthDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Users;
@@ -35,10 +35,10 @@ namespace Weblu.Infrastructure.Identity.Services
             _userRepository = userRepository;
             _roleRepository = roleRepository;
         }
-        public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
+        public async Task<AuthResponseDTO> LoginAsync(LoginDTO loginDTO)
         {
-            AppUser appUser = await _userManager.FindByNameAsync(loginDto.Username.ToLowerInvariant()) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            SignInResult checkPass = await _signInManager.CheckPasswordSignInAsync(appUser, loginDto.Password, true);
+            AppUser appUser = await _userManager.FindByNameAsync(loginDTO.Username.ToLowerInvariant()) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            SignInResult checkPass = await _signInManager.CheckPasswordSignInAsync(appUser, loginDTO.Password, true);
             if (!checkPass.Succeeded)
             {
                 throw new UnauthorizedException(AuthErrorCodes.IncorrectPassword);
@@ -59,7 +59,7 @@ namespace Weblu.Infrastructure.Identity.Services
             _refreshTokenRepository.Add(refreshToken);
             await _unitOfWork.CommitAsync();
 
-            AuthResponseDto authResponseDto = new AuthResponseDto()
+            AuthResponseDTO authResponseDTO = new AuthResponseDTO()
             {
                 FirstName = appUser.FirstName,
                 LastName = appUser.LastName,
@@ -70,18 +70,18 @@ namespace Weblu.Infrastructure.Identity.Services
                 Username = appUser.UserName
             };
 
-            return authResponseDto;
+            return authResponseDTO;
         }
 
-        public async Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto, UserType userType)
+        public async Task<AuthResponseDTO> RegisterAsync(RegisterDTO registerDTO, UserType userType)
         {
 
-            AppUser? foundedByUsername = await _userManager.FindByNameAsync(registerDto.Username.ToLowerInvariant());
+            AppUser? foundedByUsername = await _userManager.FindByNameAsync(registerDTO.Username.ToLowerInvariant());
             if (foundedByUsername != null)
             {
                 throw new ConflictException(AuthErrorCodes.UsernameAlreadyUsed);
             }
-            bool foundedByPhone = await _userRepository.ExistsWithPhoneAsync(registerDto.PhoneNumber);
+            bool foundedByPhone = await _userRepository.ExistsWithPhoneAsync(registerDTO.PhoneNumber);
             if (foundedByPhone == true)
             {
                 throw new ConflictException(AuthErrorCodes.PhoneNumberAlreadyUsed);
@@ -89,13 +89,13 @@ namespace Weblu.Infrastructure.Identity.Services
 
             AppUser newUser = new AppUser()
             {
-                FirstName = registerDto.FirstName,
-                LastName = registerDto.LastName,
-                PhoneNumber = registerDto.PhoneNumber,
-                UserName = registerDto.Username.ToLowerInvariant()
+                FirstName = registerDTO.FirstName,
+                LastName = registerDTO.LastName,
+                PhoneNumber = registerDTO.PhoneNumber,
+                UserName = registerDTO.Username.ToLowerInvariant()
             };
 
-            IdentityResult userCreated = await _userManager.CreateAsync(newUser, registerDto.Password);
+            IdentityResult userCreated = await _userManager.CreateAsync(newUser, registerDTO.Password);
             if (!userCreated.Succeeded)
             {
                 throw new UnauthorizedException(AuthErrorCodes.UserCreationFailed);
@@ -135,7 +135,7 @@ namespace Weblu.Infrastructure.Identity.Services
             _refreshTokenRepository.Add(refreshToken);
             await _unitOfWork.CommitAsync();
 
-            AuthResponseDto authResponseDto = new AuthResponseDto()
+            AuthResponseDTO authResponseDTO = new AuthResponseDTO()
             {
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,
@@ -145,7 +145,7 @@ namespace Weblu.Infrastructure.Identity.Services
                 PhoneNumber = newUser.PhoneNumber,
                 Username = newUser.UserName
             };
-            return authResponseDto;
+            return authResponseDTO;
         }
     }
 }

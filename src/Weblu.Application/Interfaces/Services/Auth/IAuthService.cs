@@ -1,11 +1,11 @@
-using Weblu.Application.Dtos.Auth.AuthDtos;
+using Weblu.Application.DTOs.Auth.AuthDTOs;
 using Weblu.Domain.Enums.Users;
 
 namespace Weblu.Application.Interfaces.Services.Auth
 {
     public interface IAuthService
     {
-        Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto , UserType userType );
-        Task<AuthResponseDto> LoginAsync(LoginDto loginDto);
+        Task<AuthResponseDTO> RegisterAsync(RegisterDTO registerDTO, UserType userType);
+        Task<AuthResponseDTO> LoginAsync(LoginDTO loginDTO);
     }
 }

@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Images.ImageDtos;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Media;
 
@@ -9,7 +9,7 @@ namespace Weblu.Application.Mappers.Images
     {
         public ImageProfile()
         {
-            CreateMap<ImageMedia, ImageDto>()
+            CreateMap<ImageMedia, ImageDTO>()
                 .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
         }
     }

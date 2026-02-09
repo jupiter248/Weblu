@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Weblu.Application.Dtos.Articles.CommentDtos;
+using Weblu.Application.DTOs.Articles.CommentDTOs;
 using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Infrastructure.Data;
 
@@ -18,9 +18,9 @@ namespace Weblu.Infrastructure.Repositories.Users
             return await _context.Users.Where(a => !a.IsDeleted).AnyAsync(u => u.PhoneNumber == phoneNumber);
         }
 
-        public async Task<CommentUserDto?> GetUserForCommentAsync(string userId)
+        public async Task<CommentUserDTO?> GetUserForCommentAsync(string userId)
         {
-            CommentUserDto? commentUserDto = await _context.Users.Where(a => !a.IsDeleted).Where(u => u.Id == userId).Select(c => new CommentUserDto()
+            CommentUserDTO? commentUserDTO = await _context.Users.Where(a => !a.IsDeleted).Where(u => u.Id == userId).Select(c => new CommentUserDTO()
             {
                 UserId = c.Id,
                 UserName = c.UserName,
@@ -28,7 +28,7 @@ namespace Weblu.Infrastructure.Repositories.Users
                 UserProfileAltText = c.Profiles.Where(P => P.IsMain).Select(u => u.AltText).FirstOrDefault()
             }).AsNoTracking().FirstOrDefaultAsync();
 
-            return commentUserDto;
+            return commentUserDTO;
         }
 
         public async Task<bool> IsAdminAsync(string userId)

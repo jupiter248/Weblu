@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Users.UserDtos
+namespace Weblu.Application.DTOs.Users.UserDTOs
 {
-    public class ChangePasswordDto
+    public class ChangePasswordDTO
     {
         public required string OldPassword { get; set; }
         public required string NewPassword { get; set; }

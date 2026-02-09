@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Users.Favorites.FavoriteListDtos
+namespace Weblu.Application.DTOs.Users.Favorites.FavoriteListDTOs
 {
-    public class UpdateFavoriteListDto
+    public class UpdateFavoriteListDTO
     {
         public required string Name { get; set; }
     }

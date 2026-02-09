@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.About.AboutUsDtos
+namespace Weblu.Application.DTOs.About.AboutUsDTOs
 {
-    public class AboutUsDto
+    public class AboutUsDTO
     {
         public int Id { get; set; }
         public string Title { get; set; } = default!;

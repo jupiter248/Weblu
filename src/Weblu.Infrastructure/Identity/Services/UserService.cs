@@ -2,7 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Weblu.Application.Dtos.Users.UserDtos;
+using Weblu.Application.DTOs.Users.UserDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services.Users;
@@ -24,7 +24,7 @@ namespace Weblu.Infrastructure.Identity.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task ChangePasswordAsync(string userId, ChangePasswordDto changePasswordDto)
+        public async Task ChangePasswordAsync(string userId, ChangePasswordDTO changePasswordDTO)
         {
             var authorizedUser = _httpContextAccessor.HttpContext?.User;
             string? authorizedUserId = authorizedUser?.GetUserId();
@@ -38,13 +38,13 @@ namespace Weblu.Infrastructure.Identity.Services
             }
             AppUser currentUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
 
-            bool checkOldPass = await _userManager.CheckPasswordAsync(currentUser, changePasswordDto.OldPassword);
+            bool checkOldPass = await _userManager.CheckPasswordAsync(currentUser, changePasswordDTO.OldPassword);
             if (!checkOldPass)
             {
                 throw new UnauthorizedException(UserErrorCodes.OldPasswordIsIncorrect);
             }
 
-            IdentityResult result = await _userManager.ChangePasswordAsync(currentUser, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
+            IdentityResult result = await _userManager.ChangePasswordAsync(currentUser, changePasswordDTO.OldPassword, changePasswordDTO.NewPassword);
             if (!result.Succeeded)
             {
                 throw new UnauthorizedException(UserErrorCodes.UserChangePasswordFailed);
@@ -68,28 +68,28 @@ namespace Weblu.Infrastructure.Identity.Services
             AppUser currentUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             currentUser.Delete();
         }
-        public async Task<List<UserDto>> GetAllAsync()
+        public async Task<List<UserDTO>> GetAllAsync()
         {
             List<AppUser> users = await _userManager.Users.Include(p => p.Profiles).ToListAsync();
-            List<UserDto> userDtos = _mapper.Map<List<UserDto>>(users) ?? default!;
-            foreach (UserDto userDto in userDtos)
+            List<UserDTO> userDTOs = _mapper.Map<List<UserDTO>>(users) ?? default!;
+            foreach (UserDTO userDTO in userDTOs)
             {
                 foreach (AppUser user in users)
                 {
-                    userDto.Roles.AddRange(await _userManager.GetRolesAsync(user));
+                    userDTO.Roles.AddRange(await _userManager.GetRolesAsync(user));
                     break;
                 }
             }
-            return userDtos;
+            return userDTOs;
         }
 
-        public async Task<UserDto> GetCurrentAsync(string userId)
+        public async Task<UserDTO> GetCurrentAsync(string userId)
         {
             AppUser user = await _userManager.Users.Include(p => p.Profiles).FirstOrDefaultAsync(u => u.Id == userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             IList<string> roles = await _userManager.GetRolesAsync(user);
-            UserDto userDto = _mapper.Map<UserDto>(user) ?? default!;
-            userDto.Roles.AddRange(roles);
-            return userDto;
+            UserDTO userDTO = _mapper.Map<UserDTO>(user) ?? default!;
+            userDTO.Roles.AddRange(roles);
+            return userDTO;
         }
 
         public async Task<string?> GetUsernameAsync(string senderId)
@@ -113,7 +113,7 @@ namespace Weblu.Infrastructure.Identity.Services
             return isAdmin;
         }
 
-        public async Task<UserDto> UpdateAsync(string userId, UpdateUserDto updateUserDto)
+        public async Task<UserDTO> UpdateAsync(string userId, UpdateUserDTO updateUserDTO)
         {
             var authorizedUser = _httpContextAccessor.HttpContext?.User;
             string? authorizedUserId = authorizedUser?.GetUserId();
@@ -129,10 +129,10 @@ namespace Weblu.Infrastructure.Identity.Services
 
             AppUser currentUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             // IList<string> roles = await _userManager.GetRolesAsync(user);
-            currentUser = _mapper.Map(updateUserDto, currentUser) ?? default!;
+            currentUser = _mapper.Map(updateUserDTO, currentUser) ?? default!;
             await _userManager.UpdateAsync(currentUser);
-            UserDto userDto = _mapper.Map<UserDto>(currentUser) ?? default!;
-            return userDto;
+            UserDTO userDTO = _mapper.Map<UserDTO>(currentUser) ?? default!;
+            return userDTO;
         }
     }
 }

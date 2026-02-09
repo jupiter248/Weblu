@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Tickets.TicketDtos;
+using Weblu.Application.DTOs.Tickets.TicketDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Tickets;
@@ -30,14 +30,14 @@ namespace Weblu.Application.Services.Tickets
             _ticketRepository = ticketRepository;
             _ticketMessageRepository = ticketMessageRepository;
         }
-        public async Task<TicketDetailDto> CreateAsync(string userId, CreateTicketDto createTicketDto)
+        public async Task<TicketDetailDTO> CreateAsync(string userId, CreateTicketDTO createTicketDTO)
         {
             bool userExists = await _userRepository.UserExistsAsync(userId);
             if (!userExists)
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            Ticket ticket = _mapper.Map<Ticket>(createTicketDto);
+            Ticket ticket = _mapper.Map<Ticket>(createTicketDTO);
             ticket.UserId = userId;
 
             _ticketRepository.Add(ticket);
@@ -45,7 +45,7 @@ namespace Weblu.Application.Services.Tickets
             TicketMessage ticketMessage = new TicketMessage()
             {
                 SenderId = userId,
-                Message = createTicketDto.Message,
+                Message = createTicketDTO.Message,
                 IsFromAdmin = false,
                 Ticket = ticket,
                 TicketId = ticket.Id
@@ -53,8 +53,8 @@ namespace Weblu.Application.Services.Tickets
             _ticketMessageRepository.Add(ticketMessage);
             await _unitOfWork.CommitAsync();
 
-            TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
-            return ticketDetailDto;
+            TicketDetailDTO ticketDetailDTO = _mapper.Map<TicketDetailDTO>(ticket);
+            return ticketDetailDTO;
         }
         public async Task DeleteAsync(string userId, int ticketId)
         {
@@ -74,7 +74,7 @@ namespace Weblu.Application.Services.Tickets
             ticket.Delete();
             await _unitOfWork.CommitAsync();
         }
-        public async Task<List<TicketSummaryDto>> GetAllAsync(string userId, TicketParameters ticketParameters)
+        public async Task<List<TicketSummaryDTO>> GetAllAsync(string userId, TicketParameters ticketParameters)
         {
             var isAdmin = await _userRepository.IsAdminAsync(userId);
             IReadOnlyList<Ticket> tickets;
@@ -86,12 +86,12 @@ namespace Weblu.Application.Services.Tickets
             {
                 tickets = await _ticketRepository.GetAllAsync(ticketParameters);
             }
-            List<TicketSummaryDto> ticketSummaryDtos = _mapper.Map<List<TicketSummaryDto>>(tickets);
+            List<TicketSummaryDTO> ticketSummaryDTOs = _mapper.Map<List<TicketSummaryDTO>>(tickets);
 
-            return ticketSummaryDtos;
+            return ticketSummaryDTOs;
         }
 
-        public async Task<TicketDetailDto> GetByIdAsync(string userId, int ticketId)
+        public async Task<TicketDetailDTO> GetByIdAsync(string userId, int ticketId)
         {
             var isAdmin = await _userRepository.IsAdminAsync(userId);
             Ticket ticket = await _ticketRepository.GetByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
@@ -99,11 +99,11 @@ namespace Weblu.Application.Services.Tickets
             {
                 throw new NotFoundException(TicketErrorCodes.TicketNotFound);
             }
-            TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
-            return ticketDetailDto;
+            TicketDetailDTO ticketDetailDTO = _mapper.Map<TicketDetailDTO>(ticket);
+            return ticketDetailDTO;
         }
 
-        public async Task<TicketDetailDto> EditAsync(string userId, int ticketId, EditTicketDto editTicketDto)
+        public async Task<TicketDetailDTO> EditAsync(string userId, int ticketId, EditTicketDTO editTicketDTO)
         {
             bool userExists = await _userRepository.UserExistsAsync(userId);
             if (!userExists)
@@ -115,27 +115,27 @@ namespace Weblu.Application.Services.Tickets
             {
                 throw new UnauthorizedException(TicketErrorCodes.TicketUpdateForbidden);
             }
-            ticket = _mapper.Map(editTicketDto, ticket);
+            ticket = _mapper.Map(editTicketDTO, ticket);
 
             ticket.MarkUpdated();
             _ticketRepository.Update(ticket);
             await _unitOfWork.CommitAsync();
 
-            TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
-            return ticketDetailDto;
+            TicketDetailDTO ticketDetailDTO = _mapper.Map<TicketDetailDTO>(ticket);
+            return ticketDetailDTO;
         }
 
-        public async Task<TicketDetailDto> ChangeStatusAsync(int ticketId, ChangeTicketStatusDto changeTicketStatusDto)
+        public async Task<TicketDetailDTO> ChangeStatusAsync(int ticketId, ChangeTicketStatusDTO changeTicketStatusDTO)
         {
             Ticket ticket = await _ticketRepository.GetByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
 
             ticket.MarkUpdated();
-            ticket = _mapper.Map(changeTicketStatusDto, ticket);
+            ticket = _mapper.Map(changeTicketStatusDTO, ticket);
             _ticketRepository.Update(ticket);
 
             await _unitOfWork.CommitAsync();
-            TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
-            return ticketDetailDto;
+            TicketDetailDTO ticketDetailDTO = _mapper.Map<TicketDetailDTO>(ticket);
+            return ticketDetailDTO;
         }
     }
 }

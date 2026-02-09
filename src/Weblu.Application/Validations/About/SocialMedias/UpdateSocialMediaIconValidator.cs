@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.About.SocialMediaDtos;
+using Weblu.Application.DTOs.About.SocialMediaDTOs;
 using Weblu.Domain.Errors.Images;
 
 namespace Weblu.Application.Validations.About.SocialMedias
 {
-    public class ChangeSocialMediaIconValidator : AbstractValidator<ChangeSocialMediaIconDto>
+    public class ChangeSocialMediaIconValidator : AbstractValidator<ChangeSocialMediaIconDTO>
     {
         public ChangeSocialMediaIconValidator()
         {

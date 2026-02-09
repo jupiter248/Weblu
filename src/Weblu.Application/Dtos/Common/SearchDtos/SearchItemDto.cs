@@ -1,8 +1,8 @@
 using Weblu.Domain.Enums.Common.Search;
 
-namespace Weblu.Application.Dtos.Common.SearchDtos
+namespace Weblu.Application.DTOs.Common.SearchDTOs
 {
-    public class SearchItemDto
+    public class SearchItemDTO
     {
         public int EntityId { get; set; }
         public SearchEntityType EntityType { get; set; }

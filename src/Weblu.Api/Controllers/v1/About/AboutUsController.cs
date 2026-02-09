@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.About.AboutUsDtos;
+using Weblu.Application.DTOs.About.AboutUsDTOs;
 using Weblu.Application.Interfaces.Services.About;
 using Weblu.Application.Parameters.About;
 using Weblu.Application.Validations;
@@ -24,32 +24,32 @@ namespace Weblu.Api.Controllers.v1.About
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            AboutUsDto aboutUsDto = await _aboutUsService.GetAsync();
-            return Ok(ApiResponse<AboutUsDto>.Success(
+            AboutUsDTO aboutUsDTO = await _aboutUsService.GetAsync();
+            return Ok(ApiResponse<AboutUsDTO>.Success(
                 "AboutUs information retrieved successfully",
-                aboutUsDto
+                aboutUsDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpPut("{aboutUsId:int}")]
-        public async Task<IActionResult> Update(int aboutUsId, [FromBody] UpdateAboutUsDto updateAboutUsDto)
+        public async Task<IActionResult> Update(int aboutUsId, [FromBody] UpdateAboutUsDTO updateAboutUsDTO)
         {
-            Validator.ValidateAndThrow(updateAboutUsDto, new UpdateAboutUsValidator());
-            AboutUsDto aboutUsDto = await _aboutUsService.UpdateAsync(aboutUsId, updateAboutUsDto);
-            return Ok(ApiResponse<AboutUsDto>.Success(
+            Validator.ValidateAndThrow(updateAboutUsDTO, new UpdateAboutUsValidator());
+            AboutUsDTO aboutUsDTO = await _aboutUsService.UpdateAsync(aboutUsId, updateAboutUsDTO);
+            return Ok(ApiResponse<AboutUsDTO>.Success(
                 "AboutUs information updated successfully",
-                aboutUsDto
+                aboutUsDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpPut("{aboutUsId:int}/head-image")]
-        public async Task<IActionResult> UpdateImage(int aboutUsId, [FromForm] ChangeAboutUsImageDto changeAboutUsImageDto)
+        public async Task<IActionResult> UpdateImage(int aboutUsId, [FromForm] ChangeAboutUsImageDTO changeAboutUsImageDTO)
         {
-            Validator.ValidateAndThrow(changeAboutUsImageDto, new ChangeAboutUsImageValidator());
-            AboutUsDto aboutUsDto = await _aboutUsService.ChangeHeadImageAsync(aboutUsId, changeAboutUsImageDto);
-            return Ok(ApiResponse<AboutUsDto>.Success(
+            Validator.ValidateAndThrow(changeAboutUsImageDTO, new ChangeAboutUsImageValidator());
+            AboutUsDTO aboutUsDTO = await _aboutUsService.ChangeHeadImageAsync(aboutUsId, changeAboutUsImageDTO);
+            return Ok(ApiResponse<AboutUsDTO>.Success(
                 "AboutUs head image updated",
-                aboutUsDto
+                aboutUsDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageAboutUs)]

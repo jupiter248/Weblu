@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.About.AboutUsDtos
+namespace Weblu.Application.DTOs.About.AboutUsDTOs
 {
-    public class UpdateAboutUsDto
+    public class UpdateAboutUsDTO
     {
         public string Title { get; set; } = default!;
         public string SubTitle { get; set; } = default!;

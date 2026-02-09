@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Portfolios.PortfolioDtos.PortfolioImageDtos
+namespace Weblu.Application.DTOs.Portfolios.PortfolioDTOs.PortfolioImageDTOs
 {
-    public class AddPortfolioImageDto
+    public class AddPortfolioImageDTO
     {
         public bool IsThumbnail { get; set; }
     }

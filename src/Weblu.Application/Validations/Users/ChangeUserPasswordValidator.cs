@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Users.UserDtos;
+using Weblu.Application.DTOs.Users.UserDTOs;
 using Weblu.Domain.Errors.Users;
 
 namespace Weblu.Application.Validations.Users
 {
-    public class ChangeUserPasswordValidator : AbstractValidator<ChangePasswordDto>
+    public class ChangeUserPasswordValidator : AbstractValidator<ChangePasswordDTO>
     {
         public ChangeUserPasswordValidator()
         {

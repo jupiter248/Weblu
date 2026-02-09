@@ -1,8 +1,8 @@
 using Weblu.Domain.Enums.Tickets;
 
-namespace Weblu.Application.Dtos.Tickets.TicketDtos
+namespace Weblu.Application.DTOs.Tickets.TicketDTOs
 {
-    public class TicketSummaryDto
+    public class TicketSummaryDTO
     {
         public int Id { get; set; }
         public string Subject { get; set; } = default!;

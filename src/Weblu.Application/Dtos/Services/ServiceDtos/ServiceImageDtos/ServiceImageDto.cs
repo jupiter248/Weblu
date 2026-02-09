@@ -1,8 +1,8 @@
-using Weblu.Application.Dtos.Images.ImageDtos;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 
-namespace Weblu.Application.Dtos.Services.ServiceDtos.ServiceImageDtos
+namespace Weblu.Application.DTOs.Services.ServiceDTOs.ServiceImageDTOs
 {
-    public class ServiceImageDto : ImageDto
+    public class ServiceImageDTO : ImageDTO
     {
         public bool IsThumbnail { get; set; }
     }

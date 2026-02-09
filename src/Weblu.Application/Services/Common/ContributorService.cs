@@ -1,7 +1,7 @@
 using AutoMapper;
 using Weblu.Application.Common.Interfaces;
-using Weblu.Application.Dtos.Common.ContributorDtos;
-using Weblu.Application.Dtos.Images.MediaDtos;
+using Weblu.Application.DTOs.Common.ContributorDTOs;
+using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Repositories;
@@ -32,15 +32,15 @@ namespace Weblu.Application.Services.Common
             _webHostPath = webHost.GetWebRootPath();
 
         }
-        public async Task<ContributorDto> CreateAsync(CreateContributorDto addContributorDto)
+        public async Task<ContributorDTO> CreateAsync(CreateContributorDTO addContributorDTO)
         {
-            Contributor newContributor = _mapper.Map<Contributor>(addContributorDto);
+            Contributor newContributor = _mapper.Map<Contributor>(addContributorDTO);
 
             _contributorRepository.Add(newContributor);
             await _unitOfWork.CommitAsync();
 
-            ContributorDto contributorDto = _mapper.Map<ContributorDto>(newContributor);
-            return contributorDto;
+            ContributorDTO contributorDTO = _mapper.Map<ContributorDTO>(newContributor);
+            return contributorDTO;
         }
 
         public async Task DeleteAsync(int contributorId)
@@ -73,34 +73,34 @@ namespace Weblu.Application.Services.Common
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<ContributorDto>> GetAllAsync(ContributorParameters contributorParameters)
+        public async Task<List<ContributorDTO>> GetAllAsync(ContributorParameters contributorParameters)
         {
             IReadOnlyList<Contributor> contributors = await _contributorRepository.GetAllAsync(contributorParameters);
-            List<ContributorDto> contributorDtos = _mapper.Map<List<ContributorDto>>(contributors);
-            return contributorDtos;
+            List<ContributorDTO> contributorDTOs = _mapper.Map<List<ContributorDTO>>(contributors);
+            return contributorDTOs;
         }
 
-        public async Task<ContributorDto> GetByIdAsync(int contributorId)
+        public async Task<ContributorDTO> GetByIdAsync(int contributorId)
         {
             Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
-            ContributorDto contributorDto = _mapper.Map<ContributorDto>(contributor);
-            return contributorDto;
+            ContributorDTO contributorDTO = _mapper.Map<ContributorDTO>(contributor);
+            return contributorDTO;
         }
 
-        public async Task<ContributorDto> UpdateAsync(int currentContributorId, UpdateContributorDto updateContributorDto)
+        public async Task<ContributorDTO> UpdateAsync(int currentContributorId, UpdateContributorDTO updateContributorDTO)
         {
             Contributor contributor = await _contributorRepository.GetByIdAsync(currentContributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
-            contributor = _mapper.Map(updateContributorDto, contributor);
+            contributor = _mapper.Map(updateContributorDTO, contributor);
 
             contributor.MarkUpdated();
             _contributorRepository.Update(contributor);
             await _unitOfWork.CommitAsync();
 
-            ContributorDto contributorDto = _mapper.Map<ContributorDto>(contributor);
-            return contributorDto;
+            ContributorDTO contributorDTO = _mapper.Map<ContributorDTO>(contributor);
+            return contributorDTO;
         }
 
-        public async Task<ContributorDto> ChangeProfileImageAsync(int currentContributorId, ChangeContributorProfileImageDto changeProfileImage)
+        public async Task<ContributorDTO> ChangeProfileImageAsync(int currentContributorId, ChangeContributorProfileImageDTO changeProfileImage)
         {
             Contributor contributor = await _contributorRepository.GetByIdAsync(currentContributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
 
@@ -115,7 +115,7 @@ namespace Weblu.Application.Services.Common
             var image = changeProfileImage.Image;
             string imageName = await MediaManager.UploadMedia(
                     _webHostPath,
-                    new MediaUploaderDto
+                    new MediaUploaderDTO
                     {
                         Media = image,
                         MediaType = MediaType.profile
@@ -129,8 +129,8 @@ namespace Weblu.Application.Services.Common
             _contributorRepository.Update(contributor);
             await _unitOfWork.CommitAsync();
 
-            ContributorDto contributorDto = _mapper.Map<ContributorDto>(contributor);
-            return contributorDto;
+            ContributorDTO contributorDTO = _mapper.Map<ContributorDTO>(contributor);
+            return contributorDTO;
         }
 
         public async Task Publish(int contributorId)

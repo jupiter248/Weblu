@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Articles.CommentDtos
+namespace Weblu.Application.DTOs.Articles.CommentDTOs
 {
-    public class CommentDto
+    public class CommentDTO
     {
         public int Id { get; set; }
         public string Text { get; set; } = default!;
@@ -9,6 +9,6 @@ namespace Weblu.Application.Dtos.Articles.CommentDtos
         public string CreatedAt { get; set; } = default!;
         public int? ParentCommentId { get; set; }
         public int ArticleId { get; set; } = default!;
-        public CommentUserDto User { get; set; } = default!;
+        public CommentUserDTO User { get; set; } = default!;
     }
 }

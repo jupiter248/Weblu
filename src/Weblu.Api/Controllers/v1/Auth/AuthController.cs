@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Auth.AuthDtos;
+using Weblu.Application.DTOs.Auth.AuthDTOs;
 using Weblu.Application.Interfaces.Services.Auth;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Auth;
@@ -25,48 +25,48 @@ namespace Weblu.Api.Controllers.v1.Auth
         }
         [Authorize(Policy = Permissions.ManageAdmins)]
         [HttpPost("register-admin")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterDto registerDto)
+        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterDTO registerDTO)
         {
-            Validator.ValidateAndThrow(registerDto, new RegisterValidator());
-            AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto, UserType.Admin);
-            return Ok(ApiResponse<AuthResponseDto>.Success
+            Validator.ValidateAndThrow(registerDTO, new RegisterValidator());
+            AuthResponseDTO authResponseDTO = await _authService.RegisterAsync(registerDTO, UserType.Admin);
+            return Ok(ApiResponse<AuthResponseDTO>.Success
             (
                 "User created successfully.",
-                authResponseDto
+                authResponseDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageAdmins)]
         [HttpPost("register-editor")]
-        public async Task<IActionResult> RegisterEditor([FromBody] RegisterDto registerDto)
+        public async Task<IActionResult> RegisterEditor([FromBody] RegisterDTO registerDTO)
         {
-            Validator.ValidateAndThrow(registerDto, new RegisterValidator());
-            AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto, UserType.Editor);
-            return Ok(ApiResponse<AuthResponseDto>.Success
+            Validator.ValidateAndThrow(registerDTO, new RegisterValidator());
+            AuthResponseDTO authResponseDTO = await _authService.RegisterAsync(registerDTO, UserType.Editor);
+            return Ok(ApiResponse<AuthResponseDTO>.Success
             (
                 "User created successfully.",
-                authResponseDto
+                authResponseDTO
             ));
         }
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
         {
-            Validator.ValidateAndThrow(registerDto, new RegisterValidator());
-            AuthResponseDto authResponseDto = await _authService.RegisterAsync(registerDto, UserType.User);
-            return Ok(ApiResponse<AuthResponseDto>.Success
+            Validator.ValidateAndThrow(registerDTO, new RegisterValidator());
+            AuthResponseDTO authResponseDTO = await _authService.RegisterAsync(registerDTO, UserType.User);
+            return Ok(ApiResponse<AuthResponseDTO>.Success
             (
                 "User created successfully.",
-                authResponseDto
+                authResponseDTO
             ));
         }
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
         {
-            Validator.ValidateAndThrow(loginDto, new LoginValidator());
-            AuthResponseDto authResponseDto = await _authService.LoginAsync(loginDto);
-            return Ok(ApiResponse<AuthResponseDto>.Success
+            Validator.ValidateAndThrow(loginDTO, new LoginValidator());
+            AuthResponseDTO authResponseDTO = await _authService.LoginAsync(loginDTO);
+            return Ok(ApiResponse<AuthResponseDTO>.Success
             (
                 "User logged in successfully.",
-                authResponseDto
+                authResponseDTO
             ));
         }
     }

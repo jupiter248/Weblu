@@ -1,7 +1,7 @@
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
-using Weblu.Application.Dtos.Auth.AuthDtos;
+using Weblu.Application.DTOs.Auth.AuthDTOs;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Users;
@@ -37,10 +37,10 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             _roleRepository = A.Fake<IRoleRepository>();
         }
         [Fact]
-        public async Task AuthService_LoginAsync_ReturnAuthResponseDto()
+        public async Task AuthService_LoginAsync_ReturnAuthResponseDTO()
         {
             // Arrange
-            LoginDto loginDto = new LoginDto
+            LoginDTO loginDTO = new LoginDTO
             {
                 Username = "TestUsername",
                 Password = "TestPassword",
@@ -54,8 +54,8 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             };
             List<string> roles = new List<string>() { "User" };
             List<string> permissions = new List<string>() { Permissions.ManageComments };
-            A.CallTo(() => _userManager.FindByNameAsync(loginDto.Username.ToLowerInvariant())).Returns(user);
-            A.CallTo(() => _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, true)).Returns(SignInResult.Success);
+            A.CallTo(() => _userManager.FindByNameAsync(loginDTO.Username.ToLowerInvariant())).Returns(user);
+            A.CallTo(() => _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, true)).Returns(SignInResult.Success);
             A.CallTo(() => _userManager.GetRolesAsync(user)).Returns(roles);
             A.CallTo(() => _roleRepository.GetRolePermissionsAsync(roles)).Returns(permissions);
 
@@ -66,11 +66,11 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             var authService = new AuthService(_roleRepository, _userRepository, _jwtTokenService, _userManager, _unitOfWork, _signInManager, _refreshTokenRepository);
 
             // Act 
-            var act = await authService.LoginAsync(loginDto);
+            var act = await authService.LoginAsync(loginDTO);
 
             // Assert
             act.Should().NotBeNull();
-            act.Should().BeOfType<AuthResponseDto>();
+            act.Should().BeOfType<AuthResponseDTO>();
             act.AccessToken.Should().Be("valid-access-token");
             act.RefreshToken.Should().Be("valid-refresh-token");
             A.CallTo(() => _unitOfWork.CommitAsync())
@@ -80,10 +80,10 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
 
         }
         [Fact]
-        public async Task AuthService_RegisterAsync_ReturnAuthResponseDto()
+        public async Task AuthService_RegisterAsync_ReturnAuthResponseDTO()
         {
             // Arrange
-            RegisterDto registerDto = new RegisterDto
+            RegisterDTO registerDTO = new RegisterDTO
             {
                 Username = "TestUsername",
                 Password = "TestPassword",
@@ -95,8 +95,8 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             List<string> roles = new List<string> { "User" };
             List<string> permissions = new List<string>() { Permissions.ManageComments };
 
-            A.CallTo(() => _userManager.FindByNameAsync(registerDto.Username.ToLowerInvariant())).Returns(Task.FromResult<AppUser?>(null));
-            A.CallTo(() => _userRepository.ExistsWithPhoneAsync(registerDto.PhoneNumber)).Returns(false);
+            A.CallTo(() => _userManager.FindByNameAsync(registerDTO.Username.ToLowerInvariant())).Returns(Task.FromResult<AppUser?>(null));
+            A.CallTo(() => _userRepository.ExistsWithPhoneAsync(registerDTO.PhoneNumber)).Returns(false);
 
             A.CallTo(() => _userManager.CreateAsync(A<AppUser>._, A<string>._))
                 .Returns(IdentityResult.Success);
@@ -111,11 +111,11 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             var authService = new AuthService(_roleRepository, _userRepository, _jwtTokenService, _userManager, _unitOfWork, _signInManager, _refreshTokenRepository);
 
             // Act
-            var act = await authService.RegisterAsync(registerDto, userType);
+            var act = await authService.RegisterAsync(registerDTO, userType);
 
             // Assert
             act.Should().NotBeNull();
-            act.Should().BeOfType<AuthResponseDto>();
+            act.Should().BeOfType<AuthResponseDTO>();
             act.AccessToken.Should().Be("valid-access-token");
             act.RefreshToken.Should().Be("valid-refresh-token");
 

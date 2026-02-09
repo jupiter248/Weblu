@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Common.MethodDtos
+namespace Weblu.Application.DTOs.Common.MethodDTOs
 {
-    public class CreateMethodDto
+    public class CreateMethodDTO
     {
         public required string Name { get; set; }
         public string? Description { get; set; }

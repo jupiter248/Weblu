@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Portfolios.PortfolioDtos;
+using Weblu.Application.DTOs.Portfolios.PortfolioDTOs;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Parameters.Portfolios;
 
@@ -20,8 +20,8 @@ namespace Weblu.Api.Controllers.v2.Portfolios
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] PortfolioParameters portfolioParameters)
         {
-            PagedResponse<PortfolioSummaryDto> portfolioSummaryDtos = await _portfolioService.GetAllPagedAsync(portfolioParameters);
-            return Ok(portfolioSummaryDtos);
+            PagedResponse<PortfolioSummaryDTO> portfolioSummaryDTOs = await _portfolioService.GetAllPagedAsync(portfolioParameters);
+            return Ok(portfolioSummaryDTOs);
         }
     }
 }

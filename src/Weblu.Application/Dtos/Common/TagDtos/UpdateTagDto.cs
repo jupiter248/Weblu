@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Common.TagDtos
+namespace Weblu.Application.DTOs.Common.TagDTOs
 {
-    public class UpdateTagDto
+    public class UpdateTagDTO
     {
         public string Name { get; set; } = default!;
         public string? Description { get; set; }

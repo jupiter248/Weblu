@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.About.AboutUsDtos;
+using Weblu.Application.DTOs.About.AboutUsDTOs;
 using Weblu.Domain.Errors.Images;
 
 namespace Weblu.Application.Validations.About.AboutUs
 {
-    public class ChangeAboutUsImageValidator : AbstractValidator<ChangeAboutUsImageDto>
+    public class ChangeAboutUsImageValidator : AbstractValidator<ChangeAboutUsImageDTO>
     {
         public ChangeAboutUsImageValidator()
         {

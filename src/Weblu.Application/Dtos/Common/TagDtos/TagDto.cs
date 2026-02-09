@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Common.TagDtos
+namespace Weblu.Application.DTOs.Common.TagDTOs
 {
-    public class TagDto
+    public class TagDTO
     {
         public int Id { get; set; }
         public string Name { get; set; } = default!;

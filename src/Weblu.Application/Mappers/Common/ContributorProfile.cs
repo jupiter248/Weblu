@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Common.ContributorDtos;
+using Weblu.Application.DTOs.Common.ContributorDTOs;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Common.Contributors;
 
@@ -9,11 +9,11 @@ namespace Weblu.Application.Mappers.Common
     {
         public ContributorProfile()
         {
-            CreateMap<Contributor, ContributorDto>()
+            CreateMap<Contributor, ContributorDTO>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<CreateContributorDto, Contributor>();
-            CreateMap<UpdateContributorDto, Contributor>()
+            CreateMap<CreateContributorDTO, Contributor>();
+            CreateMap<UpdateContributorDTO, Contributor>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
         }
     }

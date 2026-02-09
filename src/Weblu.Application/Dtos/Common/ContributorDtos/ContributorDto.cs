@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Common.ContributorDtos
+namespace Weblu.Application.DTOs.Common.ContributorDTOs
 {
-    public class ContributorDto
+    public class ContributorDTO
     {
         public int Id { get; set; }
         public required string FirstName { get; set; }
@@ -15,6 +15,6 @@ namespace Weblu.Application.Dtos.Common.ContributorDtos
         public string? PublishedAt { get; set; }
         public string? UpdatedAt { get; set; }
         public required string CreatedAt { get; set; }
-        // public List<PortfolioSummaryDto>? Portfolios { get; set; }
+        // public List<PortfolioSummaryDTO>? Portfolios { get; set; }
     }
 }

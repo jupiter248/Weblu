@@ -1,7 +1,7 @@
 using AutoMapper;
 using Weblu.Application.Common.Interfaces;
-using Weblu.Application.Dtos.About.SocialMediaDtos;
-using Weblu.Application.Dtos.Images.MediaDtos;
+using Weblu.Application.DTOs.About.SocialMediaDTOs;
+using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Repositories.About;
@@ -33,15 +33,15 @@ namespace Weblu.Application.Services.About
             _webHostPath = webHost.GetWebRootPath();
         }
 
-        public async Task<SocialMediaDto> CreateAsync(CreateSocialMediaDto createSocialMediaDto)
+        public async Task<SocialMediaDTO> CreateAsync(CreateSocialMediaDTO createSocialMediaDTO)
         {
-            SocialMedia socialMedia = _mapper.Map<SocialMedia>(createSocialMediaDto);
+            SocialMedia socialMedia = _mapper.Map<SocialMedia>(createSocialMediaDTO);
 
             _socialMediaRepository.Add(socialMedia);
             await _unitOfWork.CommitAsync();
 
-            SocialMediaDto socialMediaDto = _mapper.Map<SocialMediaDto>(socialMedia);
-            return socialMediaDto;
+            SocialMediaDTO socialMediaDTO = _mapper.Map<SocialMediaDTO>(socialMedia);
+            return socialMediaDTO;
         }
 
         public async Task DeleteAsync(int socialMediaId)
@@ -56,25 +56,25 @@ namespace Weblu.Application.Services.About
             socialMedia.Delete();
             await _unitOfWork.CommitAsync();
         }
-        public async Task<List<SocialMediaDto>> GetAllAsync(SocialMediaParameters socialMediaParameters)
+        public async Task<List<SocialMediaDTO>> GetAllAsync(SocialMediaParameters socialMediaParameters)
         {
             IReadOnlyList<SocialMedia> socialMedias = await _socialMediaRepository.GetAllAsync(socialMediaParameters);
-            List<SocialMediaDto> socialMediaDtos = _mapper.Map<List<SocialMediaDto>>(socialMedias);
-            return socialMediaDtos;
+            List<SocialMediaDTO> socialMediaDTOs = _mapper.Map<List<SocialMediaDTO>>(socialMedias);
+            return socialMediaDTOs;
         }
 
-        public async Task<SocialMediaDto> GetByIdAsync(int socialMediaId)
+        public async Task<SocialMediaDTO> GetByIdAsync(int socialMediaId)
         {
             SocialMedia socialMedia = await _socialMediaRepository.GetByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
-            SocialMediaDto socialMediaDto = _mapper.Map<SocialMediaDto>(socialMedia);
-            return socialMediaDto;
+            SocialMediaDTO socialMediaDTO = _mapper.Map<SocialMediaDTO>(socialMedia);
+            return socialMediaDTO;
         }
 
-        public async Task<SocialMediaDto> ChangeIconAsync(int socialMediaId, ChangeSocialMediaIconDto changeSocialMediaIconDto)
+        public async Task<SocialMediaDTO> ChangeIconAsync(int socialMediaId, ChangeSocialMediaIconDTO changeSocialMediaIconDTO)
         {
             SocialMedia socialMedia = await _socialMediaRepository.GetByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
 
-            if (changeSocialMediaIconDto.Image.Length < 0)
+            if (changeSocialMediaIconDTO.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
@@ -82,37 +82,37 @@ namespace Weblu.Application.Services.About
             {
                 await MediaManager.DeleteMedia(_webHostPath, socialMedia.IconUrl);
             }
-            var icon = changeSocialMediaIconDto.Image;
+            var icon = changeSocialMediaIconDTO.Image;
             string iconName = await MediaManager.UploadMedia(
                     _webHostPath,
-                    new MediaUploaderDto
+                    new MediaUploaderDTO
                     {
                         Media = icon,
                         MediaType = MediaType.Icon
                     }
             );
             socialMedia.IconUrl = $"uploads/{MediaType.Icon}/{iconName}";
-            socialMedia.IconAltText = changeSocialMediaIconDto.AltText;
+            socialMedia.IconAltText = changeSocialMediaIconDTO.AltText;
 
             socialMedia.MarkUpdated();
             _socialMediaRepository.Update(socialMedia);
             await _unitOfWork.CommitAsync();
 
-            SocialMediaDto socialMediaDto = _mapper.Map<SocialMediaDto>(socialMedia);
-            return socialMediaDto;
+            SocialMediaDTO socialMediaDTO = _mapper.Map<SocialMediaDTO>(socialMedia);
+            return socialMediaDTO;
         }
 
-        public async Task<SocialMediaDto> UpdateAsync(int socialMediaId, UpdateSocialMediaDto updateSocialMediaDto)
+        public async Task<SocialMediaDTO> UpdateAsync(int socialMediaId, UpdateSocialMediaDTO updateSocialMediaDTO)
         {
             SocialMedia socialMedia = await _socialMediaRepository.GetByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
-            socialMedia = _mapper.Map(updateSocialMediaDto, socialMedia);
+            socialMedia = _mapper.Map(updateSocialMediaDTO, socialMedia);
 
             socialMedia.MarkUpdated();
             _socialMediaRepository.Update(socialMedia);
             await _unitOfWork.CommitAsync();
 
-            SocialMediaDto socialMediaDto = _mapper.Map<SocialMediaDto>(socialMedia);
-            return socialMediaDto;
+            SocialMediaDTO socialMediaDTO = _mapper.Map<SocialMediaDTO>(socialMedia);
+            return socialMediaDTO;
         }
     }
 }

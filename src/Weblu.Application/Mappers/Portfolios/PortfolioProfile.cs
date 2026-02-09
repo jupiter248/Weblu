@@ -1,7 +1,7 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Portfolios.PortfolioCategory;
-using Weblu.Application.Dtos.Portfolios.PortfolioDtos;
-using Weblu.Application.Dtos.Portfolios.PortfolioDtos.PortfolioImageDtos;
+using Weblu.Application.DTOs.Portfolios.PortfolioCategoryDTOs;
+using Weblu.Application.DTOs.Portfolios.PortfolioDTOs;
+using Weblu.Application.DTOs.Portfolios.PortfolioDTOs.PortfolioImageDTOs;
 using Weblu.Application.Extensions;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Portfolios;
@@ -12,28 +12,28 @@ namespace Weblu.Application.Mappers.Portfolios
     {
         public PortfolioProfile()
         {
-            CreateMap<Portfolio, PortfolioSummaryDto>()
+            CreateMap<Portfolio, PortfolioSummaryDTO>()
                             .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.PortfolioImages.FirstOrDefault(i => i.IsThumbnail).ImageMedia.Url ?? string.Empty));
 
-            CreateMap<Portfolio, PortfolioDetailDto>()
+            CreateMap<Portfolio, PortfolioDetailDTO>()
                     .ForMember(dest => dest.PublishedAt, opt => opt.MapFrom(src => src.PublishedAt.HasValue ? src.PublishedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                     .ForMember(dest => dest.PortfolioCategoryName, opt => opt.MapFrom(src => src.PortfolioCategory.Name ?? string.Empty));
-            CreateMap<CreatePortfolioDto, Portfolio>()
+            CreateMap<CreatePortfolioDTO, Portfolio>()
                     .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()));
-            CreateMap<UpdatePortfolioDto, Portfolio>()
+            CreateMap<UpdatePortfolioDTO, Portfolio>()
                     .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()))
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
 
-            CreateMap<PortfolioCategory, PortfolioCategoryDto>()
+            CreateMap<PortfolioCategory, PortfolioCategoryDTO>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null));
-            CreateMap<CreatePortfolioCategoryDto, PortfolioCategory>();
-            CreateMap<UpdatePortfolioCategoryDto, PortfolioCategory>()
+            CreateMap<CreatePortfolioCategoryDTO, PortfolioCategory>();
+            CreateMap<UpdatePortfolioCategoryDTO, PortfolioCategory>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
 
-            CreateMap<PortfolioImage, PortfolioImageDto>()
+            CreateMap<PortfolioImage, PortfolioImageDTO>()
                     .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.ImageMedia.CreatedAt.ToShamsi()))
                     .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ImageMedia.Name))
                     .ForMember(dest => dest.AltText, opt => opt.MapFrom(src => src.ImageMedia.AltText))

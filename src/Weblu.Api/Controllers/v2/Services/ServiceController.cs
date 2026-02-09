@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Services.ServiceDtos;
+using Weblu.Application.DTOs.Services.ServiceDTOs;
 using Weblu.Application.Interfaces.Services.ServiceServices;
 using Weblu.Application.Parameters.Services;
 
@@ -20,8 +20,8 @@ namespace Weblu.Api.Controllers.v2.Services
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] ServiceParameters serviceParameters)
         {
-            PagedResponse<ServiceSummaryDto> serviceSummaryDtos = await _serviceService.GetAllPagedAsync(serviceParameters);
-            return Ok(serviceSummaryDtos);
+            PagedResponse<ServiceSummaryDTO> serviceSummaryDTOs = await _serviceService.GetAllPagedAsync(serviceParameters);
+            return Ok(serviceSummaryDTOs);
         }
     }
 }

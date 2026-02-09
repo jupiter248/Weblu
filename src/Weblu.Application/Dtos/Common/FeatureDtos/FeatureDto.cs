@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Common.FeatureDtos
+namespace Weblu.Application.DTOs.Common.FeatureDTOs
 {
-    public class FeatureDto
+    public class FeatureDTO
     {
         public int Id { get; set; }
         public required string Name { get; set; }

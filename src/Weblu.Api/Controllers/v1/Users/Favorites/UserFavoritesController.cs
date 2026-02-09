@@ -2,8 +2,8 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Articles.ArticleDtos;
-using Weblu.Application.Dtos.Portfolios.PortfolioDtos;
+using Weblu.Application.DTOs.Articles.ArticleDTOs;
+using Weblu.Application.DTOs.Portfolios.PortfolioDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services.Users.Favorites;
@@ -33,8 +33,8 @@ namespace Weblu.Api.Controllers.v1.Users.Favorites
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            List<ArticleSummaryDto> articleSummaryDtos = await _articleFavoriteService.GetAllAsync(userId, favoriteParameters);
-            return Ok(articleSummaryDtos);
+            List<ArticleSummaryDTO> articleSummaryDTOs = await _articleFavoriteService.GetAllAsync(userId, favoriteParameters);
+            return Ok(articleSummaryDTOs);
         }
         [Authorize]
         [HttpGet("article/{articleId:int}/status")]
@@ -90,8 +90,8 @@ namespace Weblu.Api.Controllers.v1.Users.Favorites
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            List<PortfolioSummaryDto> portfolioSummaryDtos = await _userPortfolioFavoriteService.GetAllAsync(userId, favoriteParameters);
-            return Ok(portfolioSummaryDtos);
+            List<PortfolioSummaryDTO> portfolioSummaryDTOs = await _userPortfolioFavoriteService.GetAllAsync(userId, favoriteParameters);
+            return Ok(portfolioSummaryDTOs);
         }
         [Authorize]
         [HttpGet("portfolio/{portfolioId:int}/status")]

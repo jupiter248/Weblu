@@ -2,8 +2,8 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Portfolios.PortfolioDtos;
-using Weblu.Application.Dtos.Portfolios.PortfolioDtos.PortfolioImageDtos;
+using Weblu.Application.DTOs.Portfolios.PortfolioDTOs;
+using Weblu.Application.DTOs.Portfolios.PortfolioDTOs.PortfolioImageDTOs;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Parameters.Portfolios;
 using Weblu.Application.Validations;
@@ -40,34 +40,34 @@ namespace Weblu.Api.Controllers.v1.Portfolios
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] PortfolioParameters portfolioParameters)
         {
-            List<PortfolioSummaryDto> portfolioSummaryDtos = await _portfolioService.GetAllAsync(portfolioParameters);
-            return Ok(portfolioSummaryDtos);
+            List<PortfolioSummaryDTO> portfolioSummaryDTOs = await _portfolioService.GetAllAsync(portfolioParameters);
+            return Ok(portfolioSummaryDTOs);
         }
         [HttpGet("{portfolioId:int}")]
         public async Task<IActionResult> GetById(int portfolioId)
         {
-            PortfolioDetailDto portfolioDetailDto = await _portfolioService.GetByIdAsync(portfolioId);
-            return Ok(portfolioDetailDto);
+            PortfolioDetailDTO portfolioDetailDTO = await _portfolioService.GetByIdAsync(portfolioId);
+            return Ok(portfolioDetailDTO);
         }
         [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreatePortfolioDto createPortfolioDto)
+        public async Task<IActionResult> Create([FromBody] CreatePortfolioDTO createPortfolioDTO)
         {
-            Validator.ValidateAndThrow(createPortfolioDto, new CreatePortfolioValidator());
-            PortfolioDetailDto portfolioDetailDto = await _portfolioService.CreateAsync(createPortfolioDto);
-            return CreatedAtAction(nameof(GetById), new { portfolioId = portfolioDetailDto.Id }, ApiResponse<PortfolioDetailDto>.Success("Portfolio created successfully", portfolioDetailDto));
+            Validator.ValidateAndThrow(createPortfolioDTO, new CreatePortfolioValidator());
+            PortfolioDetailDTO portfolioDetailDTO = await _portfolioService.CreateAsync(createPortfolioDTO);
+            return CreatedAtAction(nameof(GetById), new { portfolioId = portfolioDetailDTO.Id }, ApiResponse<PortfolioDetailDTO>.Success("Portfolio created successfully", portfolioDetailDTO));
         }
         [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPut("{portfolioId:int}")]
-        public async Task<IActionResult> Update(int portfolioId, [FromBody] UpdatePortfolioDto updatePortfolioDto)
+        public async Task<IActionResult> Update(int portfolioId, [FromBody] UpdatePortfolioDTO updatePortfolioDTO)
         {
-            Validator.ValidateAndThrow(updatePortfolioDto, new UpdatePortfolioValidator());
-            PortfolioDetailDto portfolioDetailDto = await _portfolioService.UpdateAsync(portfolioId, updatePortfolioDto);
+            Validator.ValidateAndThrow(updatePortfolioDTO, new UpdatePortfolioValidator());
+            PortfolioDetailDTO portfolioDetailDTO = await _portfolioService.UpdateAsync(portfolioId, updatePortfolioDTO);
             return Ok(
-                ApiResponse<PortfolioDetailDto>.Success
+                ApiResponse<PortfolioDetailDTO>.Success
                 (
                     "Portfolio updated successfully",
-                    portfolioDetailDto
+                    portfolioDetailDTO
                 )
             );
         }
@@ -122,9 +122,9 @@ namespace Weblu.Api.Controllers.v1.Portfolios
         }
         [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPost("{portfolioId:int}/image/{imageId:int}")]
-        public async Task<IActionResult> AddImage(int portfolioId, int imageId, [FromBody] AddPortfolioImageDto addPortfolioImageDto)
+        public async Task<IActionResult> AddImage(int portfolioId, int imageId, [FromBody] AddPortfolioImageDTO addPortfolioImageDTO)
         {
-            await _portfolioImageService.AddAsync(portfolioId, imageId, addPortfolioImageDto);
+            await _portfolioImageService.AddAsync(portfolioId, imageId, addPortfolioImageDTO);
             return Ok(ApiResponse.Success("Image added successfully"));
         }
         [Authorize(Policy = Permissions.ManagePortfolios)]

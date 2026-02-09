@@ -1,4 +1,4 @@
-using Weblu.Application.Dtos.Services.ServiceDtos.ServiceImageDtos;
+using Weblu.Application.DTOs.Services.ServiceDTOs.ServiceImageDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
@@ -28,7 +28,7 @@ namespace Weblu.Application.Services.ServiceServices
             _serviceRepository = serviceRepository;
         }
 
-        public async Task AddAsync(int serviceId, int imageId, AddServiceImageDto addServiceImageDto)
+        public async Task AddAsync(int serviceId, int imageId, AddServiceImageDTO addServiceImageDTO)
         {
             Service? service = await _serviceRepository.GetByIdWithImagesAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             ImageMedia? image = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
@@ -39,7 +39,7 @@ namespace Weblu.Application.Services.ServiceServices
                 ImageId = image.Id,
                 Service = service,
                 ServiceId = service.Id,
-                IsThumbnail = addServiceImageDto.IsThumbnail
+                IsThumbnail = addServiceImageDTO.IsThumbnail
             };
 
             service.AddImage(serviceImage);

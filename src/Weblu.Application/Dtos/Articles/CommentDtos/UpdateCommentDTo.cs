@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Articles.CommentDtos
+namespace Weblu.Application.DTOs.Articles.CommentDTOs
 {
-    public class UpdateCommentDto
+    public class UpdateCommentDTO
     {
         public string Text { get; set; } = default!;
         public int? ParentCommentId { get; set; }

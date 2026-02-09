@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Images.ProfileDtos;
+using Weblu.Application.DTOs.Images.ProfileDTOs;
 using Weblu.Application.Interfaces.Services.Images;
 using Weblu.Application.Parameters.Images;
 using Weblu.Infrastructure.Identity.Authorization;
@@ -23,25 +23,25 @@ namespace Weblu.Api.Controllers.v1.Images
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] ProfileMediaParameters profileMediaParameters)
         {
-            List<ProfileDto> profileDtos = await _profileImageService.GetAllAsync(profileMediaParameters);
-            return Ok(profileDtos);
+            List<ProfileDTO> profileDTOs = await _profileImageService.GetAllAsync(profileMediaParameters);
+            return Ok(profileDTOs);
         }
         [Authorize(Policy = Permissions.ManageProfiles)]
         [HttpGet("{profileId:int}")]
         public async Task<IActionResult> GetById(int profileId)
         {
-            ProfileDto profileDto = await _profileImageService.GetByIdAsync(profileId);
-            return Ok(profileDto);
+            ProfileDTO profileDTO = await _profileImageService.GetByIdAsync(profileId);
+            return Ok(profileDTO);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm] AddProfileDto addProfileDto)
+        public async Task<IActionResult> Add([FromForm] AddProfileDTO addProfileDTO)
         {
-            ProfileDto profileDto = await _profileImageService.AddAsync(addProfileDto);
-            return CreatedAtAction(nameof(GetById), new { profileId = profileDto.Id }, ApiResponse<ProfileDto>.Success
+            ProfileDTO profileDTO = await _profileImageService.AddAsync(addProfileDTO);
+            return CreatedAtAction(nameof(GetById), new { profileId = profileDTO.Id }, ApiResponse<ProfileDTO>.Success
             (
                 "Profile image uploaded successfully.",
-                profileDto
+                profileDTO
             ));
         }
         [Authorize]

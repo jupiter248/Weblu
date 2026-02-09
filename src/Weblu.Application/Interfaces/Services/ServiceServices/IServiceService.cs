@@ -1,16 +1,16 @@
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Services.ServiceDtos;
+using Weblu.Application.DTOs.Services.ServiceDTOs;
 using Weblu.Application.Parameters.Services;
 
 namespace Weblu.Application.Interfaces.Services.ServiceServices
 {
     public interface IServiceService
     {
-        Task<List<ServiceSummaryDto>> GetAllAsync(ServiceParameters serviceParameters);
-        Task<PagedResponse<ServiceSummaryDto>> GetAllPagedAsync(ServiceParameters serviceParameters);
-        Task<ServiceDetailDto> GetByIdAsync(int serviceId);
-        Task<ServiceDetailDto> CreateAsync(CreateServiceDto createServiceDto);
-        Task<ServiceDetailDto> UpdateAsync(int serviceId, UpdateServiceDto updateServiceDto);
+        Task<List<ServiceSummaryDTO>> GetAllAsync(ServiceParameters serviceParameters);
+        Task<PagedResponse<ServiceSummaryDTO>> GetAllPagedAsync(ServiceParameters serviceParameters);
+        Task<ServiceDetailDTO> GetByIdAsync(int serviceId);
+        Task<ServiceDetailDTO> CreateAsync(CreateServiceDTO createServiceDTO);
+        Task<ServiceDetailDTO> UpdateAsync(int serviceId, UpdateServiceDTO updateServiceDTO);
         Task DeleteAsync(int serviceId);
         Task Publish(int portfolioId);
         Task Unpublish(int portfolioId);

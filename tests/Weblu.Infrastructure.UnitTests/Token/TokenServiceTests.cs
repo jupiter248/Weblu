@@ -1,8 +1,8 @@
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
-using Weblu.Application.Dtos.Users.Tokens.RefreshTokenDtos;
-using Weblu.Application.Dtos.Users.Tokens.TokenDtos;
+using Weblu.Application.DTOs.Users.Tokens.RefreshTokenDTOs;
+using Weblu.Application.DTOs.Users.Tokens.TokenDTOs;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Users;
@@ -57,12 +57,12 @@ namespace Weblu.Infrastructure.UnitTests.Token
             // Arrange
             List<string> roles = new List<string>() { "User" };
 
-            var tokenRequestDto = new TokenRequestDto()
+            var tokenRequestDTO = new TokenRequestDTO()
             {
                 RefreshToken = "valid-refresh-token"
             };
 
-            A.CallTo(() => _refreshTokenRepository.GetByTokenAsync(tokenRequestDto.RefreshToken)).Returns(_refreshToken);
+            A.CallTo(() => _refreshTokenRepository.GetByTokenAsync(tokenRequestDTO.RefreshToken)).Returns(_refreshToken);
             A.CallTo(() => _userManager.FindByIdAsync(_user.Id)).Returns(_user);
             A.CallTo(() => _userManager.GetRolesAsync(_user)).Returns(roles);
             A.CallTo(() => _jwtTokenService.GenerateRefreshToken()).Returns("Valid_Refresh_Token");
@@ -73,11 +73,11 @@ namespace Weblu.Infrastructure.UnitTests.Token
             var tokenService = new TokenService(_roleRepository, _unitOfWork, _userManager, _refreshTokenRepository, _jwtTokenService);
 
             // Act
-            var act = await tokenService.RefreshToken(tokenRequestDto);
+            var act = await tokenService.RefreshToken(tokenRequestDTO);
 
             // Assert
             act.Should().NotBeNull();
-            act.Should().BeOfType(typeof(TokenDto));
+            act.Should().BeOfType(typeof(TokenDTO));
             act.RefreshToken.Should().Be("Valid_Refresh_Token");
             act.AccessToken.Should().Be("Valid_Access_Token");
 
@@ -92,16 +92,16 @@ namespace Weblu.Infrastructure.UnitTests.Token
         public async Task TokenService_RevokeToken_RevokeAndCommit()
         {
             // Arrange
-            var revokeRequestDto = new RevokeRequestDto()
+            var revokeRequestDTO = new RevokeRequestDTO()
             {
                 RefreshToken = "valid-refresh-token"
             };
             A.CallTo(() => _userManager.FindByIdAsync(_user.Id)).Returns(_user);
-            A.CallTo(() => _refreshTokenRepository.GetByTokenAsync(revokeRequestDto.RefreshToken)).Returns(_refreshToken);
+            A.CallTo(() => _refreshTokenRepository.GetByTokenAsync(revokeRequestDTO.RefreshToken)).Returns(_refreshToken);
 
             var tokenService = new TokenService(_roleRepository, _unitOfWork, _userManager, _refreshTokenRepository, _jwtTokenService);
             // Act
-            await tokenService.RevokeToken(revokeRequestDto, _user.Id);
+            await tokenService.RevokeToken(revokeRequestDTO, _user.Id);
 
 
             // Assert

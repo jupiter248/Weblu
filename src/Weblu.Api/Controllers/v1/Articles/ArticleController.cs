@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Articles.ArticleDtos;
-using Weblu.Application.Dtos.Articles.ArticleDtos.ArticleImageDtos;
+using Weblu.Application.DTOs.Articles.ArticleDTOs;
+using Weblu.Application.DTOs.Articles.ArticleDTOs.ArticleImageDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services.Articles;
@@ -44,34 +44,34 @@ namespace Weblu.Api.Controllers.v1.Articles
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] ArticleParameters articleParameters)
         {
-            List<ArticleSummaryDto> articleSummaryDtos = await _articleService.GetAllAsync(articleParameters);
-            return Ok(articleSummaryDtos);
+            List<ArticleSummaryDTO> articleSummaryDTOs = await _articleService.GetAllAsync(articleParameters);
+            return Ok(articleSummaryDTOs);
         }
         [HttpGet("{articleId:int}")]
         public async Task<IActionResult> GetById(int articleId)
         {
-            ArticleDetailDto articleDetailDto = await _articleService.GetByIdAsync(articleId);
-            return Ok(articleDetailDto);
+            ArticleDetailDTO articleDetailDTO = await _articleService.GetByIdAsync(articleId);
+            return Ok(articleDetailDTO);
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateArticleDto createArticleDto)
+        public async Task<IActionResult> Create([FromBody] CreateArticleDTO createArticleDTO)
         {
-            Validator.ValidateAndThrow(createArticleDto, new CreateArticleValidator());
-            ArticleDetailDto articleDetailDto = await _articleService.CreateAsync(createArticleDto);
-            return CreatedAtAction(nameof(GetById), new { articleId = articleDetailDto.Id }, ApiResponse<ArticleDetailDto>.Success("Article created successfully", articleDetailDto));
+            Validator.ValidateAndThrow(createArticleDTO, new CreateArticleValidator());
+            ArticleDetailDTO articleDetailDTO = await _articleService.CreateAsync(createArticleDTO);
+            return CreatedAtAction(nameof(GetById), new { articleId = articleDetailDTO.Id }, ApiResponse<ArticleDetailDTO>.Success("Article created successfully", articleDetailDTO));
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPut("{articleId:int}")]
-        public async Task<IActionResult> Edit(int articleId, [FromBody] UpdateArticleDto updateArticleDto)
+        public async Task<IActionResult> Edit(int articleId, [FromBody] UpdateArticleDTO updateArticleDTO)
         {
-            Validator.ValidateAndThrow(updateArticleDto, new UpdateArticleValidator());
-            ArticleDetailDto articleDetailDto = await _articleService.EditAsync(articleId, updateArticleDto);
+            Validator.ValidateAndThrow(updateArticleDTO, new UpdateArticleValidator());
+            ArticleDetailDTO articleDetailDTO = await _articleService.EditAsync(articleId, updateArticleDTO);
             return Ok(
-                ApiResponse<ArticleDetailDto>.Success
+                ApiResponse<ArticleDetailDTO>.Success
                 (
                     "Article updated successfully",
-                    articleDetailDto
+                    articleDetailDTO
                 )
             );
         }
@@ -98,9 +98,9 @@ namespace Weblu.Api.Controllers.v1.Articles
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPost("{articleId:int}/image/{imageId:int}")]
-        public async Task<IActionResult> AddImage(int articleId, int imageId, [FromBody] AddArticleImageDto addArticleImageDto)
+        public async Task<IActionResult> AddImage(int articleId, int imageId, [FromBody] AddArticleImageDTO addArticleImageDTO)
         {
-            await _articleImageService.AddAsync(articleId, imageId, addArticleImageDto);
+            await _articleImageService.AddAsync(articleId, imageId, addArticleImageDTO);
             return Ok(ApiResponse.Success("Image added successfully"));
         }
         [Authorize(Policy = Permissions.ManageArticles)]

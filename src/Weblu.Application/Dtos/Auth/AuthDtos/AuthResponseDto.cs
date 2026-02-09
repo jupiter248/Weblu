@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Auth.AuthDtos
+namespace Weblu.Application.DTOs.Auth.AuthDTOs
 {
-    public class AuthResponseDto
+    public class AuthResponseDTO
     {
         public string PhoneNumber { get; set; } = default!;
         public string Username { get; set; } = default!;

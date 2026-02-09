@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.About.SocialMediaDtos;
+using Weblu.Application.DTOs.About.SocialMediaDTOs;
 using Weblu.Application.Interfaces.Services.About;
 using Weblu.Application.Parameters.About;
 using Weblu.Application.Validations;
@@ -24,32 +24,32 @@ namespace Weblu.Api.Controllers.v1.AboutUs
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] SocialMediaParameters socialMediaParameters)
         {
-            List<SocialMediaDto> socialMediaDtos = await _socialMediaService.GetAllAsync(socialMediaParameters);
-            return Ok(socialMediaDtos);
+            List<SocialMediaDTO> socialMediaDTOs = await _socialMediaService.GetAllAsync(socialMediaParameters);
+            return Ok(socialMediaDTOs);
         }
         [HttpGet("{socialMediaId:int}")]
         public async Task<IActionResult> GetById(int socialMediaId)
         {
-            SocialMediaDto socialMediaDto = await _socialMediaService.GetByIdAsync(socialMediaId);
-            return Ok(socialMediaDto);
+            SocialMediaDTO socialMediaDTO = await _socialMediaService.GetByIdAsync(socialMediaId);
+            return Ok(socialMediaDTO);
         }
         [Authorize(Policy = Permissions.ManageSocialMedia)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateSocialMediaDto createSocialMediaDto)
+        public async Task<IActionResult> Create([FromBody] CreateSocialMediaDTO createSocialMediaDTO)
         {
-            Validator.ValidateAndThrow(createSocialMediaDto, new CreateSocialMediaValidator());
-            SocialMediaDto socialMediaDto = await _socialMediaService.CreateAsync(createSocialMediaDto);
-            return CreatedAtAction(nameof(GetById), new { socialMediaId = socialMediaDto.Id }, ApiResponse<SocialMediaDto>.Success("Social media added successfully", socialMediaDto));
+            Validator.ValidateAndThrow(createSocialMediaDTO, new CreateSocialMediaValidator());
+            SocialMediaDTO socialMediaDTO = await _socialMediaService.CreateAsync(createSocialMediaDTO);
+            return CreatedAtAction(nameof(GetById), new { socialMediaId = socialMediaDTO.Id }, ApiResponse<SocialMediaDTO>.Success("Social media added successfully", socialMediaDTO));
         }
         [Authorize(Policy = Permissions.ManageSocialMedia)]
         [HttpPut("{socialMediaId:int}")]
-        public async Task<IActionResult> Update(int socialMediaId, [FromBody] UpdateSocialMediaDto updateSocialMediaDto)
+        public async Task<IActionResult> Update(int socialMediaId, [FromBody] UpdateSocialMediaDTO updateSocialMediaDTO)
         {
-            Validator.ValidateAndThrow(updateSocialMediaDto, new UpdateSocialMediaValidator());
-            SocialMediaDto socialMediaDto = await _socialMediaService.UpdateAsync(socialMediaId, updateSocialMediaDto);
-            return Ok(ApiResponse<SocialMediaDto>.Success(
+            Validator.ValidateAndThrow(updateSocialMediaDTO, new UpdateSocialMediaValidator());
+            SocialMediaDTO socialMediaDTO = await _socialMediaService.UpdateAsync(socialMediaId, updateSocialMediaDTO);
+            return Ok(ApiResponse<SocialMediaDTO>.Success(
                 "Social media updated successfully",
-                socialMediaDto
+                socialMediaDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageSocialMedia)]
@@ -63,13 +63,13 @@ namespace Weblu.Api.Controllers.v1.AboutUs
         }
         [Authorize(Policy = Permissions.ManageSocialMedia)]
         [HttpPut("{socialMediaId:int}/icon")]
-        public async Task<IActionResult> UpdateIcon(int socialMediaId, [FromForm] ChangeSocialMediaIconDto changeSocialMediaIconDto)
+        public async Task<IActionResult> UpdateIcon(int socialMediaId, [FromForm] ChangeSocialMediaIconDTO changeSocialMediaIconDTO)
         {
-            Validator.ValidateAndThrow(changeSocialMediaIconDto, new ChangeSocialMediaIconValidator());
-            SocialMediaDto socialMediaDto = await _socialMediaService.ChangeIconAsync(socialMediaId, changeSocialMediaIconDto);
-            return Ok(ApiResponse<SocialMediaDto>.Success(
+            Validator.ValidateAndThrow(changeSocialMediaIconDTO, new ChangeSocialMediaIconValidator());
+            SocialMediaDTO socialMediaDTO = await _socialMediaService.ChangeIconAsync(socialMediaId, changeSocialMediaIconDTO);
+            return Ok(ApiResponse<SocialMediaDTO>.Success(
                 "Social media profile image updated",
-                socialMediaDto
+                socialMediaDTO
             ));
         }
     }

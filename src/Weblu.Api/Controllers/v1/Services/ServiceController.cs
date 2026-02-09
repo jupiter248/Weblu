@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Weblu.Application.Dtos.Services.ServiceDtos;
-using Weblu.Application.Dtos.Services.ServiceDtos.ServiceImageDtos;
+using Weblu.Application.DTOs.Services.ServiceDTOs;
+using Weblu.Application.DTOs.Services.ServiceDTOs.ServiceImageDTOs;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Services;
 using Weblu.Application.Parameters.Services;
@@ -37,34 +37,34 @@ namespace Weblu.Api.Controllers.v1.Services
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] ServiceParameters serviceParameters)
         {
-            List<ServiceSummaryDto> serviceDtos = await _serviceService.GetAllAsync(serviceParameters);
-            return Ok(serviceDtos);
+            List<ServiceSummaryDTO> serviceDTOs = await _serviceService.GetAllAsync(serviceParameters);
+            return Ok(serviceDTOs);
         }
         [HttpGet("{serviceId:int}")]
         public async Task<IActionResult> GetById(int serviceId)
         {
-            ServiceDetailDto serviceDto = await _serviceService.GetByIdAsync(serviceId);
-            return Ok(serviceDto);
+            ServiceDetailDTO serviceDTO = await _serviceService.GetByIdAsync(serviceId);
+            return Ok(serviceDTO);
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateServiceDto createServiceDto)
+        public async Task<IActionResult> Create([FromBody] CreateServiceDTO createServiceDTO)
         {
-            Validator.ValidateAndThrow(createServiceDto, new CreateServiceValidator());
-            ServiceDetailDto serviceDto = await _serviceService.CreateAsync(createServiceDto);
-            return CreatedAtAction(nameof(GetById), new { serviceId = serviceDto.Id }, ApiResponse<ServiceDetailDto>.Success("Service created successfully", serviceDto));
+            Validator.ValidateAndThrow(createServiceDTO, new CreateServiceValidator());
+            ServiceDetailDTO serviceDTO = await _serviceService.CreateAsync(createServiceDTO);
+            return CreatedAtAction(nameof(GetById), new { serviceId = serviceDTO.Id }, ApiResponse<ServiceDetailDTO>.Success("Service created successfully", serviceDTO));
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpPut("{serviceId:int}")]
-        public async Task<IActionResult> Update(int serviceId, [FromBody] UpdateServiceDto updateServiceDto)
+        public async Task<IActionResult> Update(int serviceId, [FromBody] UpdateServiceDTO updateServiceDTO)
         {
-            Validator.ValidateAndThrow(updateServiceDto, new UpdateServiceValidator());
-            ServiceDetailDto serviceDto = await _serviceService.UpdateAsync(serviceId, updateServiceDto);
+            Validator.ValidateAndThrow(updateServiceDTO, new UpdateServiceValidator());
+            ServiceDetailDTO serviceDTO = await _serviceService.UpdateAsync(serviceId, updateServiceDTO);
             return Ok(
-                ApiResponse<ServiceDetailDto>.Success
+                ApiResponse<ServiceDetailDTO>.Success
                 (
                     "Service updated successfully",
-                    serviceDto
+                    serviceDTO
                 )
             );
         }
@@ -119,9 +119,9 @@ namespace Weblu.Api.Controllers.v1.Services
         }
         [Authorize(Policy = Permissions.ManageServices)]
         [HttpPost("{serviceId:int}/image/{imageId:int}")]
-        public async Task<IActionResult> AddImage(int serviceId, int imageId, [FromBody] AddServiceImageDto addServiceImageDto)
+        public async Task<IActionResult> AddImage(int serviceId, int imageId, [FromBody] AddServiceImageDTO addServiceImageDTO)
         {
-            await _serviceImageService.AddAsync(serviceId, imageId, addServiceImageDto);
+            await _serviceImageService.AddAsync(serviceId, imageId, addServiceImageDTO);
             return Ok(ApiResponse.Success("Image added successfully"));
         }
         [Authorize(Policy = Permissions.ManageServices)]

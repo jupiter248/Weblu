@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Images.ProfileDtos;
+using Weblu.Application.DTOs.Images.ProfileDTOs;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Media;
 
@@ -9,7 +9,7 @@ namespace Weblu.Application.Mappers.Images
     {
         public ProfileMediaProfile()
         {
-            CreateMap<ProfileMedia, ProfileDto>()
+            CreateMap<ProfileMedia, ProfileDTO>()
                 .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                 .ForMember(dest => dest.OwnerType, opt => opt.MapFrom(src => src.OwnerType.ToString()));
 

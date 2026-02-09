@@ -1,8 +1,8 @@
-using Weblu.Application.Dtos.Portfolios.PortfolioDtos.PortfolioImageDtos;
+using Weblu.Application.DTOs.Portfolios.PortfolioDTOs.PortfolioImageDTOs;
 
-namespace Weblu.Application.Dtos.Portfolios.PortfolioDtos
+namespace Weblu.Application.DTOs.Portfolios.PortfolioDTOs
 {
-    public class PortfolioDetailDto
+    public class PortfolioDetailDTO
     {
         public int Id { get; set; }
         public required string Title { get; set; }
@@ -18,7 +18,7 @@ namespace Weblu.Application.Dtos.Portfolios.PortfolioDtos
         public required string CreatedAt { get; set; }
         public int PortfolioCategoryId { get; set; }
         public required string PortfolioCategoryName { get; set; }
-        public List<PortfolioImageDto>? Images { get; set; }
+        public List<PortfolioImageDTO>? Images { get; set; }
 
     }
 }

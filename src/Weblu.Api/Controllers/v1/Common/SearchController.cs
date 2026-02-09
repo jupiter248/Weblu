@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Common.SearchDtos;
+using Weblu.Application.DTOs.Common.SearchDTOs;
 using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Parameters.Common;
 
@@ -20,8 +20,8 @@ namespace Weblu.Api.Controllers.v1.Common
         [HttpGet]
         public async Task<IActionResult> Search([FromQuery] string text, [FromQuery] SearchParameters searchParameters)
         {
-            PagedResponse<SearchItemDto> searchItemDtos = await _searchService.SearchAsync(text, searchParameters);
-            return Ok(searchItemDtos);
+            PagedResponse<SearchItemDTO> searchItemDTOs = await _searchService.SearchAsync(text, searchParameters);
+            return Ok(searchItemDTOs);
         }
     }
 }

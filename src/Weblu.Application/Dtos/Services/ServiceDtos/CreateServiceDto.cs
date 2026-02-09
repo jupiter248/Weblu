@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Services.ServiceDtos
+namespace Weblu.Application.DTOs.Services.ServiceDTOs
 {
-    public class CreateServiceDto
+    public class CreateServiceDTO
     {
         public required string Title { get; set; }
         public required string Description { get; set; }

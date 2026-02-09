@@ -1,8 +1,8 @@
 using Weblu.Domain.Enums.Tickets;
 
-namespace Weblu.Application.Dtos.Tickets.TicketDtos
+namespace Weblu.Application.DTOs.Tickets.TicketDTOs
 {
-    public class ChangeTicketStatusDto
+    public class ChangeTicketStatusDTO
     {
         public TicketStatus Status { get; set; }
     }

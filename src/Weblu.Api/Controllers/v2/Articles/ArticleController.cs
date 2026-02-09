@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Articles.ArticleDtos;
+using Weblu.Application.DTOs.Articles.ArticleDTOs;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Parameters.Articles;
 
@@ -24,8 +24,8 @@ namespace Weblu.Api.Controllers.v2.Articles
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] ArticleParameters articleParameters)
         {
-            PagedResponse<ArticleSummaryDto> articleSummaryDtos = await _articleService.GetAllPagedAsync(articleParameters);
-            return Ok(articleSummaryDtos);
+            PagedResponse<ArticleSummaryDTO> articleSummaryDTOs = await _articleService.GetAllPagedAsync(articleParameters);
+            return Ok(articleSummaryDTOs);
         }
     }
 }

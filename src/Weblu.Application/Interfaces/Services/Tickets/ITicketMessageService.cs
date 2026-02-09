@@ -1,12 +1,12 @@
-using Weblu.Application.Dtos.Tickets.TicketMessageDtos;
+using Weblu.Application.DTOs.Tickets.TicketMessageDTOs;
 
 namespace Weblu.Application.Interfaces.Services.Tickets
 {
     public interface ITicketMessageService
     {
-        Task<TicketMessageDto> GetByIdAsync(int ticketMessageId);
-        Task<TicketMessageDto> ReplyAsync(string senderId, int ticketId, ReplyTicketDto replyTicketDto);
-        Task<TicketMessageDto> EditAsync(string senderId, int messageId, EditTicketMessageDto editTicketMessageDto);
+        Task<TicketMessageDTO> GetByIdAsync(int ticketMessageId);
+        Task<TicketMessageDTO> ReplyAsync(string senderId, int ticketId, ReplyTicketDTO replyTicketDTO);
+        Task<TicketMessageDTO> EditAsync(string senderId, int messageId, EditTicketMessageDTO editTicketMessageDTO);
         Task DeleteAsync(string senderId, int messageId);
     }
 }

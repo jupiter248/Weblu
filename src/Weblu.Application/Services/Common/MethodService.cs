@@ -7,9 +7,9 @@ using Weblu.Domain.Enums.Common.Media;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Interfaces.Repositories.Common;
-using Weblu.Application.Dtos.Common.MethodDtos;
+using Weblu.Application.DTOs.Common.MethodDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Dtos.Images.MediaDtos;
+using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Parameters.Common;
 using Weblu.Application.Interfaces.Repositories;
 
@@ -31,15 +31,15 @@ namespace Weblu.Application.Services.Common
             _methodRepository = methodRepository;
             _webHostPath = webHost.GetWebRootPath();
         }
-        public async Task<MethodDto> CreateAsync(CreateMethodDto createMethodDto)
+        public async Task<MethodDTO> CreateAsync(CreateMethodDTO createMethodDTO)
         {
-            Method method = _mapper.Map<Method>(createMethodDto);
+            Method method = _mapper.Map<Method>(createMethodDTO);
 
             _methodRepository.Add(method);
             await _unitOfWork.CommitAsync();
 
-            MethodDto methodDto = _mapper.Map<MethodDto>(method);
-            return methodDto;
+            MethodDTO methodDTO = _mapper.Map<MethodDTO>(method);
+            return methodDTO;
         }
         public async Task DeleteAsync(int methodId)
         {
@@ -70,37 +70,37 @@ namespace Weblu.Application.Services.Common
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<MethodDto>> GetAllAsync(MethodParameters methodParameters)
+        public async Task<List<MethodDTO>> GetAllAsync(MethodParameters methodParameters)
         {
             IReadOnlyList<Method> methods = await _methodRepository.GetAllAsync(methodParameters);
-            List<MethodDto> methodDtos = _mapper.Map<List<MethodDto>>(methods);
-            return methodDtos;
+            List<MethodDTO> methodDTOs = _mapper.Map<List<MethodDTO>>(methods);
+            return methodDTOs;
         }
 
-        public async Task<MethodDto> GetByIdAsync(int methodId)
+        public async Task<MethodDTO> GetByIdAsync(int methodId)
         {
             Method? method = await _methodRepository.GetByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
-            MethodDto methodDto = _mapper.Map<MethodDto>(method);
-            return methodDto;
+            MethodDTO methodDTO = _mapper.Map<MethodDTO>(method);
+            return methodDTO;
         }
 
-        public async Task<MethodDto> UpdateAsync(int methodId, UpdateMethodDto updateMethodDto)
+        public async Task<MethodDTO> UpdateAsync(int methodId, UpdateMethodDTO updateMethodDTO)
         {
             Method? method = await _methodRepository.GetByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
-            method = _mapper.Map(updateMethodDto, method);
+            method = _mapper.Map(updateMethodDTO, method);
 
             method.MarkUpdated();
             _methodRepository.Update(method);
             await _unitOfWork.CommitAsync();
 
-            MethodDto methodDto = _mapper.Map<MethodDto>(method);
-            return methodDto;
+            MethodDTO methodDTO = _mapper.Map<MethodDTO>(method);
+            return methodDTO;
         }
 
-        public async Task<MethodDto> ChangeImageAsync(int methodId, ChangeMethodImageDto changeMethodImageDto)
+        public async Task<MethodDTO> ChangeImageAsync(int methodId, ChangeMethodImageDTO changeMethodImageDTO)
         {
             Method? method = await _methodRepository.GetByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
-            if (changeMethodImageDto.Image.Length < 0)
+            if (changeMethodImageDTO.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
@@ -109,21 +109,21 @@ namespace Weblu.Application.Services.Common
                 await MediaManager.DeleteMedia(_webHostPath, method.ImageUrl);
             }
 
-            var image = changeMethodImageDto.Image;
-            string imageName = await MediaManager.UploadMedia(_webHostPath, new MediaUploaderDto()
+            var image = changeMethodImageDTO.Image;
+            string imageName = await MediaManager.UploadMedia(_webHostPath, new MediaUploaderDTO()
             {
                 Media = image,
                 MediaType = Domain.Enums.Common.Media.MediaType.picture
             });
 
             method.ImageUrl = $"uploads/{MediaType.picture}/{imageName}";
-            method.ImageAltText = changeMethodImageDto.AltText;
+            method.ImageAltText = changeMethodImageDTO.AltText;
 
             _methodRepository.Update(method);
             await _unitOfWork.CommitAsync();
 
-            MethodDto methodDto = _mapper.Map<MethodDto>(method);
-            return methodDto;
+            MethodDTO methodDTO = _mapper.Map<MethodDTO>(method);
+            return methodDTO;
         }
     }
 }

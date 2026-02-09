@@ -1,11 +1,11 @@
 using FluentValidation;
-using Weblu.Application.Dtos.About.AboutUsDtos;
+using Weblu.Application.DTOs.About.AboutUsDTOs;
 using Weblu.Domain.Errors.About;
 using Weblu.Domain.Errors.Auth;
 
 namespace Weblu.Application.Validations.About.AboutUs
 {
-    public class UpdateAboutUsValidator : AbstractValidator<UpdateAboutUsDto>
+    public class UpdateAboutUsValidator : AbstractValidator<UpdateAboutUsDTO>
     {
         public UpdateAboutUsValidator()
         {

@@ -1,8 +1,8 @@
-using Weblu.Application.Dtos.Images.ImageDtos;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 
-namespace Weblu.Application.Dtos.About.AboutUsDtos
+namespace Weblu.Application.DTOs.About.AboutUsDTOs
 {
-    public class ChangeAboutUsImageDto : AddImageDto
+    public class ChangeAboutUsImageDTO : AddImageDTO
     {
     }
 }

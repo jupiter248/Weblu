@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Articles.ArticleDtos;
+using Weblu.Application.DTOs.Articles.ArticleDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories.Articles;
 using Weblu.Application.Interfaces.Repositories;
@@ -60,7 +60,7 @@ namespace Weblu.Application.Services.Users.Favorites
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<ArticleSummaryDto>> GetAllAsync(string userId, FavoriteParameters favoriteParameters)
+        public async Task<List<ArticleSummaryDTO>> GetAllAsync(string userId, FavoriteParameters favoriteParameters)
         {
             IEnumerable<FavoriteArticle> favoriteArticles = await _userArticleFavoriteRepository.GetAllAsync(userId, favoriteParameters);
             List<Article> articles = favoriteArticles.Select(x => x.Article).ToList();
@@ -70,14 +70,14 @@ namespace Weblu.Application.Services.Users.Favorites
             var likesCounts = await _articleRepository.GetLikeCountByIdsAsync(articleIds);
 
 
-            List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles) ?? default!;
+            List<ArticleSummaryDTO> articleSummaryDTOs = _mapper.Map<List<ArticleSummaryDTO>>(articles) ?? default!;
 
-            foreach (var dto in articleSummaryDtos)
+            foreach (var dTO in articleSummaryDTOs)
             {
-                dto.CommentCount = commentCounts.TryGetValue(dto.Id, out var cCount) ? cCount : 0;
-                dto.LikeCount = likesCounts.TryGetValue(dto.Id, out var lCount) ? lCount : 0;
+                dTO.CommentCount = commentCounts.TryGetValue(dTO.Id, out var cCount) ? cCount : 0;
+                dTO.LikeCount = likesCounts.TryGetValue(dTO.Id, out var lCount) ? lCount : 0;
             }
-            return articleSummaryDtos;
+            return articleSummaryDTOs;
         }
 
         public async Task<bool> IsFavoriteAsync(string userId, int articleId)

@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Users.Favorites.FavoriteListDtos;
+using Weblu.Application.DTOs.Users.Favorites.FavoriteListDTOs;
 using Weblu.Domain.Errors.Users.Favorites;
 
 namespace Weblu.Application.Validations.Users.Favorites
 {
-    public class CreateFavoriteListValidator : AbstractValidator<CreateFavoriteListDto>
+    public class CreateFavoriteListValidator : AbstractValidator<CreateFavoriteListDTO>
     {
         public CreateFavoriteListValidator()
         {

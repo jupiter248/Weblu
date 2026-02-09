@@ -1,4 +1,4 @@
-using Weblu.Application.Dtos.Portfolios.PortfolioDtos.PortfolioImageDtos;
+using Weblu.Application.DTOs.Portfolios.PortfolioDTOs.PortfolioImageDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Images;
@@ -26,7 +26,7 @@ namespace Weblu.Application.Services.Portfolios
             _portfolioRepository = portfolioRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task AddAsync(int portfolioId, int imageId, AddPortfolioImageDto addPortfolioImageDto)
+        public async Task AddAsync(int portfolioId, int imageId, AddPortfolioImageDTO addPortfolioImageDTO)
         {
             Portfolio portfolio = await _portfolioRepository.GetByIdWithImagesAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             ImageMedia imageMedia = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
@@ -37,7 +37,7 @@ namespace Weblu.Application.Services.Portfolios
                 ImageMediaId = imageMedia.Id,
                 Portfolio = portfolio,
                 PortfolioId = portfolio.Id,
-                IsThumbnail = addPortfolioImageDto.IsThumbnail
+                IsThumbnail = addPortfolioImageDTO.IsThumbnail
             };
 
             portfolio.AddImage(newImage);

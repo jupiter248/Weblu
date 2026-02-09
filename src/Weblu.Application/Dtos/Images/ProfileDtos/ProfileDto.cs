@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Images.ProfileDtos
+namespace Weblu.Application.DTOs.Images.ProfileDTOs
 {
-    public class ProfileDto
+    public class ProfileDTO
     {
         public int Id { get; set; }
         public required string Name { get; set; }

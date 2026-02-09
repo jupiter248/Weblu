@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Portfolios.PortfolioCategory;
+using Weblu.Application.DTOs.Portfolios.PortfolioCategoryDTOs;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Parameters.Portfolios;
 using Weblu.Application.Validations;
@@ -24,37 +24,37 @@ namespace Weblu.Api.Controllers.v1.Portfolios
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] PortfolioCategoryParameters portfolioCategoryParameters)
         {
-            List<PortfolioCategoryDto> portfolioCategoryDtos = await _portfolioCategoryService.GetAllAsync(portfolioCategoryParameters);
-            return Ok(portfolioCategoryDtos);
+            List<PortfolioCategoryDTO> portfolioCategoryDTOs = await _portfolioCategoryService.GetAllAsync(portfolioCategoryParameters);
+            return Ok(portfolioCategoryDTOs);
         }
         [HttpGet("{portfolioCategoryId:int}")]
         public async Task<IActionResult> GetById(int portfolioCategoryId)
         {
-            PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.GetByIdAsync(portfolioCategoryId);
-            return Ok(portfolioCategoryDto);
+            PortfolioCategoryDTO portfolioCategoryDTO = await _portfolioCategoryService.GetByIdAsync(portfolioCategoryId);
+            return Ok(portfolioCategoryDTO);
         }
         [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreatePortfolioCategoryDto createPortfolioCategoryDto)
+        public async Task<IActionResult> Create([FromBody] CreatePortfolioCategoryDTO createPortfolioCategoryDTO)
         {
-            Validator.ValidateAndThrow(createPortfolioCategoryDto, new CreatePortfolioCategoryValidator());
-            PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.CreateAsync(createPortfolioCategoryDto);
-            return CreatedAtAction(nameof(GetById), new { portfolioCategoryId = portfolioCategoryDto.Id }, ApiResponse<PortfolioCategoryDto>.Success
+            Validator.ValidateAndThrow(createPortfolioCategoryDTO, new CreatePortfolioCategoryValidator());
+            PortfolioCategoryDTO portfolioCategoryDTO = await _portfolioCategoryService.CreateAsync(createPortfolioCategoryDTO);
+            return CreatedAtAction(nameof(GetById), new { portfolioCategoryId = portfolioCategoryDTO.Id }, ApiResponse<PortfolioCategoryDTO>.Success
             (
                 "Portfolio Category added successfully.",
-                portfolioCategoryDto
+                portfolioCategoryDTO
             ));
         }
         [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPut("{portfolioCategoryId:int}")]
-        public async Task<IActionResult> Update(int portfolioCategoryId, [FromBody] UpdatePortfolioCategoryDto updatePortfolioCategoryDto)
+        public async Task<IActionResult> Update(int portfolioCategoryId, [FromBody] UpdatePortfolioCategoryDTO updatePortfolioCategoryDTO)
         {
-            Validator.ValidateAndThrow(updatePortfolioCategoryDto, new UpdatePortfolioCategoryValidator());
-            PortfolioCategoryDto portfolioCategoryDto = await _portfolioCategoryService.UpdateAsync(portfolioCategoryId, updatePortfolioCategoryDto);
-            return Ok(ApiResponse<PortfolioCategoryDto>.Success
+            Validator.ValidateAndThrow(updatePortfolioCategoryDTO, new UpdatePortfolioCategoryValidator());
+            PortfolioCategoryDTO portfolioCategoryDTO = await _portfolioCategoryService.UpdateAsync(portfolioCategoryId, updatePortfolioCategoryDTO);
+            return Ok(ApiResponse<PortfolioCategoryDTO>.Success
             (
                 "Portfolio Category updated successfully.",
-                portfolioCategoryDto
+                portfolioCategoryDTO
             ));
         }
         [Authorize(Policy = Permissions.ManagePortfolios)]

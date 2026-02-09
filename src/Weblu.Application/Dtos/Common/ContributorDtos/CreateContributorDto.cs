@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Common.ContributorDtos
+namespace Weblu.Application.DTOs.Common.ContributorDTOs
 {
-    public class CreateContributorDto
+    public class CreateContributorDTO
     {
         public required string FirstName { get; set; }
         public required string LastName { get; set; }

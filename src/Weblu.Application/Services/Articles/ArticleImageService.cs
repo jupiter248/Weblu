@@ -1,4 +1,4 @@
-using Weblu.Application.Dtos.Articles.ArticleDtos.ArticleImageDtos;
+using Weblu.Application.DTOs.Articles.ArticleDTOs.ArticleImageDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Articles;
@@ -24,7 +24,7 @@ namespace Weblu.Application.Services.Articles
             _unitOfWork = unitOfWork;
             _articleRepository = articleRepository;
         }
-        public async Task AddAsync(int articleId, int imageId, AddArticleImageDto addArticleImageDto)
+        public async Task AddAsync(int articleId, int imageId, AddArticleImageDTO addArticleImageDTO)
         {
             Article article = await _articleRepository.GetByIdWithImagesAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             ImageMedia imageMedia = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
@@ -35,7 +35,7 @@ namespace Weblu.Application.Services.Articles
                 ImageId = imageMedia.Id,
                 Article = article,
                 ArticleId = article.Id,
-                IsThumbnail = addArticleImageDto.IsThumbnail
+                IsThumbnail = addArticleImageDTO.IsThumbnail
             };
 
             article.AddImage(newImage);

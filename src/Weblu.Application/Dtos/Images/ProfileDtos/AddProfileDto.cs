@@ -1,9 +1,9 @@
-using Weblu.Application.Dtos.Images.ImageDtos;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 using Weblu.Domain.Enums.Common.Media;
 
-namespace Weblu.Application.Dtos.Images.ProfileDtos
+namespace Weblu.Application.DTOs.Images.ProfileDTOs
 {
-    public class AddProfileDto : AddImageDto
+    public class AddProfileDTO : AddImageDTO
     {
         public required string OwnerId { get; set; }
         public ProfileMediaType OwnerType { get; set; }

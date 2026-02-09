@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Common.FeatureDtos;
+using Weblu.Application.DTOs.Common.FeatureDTOs;
 using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Parameters.Common;
 using Weblu.Application.Validations;
@@ -24,37 +24,37 @@ namespace Weblu.Api.Controllers.v1.Common
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] FeatureParameters featureParameters)
         {
-            List<FeatureDto> featureDtos = await _featureService.GetAllAsync(featureParameters);
-            return Ok(featureDtos);
+            List<FeatureDTO> featureDTOs = await _featureService.GetAllAsync(featureParameters);
+            return Ok(featureDTOs);
         }
         [HttpGet("{featureId:int}")]
         public async Task<IActionResult> GetById(int featureId)
         {
-            FeatureDto featureDto = await _featureService.GetByIdAsync(featureId);
-            return Ok(featureDto);
+            FeatureDTO featureDTO = await _featureService.GetByIdAsync(featureId);
+            return Ok(featureDTO);
         }
         [Authorize(Policy = Permissions.ManageFeatures)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateFeatureDto createFeatureDto)
+        public async Task<IActionResult> Create([FromBody] CreateFeatureDTO createFeatureDTO)
         {
-            Validator.ValidateAndThrow(createFeatureDto, new CreateFeatureValidator());
-            FeatureDto featureDto = await _featureService.CreateAsync(createFeatureDto);
-            return CreatedAtAction(nameof(GetById), new { featureId = featureDto.Id }, ApiResponse<FeatureDto>.Success
+            Validator.ValidateAndThrow(createFeatureDTO, new CreateFeatureValidator());
+            FeatureDTO featureDTO = await _featureService.CreateAsync(createFeatureDTO);
+            return CreatedAtAction(nameof(GetById), new { featureId = featureDTO.Id }, ApiResponse<FeatureDTO>.Success
             (
                 "Feature created successfully.",
-                featureDto
+                featureDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageFeatures)]
         [HttpPut("{featureId:int}")]
-        public async Task<IActionResult> Update(int featureId, [FromBody] UpdateFeatureDto updateFeatureDto)
+        public async Task<IActionResult> Update(int featureId, [FromBody] UpdateFeatureDTO updateFeatureDTO)
         {
-            Validator.ValidateAndThrow(updateFeatureDto, new UpdateFeatureValidator());
-            FeatureDto featureDto = await _featureService.UpdateAsync(featureId, updateFeatureDto);
-            return Ok(ApiResponse<FeatureDto>.Success
+            Validator.ValidateAndThrow(updateFeatureDTO, new UpdateFeatureValidator());
+            FeatureDTO featureDTO = await _featureService.UpdateAsync(featureId, updateFeatureDTO);
+            return Ok(ApiResponse<FeatureDTO>.Success
             (
                 "Feature updated successfully.",
-                featureDto
+                featureDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageFeatures)]

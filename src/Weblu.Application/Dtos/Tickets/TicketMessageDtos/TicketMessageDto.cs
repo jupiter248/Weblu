@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Tickets.TicketMessageDtos
+namespace Weblu.Application.DTOs.Tickets.TicketMessageDTOs
 {
-    public class TicketMessageDto
+    public class TicketMessageDTO
     {
         public int Id { get; set; }
         public string Message { get; set; } = default!;

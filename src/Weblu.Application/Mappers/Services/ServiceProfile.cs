@@ -1,6 +1,6 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Services.ServiceDtos;
-using Weblu.Application.Dtos.Services.ServiceDtos.ServiceImageDtos;
+using Weblu.Application.DTOs.Services.ServiceDTOs;
+using Weblu.Application.DTOs.Services.ServiceDTOs.ServiceImageDTOs;
 using Weblu.Application.Extensions;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Services;
@@ -11,19 +11,19 @@ namespace Weblu.Application.Mappers.Services
         {
                 public ServiceProfile()
                 {
-                        CreateMap<Service, ServiceSummaryDto>()
+                        CreateMap<Service, ServiceSummaryDTO>()
                             .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.ServiceImages.FirstOrDefault(i => i.IsThumbnail).Image.Url ?? string.Empty));
-                        CreateMap<Service, ServiceDetailDto>()
+                        CreateMap<Service, ServiceDetailDTO>()
                                 .ForMember(dest => dest.PublishedAt, opt => opt.MapFrom(src => src.PublishedAt.HasValue ? src.PublishedAt.Value.ToShamsi() : null))
                                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-                        CreateMap<CreateServiceDto, Service>()
+                        CreateMap<CreateServiceDTO, Service>()
                                 .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()));
-                        CreateMap<UpdateServiceDto, Service>()
+                        CreateMap<UpdateServiceDTO, Service>()
                                 .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()))
                                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
-                                
-                        CreateMap<ServiceImage, ServiceImageDto>()
+
+                        CreateMap<ServiceImage, ServiceImageDTO>()
                                 .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.Image.CreatedAt.ToShamsi()))
                                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Image.Name))
                                 .ForMember(dest => dest.AltText, opt => opt.MapFrom(src => src.Image.AltText))

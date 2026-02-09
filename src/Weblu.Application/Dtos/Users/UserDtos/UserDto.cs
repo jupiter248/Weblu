@@ -1,8 +1,8 @@
-using Weblu.Application.Dtos.Images.ProfileDtos;
+using Weblu.Application.DTOs.Images.ProfileDTOs;
 
-namespace Weblu.Application.Dtos.Users.UserDtos
+namespace Weblu.Application.DTOs.Users.UserDTOs
 {
-    public class UserDto
+    public class UserDTO
     {
         public string Id { get; set; } = default!;
         public required string PhoneNumber { get; set; }
@@ -13,6 +13,6 @@ namespace Weblu.Application.Dtos.Users.UserDtos
         public List<string> Roles { get; set; } = new List<string>();
         public string CreatedAt { get; set; } = default!;
         public string? UpdatedAt { get; set; }
-        public List<ProfileDto>? Profiles { get; set; }
+        public List<ProfileDTO>? Profiles { get; set; }
     }
 }

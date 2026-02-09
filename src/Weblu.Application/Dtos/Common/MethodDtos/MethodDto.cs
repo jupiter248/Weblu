@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Common.MethodDtos
+namespace Weblu.Application.DTOs.Common.MethodDTOs
 {
-    public class MethodDto
+    public class MethodDTO
     {
         public int Id { get; set; }
         public required string Name { get; set; }

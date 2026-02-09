@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Services.ServiceDtos;
+using Weblu.Application.DTOs.Services.ServiceDTOs;
 using Weblu.Domain.Errors.Services;
 
 namespace Weblu.Application.Validations.Services
 {
-    public class UpdateServiceValidator : AbstractValidator<UpdateServiceDto>
+    public class UpdateServiceValidator : AbstractValidator<UpdateServiceDTO>
     {
         public UpdateServiceValidator()
         {

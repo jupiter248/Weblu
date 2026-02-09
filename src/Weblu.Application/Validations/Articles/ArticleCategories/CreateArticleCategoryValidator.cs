@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Articles.ArticleCategoryDtos;
+using Weblu.Application.DTOs.Articles.ArticleCategoryDTOs;
 using Weblu.Domain.Errors.Articles;
 
 namespace Weblu.Application.Validations.Articles.ArticleCategories
 {
-    public class CreateArticleCategoryValidator : AbstractValidator<CreateArticleCategoryDto>
+    public class CreateArticleCategoryValidator : AbstractValidator<CreateArticleCategoryDTO>
     {
         public CreateArticleCategoryValidator()
         {

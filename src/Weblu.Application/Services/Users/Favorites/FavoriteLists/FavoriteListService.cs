@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Users.Favorites.FavoriteListDtos;
+using Weblu.Application.DTOs.Users.Favorites.FavoriteListDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Users;
@@ -30,21 +30,21 @@ namespace Weblu.Application.Services.Users.Favorites.FavoriteLists
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
-        public async Task<FavoriteListDto> CreateAsync(string userId, CreateFavoriteListDto createFavoriteListDto)
+        public async Task<FavoriteListDTO> CreateAsync(string userId, CreateFavoriteListDTO createFavoriteListDTO)
         {
             bool userExists = await _userRepository.UserExistsAsync(userId);
             if (!userExists)
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            FavoriteList favoriteList = _mapper.Map<FavoriteList>(createFavoriteListDto);
+            FavoriteList favoriteList = _mapper.Map<FavoriteList>(createFavoriteListDTO);
             favoriteList.UserId = userId;
 
             _favoriteListRepository.Add(favoriteList);
             await _unitOfWork.CommitAsync();
 
-            FavoriteListDto favoriteListDto = _mapper.Map<FavoriteListDto>(favoriteList);
-            return favoriteListDto;
+            FavoriteListDTO favoriteListDTO = _mapper.Map<FavoriteListDTO>(favoriteList);
+            return favoriteListDTO;
         }
         public async Task DeleteAsync(string userId, int favoriteListId)
         {
@@ -61,21 +61,21 @@ namespace Weblu.Application.Services.Users.Favorites.FavoriteLists
             _favoriteListRepository.Remove(favoriteList);
             await _unitOfWork.CommitAsync();
         }
-        public async Task<List<FavoriteListDto>> GetAllAsync(string userId, FavoriteListParameters favoriteListParameters)
+        public async Task<List<FavoriteListDTO>> GetAllAsync(string userId, FavoriteListParameters favoriteListParameters)
         {
             IReadOnlyList<FavoriteList> favoriteLists = await _favoriteListRepository.GetAllByUserIdAsync(userId, favoriteListParameters);
-            List<FavoriteListDto> favoriteListDtos = _mapper.Map<List<FavoriteListDto>>(favoriteLists);
-            return favoriteListDtos;
+            List<FavoriteListDTO> favoriteListDTOs = _mapper.Map<List<FavoriteListDTO>>(favoriteLists);
+            return favoriteListDTOs;
         }
 
-        public async Task<FavoriteListDto> GetByIdAsync(int favoriteListId)
+        public async Task<FavoriteListDTO> GetByIdAsync(int favoriteListId)
         {
             FavoriteList favoriteList = await _favoriteListRepository.GetByIdAsync(favoriteListId) ?? throw new NotFoundException(FavoriteListErrorCodes.NotFound);
-            FavoriteListDto favoriteListDto = _mapper.Map<FavoriteListDto>(favoriteList);
-            return favoriteListDto;
+            FavoriteListDTO favoriteListDTO = _mapper.Map<FavoriteListDTO>(favoriteList);
+            return favoriteListDTO;
         }
 
-        public async Task<FavoriteListDto> UpdateAsync(string userId, int favoriteListId, UpdateFavoriteListDto updateFavoriteListDto)
+        public async Task<FavoriteListDTO> UpdateAsync(string userId, int favoriteListId, UpdateFavoriteListDTO updateFavoriteListDTO)
         {
             bool userExists = await _userRepository.UserExistsAsync(userId);
             if (!userExists)
@@ -87,14 +87,14 @@ namespace Weblu.Application.Services.Users.Favorites.FavoriteLists
             {
                 throw new UnauthorizedException(FavoriteListErrorCodes.UpdateForbidden);
             }
-            favoriteList = _mapper.Map(updateFavoriteListDto, favoriteList);
-            
+            favoriteList = _mapper.Map(updateFavoriteListDTO, favoriteList);
+
             favoriteList.MarkUpdated();
             _favoriteListRepository.Update(favoriteList);
             await _unitOfWork.CommitAsync();
 
-            FavoriteListDto favoriteListDto = _mapper.Map<FavoriteListDto>(favoriteList);
-            return favoriteListDto;
+            FavoriteListDTO favoriteListDTO = _mapper.Map<FavoriteListDTO>(favoriteList);
+            return favoriteListDTO;
         }
     }
 }

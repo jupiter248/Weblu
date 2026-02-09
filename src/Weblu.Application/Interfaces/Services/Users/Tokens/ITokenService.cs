@@ -1,11 +1,11 @@
-using Weblu.Application.Dtos.Users.Tokens.RefreshTokenDtos;
-using Weblu.Application.Dtos.Users.Tokens.TokenDtos;
+using Weblu.Application.DTOs.Users.Tokens.RefreshTokenDTOs;
+using Weblu.Application.DTOs.Users.Tokens.TokenDTOs;
 
 namespace Weblu.Application.Services.Interfaces.Users.Tokens
 {
     public interface ITokenService
     {
-        public Task<TokenDto> RefreshToken(TokenRequestDto addTokenRequestDto);
-        public Task RevokeToken(RevokeRequestDto revokeRequestDto, string userId);
+        public Task<TokenDTO> RefreshToken(TokenRequestDTO addTokenRequestDTO);
+        public Task RevokeToken(RevokeRequestDTO revokeRequestDTO, string userId);
     }
 }

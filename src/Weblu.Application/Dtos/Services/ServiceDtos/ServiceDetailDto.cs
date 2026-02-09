@@ -1,8 +1,8 @@
-using Weblu.Application.Dtos.Services.ServiceDtos.ServiceImageDtos;
+using Weblu.Application.DTOs.Services.ServiceDTOs.ServiceImageDTOs;
 
-namespace Weblu.Application.Dtos.Services.ServiceDtos
+namespace Weblu.Application.DTOs.Services.ServiceDTOs
 {
-    public class ServiceDetailDto
+    public class ServiceDetailDTO
     {
         public int Id { get; set; }
         public required string Title { get; set; }
@@ -15,7 +15,7 @@ namespace Weblu.Application.Dtos.Services.ServiceDtos
         public string? PublishedAt { get; set; }
         public string? UpdatedAt { get; set; }
         public required string CreatedAt { get; set; }
-        public List<ServiceImageDto>? Images { get; set; }
+        public List<ServiceImageDTO>? Images { get; set; }
 
 
     }

@@ -28,9 +28,6 @@ namespace Weblu.Infrastructure.IntegrationTests.Data
             db.Roles.Should().Contain(u => u.NormalizedName == "HEAD-ADMIN");
             db.Roles.Should().Contain(u => u.NormalizedName == "USER");
             db.Roles.Should().Contain(u => u.NormalizedName == "EDITOR");
-
-
-
         }
         [Fact]
         public async Task SeedEntities_SeedUserAndAdminAsync_InsertUserAndAdminDefault()

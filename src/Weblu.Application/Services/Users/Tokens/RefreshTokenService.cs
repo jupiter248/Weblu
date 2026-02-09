@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Users.Tokens.TokenDtos;
+using Weblu.Application.DTOs.Users.Tokens.TokenDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
@@ -17,38 +17,38 @@ namespace Weblu.Application.Services.Users.Tokens
         private readonly IRefreshTokenRepository _refreshTokenRepository;
 
         private readonly IMapper _mapper;
-        public RefreshTokenService(IUnitOfWork unitOfWork, IMapper mapper , 
+        public RefreshTokenService(IUnitOfWork unitOfWork, IMapper mapper,
             IRefreshTokenRepository refreshTokenRepository)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _refreshTokenRepository = refreshTokenRepository;
         }
-        public async Task<List<RefreshTokenDto>> GetAllAsync(RefreshTokenParameters refreshTokenParameters)
+        public async Task<List<RefreshTokenDTO>> GetAllAsync(RefreshTokenParameters refreshTokenParameters)
         {
             IReadOnlyList<RefreshToken> refreshTokens = await _refreshTokenRepository.GetAllAsync(refreshTokenParameters);
-            List<RefreshTokenDto> refreshTokenDtos = _mapper.Map<List<RefreshTokenDto>>(refreshTokens);
-            return refreshTokenDtos;
+            List<RefreshTokenDTO> refreshTokenDTOs = _mapper.Map<List<RefreshTokenDTO>>(refreshTokens);
+            return refreshTokenDTOs;
         }
 
-        public async Task<RefreshTokenDto> GetByTokenAsync(string refreshToken)
+        public async Task<RefreshTokenDTO> GetByTokenAsync(string refreshToken)
         {
             RefreshToken refreshTokenModel = await _refreshTokenRepository.GetByTokenAsync(refreshToken) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
-            RefreshTokenDto refreshTokenDto = _mapper.Map<RefreshTokenDto>(refreshTokenModel);
-            return refreshTokenDto;
+            RefreshTokenDTO refreshTokenDTO = _mapper.Map<RefreshTokenDTO>(refreshTokenModel);
+            return refreshTokenDTO;
         }
 
-        public async Task<RefreshTokenDto> UpdateAsync(int refreshTokenId, UpdateRefreshTokenDto updateRefreshTokenDto)
+        public async Task<RefreshTokenDTO> UpdateAsync(int refreshTokenId, UpdateRefreshTokenDTO updateRefreshTokenDTO)
         {
             RefreshToken refreshToken = await _refreshTokenRepository.GetByIdAsync(refreshTokenId) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
-            refreshToken = _mapper.Map(updateRefreshTokenDto, refreshToken);
+            refreshToken = _mapper.Map(updateRefreshTokenDTO, refreshToken);
 
             refreshToken.MarkUpdated();
             _refreshTokenRepository.Update(refreshToken);
             await _unitOfWork.CommitAsync();
-            
-            RefreshTokenDto refreshTokenDto = _mapper.Map<RefreshTokenDto>(refreshToken);
-            return refreshTokenDto;
+
+            RefreshTokenDTO refreshTokenDTO = _mapper.Map<RefreshTokenDTO>(refreshToken);
+            return refreshTokenDTO;
         }
     }
 }

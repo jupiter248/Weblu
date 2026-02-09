@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Common.SearchDtos;
+using Weblu.Application.DTOs.Common.SearchDTOs;
 using Weblu.Domain.Entities.Common.Search;
 
 namespace Weblu.Application.Mappers.Common
@@ -8,7 +8,7 @@ namespace Weblu.Application.Mappers.Common
     {
         public SearchProfile()
         {
-            CreateMap<SearchItem , SearchItemDto>();
+            CreateMap<SearchItem, SearchItemDTO>();
         }
     }
 }

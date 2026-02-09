@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Users.Favorites.FavoriteListDtos;
+using Weblu.Application.DTOs.Users.Favorites.FavoriteListDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services.Users.Favorites.FavoriteLists;
@@ -35,41 +35,41 @@ namespace Weblu.Api.Controllers.v1.Users.Favorites
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            List<FavoriteListDto> favoriteListDtos = await _favoriteListService.GetAllAsync(userId, favoriteListParameters);
-            return Ok(favoriteListDtos);
+            List<FavoriteListDTO> favoriteListDTOs = await _favoriteListService.GetAllAsync(userId, favoriteListParameters);
+            return Ok(favoriteListDTOs);
         }
         [Authorize]
         [HttpGet("{favoriteListId:int}")]
         public async Task<IActionResult> GetById(int favoriteListId)
         {
-            FavoriteListDto favoriteListDto = await _favoriteListService.GetByIdAsync(favoriteListId);
-            return Ok(favoriteListDto);
+            FavoriteListDTO favoriteListDTO = await _favoriteListService.GetByIdAsync(favoriteListId);
+            return Ok(favoriteListDTO);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateFavoriteListDto createFavoriteListDto)
+        public async Task<IActionResult> Create([FromBody] CreateFavoriteListDTO createFavoriteListDTO)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            FavoriteListDto favoriteListDto = await _favoriteListService.CreateAsync(userId, createFavoriteListDto);
-            return CreatedAtAction(nameof(GetById), new { favoriteListId = favoriteListDto.Id }, ApiResponse<FavoriteListDto>.Success("Favorite list created successfully", favoriteListDto));
+            FavoriteListDTO favoriteListDTO = await _favoriteListService.CreateAsync(userId, createFavoriteListDTO);
+            return CreatedAtAction(nameof(GetById), new { favoriteListId = favoriteListDTO.Id }, ApiResponse<FavoriteListDTO>.Success("Favorite list created successfully", favoriteListDTO));
         }
         [Authorize]
         [HttpPut("{favoriteListId:int}")]
-        public async Task<IActionResult> Update(int favoriteListId, [FromBody] UpdateFavoriteListDto updateFavoriteListDto)
+        public async Task<IActionResult> Update(int favoriteListId, [FromBody] UpdateFavoriteListDTO updateFavoriteListDTO)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            FavoriteListDto favoriteListDto = await _favoriteListService.UpdateAsync(userId, favoriteListId, updateFavoriteListDto);
-            return Ok(ApiResponse<FavoriteListDto>.Success(
+            FavoriteListDTO favoriteListDTO = await _favoriteListService.UpdateAsync(userId, favoriteListId, updateFavoriteListDTO);
+            return Ok(ApiResponse<FavoriteListDTO>.Success(
                 "Favorite list updated successfully.",
-                favoriteListDto
+                favoriteListDTO
             ));
         }
         [Authorize]

@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.FAQs.FAQCategoryDtos;
+using Weblu.Application.DTOs.FAQs.FAQCategoryDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.FAQs;
@@ -21,15 +21,15 @@ namespace Weblu.Application.Services.FAQs
             _mapper = mapper;
             _faqCategoryRepository = faqCategoryRepository;
         }
-        public async Task<FAQCategoryDto> CreateAsync(CreateFAQCategoryDto createFAQCategoryDto)
+        public async Task<FAQCategoryDTO> CreateAsync(CreateFAQCategoryDTO createFAQCategoryDTO)
         {
-            FAQCategory faqCategory = _mapper.Map<FAQCategory>(createFAQCategoryDto);
+            FAQCategory faqCategory = _mapper.Map<FAQCategory>(createFAQCategoryDTO);
 
             _faqCategoryRepository.Add(faqCategory);
             await _unitOfWork.CommitAsync();
 
-            FAQCategoryDto faqCategoryDto = _mapper.Map<FAQCategoryDto>(faqCategory);
-            return faqCategoryDto;
+            FAQCategoryDTO faqCategoryDTO = _mapper.Map<FAQCategoryDTO>(faqCategory);
+            return faqCategoryDTO;
         }
         public async Task DeleteAsync(int faqCategoryId)
         {
@@ -41,31 +41,31 @@ namespace Weblu.Application.Services.FAQs
         }
 
 
-        public async Task<List<FAQCategoryDto>> GetAllAsync(FAQCategoryParameters faqCategoryParameters)
+        public async Task<List<FAQCategoryDTO>> GetAllAsync(FAQCategoryParameters faqCategoryParameters)
         {
             IReadOnlyList<FAQCategory> faqCategories = await _faqCategoryRepository.GetAllAsync(faqCategoryParameters);
-            List<FAQCategoryDto> faqCategoryDtos = _mapper.Map<List<FAQCategoryDto>>(faqCategories);
-            return faqCategoryDtos;
+            List<FAQCategoryDTO> faqCategoryDTOs = _mapper.Map<List<FAQCategoryDTO>>(faqCategories);
+            return faqCategoryDTOs;
         }
 
-        public async Task<FAQCategoryDto> GetByIdAsync(int faqCategoryId)
+        public async Task<FAQCategoryDTO> GetByIdAsync(int faqCategoryId)
         {
             FAQCategory faqCategory = await _faqCategoryRepository.GetByIdAsync(faqCategoryId) ?? throw new NotFoundException(FAQCategoryErrorCodes.NotFound);
-            FAQCategoryDto faqCategoryDto = _mapper.Map<FAQCategoryDto>(faqCategory);
-            return faqCategoryDto;
+            FAQCategoryDTO faqCategoryDTO = _mapper.Map<FAQCategoryDTO>(faqCategory);
+            return faqCategoryDTO;
         }
 
-        public async Task<FAQCategoryDto> UpdateAsync(int currentFAQCategoryId, UpdateFAQCategoryDto updateFAQCategoryDto)
+        public async Task<FAQCategoryDTO> UpdateAsync(int currentFAQCategoryId, UpdateFAQCategoryDTO updateFAQCategoryDTO)
         {
             FAQCategory currentFAQCategory = await _faqCategoryRepository.GetByIdAsync(currentFAQCategoryId) ?? throw new NotFoundException(FAQCategoryErrorCodes.NotFound);
-            currentFAQCategory = _mapper.Map(updateFAQCategoryDto, currentFAQCategory);
+            currentFAQCategory = _mapper.Map(updateFAQCategoryDTO, currentFAQCategory);
 
             currentFAQCategory.MarkUpdated();
             _faqCategoryRepository.Update(currentFAQCategory);
             await _unitOfWork.CommitAsync();
 
-            FAQCategoryDto faqCategoryDto = _mapper.Map<FAQCategoryDto>(currentFAQCategory);
-            return faqCategoryDto;
+            FAQCategoryDTO faqCategoryDTO = _mapper.Map<FAQCategoryDTO>(currentFAQCategory);
+            return faqCategoryDTO;
         }
     }
 }

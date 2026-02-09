@@ -1,8 +1,8 @@
-using Weblu.Application.Dtos.Images.ImageDtos;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 
-namespace Weblu.Application.Dtos.Common.ContributorDtos
+namespace Weblu.Application.DTOs.Common.ContributorDTOs
 {
-    public class ChangeContributorProfileImageDto : AddImageDto
+    public class ChangeContributorProfileImageDTO : AddImageDTO
     {
     }
 }

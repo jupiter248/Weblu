@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Common.MethodDtos;
+using Weblu.Application.DTOs.Common.MethodDTOs;
 using Weblu.Domain.Errors.Images;
 
 namespace Weblu.Application.Validations.Common.Methods
 {
-    public class ChangeMethodImageValidator : AbstractValidator<ChangeMethodImageDto>
+    public class ChangeMethodImageValidator : AbstractValidator<ChangeMethodImageDTO>
     {
         public ChangeMethodImageValidator()
         {

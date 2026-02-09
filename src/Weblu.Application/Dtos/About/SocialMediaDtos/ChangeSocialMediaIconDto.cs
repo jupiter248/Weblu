@@ -1,8 +1,8 @@
-using Weblu.Application.Dtos.Images.ImageDtos;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 
-namespace Weblu.Application.Dtos.About.SocialMediaDtos
+namespace Weblu.Application.DTOs.About.SocialMediaDTOs
 {
-    public class ChangeSocialMediaIconDto : AddImageDto
+    public class ChangeSocialMediaIconDTO : AddImageDTO
     {
 
     }

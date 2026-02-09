@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Articles.CommentDtos;
+using Weblu.Application.DTOs.Articles.CommentDTOs;
 using Weblu.Domain.Errors.Articles;
 
 namespace Weblu.Application.Validations.Articles.Comments
 {
-    public class CreateCommentValidator : AbstractValidator<CreateCommentDto>
+    public class CreateCommentValidator : AbstractValidator<CreateCommentDTO>
     {
         public CreateCommentValidator()
         {

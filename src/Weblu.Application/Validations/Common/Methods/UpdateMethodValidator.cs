@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Common.MethodDtos;
+using Weblu.Application.DTOs.Common.MethodDTOs;
 using Weblu.Domain.Errors.Methods;
 
 namespace Weblu.Application.Validations.Common.Methods
 {
-    public class UpdateMethodValidator : AbstractValidator<UpdateMethodDto>
+    public class UpdateMethodValidator : AbstractValidator<UpdateMethodDTO>
     {
         public UpdateMethodValidator()
         {

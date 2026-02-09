@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Common.ContributorDtos;
+using Weblu.Application.DTOs.Common.ContributorDTOs;
 using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Parameters.Common;
 using Weblu.Application.Validations;
@@ -24,32 +24,32 @@ namespace Weblu.Api.Controllers.v1.Common
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] ContributorParameters contributorParameters)
         {
-            List<ContributorDto> contributorDtos = await _contributorService.GetAllAsync(contributorParameters);
-            return Ok(contributorDtos);
+            List<ContributorDTO> contributorDTOs = await _contributorService.GetAllAsync(contributorParameters);
+            return Ok(contributorDTOs);
         }
         [HttpGet("{contributorId:int}")]
         public async Task<IActionResult> GetById(int contributorId)
         {
-            ContributorDto contributorDto = await _contributorService.GetByIdAsync(contributorId);
-            return Ok(contributorDto);
+            ContributorDTO contributorDTO = await _contributorService.GetByIdAsync(contributorId);
+            return Ok(contributorDTO);
         }
         [Authorize(Policy = Permissions.ManageContributors)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateContributorDto createContributorDto)
+        public async Task<IActionResult> Create([FromBody] CreateContributorDTO createContributorDTO)
         {
-            Validator.ValidateAndThrow(createContributorDto, new CreateContributorValidator());
-            ContributorDto contributorDto = await _contributorService.CreateAsync(createContributorDto);
-            return CreatedAtAction(nameof(GetById), new { contributorId = contributorDto.Id }, ApiResponse<ContributorDto>.Success("Contributor added successfully", contributorDto));
+            Validator.ValidateAndThrow(createContributorDTO, new CreateContributorValidator());
+            ContributorDTO contributorDTO = await _contributorService.CreateAsync(createContributorDTO);
+            return CreatedAtAction(nameof(GetById), new { contributorId = contributorDTO.Id }, ApiResponse<ContributorDTO>.Success("Contributor added successfully", contributorDTO));
         }
         [Authorize(Policy = Permissions.ManageContributors)]
         [HttpPut("{contributorId:int}")]
-        public async Task<IActionResult> Update(int contributorId, [FromBody] UpdateContributorDto updateContributorDto)
+        public async Task<IActionResult> Update(int contributorId, [FromBody] UpdateContributorDTO updateContributorDTO)
         {
-            Validator.ValidateAndThrow(updateContributorDto, new UpdateContributorValidator());
-            ContributorDto contributorDto = await _contributorService.UpdateAsync(contributorId, updateContributorDto);
-            return Ok(ApiResponse<ContributorDto>.Success(
+            Validator.ValidateAndThrow(updateContributorDTO, new UpdateContributorValidator());
+            ContributorDTO contributorDTO = await _contributorService.UpdateAsync(contributorId, updateContributorDTO);
+            return Ok(ApiResponse<ContributorDTO>.Success(
                 "Contributor updated successfully",
-                contributorDto
+                contributorDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageContributors)]
@@ -77,13 +77,13 @@ namespace Weblu.Api.Controllers.v1.Common
         }
         [Authorize(Policy = Permissions.ManageContributors)]
         [HttpPut("{contributorId:int}/profile-image")]
-        public async Task<IActionResult> ChangeImageProfile(int contributorId, [FromForm] ChangeContributorProfileImageDto changeContributorProfileImageDto)
+        public async Task<IActionResult> ChangeImageProfile(int contributorId, [FromForm] ChangeContributorProfileImageDTO changeContributorProfileImageDTO)
         {
-            Validator.ValidateAndThrow(changeContributorProfileImageDto, new ChangeContributorProfileImageValidator());
-            ContributorDto contributorDto = await _contributorService.ChangeProfileImageAsync(contributorId, changeContributorProfileImageDto);
-            return Ok(ApiResponse<ContributorDto>.Success(
+            Validator.ValidateAndThrow(changeContributorProfileImageDTO, new ChangeContributorProfileImageValidator());
+            ContributorDTO contributorDTO = await _contributorService.ChangeProfileImageAsync(contributorId, changeContributorProfileImageDTO);
+            return Ok(ApiResponse<ContributorDTO>.Success(
                 "Contributor profile image updated successfully.",
-                contributorDto
+                contributorDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageContributors)]

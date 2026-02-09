@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Users.UserDtos;
+using Weblu.Application.DTOs.Users.UserDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services.Users;
@@ -27,8 +27,8 @@ namespace Weblu.Api.Controllers.v1.Users.Tokens
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            List<UserDto> userDtos = await _userService.GetAllAsync();
-            return Ok(userDtos);
+            List<UserDTO> userDTOs = await _userService.GetAllAsync();
+            return Ok(userDTOs);
         }
         [Authorize]
         [HttpGet("current")]
@@ -39,27 +39,27 @@ namespace Weblu.Api.Controllers.v1.Users.Tokens
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            UserDto userDto = await _userService.GetCurrentAsync(userId);
-            return Ok(userDto);
+            UserDTO userDTO = await _userService.GetCurrentAsync(userId);
+            return Ok(userDTO);
         }
         [Authorize]
         [HttpPut("{userId}")]
-        public async Task<IActionResult> Update(string userId, [FromBody] UpdateUserDto updateUserDto)
+        public async Task<IActionResult> Update(string userId, [FromBody] UpdateUserDTO updateUserDTO)
         {
-            Validator.ValidateAndThrow(updateUserDto, new UpdateUserValidator());
-            UserDto userDto = await _userService.UpdateAsync(userId, updateUserDto);
-            return Ok(ApiResponse<UserDto>.Success
+            Validator.ValidateAndThrow(updateUserDTO, new UpdateUserValidator());
+            UserDTO userDTO = await _userService.UpdateAsync(userId, updateUserDTO);
+            return Ok(ApiResponse<UserDTO>.Success
             (
                 "User updated successfully.",
-                userDto
+                userDTO
             ));
         }
         [Authorize]
         [HttpPut("{userId}/change-password")]
-        public async Task<IActionResult> ChangePassword(string userId, [FromBody] ChangePasswordDto changePasswordDto)
+        public async Task<IActionResult> ChangePassword(string userId, [FromBody] ChangePasswordDTO changePasswordDTO)
         {
-            Validator.ValidateAndThrow(changePasswordDto, new ChangeUserPasswordValidator());
-            await _userService.ChangePasswordAsync(userId, changePasswordDto);
+            Validator.ValidateAndThrow(changePasswordDTO, new ChangeUserPasswordValidator());
+            await _userService.ChangePasswordAsync(userId, changePasswordDTO);
             return Ok(ApiResponse.Success
             (
                 "User password changed successfully."

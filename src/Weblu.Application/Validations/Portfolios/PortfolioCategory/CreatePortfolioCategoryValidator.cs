@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Portfolios.PortfolioCategory;
+using Weblu.Application.DTOs.Portfolios.PortfolioCategoryDTOs;
 using Weblu.Domain.Errors.Portfolios;
 
 namespace Weblu.Application.Validations.Portfolios.PortfolioCategory
 {
-    public class CreatePortfolioCategoryValidator : AbstractValidator<CreatePortfolioCategoryDto>
+    public class CreatePortfolioCategoryValidator : AbstractValidator<CreatePortfolioCategoryDTO>
     {
         public CreatePortfolioCategoryValidator()
         {

@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Services.ServiceDtos;
+using Weblu.Application.DTOs.Services.ServiceDTOs;
 using Weblu.Domain.Errors.Services;
 
 namespace Weblu.Application.Validations.Services
 {
-    public class CreateServiceValidator : AbstractValidator<CreateServiceDto>
+    public class CreateServiceValidator : AbstractValidator<CreateServiceDTO>
     {
         public CreateServiceValidator()
         {

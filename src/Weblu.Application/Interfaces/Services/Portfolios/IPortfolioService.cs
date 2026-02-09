@@ -1,5 +1,5 @@
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Portfolios.PortfolioDtos;
+using Weblu.Application.DTOs.Portfolios.PortfolioDTOs;
 using Weblu.Application.Parameters;
 using Weblu.Application.Parameters.Portfolios;
 
@@ -7,11 +7,11 @@ namespace Weblu.Application.Interfaces.Services.Portfolios
 {
     public interface IPortfolioService
     {
-        Task<List<PortfolioSummaryDto>> GetAllAsync(PortfolioParameters portfolioParameters);
-        Task<PagedResponse<PortfolioSummaryDto>> GetAllPagedAsync(PortfolioParameters portfolioParameters);
-        Task<PortfolioDetailDto> GetByIdAsync(int portfolioId);
-        Task<PortfolioDetailDto> CreateAsync(CreatePortfolioDto createPortfolioDto);
-        Task<PortfolioDetailDto> UpdateAsync(int portfolioId, UpdatePortfolioDto updatePortfolioDto);
+        Task<List<PortfolioSummaryDTO>> GetAllAsync(PortfolioParameters portfolioParameters);
+        Task<PagedResponse<PortfolioSummaryDTO>> GetAllPagedAsync(PortfolioParameters portfolioParameters);
+        Task<PortfolioDetailDTO> GetByIdAsync(int portfolioId);
+        Task<PortfolioDetailDTO> CreateAsync(CreatePortfolioDTO createPortfolioDTO);
+        Task<PortfolioDetailDTO> UpdateAsync(int portfolioId, UpdatePortfolioDTO updatePortfolioDTO);
         Task DeleteAsync(int portfolioId);
         Task Publish(int portfolioId);
         Task Unpublish(int portfolioId);

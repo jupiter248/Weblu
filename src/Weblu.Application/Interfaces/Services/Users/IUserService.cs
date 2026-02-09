@@ -1,14 +1,14 @@
-using Weblu.Application.Dtos.Users.UserDtos;
+using Weblu.Application.DTOs.Users.UserDTOs;
 
 namespace Weblu.Application.Interfaces.Services.Users
 {
     public interface IUserService
     {
-        public Task<List<UserDto>> GetAllAsync();
-        public Task<UserDto> GetCurrentAsync(string userId);
-        public Task<UserDto> UpdateAsync(string userId, UpdateUserDto updateUserDto);
+        public Task<List<UserDTO>> GetAllAsync();
+        public Task<UserDTO> GetCurrentAsync(string userId);
+        public Task<UserDTO> UpdateAsync(string userId, UpdateUserDTO updateUserDTO);
         public Task DeleteAsync(string userId);
-        public Task ChangePasswordAsync(string userId, ChangePasswordDto changePasswordDto);
+        public Task ChangePasswordAsync(string userId, ChangePasswordDTO changePasswordDTO);
         public Task<bool> IsAdminAsync(string senderId);
         public Task<string?> GetUsernameAsync(string senderId);
     }

@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Portfolios.PortfolioCategory;
+using Weblu.Application.DTOs.Portfolios.PortfolioCategoryDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
@@ -24,15 +24,15 @@ namespace Weblu.Application.Services.Portfolios
             _mapper = mapper;
             _portfolioCategoryRepository = portfolioCategoryRepository;
         }
-        public async Task<PortfolioCategoryDto> CreateAsync(CreatePortfolioCategoryDto createPortfolioCategoryDto)
+        public async Task<PortfolioCategoryDTO> CreateAsync(CreatePortfolioCategoryDTO createPortfolioCategoryDTO)
         {
-            PortfolioCategory portfolioCategory = _mapper.Map<PortfolioCategory>(createPortfolioCategoryDto);
+            PortfolioCategory portfolioCategory = _mapper.Map<PortfolioCategory>(createPortfolioCategoryDTO);
 
             _portfolioCategoryRepository.Add(portfolioCategory);
             await _unitOfWork.CommitAsync();
 
-            PortfolioCategoryDto portfolioCategoryDto = _mapper.Map<PortfolioCategoryDto>(portfolioCategory);
-            return portfolioCategoryDto;
+            PortfolioCategoryDTO portfolioCategoryDTO = _mapper.Map<PortfolioCategoryDTO>(portfolioCategory);
+            return portfolioCategoryDTO;
         }
         public async Task DeleteAsync(int categoryId)
         {
@@ -42,31 +42,31 @@ namespace Weblu.Application.Services.Portfolios
 
         }
 
-        public async Task<List<PortfolioCategoryDto>> GetAllAsync(PortfolioCategoryParameters portfolioCategoryParameters)
+        public async Task<List<PortfolioCategoryDTO>> GetAllAsync(PortfolioCategoryParameters portfolioCategoryParameters)
         {
             IReadOnlyList<PortfolioCategory> portfolioCategories = await _portfolioCategoryRepository.GetAllAsync(portfolioCategoryParameters);
-            List<PortfolioCategoryDto> portfolioCategoryDtos = _mapper.Map<List<PortfolioCategoryDto>>(portfolioCategories);
-            return portfolioCategoryDtos;
+            List<PortfolioCategoryDTO> portfolioCategoryDTOs = _mapper.Map<List<PortfolioCategoryDTO>>(portfolioCategories);
+            return portfolioCategoryDTOs;
         }
 
-        public async Task<PortfolioCategoryDto> GetByIdAsync(int categoryId)
+        public async Task<PortfolioCategoryDTO> GetByIdAsync(int categoryId)
         {
             PortfolioCategory portfolioCategory = await _portfolioCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(PortfolioCategoryErrorCodes.PortfolioCategoryNotFound);
-            PortfolioCategoryDto portfolioCategoryDto = _mapper.Map<PortfolioCategoryDto>(portfolioCategory);
-            return portfolioCategoryDto;
+            PortfolioCategoryDTO portfolioCategoryDTO = _mapper.Map<PortfolioCategoryDTO>(portfolioCategory);
+            return portfolioCategoryDTO;
         }
 
-        public async Task<PortfolioCategoryDto> UpdateAsync(int categoryId, UpdatePortfolioCategoryDto updatePortfolioCategoryDto)
+        public async Task<PortfolioCategoryDTO> UpdateAsync(int categoryId, UpdatePortfolioCategoryDTO updatePortfolioCategoryDTO)
         {
             PortfolioCategory portfolioCategory = await _portfolioCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(PortfolioCategoryErrorCodes.PortfolioCategoryNotFound);
-            portfolioCategory = _mapper.Map(updatePortfolioCategoryDto, portfolioCategory);
+            portfolioCategory = _mapper.Map(updatePortfolioCategoryDTO, portfolioCategory);
 
             portfolioCategory.MarkUpdated();
             _portfolioCategoryRepository.Update(portfolioCategory);
             await _unitOfWork.CommitAsync();
 
-            PortfolioCategoryDto portfolioCategoryDto = _mapper.Map<PortfolioCategoryDto>(portfolioCategory);
-            return portfolioCategoryDto;
+            PortfolioCategoryDTO portfolioCategoryDTO = _mapper.Map<PortfolioCategoryDTO>(portfolioCategory);
+            return portfolioCategoryDTO;
         }
     }
 }

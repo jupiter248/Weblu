@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Articles.ArticleDtos.ArticleImageDtos
+namespace Weblu.Application.DTOs.Articles.ArticleDTOs.ArticleImageDTOs
 {
-    public class AddArticleImageDto
+    public class AddArticleImageDTO
     {
         public bool IsThumbnail { get; set; }
     }

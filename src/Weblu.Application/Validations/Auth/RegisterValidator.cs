@@ -1,16 +1,16 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Auth.AuthDtos;
+using Weblu.Application.DTOs.Auth.AuthDTOs;
 using Weblu.Domain.Errors.Auth;
 
 namespace Weblu.Application.Validations.Auth
 {
-    public class RegisterValidator : AbstractValidator<RegisterDto>
+    public class RegisterValidator : AbstractValidator<RegisterDTO>
     {
         public RegisterValidator()
         {
-             RuleFor(x => x.Username)
-                .NotEmpty().WithMessage(AuthErrorCodes.UsernameRequired)
-                .MaximumLength(40).WithMessage(AuthErrorCodes.UsernameMaxLength);
+            RuleFor(x => x.Username)
+               .NotEmpty().WithMessage(AuthErrorCodes.UsernameRequired)
+               .MaximumLength(40).WithMessage(AuthErrorCodes.UsernameMaxLength);
 
             RuleFor(x => x.PhoneNumber)
                 .NotEmpty().WithMessage(AuthErrorCodes.PhoneRequired)

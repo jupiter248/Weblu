@@ -1,8 +1,8 @@
 using Weblu.Domain.Enums.Users.Favorites;
 
-namespace Weblu.Application.Dtos.Users.Favorites.FavoriteListDtos
+namespace Weblu.Application.DTOs.Users.Favorites.FavoriteListDTOs
 {
-    public class FavoriteListDto
+    public class FavoriteListDTO
     {
         public int Id { get; set; }
         public required string Name { get; set; }

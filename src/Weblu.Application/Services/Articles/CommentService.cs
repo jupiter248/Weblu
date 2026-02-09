@@ -1,7 +1,7 @@
 using AutoMapper;
 using Weblu.Application.Common.Pagination;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Articles.CommentDtos;
+using Weblu.Application.DTOs.Articles.CommentDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Articles;
@@ -33,28 +33,28 @@ namespace Weblu.Application.Services.Articles
             _articleRepository = articleRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<CommentDto> CreateAsync(string userId, CreateCommentDto createCommentDto)
+        public async Task<CommentDTO> CreateAsync(string userId, CreateCommentDTO createCommentDTO)
         {
-            Comment comment = _mapper.Map<Comment>(createCommentDto);
-            Article article = await _articleRepository.GetByIdAsync(createCommentDto.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            CommentUserDto commentUserDto = await _userRepository.GetUserForCommentAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            if (createCommentDto.ParentCommentId.HasValue)
+            Comment comment = _mapper.Map<Comment>(createCommentDTO);
+            Article article = await _articleRepository.GetByIdAsync(createCommentDTO.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            CommentUserDTO commentUserDTO = await _userRepository.GetUserForCommentAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            if (createCommentDTO.ParentCommentId.HasValue)
             {
-                if (!article.Comments.Any(c => c.Id == createCommentDto.ParentCommentId))
+                if (!article.Comments.Any(c => c.Id == createCommentDTO.ParentCommentId))
                 {
                     throw new NotFoundException(CommentErrorCodes.NotFound);
                 }
             }
             comment.Article = article;
-            comment.UserId = commentUserDto.UserId;
+            comment.UserId = commentUserDTO.UserId;
 
             _commentRepository.Add(comment);
             await _unitOfWork.CommitAsync();
 
-            CommentDto commentDto = _mapper.Map<CommentDto>(comment);
-            commentDto.User = commentUserDto;
+            CommentDTO commentDTO = _mapper.Map<CommentDTO>(comment);
+            commentDTO.User = commentUserDTO;
 
-            return commentDto;
+            return commentDTO;
         }
 
         public async Task DeleteAsync(string userId, int commentId)
@@ -74,54 +74,54 @@ namespace Weblu.Application.Services.Articles
             comment.Delete();
             await _unitOfWork.CommitAsync();
         }
-        public async Task<List<CommentDto>> GetAllAsync(CommentParameters commentParameters)
+        public async Task<List<CommentDTO>> GetAllAsync(CommentParameters commentParameters)
         {
             IReadOnlyList<Comment> comments = await _commentRepository.GetAllAsync(commentParameters);
-            List<CommentDto> commentDtos = _mapper.Map<List<CommentDto>>(comments);
+            List<CommentDTO> commentDTOs = _mapper.Map<List<CommentDTO>>(comments);
             foreach (Comment comment in comments)
             {
-                foreach (CommentDto commentDto in commentDtos)
+                foreach (CommentDTO commentDTO in commentDTOs)
                 {
-                    if (commentDto.Id == comment.Id)
+                    if (commentDTO.Id == comment.Id)
                     {
-                        commentDto.User = await _userRepository.GetUserForCommentAsync(comment.UserId) ?? default!;
+                        commentDTO.User = await _userRepository.GetUserForCommentAsync(comment.UserId) ?? default!;
                         break;
                     }
                 }
             }
-            return commentDtos;
+            return commentDTOs;
         }
 
-        public async Task<PagedResponse<CommentDto>> GetAllPagedAsync(CommentParameters commentParameters)
+        public async Task<PagedResponse<CommentDTO>> GetAllPagedAsync(CommentParameters commentParameters)
         {
             PagedList<Comment> comments = await _commentRepository.GetAllAsync(commentParameters);
-            List<CommentDto> commentDtos = _mapper.Map<List<CommentDto>>(comments);
+            List<CommentDTO> commentDTOs = _mapper.Map<List<CommentDTO>>(comments);
             foreach (Comment comment in comments)
             {
-                foreach (CommentDto commentDto in commentDtos)
+                foreach (CommentDTO commentDTO in commentDTOs)
                 {
-                    if (commentDto.Id == comment.Id)
+                    if (commentDTO.Id == comment.Id)
                     {
-                        commentDto.User = await _userRepository.GetUserForCommentAsync(comment.UserId) ?? default!;
+                        commentDTO.User = await _userRepository.GetUserForCommentAsync(comment.UserId) ?? default!;
                         break;
                     }
                 }
             }
-            var pagedResponse = _mapper.Map<PagedResponse<CommentDto>>(comments);
-            pagedResponse.Items = commentDtos;
+            var pagedResponse = _mapper.Map<PagedResponse<CommentDTO>>(comments);
+            pagedResponse.Items = commentDTOs;
             return pagedResponse;
         }
 
-        public async Task<CommentDto> GetByIdAsync(int commentId)
+        public async Task<CommentDTO> GetByIdAsync(int commentId)
         {
             Comment comment = await _commentRepository.GetByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.NotFound);
-            CommentUserDto commentUserDto = await _userRepository.GetUserForCommentAsync(comment.UserId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            CommentDto commentDto = _mapper.Map<CommentDto>(comment);
-            commentDto.User = commentUserDto;
-            return commentDto;
+            CommentUserDTO commentUserDTO = await _userRepository.GetUserForCommentAsync(comment.UserId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            CommentDTO commentDTO = _mapper.Map<CommentDTO>(comment);
+            commentDTO.User = commentUserDTO;
+            return commentDTO;
         }
 
-        public async Task<CommentDto> EditAsync(string userId, int commentId, UpdateCommentDto updateCommentDto)
+        public async Task<CommentDTO> EditAsync(string userId, int commentId, UpdateCommentDTO updateCommentDTO)
         {
             Comment comment = await _commentRepository.GetByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.NotFound);
             Article article = await _articleRepository.GetByIdAsync(comment.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
@@ -134,20 +134,20 @@ namespace Weblu.Application.Services.Articles
             {
                 throw new UnauthorizedException(CommentErrorCodes.UpdateForbidden);
             }
-            if (!article.Comments.Any(c => c.Id == updateCommentDto.ParentCommentId))
+            if (!article.Comments.Any(c => c.Id == updateCommentDTO.ParentCommentId))
             {
                 throw new NotFoundException(CommentErrorCodes.NotFound);
             }
-            comment = _mapper.Map(updateCommentDto, comment);
-            
+            comment = _mapper.Map(updateCommentDTO, comment);
+
             comment.MarkUpdated();
             _commentRepository.Update(comment);
             await _unitOfWork.CommitAsync();
 
-            CommentUserDto commentUserDto = await _userRepository.GetUserForCommentAsync(comment.UserId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            CommentDto commentDto = _mapper.Map<CommentDto>(comment);
-            commentDto.User = commentUserDto;
-            return commentDto;
+            CommentUserDTO commentUserDTO = await _userRepository.GetUserForCommentAsync(comment.UserId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            CommentDTO commentDTO = _mapper.Map<CommentDTO>(comment);
+            commentDTO.User = commentUserDTO;
+            return commentDTO;
         }
     }
 }

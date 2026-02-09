@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Http;
 using Weblu.Domain.Enums.Common.Media;
 
-namespace Weblu.Application.Dtos.Images.MediaDtos
+namespace Weblu.Application.DTOs.Images.MediaDTOs
 {
-    public class MediaUploaderDto
+    public class MediaUploaderDTO
     {
         public string FileName { get; set; } = string.Empty;
         public IFormFile Media { get; set; } = default!;

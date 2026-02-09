@@ -1,14 +1,14 @@
-using Weblu.Application.Dtos.FAQs.FAQCategoryDtos;
+using Weblu.Application.DTOs.FAQs.FAQCategoryDTOs;
 using Weblu.Application.Parameters.FAQs;
 
 namespace Weblu.Application.Interfaces.Services.FAQs
 {
     public interface IFAQCategoryService
     {
-        Task<List<FAQCategoryDto>> GetAllAsync(FAQCategoryParameters fAQCategoryParameters);
-        Task<FAQCategoryDto> GetByIdAsync(int fAQCategoryId);
-        Task<FAQCategoryDto> CreateAsync(CreateFAQCategoryDto createFAQCategoryDto);
-        Task<FAQCategoryDto> UpdateAsync(int currentFAQCategoryId, UpdateFAQCategoryDto updateFAQCategoryDto);
+        Task<List<FAQCategoryDTO>> GetAllAsync(FAQCategoryParameters fAQCategoryParameters);
+        Task<FAQCategoryDTO> GetByIdAsync(int fAQCategoryId);
+        Task<FAQCategoryDTO> CreateAsync(CreateFAQCategoryDTO createFAQCategoryDTO);
+        Task<FAQCategoryDTO> UpdateAsync(int currentFAQCategoryId, UpdateFAQCategoryDTO updateFAQCategoryDTO);
         Task DeleteAsync(int fAQCategoryId);
     }
 }

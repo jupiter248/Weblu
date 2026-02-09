@@ -6,9 +6,9 @@ using Weblu.Domain.Errors.Images;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Services.Images;
 using Weblu.Application.Interfaces.Repositories.Images;
-using Weblu.Application.Dtos.Images.ImageDtos;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Dtos.Images.MediaDtos;
+using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Parameters.Images;
 using Weblu.Application.Interfaces.Repositories;
 namespace Weblu.Application.Services.Images
@@ -30,16 +30,16 @@ namespace Weblu.Application.Services.Images
             _imageRepository = imageRepository;
             _webHostPath = webHost.GetWebRootPath();
         }
-        public async Task<ImageDto> AddAsync(AddImageDto addImageDto)
+        public async Task<ImageDTO> AddAsync(AddImageDTO addImageDTO)
         {
-            if (addImageDto.Image.Length < 0)
+            if (addImageDTO.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
-            var image = addImageDto.Image;
+            var image = addImageDTO.Image;
             string imageName = await MediaManager.UploadMedia(
                     _webHostPath,
-                    new MediaUploaderDto
+                    new MediaUploaderDTO
                     {
                         Media = image,
                         MediaType = MediaType.picture
@@ -49,15 +49,15 @@ namespace Weblu.Application.Services.Images
             ImageMedia imageModel = new ImageMedia()
             {
                 Name = imageName,
-                AltText = addImageDto.AltText,
+                AltText = addImageDTO.AltText,
                 Url = $"uploads/{MediaType.picture}/{imageName}",
             };
 
             _imageRepository.Add(imageModel);
             await _unitOfWork.CommitAsync();
 
-            ImageDto imageDto = _mapper.Map<ImageDto>(imageModel);
-            return imageDto;
+            ImageDTO imageDTO = _mapper.Map<ImageDTO>(imageModel);
+            return imageDTO;
         }
 
         public async Task DeleteAsync(int imageId)
@@ -69,18 +69,18 @@ namespace Weblu.Application.Services.Images
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<ImageDto>> GetAllAsync(ImageParameters imageParameters)
+        public async Task<List<ImageDTO>> GetAllAsync(ImageParameters imageParameters)
         {
             IReadOnlyList<ImageMedia> images = await _imageRepository.GetAllAsync(imageParameters);
-            List<ImageDto> imageDtos = _mapper.Map<List<ImageDto>>(images);
-            return imageDtos;
+            List<ImageDTO> imageDTOs = _mapper.Map<List<ImageDTO>>(images);
+            return imageDTOs;
         }
 
-        public async Task<ImageDto> GetByIdAsync(int imageId)
+        public async Task<ImageDTO> GetByIdAsync(int imageId)
         {
             ImageMedia image = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
-            ImageDto imageDto = _mapper.Map<ImageDto>(image);
-            return imageDto;
+            ImageDTO imageDTO = _mapper.Map<ImageDTO>(image);
+            return imageDTO;
         }
     }
 }

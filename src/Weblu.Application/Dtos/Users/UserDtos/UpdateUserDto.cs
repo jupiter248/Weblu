@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Users.UserDtos
+namespace Weblu.Application.DTOs.Users.UserDTOs
 {
-    public class UpdateUserDto
+    public class UpdateUserDTO
     {
         public required string PhoneNumber { get; set; }
         public required string UserName { get; set; }

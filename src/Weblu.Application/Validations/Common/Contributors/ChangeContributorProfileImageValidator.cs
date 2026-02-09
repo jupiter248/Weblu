@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Common.ContributorDtos;
+using Weblu.Application.DTOs.Common.ContributorDTOs;
 using Weblu.Domain.Errors.Images;
 
 namespace Weblu.Application.Validations.Common.Contributors
 {
-    public class ChangeContributorProfileImageValidator : AbstractValidator<ChangeContributorProfileImageDto>
+    public class ChangeContributorProfileImageValidator : AbstractValidator<ChangeContributorProfileImageDTO>
     {
         public ChangeContributorProfileImageValidator()
         {

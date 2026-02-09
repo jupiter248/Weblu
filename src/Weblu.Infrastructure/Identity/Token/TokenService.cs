@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
-using Weblu.Application.Dtos.Users.Tokens.RefreshTokenDtos;
-using Weblu.Application.Dtos.Users.Tokens.TokenDtos;
+using Weblu.Application.DTOs.Users.Tokens.RefreshTokenDTOs;
+using Weblu.Application.DTOs.Users.Tokens.TokenDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Users.Roles;
@@ -29,9 +29,9 @@ namespace Weblu.Infrastructure.Identity.Token
             _jwtTokenService = jwtTokenService;
             _roleRepository = roleRepository;
         }
-        public async Task<TokenDto> RefreshToken(TokenRequestDto addTokenRequestDto)
+        public async Task<TokenDTO> RefreshToken(TokenRequestDTO addTokenRequestDTO)
         {
-            RefreshToken refreshToken = await _refreshTokenRepository.GetByTokenAsync(addTokenRequestDto.RefreshToken) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
+            RefreshToken refreshToken = await _refreshTokenRepository.GetByTokenAsync(addTokenRequestDTO.RefreshToken) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
             if (refreshToken.IsUsed)
             {
                 throw new UnauthorizedException(TokenErrorCodes.RefreshTokenUsed);
@@ -65,18 +65,18 @@ namespace Weblu.Infrastructure.Identity.Token
             _refreshTokenRepository.Add(newRefreshToken);
             await _unitOfWork.CommitAsync();
 
-            TokenDto tokenDto = new TokenDto()
+            TokenDTO tokenDTO = new TokenDTO()
             {
                 AccessToken = newAccessToken,
                 RefreshToken = newRefreshTokenValue
             };
-            return tokenDto;
+            return tokenDTO;
         }
 
-        public async Task RevokeToken(RevokeRequestDto revokeRequestDto, string userId)
+        public async Task RevokeToken(RevokeRequestDTO revokeRequestDTO, string userId)
         {
             AppUser appUser = await _userManager.FindByIdAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
-            RefreshToken refreshToken = await _refreshTokenRepository.GetByTokenAsync(revokeRequestDto.RefreshToken) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
+            RefreshToken refreshToken = await _refreshTokenRepository.GetByTokenAsync(revokeRequestDTO.RefreshToken) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
 
             if (refreshToken.UserId != appUser.Id)
             {

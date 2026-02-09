@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.FAQs.FAQDtos;
+using Weblu.Application.DTOs.FAQs.FAQDTOs;
 using Weblu.Domain.Errors.FAQs;
 
 namespace Weblu.Application.Validations.FAQs.FAQ
 {
-    public class CreateFAQValidator : AbstractValidator<CreateFAQDto>
+    public class CreateFAQValidator : AbstractValidator<CreateFAQDTO>
     {
         public CreateFAQValidator()
         {

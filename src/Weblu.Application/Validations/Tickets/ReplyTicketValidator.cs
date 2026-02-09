@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Tickets.TicketMessageDtos;
+using Weblu.Application.DTOs.Tickets.TicketMessageDTOs;
 using Weblu.Domain.Errors.Tickets;
 
 namespace Weblu.Application.Validations.Tickets
 {
-    public class ReplyTicketValidator : AbstractValidator<ReplyTicketDto>
+    public class ReplyTicketValidator : AbstractValidator<ReplyTicketDTO>
     {
         public ReplyTicketValidator()
         {

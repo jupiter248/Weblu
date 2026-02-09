@@ -2,7 +2,7 @@ using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Weblu.Application.Common.Interfaces;
-using Weblu.Application.Dtos.Images.MediaDtos;
+using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Helpers;
 using Xunit;
 
@@ -21,13 +21,13 @@ namespace Weblu.Application.UnitTests.Helpers
         public void MediaManager_UploadMedia_ReturnMediaName()
         {
             // Arrange
-            MediaUploaderDto mediaUploaderDto = new MediaUploaderDto
+            MediaUploaderDTO mediaUploaderDTO = new MediaUploaderDTO
             {
                 Media = A.Fake<IFormFile>(),
                 MediaType = Weblu.Domain.Enums.Common.Media.MediaType.picture
             };
             // Act
-            var act = MediaManager.UploadMedia(_webHostPath, mediaUploaderDto);
+            var act = MediaManager.UploadMedia(_webHostPath, mediaUploaderDTO);
 
             // Assert
             act.Should().BeOfType<Task<string>>();
@@ -41,7 +41,7 @@ namespace Weblu.Application.UnitTests.Helpers
 
             // Act
             Func<Task> act = () => MediaManager.DeleteMedia(_webHostPath, mediaPath);
-    
+
             // Assert
             await act.Should().NotThrowAsync();
         }

@@ -2,8 +2,8 @@ using AutoMapper;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Common.Pagination;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Articles.ArticleDtos;
-using Weblu.Application.Dtos.Articles.ArticleDtos.ArticleImageDtos;
+using Weblu.Application.DTOs.Articles.ArticleDTOs;
+using Weblu.Application.DTOs.Articles.ArticleDTOs.ArticleImageDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Articles;
@@ -42,9 +42,9 @@ namespace Weblu.Application.Services.Articles
             _commentRepository = commentRepository;
             _domainEventDispatcher = domainEventDispatcher;
         }
-        public async Task<ArticleDetailDto> CreateAsync(CreateArticleDto createArticleDto)
+        public async Task<ArticleDetailDTO> CreateAsync(CreateArticleDTO createArticleDTO)
         {
-            Article article = _mapper.Map<Article>(createArticleDto);
+            Article article = _mapper.Map<Article>(createArticleDTO);
 
             ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(article.CategoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
             article.Category = articleCategory;
@@ -53,8 +53,8 @@ namespace Weblu.Application.Services.Articles
             await _unitOfWork.CommitAsync();
 
 
-            ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
-            return articleDetailDto;
+            ArticleDetailDTO articleDetailDTO = _mapper.Map<ArticleDetailDTO>(article);
+            return articleDetailDTO;
         }
 
         public async Task DeleteAsync(int articleId)
@@ -65,7 +65,7 @@ namespace Weblu.Application.Services.Articles
             article.Delete();
             await _unitOfWork.CommitAsync();
         }
-        public async Task<List<ArticleSummaryDto>> GetAllAsync(ArticleParameters articleParameters)
+        public async Task<List<ArticleSummaryDTO>> GetAllAsync(ArticleParameters articleParameters)
         {
             IReadOnlyList<Article> articles = await _articleRepository.GetAllAsync(articleParameters);
             var articleIds = articles.Select(a => a.Id).ToList();
@@ -74,54 +74,54 @@ namespace Weblu.Application.Services.Articles
             var likesCounts = await _articleRepository.GetLikeCountByIdsAsync(articleIds);
 
 
-            var articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles)
-                                     ?? new List<ArticleSummaryDto>();
+            var articleSummaryDTOs = _mapper.Map<List<ArticleSummaryDTO>>(articles)
+                                     ?? new List<ArticleSummaryDTO>();
 
-            foreach (var dto in articleSummaryDtos)
+            foreach (var dTO in articleSummaryDTOs)
             {
-                dto.CommentCount = commentCounts.TryGetValue(dto.Id, out var cCount) ? cCount : 0;
-                dto.LikeCount = likesCounts.TryGetValue(dto.Id, out var lCount) ? lCount : 0;
+                dTO.CommentCount = commentCounts.TryGetValue(dTO.Id, out var cCount) ? cCount : 0;
+                dTO.LikeCount = likesCounts.TryGetValue(dTO.Id, out var lCount) ? lCount : 0;
             }
 
-            return articleSummaryDtos;
+            return articleSummaryDTOs;
         }
 
-        public async Task<PagedResponse<ArticleSummaryDto>> GetAllPagedAsync(ArticleParameters articleParameters)
+        public async Task<PagedResponse<ArticleSummaryDTO>> GetAllPagedAsync(ArticleParameters articleParameters)
         {
             PagedList<Article> articles = await _articleRepository.GetAllAsync(articleParameters);
             var articleIds = articles.Select(a => a.Id).ToList();
             var commentCounts = await _commentRepository.GetCountByIdsAsync(articleIds);
             var likesCounts = await _articleRepository.GetLikeCountByIdsAsync(articleIds);
 
-            List<ArticleSummaryDto> articleSummaryDtos = _mapper.Map<List<ArticleSummaryDto>>(articles);
-            foreach (var dto in articleSummaryDtos)
+            List<ArticleSummaryDTO> articleSummaryDTOs = _mapper.Map<List<ArticleSummaryDTO>>(articles);
+            foreach (var dTO in articleSummaryDTOs)
             {
-                dto.CommentCount = commentCounts.TryGetValue(dto.Id, out var cCount) ? cCount : 0;
-                dto.LikeCount = likesCounts.TryGetValue(dto.Id, out var lCount) ? lCount : 0;
+                dTO.CommentCount = commentCounts.TryGetValue(dTO.Id, out var cCount) ? cCount : 0;
+                dTO.LikeCount = likesCounts.TryGetValue(dTO.Id, out var lCount) ? lCount : 0;
             }
 
-            var pagedResponse = _mapper.Map<PagedResponse<ArticleSummaryDto>>(articles);
-            pagedResponse.Items = articleSummaryDtos;
+            var pagedResponse = _mapper.Map<PagedResponse<ArticleSummaryDTO>>(articles);
+            pagedResponse.Items = articleSummaryDTOs;
             return pagedResponse;
         }
 
-        public async Task<ArticleDetailDto> GetByIdAsync(int articleId)
+        public async Task<ArticleDetailDTO> GetByIdAsync(int articleId)
         {
             Article article = await _articleRepository.GetByIdWithImagesAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            List<ArticleImageDto> imageDtos = article.ArticleImages.Select(x => _mapper.Map<ArticleImageDto>(x)).ToList();
-            ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
-            articleDetailDto.ArticleImages = imageDtos;
-            articleDetailDto.CommentCount = await _commentRepository.GetCountAsync(articleId);
-            articleDetailDto.LikeCount = await _articleRepository.GetLikeCountAsync(articleId);
-            return articleDetailDto;
+            List<ArticleImageDTO> imageDTOs = article.ArticleImages.Select(x => _mapper.Map<ArticleImageDTO>(x)).ToList();
+            ArticleDetailDTO articleDetailDTO = _mapper.Map<ArticleDetailDTO>(article);
+            articleDetailDTO.ArticleImages = imageDTOs;
+            articleDetailDTO.CommentCount = await _commentRepository.GetCountAsync(articleId);
+            articleDetailDTO.LikeCount = await _articleRepository.GetLikeCountAsync(articleId);
+            return articleDetailDTO;
         }
 
-        public async Task<ArticleDetailDto> EditAsync(int articleId, UpdateArticleDto updateArticleDto)
+        public async Task<ArticleDetailDTO> EditAsync(int articleId, UpdateArticleDTO updateArticleDTO)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            article = _mapper.Map(updateArticleDto, article);
+            article = _mapper.Map(updateArticleDTO, article);
 
-            ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(updateArticleDto.CategoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
+            ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(updateArticleDTO.CategoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
             article.Category = articleCategory;
 
             article.Update();
@@ -131,8 +131,8 @@ namespace Weblu.Application.Services.Articles
             await _domainEventDispatcher.DispatchAsync(article.Events);
             article.ClearEvents();
 
-            ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
-            return articleDetailDto;
+            ArticleDetailDTO articleDetailDTO = _mapper.Map<ArticleDetailDTO>(article);
+            return articleDetailDTO;
         }
 
         public async Task ViewAsync(int articleId)

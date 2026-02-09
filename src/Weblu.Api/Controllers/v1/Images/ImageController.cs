@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Images.ImageDtos;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 using Weblu.Application.Interfaces.Services.Images;
 using Weblu.Application.Parameters.Images;
 using Weblu.Infrastructure.Identity.Authorization;
@@ -23,25 +23,25 @@ namespace Weblu.Api.Controllers.v1.Images
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] ImageParameters imageParameters)
         {
-            List<ImageDto> imageDtos = await _imageService.GetAllAsync(imageParameters);
-            return Ok(imageDtos);
+            List<ImageDTO> imageDTOs = await _imageService.GetAllAsync(imageParameters);
+            return Ok(imageDTOs);
         }
         [Authorize(Policy = Permissions.ManageImages)]
         [HttpGet("{imageId:int}")]
         public async Task<IActionResult> GetById(int imageId)
         {
-            ImageDto imageDto = await _imageService.GetByIdAsync(imageId);
-            return Ok(imageDto);
+            ImageDTO imageDTO = await _imageService.GetByIdAsync(imageId);
+            return Ok(imageDTO);
         }
         [Authorize(Policy = Permissions.ManageImages)]
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm] AddImageDto addImageDto)
+        public async Task<IActionResult> Add([FromForm] AddImageDTO addImageDTO)
         {
-            ImageDto imageDto = await _imageService.AddAsync(addImageDto);
-            return CreatedAtAction(nameof(GetById), new { imageId = imageDto.Id }, ApiResponse<ImageDto>.Success
+            ImageDTO imageDTO = await _imageService.AddAsync(addImageDTO);
+            return CreatedAtAction(nameof(GetById), new { imageId = imageDTO.Id }, ApiResponse<ImageDTO>.Success
             (
                 "Image uploaded successfully.",
-                imageDto
+                imageDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageImages)]

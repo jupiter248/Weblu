@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Auth.AuthDtos
+namespace Weblu.Application.DTOs.Auth.AuthDTOs
 {
-    public class RegisterDto
+    public class RegisterDTO
     {
         public required string PhoneNumber { get; set; }
         public required string Username { get; set; }

@@ -1,13 +1,13 @@
-using Weblu.Application.Dtos.Images.ImageDtos;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 using Weblu.Application.Parameters.Images;
 
 namespace Weblu.Application.Interfaces.Services.Images
 {
     public interface IImageService
     {
-        Task<List<ImageDto>> GetAllAsync(ImageParameters imageParameters);
-        Task<ImageDto> GetByIdAsync(int imageId);
-        Task<ImageDto> AddAsync(AddImageDto addImageDto);
+        Task<List<ImageDTO>> GetAllAsync(ImageParameters imageParameters);
+        Task<ImageDTO> GetByIdAsync(int imageId);
+        Task<ImageDTO> AddAsync(AddImageDTO addImageDTO);
         Task DeleteAsync(int imageId);
     }
 }

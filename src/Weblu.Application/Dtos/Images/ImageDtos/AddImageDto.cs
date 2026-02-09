@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Weblu.Application.Dtos.Images.ImageDtos
+namespace Weblu.Application.DTOs.Images.ImageDTOs
 {
-    public class AddImageDto
+    public class AddImageDTO
     {
         public IFormFile Image { get; set; } = default!;
         public string? AltText { get; set; }

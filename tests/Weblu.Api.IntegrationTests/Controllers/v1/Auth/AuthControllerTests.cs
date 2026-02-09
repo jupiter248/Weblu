@@ -3,7 +3,7 @@ using FluentAssertions;
 using Weblu.Api.IntegrationTests.Common;
 using Weblu.Api.IntegrationTests.Helpers;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Auth.AuthDtos;
+using Weblu.Application.DTOs.Auth.AuthDTOs;
 
 namespace Weblu.Api.IntegrationTests.Controllers.v1.Auth
 {
@@ -16,7 +16,7 @@ namespace Weblu.Api.IntegrationTests.Controllers.v1.Auth
         public async Task AuthController_Register_Return200()
         {
             // Arrange
-            RegisterDto registerDto = new RegisterDto
+            RegisterDTO registerDTO = new RegisterDTO
             {
                 Username = "testusername",
                 Password = "TestPassword123!",
@@ -25,15 +25,15 @@ namespace Weblu.Api.IntegrationTests.Controllers.v1.Auth
                 PhoneNumber = "09123456789",
             };
             // Act
-            var act = await _client.PostAsJsonAsync("api/auth/register", registerDto, cancellationToken: TestContext.Current.CancellationToken);
+            var act = await _client.PostAsJsonAsync("api/auth/register", registerDTO, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             act.EnsureSuccessStatusCode();
 
-            var response = await act.Content.ReadFromJsonAsync<ApiResponse<AuthResponseDto>>(cancellationToken: TestContext.Current.CancellationToken);
+            var response = await act.Content.ReadFromJsonAsync<ApiResponse<AuthResponseDTO>>(cancellationToken: TestContext.Current.CancellationToken);
             response?.Data.Should().NotBeNull();
-            response?.Data.Should().BeOfType<AuthResponseDto>();
-            response?.Data.Should().Match<AuthResponseDto>(x => x.Username == registerDto.Username);
+            response?.Data.Should().BeOfType<AuthResponseDTO>();
+            response?.Data.Should().Match<AuthResponseDTO>(x => x.Username == registerDTO.Username);
 
         }
         [Fact]
@@ -41,21 +41,21 @@ namespace Weblu.Api.IntegrationTests.Controllers.v1.Auth
         {
             // Arrange
 
-            LoginDto loginDto = new LoginDto
+            LoginDTO loginDTO = new LoginDTO
             {
                 Username = "user",
                 Password = "@User248",
             };
 
             // Act
-            var act = await _client.PostAsJsonAsync("api/auth/login", loginDto, cancellationToken: TestContext.Current.CancellationToken);
+            var act = await _client.PostAsJsonAsync("api/auth/login", loginDTO, cancellationToken: TestContext.Current.CancellationToken);
             // Assert
             act.EnsureSuccessStatusCode();
 
-            var response = await act.Content.ReadFromJsonAsync<ApiResponse<AuthResponseDto>>(cancellationToken: TestContext.Current.CancellationToken);
+            var response = await act.Content.ReadFromJsonAsync<ApiResponse<AuthResponseDTO>>(cancellationToken: TestContext.Current.CancellationToken);
             response?.Data.Should().NotBeNull();
-            response?.Data.Should().BeOfType<AuthResponseDto>();
-            response?.Data.Should().Match<AuthResponseDto>(x => x.Username == loginDto.Username);
+            response?.Data.Should().BeOfType<AuthResponseDTO>();
+            response?.Data.Should().Match<AuthResponseDTO>(x => x.Username == loginDTO.Username);
 
         }
     }

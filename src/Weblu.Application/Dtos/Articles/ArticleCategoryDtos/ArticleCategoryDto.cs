@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Articles.ArticleCategoryDtos
+namespace Weblu.Application.DTOs.Articles.ArticleCategoryDTOs
 {
-    public class ArticleCategoryDto
+    public class ArticleCategoryDTO
     {
         public int Id { get; set; }
         public string Name { get; set; } = default!;

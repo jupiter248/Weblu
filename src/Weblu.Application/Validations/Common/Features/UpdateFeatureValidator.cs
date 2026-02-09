@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Common.FeatureDtos;
+using Weblu.Application.DTOs.Common.FeatureDTOs;
 using Weblu.Domain.Errors.Common;
 
 namespace Weblu.Application.Validations.Common.Features
 {
-    public class UpdateFeatureValidator : AbstractValidator<UpdateFeatureDto>
+    public class UpdateFeatureValidator : AbstractValidator<UpdateFeatureDTO>
     {
         public UpdateFeatureValidator()
         {

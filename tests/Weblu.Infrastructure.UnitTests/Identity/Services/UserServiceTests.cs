@@ -3,7 +3,7 @@ using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Weblu.Application.Dtos.Users.UserDtos;
+using Weblu.Application.DTOs.Users.UserDTOs;
 using Weblu.Domain.Enums.Users;
 using Weblu.Infrastructure.Identity.Entities;
 using Weblu.Infrastructure.Identity.Services;
@@ -34,7 +34,7 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
         public async Task UserService_ChangeUserPasswordAsync_ChangeAndCommitPassword()
         {
             // Arrange 
-            ChangePasswordDto changePasswordDto = new ChangePasswordDto()
+            ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO()
             {
                 OldPassword = "OldTestPassword",
                 NewPassword = "NewTestPassword",
@@ -46,20 +46,20 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             };
             A.CallTo(() => _httpContextAccessor.HttpContext).Returns(httpContent);
             A.CallTo(() => _userManager.FindByIdAsync(_user.Id)).Returns(_user);
-            A.CallTo(() => _userManager.CheckPasswordAsync(A<AppUser>._, changePasswordDto.OldPassword)).Returns(true);
-            A.CallTo(() => _userManager.ChangePasswordAsync(A<AppUser>._, changePasswordDto.OldPassword, changePasswordDto.NewPassword)).Returns(IdentityResult.Success);
+            A.CallTo(() => _userManager.CheckPasswordAsync(A<AppUser>._, changePasswordDTO.OldPassword)).Returns(true);
+            A.CallTo(() => _userManager.ChangePasswordAsync(A<AppUser>._, changePasswordDTO.OldPassword, changePasswordDTO.NewPassword)).Returns(IdentityResult.Success);
 
             var userService = new UserService(_userManager, _mapper, _httpContextAccessor);
 
             // Act
 
-            await userService.ChangePasswordAsync(_user.Id, changePasswordDto);
+            await userService.ChangePasswordAsync(_user.Id, changePasswordDTO);
 
             // Assert
             A.CallTo(() => _userManager.ChangePasswordAsync(
                     _user,
-                    changePasswordDto.OldPassword,
-                    changePasswordDto.NewPassword))
+                    changePasswordDTO.OldPassword,
+                    changePasswordDTO.NewPassword))
                 .MustHaveHappenedOnceExactly();
         }
         [Fact]
@@ -84,16 +84,16 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             _user.IsDeleted.Should().Be(true);
         }
         [Fact]
-        public async Task UserService_UpdateUserAsync_ReturnUserDto()
+        public async Task UserService_UpdateUserAsync_ReturnUserDTO()
         {
-            UpdateUserDto updateUserDto = new UpdateUserDto()
+            UpdateUserDTO updateUserDTO = new UpdateUserDTO()
             {
                 FirstName = "Mohammad Mahdi",
                 LastName = "Azimi",
                 PhoneNumber = "989931883414",
                 UserName = "TestUsername1",
             };
-            UserDto userDto = new UserDto()
+            UserDTO userDTO = new UserDTO()
             {
                 FirstName = "Mohammad Mahdi",
                 LastName = "Azimi",
@@ -108,8 +108,8 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             };
             A.CallTo(() => _httpContextAccessor.HttpContext).Returns(httpContent);
             A.CallTo(() => _userManager.FindByIdAsync(_user.Id)).Returns(_user);
-            A.CallTo(() => _mapper.Map<UserDto>(_user)).Returns(userDto);
-            A.CallTo(() => _mapper.Map(updateUserDto, _user)).Returns(_user);
+            A.CallTo(() => _mapper.Map<UserDTO>(_user)).Returns(userDTO);
+            A.CallTo(() => _mapper.Map(updateUserDTO, _user)).Returns(_user);
 
             A.CallTo(() => _userManager.UpdateAsync(_user)).Returns(IdentityResult.Success);
 
@@ -117,10 +117,10 @@ namespace Weblu.Infrastructure.UnitTests.Identity.Services
             var userService = new UserService(_userManager, _mapper, _httpContextAccessor);
 
             // Act
-            var act = await userService.UpdateAsync(_user.Id, updateUserDto);
+            var act = await userService.UpdateAsync(_user.Id, updateUserDTO);
 
             // Assert
-            act.Should().BeOfType<UserDto>();
+            act.Should().BeOfType<UserDTO>();
             A.CallTo(() => _userManager.UpdateAsync(_user))
                 .MustHaveHappenedOnceExactly();
         }

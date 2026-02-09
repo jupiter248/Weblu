@@ -1,5 +1,5 @@
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Articles.CommentDtos;
+using Weblu.Application.DTOs.Articles.CommentDTOs;
 using Weblu.Application.Parameters;
 using Weblu.Application.Parameters.Articles;
 
@@ -7,11 +7,11 @@ namespace Weblu.Application.Interfaces.Services.Articles
 {
     public interface ICommentService
     {
-        Task<List<CommentDto>> GetAllAsync(CommentParameters commentParameters);
-        Task<PagedResponse<CommentDto>> GetAllPagedAsync(CommentParameters commentParameters);
-        Task<CommentDto> GetByIdAsync(int commentId);
-        Task<CommentDto> CreateAsync(string userId, CreateCommentDto createCommentDto);
-        Task<CommentDto> EditAsync(string userId, int commentId, UpdateCommentDto updateCommentDto);
+        Task<List<CommentDTO>> GetAllAsync(CommentParameters commentParameters);
+        Task<PagedResponse<CommentDTO>> GetAllPagedAsync(CommentParameters commentParameters);
+        Task<CommentDTO> GetByIdAsync(int commentId);
+        Task<CommentDTO> CreateAsync(string userId, CreateCommentDTO createCommentDTO);
+        Task<CommentDTO> EditAsync(string userId, int commentId, UpdateCommentDTO updateCommentDTO);
         Task DeleteAsync(string userId, int commentId);
     }
 }

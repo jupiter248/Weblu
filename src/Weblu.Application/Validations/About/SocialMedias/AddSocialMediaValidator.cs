@@ -1,11 +1,11 @@
 using FluentValidation;
-using Weblu.Application.Dtos.About.SocialMediaDtos;
+using Weblu.Application.DTOs.About.SocialMediaDTOs;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Errors.About;
 
 namespace Weblu.Application.Validations.About.SocialMedias
 {
-    public class CreateSocialMediaValidator : AbstractValidator<CreateSocialMediaDto>
+    public class CreateSocialMediaValidator : AbstractValidator<CreateSocialMediaDTO>
     {
         public CreateSocialMediaValidator()
         {

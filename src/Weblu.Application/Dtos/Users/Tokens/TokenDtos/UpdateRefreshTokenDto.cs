@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Users.Tokens.TokenDtos
+namespace Weblu.Application.DTOs.Users.Tokens.TokenDTOs
 {
-    public class UpdateRefreshTokenDto
+    public class UpdateRefreshTokenDTO
     {
         public bool IsUsed { get; set; }
         public bool IsRevoked { get; set; }

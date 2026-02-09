@@ -1,7 +1,7 @@
 using AutoMapper;
 using Weblu.Application.Common.Interfaces;
-using Weblu.Application.Dtos.About.AboutUsDtos;
-using Weblu.Application.Dtos.Images.MediaDtos;
+using Weblu.Application.DTOs.About.AboutUsDTOs;
+using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Repositories;
@@ -48,25 +48,25 @@ namespace Weblu.Application.Services.About
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<AboutUsDto> UpdateAsync(int aboutUsId, UpdateAboutUsDto updateAboutUsDto)
+        public async Task<AboutUsDTO> UpdateAsync(int aboutUsId, UpdateAboutUsDTO updateAboutUsDTO)
         {
             AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
-            aboutUs = _mapper.Map(updateAboutUsDto, aboutUs);
+            aboutUs = _mapper.Map(updateAboutUsDTO, aboutUs);
 
             aboutUs.MarkUpdated();
             _aboutUsRepository.Update(aboutUs);
             await _unitOfWork.CommitAsync();
 
-            AboutUsDto aboutUsDto = _mapper.Map<AboutUsDto>(aboutUs);
-            return aboutUsDto;
+            AboutUsDTO aboutUsDTO = _mapper.Map<AboutUsDTO>(aboutUs);
+            return aboutUsDTO;
         }
 
-        public async Task<AboutUsDto> ChangeHeadImageAsync(int aboutUsId, ChangeAboutUsImageDto changeAboutUsImageDto)
+        public async Task<AboutUsDTO> ChangeHeadImageAsync(int aboutUsId, ChangeAboutUsImageDTO changeAboutUsImageDTO)
         {
 
             AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
 
-            if (changeAboutUsImageDto.Image.Length < 0)
+            if (changeAboutUsImageDTO.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
@@ -74,31 +74,31 @@ namespace Weblu.Application.Services.About
             {
                 await MediaManager.DeleteMedia(_webHostPath, aboutUs.HeadImageUrl);
             }
-            var image = changeAboutUsImageDto.Image;
+            var image = changeAboutUsImageDTO.Image;
             string imageName = await MediaManager.UploadMedia(
                     _webHostPath,
-                    new MediaUploaderDto
+                    new MediaUploaderDTO
                     {
                         Media = image,
                         MediaType = MediaType.picture
                     }
             );
             aboutUs.HeadImageUrl = $"uploads/{MediaType.picture}/{imageName}";
-            aboutUs.HeadImageAltText = changeAboutUsImageDto.AltText;
+            aboutUs.HeadImageAltText = changeAboutUsImageDTO.AltText;
 
             aboutUs.MarkUpdated();
             _aboutUsRepository.Update(aboutUs);
             await _unitOfWork.CommitAsync();
 
-            AboutUsDto aboutUsDto = _mapper.Map<AboutUsDto>(aboutUs);
-            return aboutUsDto;
+            AboutUsDTO aboutUsDTO = _mapper.Map<AboutUsDTO>(aboutUs);
+            return aboutUsDTO;
         }
 
-        public async Task<AboutUsDto> GetAsync()
+        public async Task<AboutUsDTO> GetAsync()
         {
             AboutUs aboutUs = await _aboutUsRepository.GetAsync() ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
-            AboutUsDto aboutUsDto = _mapper.Map<AboutUsDto>(aboutUs);
-            return aboutUsDto;
+            AboutUsDTO aboutUsDTO = _mapper.Map<AboutUsDTO>(aboutUs);
+            return aboutUsDTO;
         }
     }
 }

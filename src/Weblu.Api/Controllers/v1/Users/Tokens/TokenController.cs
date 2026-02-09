@@ -2,8 +2,8 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Users.Tokens.RefreshTokenDtos;
-using Weblu.Application.Dtos.Users.Tokens.TokenDtos;
+using Weblu.Application.DTOs.Users.Tokens.RefreshTokenDTOs;
+using Weblu.Application.DTOs.Users.Tokens.TokenDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Services.Interfaces.Users.Tokens;
@@ -23,25 +23,25 @@ namespace Weblu.Api.Controllers.v1.Tokens
         }
         [Authorize]
         [HttpPost("refresh")]
-        public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDto tokenRequestDto)
+        public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDTO tokenRequestDTO)
         {
-            TokenDto tokenDto = await _tokenService.RefreshToken(tokenRequestDto);
-            return Ok(ApiResponse<TokenDto>.Success
+            TokenDTO tokenDTO = await _tokenService.RefreshToken(tokenRequestDTO);
+            return Ok(ApiResponse<TokenDTO>.Success
             (
                 "Token refreshed successfully.",
-                tokenDto
+                tokenDTO
             ));
         }
         [Authorize]
         [HttpPost("revoke")]
-        public async Task<IActionResult> RevokeToken([FromBody] RevokeRequestDto revokeRequestDto)
+        public async Task<IActionResult> RevokeToken([FromBody] RevokeRequestDTO revokeRequestDTO)
         {
             string? userId = User.GetUserId();
             if (string.IsNullOrEmpty(userId))
             {
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
-            await _tokenService.RevokeToken(revokeRequestDto, userId);
+            await _tokenService.RevokeToken(revokeRequestDTO, userId);
             return Ok(ApiResponse.Success
             (
                 "Tokens revoked successfully"

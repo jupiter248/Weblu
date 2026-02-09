@@ -1,8 +1,8 @@
 using Weblu.Domain.Enums.Tickets;
 
-namespace Weblu.Application.Dtos.Tickets.TicketDtos
+namespace Weblu.Application.DTOs.Tickets.TicketDTOs
 {
-    public class CreateTicketDto
+    public class CreateTicketDTO
     {
         public string Subject { get; set; } = default!;
         public TicketPriority Priority { get; set; }

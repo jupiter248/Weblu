@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Common.MethodDtos;
+using Weblu.Application.DTOs.Common.MethodDTOs;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Common.Methods;
 
@@ -9,11 +9,11 @@ namespace Weblu.Application.Mappers.Common
     {
         public MethodProfile()
         {
-            CreateMap<Method, MethodDto>()
+            CreateMap<Method, MethodDTO>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<CreateMethodDto, Method>();
-            CreateMap<UpdateMethodDto, Method>()
+            CreateMap<CreateMethodDTO, Method>();
+            CreateMap<UpdateMethodDTO, Method>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
         }
     }

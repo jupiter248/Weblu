@@ -1,4 +1,4 @@
-using Weblu.Application.Dtos.Images.MediaDtos;
+using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Domain.Errors.Common;
 
@@ -6,10 +6,10 @@ namespace Weblu.Application.Helpers
 {
     public static class MediaManager
     {
-        
-        public static async Task<string> UploadMedia(string webRootPath, MediaUploaderDto mediaUploaderDto)
+
+        public static async Task<string> UploadMedia(string webRootPath, MediaUploaderDTO mediaUploaderDTO)
         {
-            var media = mediaUploaderDto.Media;
+            var media = mediaUploaderDTO.Media;
             if (media.Length < 0 || media == null)
             {
                 throw new BadRequestException(CommonErrorCodes.MediaInvalid);
@@ -21,14 +21,14 @@ namespace Weblu.Application.Helpers
                 Directory.CreateDirectory(uploadsFolder);
             }
 
-            var mediaTypeFolder = Path.Combine(webRootPath, $"uploads/{mediaUploaderDto.MediaType}");
+            var mediaTypeFolder = Path.Combine(webRootPath, $"uploads/{mediaUploaderDTO.MediaType}");
             if (!Path.Exists(mediaTypeFolder))
             {
                 Directory.CreateDirectory(mediaTypeFolder);
             }
 
             string mediaName = $"{Guid.NewGuid()}-{Path.GetFileName(media.FileName)}";
-            string mediaPath = Path.Combine(webRootPath, $"uploads/{mediaUploaderDto.MediaType}", mediaName);
+            string mediaPath = Path.Combine(webRootPath, $"uploads/{mediaUploaderDTO.MediaType}", mediaName);
 
             using (var stream = new FileStream(mediaPath, FileMode.Create))
             {

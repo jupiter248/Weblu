@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.FAQs.FAQDtos;
+using Weblu.Application.DTOs.FAQs.FAQDTOs;
 using Weblu.Application.Interfaces.Services.FAQs;
 using Weblu.Application.Parameters.FAQs;
 using Weblu.Application.Validations;
@@ -24,35 +24,35 @@ namespace Weblu.Api.Controllers.v1.FAQs
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] FAQParameters faqParameters)
         {
-            List<FAQDto> faqDtos = await _faqService.GetAllAsync(faqParameters);
-            return Ok(faqDtos);
+            List<FAQDTO> faqDTOs = await _faqService.GetAllAsync(faqParameters);
+            return Ok(faqDTOs);
         }
         [HttpGet("{faqId:int}")]
         public async Task<IActionResult> GetById(int faqId)
         {
-            FAQDto faqDto = await _faqService.GetByIdAsync(faqId);
-            return Ok(faqDto);
+            FAQDTO faqDTO = await _faqService.GetByIdAsync(faqId);
+            return Ok(faqDTO);
         }
         [Authorize(Policy = Permissions.ManageFAQs)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateFAQDto createFAQDto)
+        public async Task<IActionResult> Create([FromBody] CreateFAQDTO createFAQDTO)
         {
-            Validator.ValidateAndThrow(createFAQDto, new CreateFAQValidator());
+            Validator.ValidateAndThrow(createFAQDTO, new CreateFAQValidator());
 
-            FAQDto faqDto = await _faqService.CreateAsync(createFAQDto);
-            return CreatedAtAction(nameof(GetById), new { faqId = faqDto.Id }, ApiResponse<FAQDto>.Success("FAQ added successfully.", faqDto));
+            FAQDTO faqDTO = await _faqService.CreateAsync(createFAQDTO);
+            return CreatedAtAction(nameof(GetById), new { faqId = faqDTO.Id }, ApiResponse<FAQDTO>.Success("FAQ added successfully.", faqDTO));
         }
         [Authorize(Policy = Permissions.ManageFAQs)]
         [HttpPut("{faqId:int}")]
-        public async Task<IActionResult> Update(int faqId, [FromBody] UpdateFAQDto updateFAQDto)
+        public async Task<IActionResult> Update(int faqId, [FromBody] UpdateFAQDTO updateFAQDTO)
         {
-            Validator.ValidateAndThrow(updateFAQDto, new UpdateFAQValidator());
+            Validator.ValidateAndThrow(updateFAQDTO, new UpdateFAQValidator());
 
 
-            FAQDto faqDto = await _faqService.UpdateAsync(faqId, updateFAQDto);
-            return Ok(ApiResponse<FAQDto>.Success(
+            FAQDTO faqDTO = await _faqService.UpdateAsync(faqId, updateFAQDTO);
+            return Ok(ApiResponse<FAQDTO>.Success(
                 "FAQ updated successfully.",
-                faqDto
+                faqDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageFAQs)]

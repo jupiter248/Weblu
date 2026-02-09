@@ -5,10 +5,10 @@ using Weblu.Application.Interfaces.Services.ServiceServices;
 using Weblu.Application.Common.Responses;
 using Weblu.Application.Common.Pagination;
 using Weblu.Application.Interfaces.Repositories.Services;
-using Weblu.Application.Dtos.Services.ServiceDtos;
+using Weblu.Application.DTOs.Services.ServiceDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Parameters.Services;
-using Weblu.Application.Dtos.Services.ServiceDtos.ServiceImageDtos;
+using Weblu.Application.DTOs.Services.ServiceDTOs.ServiceImageDTOs;
 using Weblu.Application.Interfaces.Repositories;
 
 namespace Weblu.Application.Services
@@ -28,13 +28,13 @@ namespace Weblu.Application.Services
             _mapper = mapper;
             _serviceRepository = serviceRepository;
         }
-        public async Task<ServiceDetailDto> CreateAsync(CreateServiceDto createServiceDto)
+        public async Task<ServiceDetailDTO> CreateAsync(CreateServiceDTO createServiceDTO)
         {
-            Service newService = _mapper.Map<Service>(createServiceDto);
+            Service newService = _mapper.Map<Service>(createServiceDTO);
             _serviceRepository.Add(newService);
             await _unitOfWork.CommitAsync();
-            ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(newService);
-            return serviceDto;
+            ServiceDetailDTO serviceDTO = _mapper.Map<ServiceDetailDTO>(newService);
+            return serviceDTO;
         }
         public async Task DeleteAsync(int serviceId)
         {
@@ -43,40 +43,40 @@ namespace Weblu.Application.Services
             service.Delete();
             await _unitOfWork.CommitAsync();
         }
-        public async Task<PagedResponse<ServiceSummaryDto>> GetAllPagedAsync(ServiceParameters serviceParameters)
+        public async Task<PagedResponse<ServiceSummaryDTO>> GetAllPagedAsync(ServiceParameters serviceParameters)
         {
             PagedList<Service> services = await _serviceRepository.GetAllAsync(serviceParameters);
-            List<ServiceSummaryDto> serviceSummaryDtos = _mapper.Map<List<ServiceSummaryDto>>(services);
-            var pagedResponse = _mapper.Map<PagedResponse<ServiceSummaryDto>>(services);
-            pagedResponse.Items = serviceSummaryDtos;
+            List<ServiceSummaryDTO> serviceSummaryDTOs = _mapper.Map<List<ServiceSummaryDTO>>(services);
+            var pagedResponse = _mapper.Map<PagedResponse<ServiceSummaryDTO>>(services);
+            pagedResponse.Items = serviceSummaryDTOs;
             return pagedResponse;
         }
 
-        public async Task<List<ServiceSummaryDto>> GetAllAsync(ServiceParameters serviceParameters)
+        public async Task<List<ServiceSummaryDTO>> GetAllAsync(ServiceParameters serviceParameters)
         {
             IReadOnlyList<Service> services = await _serviceRepository.GetAllAsync(serviceParameters);
-            List<ServiceSummaryDto> serviceSummaryDtos = _mapper.Map<List<ServiceSummaryDto>>(services);
-            return serviceSummaryDtos;
+            List<ServiceSummaryDTO> serviceSummaryDTOs = _mapper.Map<List<ServiceSummaryDTO>>(services);
+            return serviceSummaryDTOs;
         }
-        public async Task<ServiceDetailDto> GetByIdAsync(int serviceId)
+        public async Task<ServiceDetailDTO> GetByIdAsync(int serviceId)
         {
             Service? service = await _serviceRepository.GetByIdWithImagesAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
-            List<ServiceImageDto> imageDtos = service.ServiceImages.Select(x => _mapper.Map<ServiceImageDto>(x)).ToList();
-            ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(service);
-            serviceDto.Images = imageDtos;
-            return serviceDto;
+            List<ServiceImageDTO> imageDTOs = service.ServiceImages.Select(x => _mapper.Map<ServiceImageDTO>(x)).ToList();
+            ServiceDetailDTO serviceDTO = _mapper.Map<ServiceDetailDTO>(service);
+            serviceDTO.Images = imageDTOs;
+            return serviceDTO;
         }
-        public async Task<ServiceDetailDto> UpdateAsync(int serviceId, UpdateServiceDto updateServiceDto)
+        public async Task<ServiceDetailDTO> UpdateAsync(int serviceId, UpdateServiceDTO updateServiceDTO)
         {
             Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
-            service = _mapper.Map(updateServiceDto, service);
+            service = _mapper.Map(updateServiceDTO, service);
 
             service.MarkUpdated();
             _serviceRepository.Update(service);
             await _unitOfWork.CommitAsync();
 
-            ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(service);
-            return serviceDto;
+            ServiceDetailDTO serviceDTO = _mapper.Map<ServiceDetailDTO>(service);
+            return serviceDTO;
         }
 
         public async Task Publish(int serviceId)

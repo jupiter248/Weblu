@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Articles.ArticleCategoryDtos;
+using Weblu.Application.DTOs.Articles.ArticleCategoryDTOs;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Parameters.Articles;
 using Weblu.Application.Validations;
@@ -24,37 +24,37 @@ namespace Weblu.Api.Controllers.v1.Articles
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] ArticleCategoryParameters articleCategoryParameters)
         {
-            List<ArticleCategoryDto> articleCategoryDtos = await _articleCategoryService.GetAllAsync(articleCategoryParameters);
-            return Ok(articleCategoryDtos);
+            List<ArticleCategoryDTO> articleCategoryDTOs = await _articleCategoryService.GetAllAsync(articleCategoryParameters);
+            return Ok(articleCategoryDTOs);
         }
         [HttpGet("{articleCategoryId:int}")]
         public async Task<IActionResult> GetById(int articleCategoryId)
         {
-            ArticleCategoryDto articleCategoryDto = await _articleCategoryService.GetByIdAsync(articleCategoryId);
-            return Ok(articleCategoryDto);
+            ArticleCategoryDTO articleCategoryDTO = await _articleCategoryService.GetByIdAsync(articleCategoryId);
+            return Ok(articleCategoryDTO);
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateArticleCategoryDto createArticleCategoryDto)
+        public async Task<IActionResult> Create([FromBody] CreateArticleCategoryDTO createArticleCategoryDTO)
         {
-            Validator.ValidateAndThrow(createArticleCategoryDto, new CreateArticleCategoryValidator());
-            ArticleCategoryDto articleCategoryDto = await _articleCategoryService.CreateAsync(createArticleCategoryDto);
-            return CreatedAtAction(nameof(GetById), new { articleCategoryId = articleCategoryDto.Id }, ApiResponse<ArticleCategoryDto>.Success
+            Validator.ValidateAndThrow(createArticleCategoryDTO, new CreateArticleCategoryValidator());
+            ArticleCategoryDTO articleCategoryDTO = await _articleCategoryService.CreateAsync(createArticleCategoryDTO);
+            return CreatedAtAction(nameof(GetById), new { articleCategoryId = articleCategoryDTO.Id }, ApiResponse<ArticleCategoryDTO>.Success
             (
                 "Article Category added successfully.",
-                articleCategoryDto
+                articleCategoryDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPut("{articleCategoryId:int}")]
-        public async Task<IActionResult> Update(int articleCategoryId, [FromBody] UpdateArticleCategoryDto updateArticleCategoryDto)
+        public async Task<IActionResult> Update(int articleCategoryId, [FromBody] UpdateArticleCategoryDTO updateArticleCategoryDTO)
         {
-            Validator.ValidateAndThrow(updateArticleCategoryDto, new UpdateArticleCategoryValidator());
-            ArticleCategoryDto articleCategoryDto = await _articleCategoryService.UpdateAsync(articleCategoryId, updateArticleCategoryDto);
-            return Ok(ApiResponse<ArticleCategoryDto>.Success
+            Validator.ValidateAndThrow(updateArticleCategoryDTO, new UpdateArticleCategoryValidator());
+            ArticleCategoryDTO articleCategoryDTO = await _articleCategoryService.UpdateAsync(articleCategoryId, updateArticleCategoryDTO);
+            return Ok(ApiResponse<ArticleCategoryDTO>.Success
             (
                 "Article Category updated successfully.",
-                articleCategoryDto
+                articleCategoryDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageArticles)]

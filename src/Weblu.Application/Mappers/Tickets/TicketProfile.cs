@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Tickets.TicketDtos;
+using Weblu.Application.DTOs.Tickets.TicketDTOs;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Tickets;
 
@@ -9,15 +9,15 @@ namespace Weblu.Application.Mappers.Tickets
     {
         public TicketProfile()
         {
-            CreateMap<Ticket, TicketSummaryDto>();
-            CreateMap<Ticket, TicketDetailDto>()
+            CreateMap<Ticket, TicketSummaryDTO>();
+            CreateMap<Ticket, TicketDetailDTO>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<EditTicketDto, Ticket>()
+            CreateMap<EditTicketDTO, Ticket>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
-            CreateMap<ChangeTicketStatusDto, Ticket>()
+            CreateMap<ChangeTicketStatusDTO, Ticket>()
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
-            CreateMap<CreateTicketDto, Ticket>();
+            CreateMap<CreateTicketDTO, Ticket>();
         }
     }
 }

@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.About.AboutUsDtos;
+using Weblu.Application.DTOs.About.AboutUsDTOs;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.About;
 
@@ -9,11 +9,11 @@ namespace Weblu.Application.Mappers.About
     {
         public AboutUsProfile()
         {
-            CreateMap<AboutUs, AboutUsDto>()
+            CreateMap<AboutUs, AboutUsDTO>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<CreateAboutUsDto, AboutUs>();
-            CreateMap<UpdateAboutUsDto, AboutUs>()
+            CreateMap<CreateAboutUsDTO, AboutUs>();
+            CreateMap<UpdateAboutUsDTO, AboutUs>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
         }
     }

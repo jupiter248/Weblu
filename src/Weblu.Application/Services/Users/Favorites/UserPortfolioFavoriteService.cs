@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Portfolios.PortfolioDtos;
+using Weblu.Application.DTOs.Portfolios.PortfolioDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Portfolios;
@@ -58,12 +58,12 @@ namespace Weblu.Application.Services.Users.Favorites
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<PortfolioSummaryDto>> GetAllAsync(string userId, FavoriteParameters favoriteParameters)
+        public async Task<List<PortfolioSummaryDTO>> GetAllAsync(string userId, FavoriteParameters favoriteParameters)
         {
             IReadOnlyList<FavoritePortfolio> favoritePortfolios = await _userPortfolioFavoriteRepository.GetAllAsync(userId, favoriteParameters);
             List<Portfolio> portfolios = favoritePortfolios.Select(x => x.Portfolio).ToList();
-            List<PortfolioSummaryDto> portfolioSummaryDtos = _mapper.Map<List<PortfolioSummaryDto>>(portfolios) ?? default!;
-            return portfolioSummaryDtos;
+            List<PortfolioSummaryDTO> portfolioSummaryDTOs = _mapper.Map<List<PortfolioSummaryDTO>>(portfolios) ?? default!;
+            return portfolioSummaryDTOs;
         }
 
         public async Task<bool> IsFavoriteAsync(string userId, int portfolioId)

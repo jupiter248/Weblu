@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Portfolios.PortfolioCategory
+namespace Weblu.Application.DTOs.Portfolios.PortfolioCategoryDTOs
 {
-    public class PortfolioCategoryDto
+    public class PortfolioCategoryDTO
     {
         public int Id { get; set; }
         public required string Name { get; set; }

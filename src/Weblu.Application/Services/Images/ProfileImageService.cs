@@ -8,9 +8,9 @@ using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Application.Interfaces.Services.Images;
 using Weblu.Application.Interfaces.Repositories.Images;
-using Weblu.Application.Dtos.Images.ProfileDtos;
+using Weblu.Application.DTOs.Images.ProfileDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Dtos.Images.MediaDtos;
+using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Parameters.Images;
 using Weblu.Application.Interfaces.Repositories;
 
@@ -36,34 +36,34 @@ namespace Weblu.Application.Services.Images
             _webHostPath = webHost.GetWebRootPath();
         }
 
-        public async Task<ProfileDto> AddAsync(AddProfileDto addProfileDto)
+        public async Task<ProfileDTO> AddAsync(AddProfileDTO addProfileDTO)
         {
-            if (addProfileDto.OwnerType == ProfileMediaType.User)
+            if (addProfileDTO.OwnerType == ProfileMediaType.User)
             {
-                bool appUserExists = await _userRepository.UserExistsAsync(addProfileDto.OwnerId);
+                bool appUserExists = await _userRepository.UserExistsAsync(addProfileDTO.OwnerId);
                 if (!appUserExists)
                 {
                     throw new NotFoundException(UserErrorCodes.UserNotFound);
                 }
             }
-            if (addProfileDto.OwnerType == ProfileMediaType.Contributor)
+            if (addProfileDTO.OwnerType == ProfileMediaType.Contributor)
             {
             }
 
-            bool userHasMainProfile = await _profileImageRepository.UserHasMainProfileAsync(addProfileDto.OwnerId);
+            bool userHasMainProfile = await _profileImageRepository.UserHasMainProfileAsync(addProfileDTO.OwnerId);
             if (userHasMainProfile)
             {
                 throw new ConflictException(UserErrorCodes.UserAlreadyAddedMainProfileImage);
             }
 
-            if (addProfileDto.Image.Length < 0)
+            if (addProfileDTO.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
-            var image = addProfileDto.Image;
+            var image = addProfileDTO.Image;
             string imageName = await MediaManager.UploadMedia(
                     _webHostPath,
-                    new MediaUploaderDto
+                    new MediaUploaderDTO
                     {
                         Media = image,
                         MediaType = MediaType.profile
@@ -73,18 +73,18 @@ namespace Weblu.Application.Services.Images
             ProfileMedia profileModel = new ProfileMedia()
             {
                 Name = imageName,
-                AltText = addProfileDto.AltText,
+                AltText = addProfileDTO.AltText,
                 Url = $"uploads/{MediaType.picture}/{imageName}",
-                OwnerId = addProfileDto.OwnerId,
-                OwnerType = addProfileDto.OwnerType,
-                IsMain = addProfileDto.IsMain
+                OwnerId = addProfileDTO.OwnerId,
+                OwnerType = addProfileDTO.OwnerType,
+                IsMain = addProfileDTO.IsMain
             };
 
             _profileImageRepository.Add(profileModel);
             await _unitOfWork.CommitAsync();
 
-            ProfileDto profileDto = _mapper.Map<ProfileDto>(profileModel);
-            return profileDto;
+            ProfileDTO profileDTO = _mapper.Map<ProfileDTO>(profileModel);
+            return profileDTO;
         }
 
         public async Task DeleteAsync(int profileId)
@@ -96,18 +96,18 @@ namespace Weblu.Application.Services.Images
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<List<ProfileDto>> GetAllAsync(ProfileMediaParameters profileMediaParameters)
+        public async Task<List<ProfileDTO>> GetAllAsync(ProfileMediaParameters profileMediaParameters)
         {
             IReadOnlyList<ProfileMedia> images = await _profileImageRepository.GetAllAsync(profileMediaParameters);
-            List<ProfileDto> imageDtos = _mapper.Map<List<ProfileDto>>(images);
-            return imageDtos;
+            List<ProfileDTO> imageDTOs = _mapper.Map<List<ProfileDTO>>(images);
+            return imageDTOs;
         }
 
-        public async Task<ProfileDto> GetByIdAsync(int profileId)
+        public async Task<ProfileDTO> GetByIdAsync(int profileId)
         {
             ProfileMedia image = await _profileImageRepository.GetByIdAsync(profileId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
-            ProfileDto imageDto = _mapper.Map<ProfileDto>(image);
-            return imageDto;
+            ProfileDTO imageDTO = _mapper.Map<ProfileDTO>(image);
+            return imageDTO;
         }
     }
 }

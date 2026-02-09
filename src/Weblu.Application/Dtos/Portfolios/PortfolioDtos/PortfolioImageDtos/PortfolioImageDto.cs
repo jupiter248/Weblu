@@ -1,8 +1,8 @@
-using Weblu.Application.Dtos.Images.ImageDtos;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 
-namespace Weblu.Application.Dtos.Portfolios.PortfolioDtos.PortfolioImageDtos
+namespace Weblu.Application.DTOs.Portfolios.PortfolioDTOs.PortfolioImageDTOs
 {
-    public class PortfolioImageDto : ImageDto
+    public class PortfolioImageDTO : ImageDTO
     {
         public bool IsThumbnail { get; set; }
     }

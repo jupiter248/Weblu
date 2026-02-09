@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weblu.Application.Common.Responses;
-using Weblu.Application.Dtos.Articles.CommentDtos;
+using Weblu.Application.DTOs.Articles.CommentDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Services.Articles;
@@ -26,20 +26,20 @@ namespace Weblu.Api.Controllers.v1.Articles
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] CommentParameters commentParameters)
         {
-            List<CommentDto> commentDtos = await _commentService.GetAllAsync(commentParameters);
-            return Ok(commentDtos);
+            List<CommentDTO> commentDTOs = await _commentService.GetAllAsync(commentParameters);
+            return Ok(commentDTOs);
         }
         [HttpGet("{commentId:int}")]
         public async Task<IActionResult> GetById(int commentId)
         {
-            CommentDto commentDtos = await _commentService.GetByIdAsync(commentId);
-            return Ok(commentDtos);
+            CommentDTO commentDTOs = await _commentService.GetByIdAsync(commentId);
+            return Ok(commentDTOs);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCommentDto createCommentDto)
+        public async Task<IActionResult> Create([FromBody] CreateCommentDTO createCommentDTO)
         {
-            Validator.ValidateAndThrow(createCommentDto, new CreateCommentValidator());
+            Validator.ValidateAndThrow(createCommentDTO, new CreateCommentValidator());
 
             var userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId))
@@ -47,14 +47,14 @@ namespace Weblu.Api.Controllers.v1.Articles
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
 
-            CommentDto commentDtos = await _commentService.CreateAsync(userId, createCommentDto);
-            return CreatedAtAction(nameof(GetById), new { commentId = commentDtos.Id }, ApiResponse<CommentDto>.Success("Comment added successfully.", commentDtos));
+            CommentDTO commentDTOs = await _commentService.CreateAsync(userId, createCommentDTO);
+            return CreatedAtAction(nameof(GetById), new { commentId = commentDTOs.Id }, ApiResponse<CommentDTO>.Success("Comment added successfully.", commentDTOs));
         }
         [Authorize]
         [HttpPut("{commentId:int}")]
-        public async Task<IActionResult> Edit(int commentId, [FromBody] UpdateCommentDto updateCommentDto)
+        public async Task<IActionResult> Edit(int commentId, [FromBody] UpdateCommentDTO updateCommentDTO)
         {
-            Validator.ValidateAndThrow(updateCommentDto, new UpdateCommentValidator());
+            Validator.ValidateAndThrow(updateCommentDTO, new UpdateCommentValidator());
 
             var userId = User.GetUserId();
             if (string.IsNullOrWhiteSpace(userId))
@@ -62,10 +62,10 @@ namespace Weblu.Api.Controllers.v1.Articles
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
 
-            CommentDto commentDtos = await _commentService.EditAsync(userId, commentId, updateCommentDto);
-            return Ok(ApiResponse<CommentDto>.Success(
+            CommentDTO commentDTOs = await _commentService.EditAsync(userId, commentId, updateCommentDTO);
+            return Ok(ApiResponse<CommentDTO>.Success(
                 "Comment updated successfully.",
-                commentDtos
+                commentDTOs
             ));
         }
         [Authorize]

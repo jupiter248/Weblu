@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.Common.FeatureDtos;
+using Weblu.Application.DTOs.Common.FeatureDTOs;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Common.Features;
 
@@ -9,11 +9,11 @@ namespace Weblu.Application.Mappers.Common
     {
         public FeatureProfile()
         {
-            CreateMap<Feature, FeatureDto>()
+            CreateMap<Feature, FeatureDTO>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<CreateFeatureDto, Feature>();
-            CreateMap<UpdateFeatureDto, Feature>()
+            CreateMap<CreateFeatureDTO, Feature>();
+            CreateMap<UpdateFeatureDTO, Feature>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
 
         }

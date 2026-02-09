@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Portfolios.PortfolioCategory
+namespace Weblu.Application.DTOs.Portfolios.PortfolioCategoryDTOs
 {
-    public class UpdatePortfolioCategoryDto
+    public class UpdatePortfolioCategoryDTO
     {
         public required string Name { get; set; }
         public required string Description { get; set; }

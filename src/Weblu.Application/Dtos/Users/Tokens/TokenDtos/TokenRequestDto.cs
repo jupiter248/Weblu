@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Users.Tokens.RefreshTokenDtos
+namespace Weblu.Application.DTOs.Users.Tokens.RefreshTokenDTOs
 {
-    public class TokenRequestDto
+    public class TokenRequestDTO
     {
         public required string RefreshToken { get; set; }
     }

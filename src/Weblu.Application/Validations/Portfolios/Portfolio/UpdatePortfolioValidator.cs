@@ -1,11 +1,11 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Portfolios.PortfolioDtos;
+using Weblu.Application.DTOs.Portfolios.PortfolioDTOs;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Errors.Portfolios;
 
 namespace Weblu.Application.Validations.Portfolios.Portfolio
 {
-    public class UpdatePortfolioValidator : AbstractValidator<UpdatePortfolioDto>
+    public class UpdatePortfolioValidator : AbstractValidator<UpdatePortfolioDTO>
     {
         public UpdatePortfolioValidator()
         {

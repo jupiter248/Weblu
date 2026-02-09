@@ -1,10 +1,10 @@
 using FluentValidation;
-using Weblu.Application.Dtos.Articles.ArticleDtos;
+using Weblu.Application.DTOs.Articles.ArticleDTOs;
 using Weblu.Domain.Errors.Articles;
 
 namespace Weblu.Application.Validations.Articles.ArticleValidations
 {
-    public class CreateArticleValidator : AbstractValidator<CreateArticleDto>
+    public class CreateArticleValidator : AbstractValidator<CreateArticleDTO>
     {
         public CreateArticleValidator()
         {

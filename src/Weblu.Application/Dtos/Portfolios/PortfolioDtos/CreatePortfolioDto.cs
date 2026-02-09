@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.Portfolios.PortfolioDtos
+namespace Weblu.Application.DTOs.Portfolios.PortfolioDTOs
 {
-    public class CreatePortfolioDto
+    public class CreatePortfolioDTO
     {
         public required string Title { get; set; }
         public required string Description { get; set; }

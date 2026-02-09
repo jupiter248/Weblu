@@ -1,5 +1,5 @@
 using AutoMapper;
-using Weblu.Application.Dtos.About.SocialMediaDtos;
+using Weblu.Application.DTOs.About.SocialMediaDTOs;
 using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.About;
 
@@ -9,11 +9,11 @@ namespace Weblu.Application.Mappers.About
     {
         public SocialMediaProfile()
         {
-            CreateMap<SocialMedia, SocialMediaDto>()
+            CreateMap<SocialMedia, SocialMediaDTO>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
-            CreateMap<CreateSocialMediaDto, SocialMedia>();
-            CreateMap<UpdateSocialMediaDto, SocialMedia>()
+            CreateMap<CreateSocialMediaDTO, SocialMedia>();
+            CreateMap<UpdateSocialMediaDTO, SocialMedia>()
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
         }
     }

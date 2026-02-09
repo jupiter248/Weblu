@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Weblu.Application.Dtos.Common.MethodDtos;
+using Weblu.Application.DTOs.Common.MethodDTOs;
 using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Common.Methods;
@@ -24,49 +24,49 @@ namespace Weblu.Api.Controllers.v1.Common
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] MethodParameters methodParameters)
         {
-            List<MethodDto> methodDtos = await _methodService.GetAllAsync(methodParameters);
-            return Ok(methodDtos);
+            List<MethodDTO> methodDTOs = await _methodService.GetAllAsync(methodParameters);
+            return Ok(methodDTOs);
         }
         [HttpGet("{methodId:int}")]
         public async Task<IActionResult> GetById(int methodId)
         {
-            MethodDto methodDto = await _methodService.GetByIdAsync(methodId);
-            return Ok(methodDto);
+            MethodDTO methodDTO = await _methodService.GetByIdAsync(methodId);
+            return Ok(methodDTO);
         }
         [Authorize(Policy = Permissions.ManageMethods)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateMethodDto createMethodDto)
+        public async Task<IActionResult> Create([FromBody] CreateMethodDTO createMethodDTO)
         {
-            Validator.ValidateAndThrow(createMethodDto, new CreateMethodValidator());
-            MethodDto methodDto = await _methodService.CreateAsync(createMethodDto);
-            return CreatedAtAction(nameof(GetById), new { methodId = methodDto.Id }, ApiResponse<MethodDto>.Success
+            Validator.ValidateAndThrow(createMethodDTO, new CreateMethodValidator());
+            MethodDTO methodDTO = await _methodService.CreateAsync(createMethodDTO);
+            return CreatedAtAction(nameof(GetById), new { methodId = methodDTO.Id }, ApiResponse<MethodDTO>.Success
             (
                 "Method added successfully.",
-                methodDto
+                methodDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageMethods)]
         [HttpPut("{methodId:int}")]
-        public async Task<IActionResult> Update(int methodId, [FromBody] UpdateMethodDto updateMethodDto)
+        public async Task<IActionResult> Update(int methodId, [FromBody] UpdateMethodDTO updateMethodDTO)
         {
-            Validator.ValidateAndThrow(updateMethodDto, new UpdateMethodValidator());
-            MethodDto methodDto = await _methodService.UpdateAsync(methodId, updateMethodDto);
-            return Ok(ApiResponse<MethodDto>.Success
+            Validator.ValidateAndThrow(updateMethodDTO, new UpdateMethodValidator());
+            MethodDTO methodDTO = await _methodService.UpdateAsync(methodId, updateMethodDTO);
+            return Ok(ApiResponse<MethodDTO>.Success
             (
                 "Method updated successfully.",
-                 methodDto
+                 methodDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageMethods)]
         [HttpPut("{methodId:int}/image")]
-        public async Task<IActionResult> ChangeImage(int methodId, [FromForm] ChangeMethodImageDto changeMethodImageDto)
+        public async Task<IActionResult> ChangeImage(int methodId, [FromForm] ChangeMethodImageDTO changeMethodImageDTO)
         {
-            Validator.ValidateAndThrow(changeMethodImageDto, new ChangeMethodImageValidator());
-            MethodDto methodDto = await _methodService.ChangeImageAsync(methodId, changeMethodImageDto);
-            return Ok(ApiResponse<MethodDto>.Success
+            Validator.ValidateAndThrow(changeMethodImageDTO, new ChangeMethodImageValidator());
+            MethodDTO methodDTO = await _methodService.ChangeImageAsync(methodId, changeMethodImageDTO);
+            return Ok(ApiResponse<MethodDTO>.Success
             (
                 "Method image updated successfully.",
-                methodDto
+                methodDTO
             ));
         }
         [Authorize(Policy = Permissions.ManageMethods)]

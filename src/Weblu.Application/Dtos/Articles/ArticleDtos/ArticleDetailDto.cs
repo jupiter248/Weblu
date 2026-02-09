@@ -1,9 +1,9 @@
-using Weblu.Application.Dtos.Articles.ArticleDtos.ArticleImageDtos;
+using Weblu.Application.DTOs.Articles.ArticleDTOs.ArticleImageDTOs;
 using Weblu.Domain.Events.Articles;
 
-namespace Weblu.Application.Dtos.Articles.ArticleDtos
+namespace Weblu.Application.DTOs.Articles.ArticleDTOs
 {
-    public class ArticleDetailDto
+    public class ArticleDetailDTO
     {
         public int Id { get; set; }
         public string Title { get; set; } = default!;
@@ -23,6 +23,6 @@ namespace Weblu.Application.Dtos.Articles.ArticleDtos
         public string CreatedAt { get; set; } = default!;
         public int CategoryId { get; set; }
         public string CategoryName { get; set; } = default!;
-        public List<ArticleImageDto>? ArticleImages { get; set; }
+        public List<ArticleImageDTO>? ArticleImages { get; set; }
     }
 }

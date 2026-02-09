@@ -1,6 +1,6 @@
-namespace Weblu.Application.Dtos.About.SocialMediaDtos
+namespace Weblu.Application.DTOs.About.SocialMediaDTOs
 {
-    public class CreateSocialMediaDto
+    public class CreateSocialMediaDTO
     {
         public string Name { get; set; } = default!;
         public string? Link { get; set; }
