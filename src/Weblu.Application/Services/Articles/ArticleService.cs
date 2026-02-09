@@ -52,9 +52,6 @@ namespace Weblu.Application.Services.Articles
             _articleRepository.Add(article);
             await _unitOfWork.CommitAsync();
 
-            article.Add();
-            await _domainEventDispatcher.DispatchAsync(article.Events);
-            article.ClearDomainEvents();
 
             ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
             return articleDetailDto;
@@ -63,12 +60,9 @@ namespace Weblu.Application.Services.Articles
         public async Task DeleteAsync(int articleId)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+            if (article.IsPublished) throw new ConflictException(ArticleErrorCodes.IsPublish);
 
             article.Delete();
-
-            await _domainEventDispatcher.DispatchAsync(article.Events);
-            article.ClearDomainEvents();
-
             await _unitOfWork.CommitAsync();
         }
         public async Task<List<ArticleSummaryDto>> GetAllAsync(ArticleParameters articleParameters)
@@ -130,14 +124,12 @@ namespace Weblu.Application.Services.Articles
             ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(updateArticleDto.CategoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
             article.Category = articleCategory;
 
-            article.UpdatePublishedStatus(updateArticleDto.IsPublished);
             article.Update();
-
             _articleRepository.Update(article);
             await _unitOfWork.CommitAsync();
 
             await _domainEventDispatcher.DispatchAsync(article.Events);
-            article.ClearDomainEvents();
+            article.ClearEvents();
 
             ArticleDetailDto articleDetailDto = _mapper.Map<ArticleDetailDto>(article);
             return articleDetailDto;
@@ -146,8 +138,31 @@ namespace Weblu.Application.Services.Articles
         public async Task ViewAsync(int articleId)
         {
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            article.UpdateViewCount();
+            article.IncreaseViewCount();
             _articleRepository.Update(article);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task Publish(int articleId)
+        {
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+
+            article.Publish();
+            await _domainEventDispatcher.DispatchAsync(article.Events);
+            article.ClearEvents();
+
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task Unpublish(int articleId)
+        {
+            Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
+
+            article.Unpublish();
+
+            await _domainEventDispatcher.DispatchAsync(article.Events);
+            article.ClearEvents();
+
             await _unitOfWork.CommitAsync();
         }
     }

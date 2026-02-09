@@ -1,7 +1,6 @@
 using Weblu.Application.Dtos.Portfolios.PortfolioDtos.PortfolioImageDtos;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Images;
 using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
@@ -50,7 +49,7 @@ namespace Weblu.Application.Services.Portfolios
             Portfolio portfolio = await _portfolioRepository.GetByIdWithImagesAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             ImageMedia imageMedia = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
-            portfolio.DeleteImage(imageMedia);
+            portfolio.RemoveImage(imageMedia);
             await _unitOfWork.CommitAsync();
         }
     }

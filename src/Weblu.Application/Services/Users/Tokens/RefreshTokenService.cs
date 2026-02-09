@@ -43,6 +43,7 @@ namespace Weblu.Application.Services.Users.Tokens
             RefreshToken refreshToken = await _refreshTokenRepository.GetByIdAsync(refreshTokenId) ?? throw new NotFoundException(TokenErrorCodes.RefreshTokenNotFound);
             refreshToken = _mapper.Map(updateRefreshTokenDto, refreshToken);
 
+            refreshToken.MarkUpdated();
             _refreshTokenRepository.Update(refreshToken);
             await _unitOfWork.CommitAsync();
             

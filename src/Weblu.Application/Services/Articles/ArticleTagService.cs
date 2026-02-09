@@ -4,7 +4,7 @@ using Weblu.Application.Interfaces.Repositories.Articles;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Domain.Entities.Articles;
-using Weblu.Domain.Entities.Tags;
+using Weblu.Domain.Entities.Common.Tags;
 using Weblu.Domain.Errors.Articles;
 using Weblu.Domain.Errors.Common;
 
@@ -40,7 +40,7 @@ namespace Weblu.Application.Services.Articles
 
             await _articleRepository.LoadTagsAsync(article);
 
-            article.DeleteTag(tag);
+            article.RemoveTag(tag);
             await _unitOfWork.CommitAsync();
         }
     }

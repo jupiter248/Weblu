@@ -79,6 +79,20 @@ namespace Weblu.Api.Controllers.v1.Portfolios
             return NoContent();
         }
         [Authorize(Policy = Permissions.ManagePortfolios)]
+        [HttpPut("{articleId:int}/publish")]
+        public async Task<IActionResult> Publish(int articleId)
+        {
+            await _portfolioService.Publish(articleId);
+            return NoContent();
+        }
+        [Authorize(Policy = Permissions.ManagePortfolios)]
+        [HttpPut("{articleId:int}/unpublish")]
+        public async Task<IActionResult> Unpublish(int articleId)
+        {
+            await _portfolioService.Unpublish(articleId);
+            return NoContent();
+        }
+        [Authorize(Policy = Permissions.ManagePortfolios)]
         [HttpPost("{portfolioId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> AddFeature(int portfolioId, int featureId)
         {

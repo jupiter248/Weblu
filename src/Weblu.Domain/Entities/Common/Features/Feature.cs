@@ -5,12 +5,11 @@ namespace Weblu.Domain.Entities.Common.Features
 {
     public class Feature : BaseEntity
     {
-        public required string Name { get; set; }
-        public required string Description { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
-        public List<Service> Services { get; set; } = new List<Service>();
-        public List<Portfolio> Portfolios { get; set; } = new List<Portfolio>();
-        // Icon
+        // Required properties
+        public string Name { get; set; } = default!;
+        public string? Description { get; set; }
+        // Relationships
+        public List<Service> Services { get; set; } = new();
+        public List<Portfolio> Portfolios { get; set; } = new();
     }
 }

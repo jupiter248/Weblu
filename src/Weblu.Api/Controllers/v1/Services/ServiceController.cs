@@ -76,6 +76,20 @@ namespace Weblu.Api.Controllers.v1.Services
             return NoContent();
         }
         [Authorize(Policy = Permissions.ManageServices)]
+        [HttpPut("{articleId:int}/publish")]
+        public async Task<IActionResult> Publish(int articleId)
+        {
+            await _serviceService.Publish(articleId);
+            return NoContent();
+        }
+        [Authorize(Policy = Permissions.ManageServices)]
+        [HttpPut("{articleId:int}/unpublish")]
+        public async Task<IActionResult> Unpublish(int articleId)
+        {
+            await _serviceService.Unpublish(articleId);
+            return NoContent();
+        }
+        [Authorize(Policy = Permissions.ManageServices)]
         [HttpPost("{serviceId:int}/feature/{featureId:int}")]
         public async Task<IActionResult> AddFeature(int serviceId, int featureId)
         {

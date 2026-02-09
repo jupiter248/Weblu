@@ -62,5 +62,19 @@ namespace Weblu.Api.Controllers.v1.FAQs
             await _faqService.DeleteAsync(faqId);
             return NoContent();
         }
+        [Authorize(Policy = Permissions.ManageFAQs)]
+        [HttpPut("{articleId:int}/publish")]
+        public async Task<IActionResult> Publish(int articleId)
+        {
+            await _faqService.Publish(articleId);
+            return NoContent();
+        }
+        [Authorize(Policy = Permissions.ManageFAQs)]
+        [HttpPut("{articleId:int}/unpublish")]
+        public async Task<IActionResult> Unpublish(int articleId)
+        {
+            await _faqService.Unpublish(articleId);
+            return NoContent();
+        }
     }
 }

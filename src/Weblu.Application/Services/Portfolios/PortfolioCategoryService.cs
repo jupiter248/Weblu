@@ -6,6 +6,7 @@ using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Parameters.Portfolios;
+
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Errors.Portfolios;
 
@@ -60,6 +61,7 @@ namespace Weblu.Application.Services.Portfolios
             PortfolioCategory portfolioCategory = await _portfolioCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(PortfolioCategoryErrorCodes.PortfolioCategoryNotFound);
             portfolioCategory = _mapper.Map(updatePortfolioCategoryDto, portfolioCategory);
 
+            portfolioCategory.MarkUpdated();
             _portfolioCategoryRepository.Update(portfolioCategory);
             await _unitOfWork.CommitAsync();
 

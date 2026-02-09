@@ -46,7 +46,7 @@ namespace Weblu.Application.Services.Users.Favorites.FavoriteLists
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             FavoriteArticle favoriteArticle = await _userArticleFavoriteRepository.GetByArticleIdAsync(userId, article.Id) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
 
-            favoriteList.AddFavoriteArticle(favoriteArticle);
+            favoriteList.AddArticle(favoriteArticle);
             await _unitOfWork.CommitAsync();
         }
         public async Task DeleteAsync(string userId, int favoriteListId, int articleId)
@@ -60,7 +60,7 @@ namespace Weblu.Application.Services.Users.Favorites.FavoriteLists
             Article article = await _articleRepository.GetByIdAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             FavoriteArticle favoriteArticle = await _userArticleFavoriteRepository.GetByArticleIdAsync(userId, article.Id) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
 
-            favoriteList.DeleteFavoriteArticle(favoriteArticle);
+            favoriteList.DeleteArticle(favoriteArticle);
             await _unitOfWork.CommitAsync();
         }
     }

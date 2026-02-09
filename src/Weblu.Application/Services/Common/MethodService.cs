@@ -89,6 +89,7 @@ namespace Weblu.Application.Services.Common
             Method? method = await _methodRepository.GetByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
             method = _mapper.Map(updateMethodDto, method);
 
+            method.MarkUpdated();
             _methodRepository.Update(method);
             await _unitOfWork.CommitAsync();
 

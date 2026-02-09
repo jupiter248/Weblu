@@ -44,7 +44,7 @@ namespace Weblu.Application.Services.Portfolios
 
             await _portfolioRepository.LoadContributorsAsync(portfolio);
 
-            portfolio.DeleteContributor(contributor);
+            portfolio.RemoveContributor(contributor);
             await _unitOfWork.CommitAsync();
         }
     }

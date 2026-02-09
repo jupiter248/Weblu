@@ -54,6 +54,8 @@ namespace Weblu.Application.Services.Common
         {
             Feature? feature = await _featureRepository.GetByIdAsync(featureId) ?? throw new NotFoundException(FeatureErrorCodes.FeatureNotFound);
             feature = _mapper.Map(updateFeatureDto, feature);
+            
+            feature.MarkUpdated();
             _featureRepository.Update(feature);
             await _unitOfWork.CommitAsync();
             FeatureDto featureDto = _mapper.Map<FeatureDto>(feature);

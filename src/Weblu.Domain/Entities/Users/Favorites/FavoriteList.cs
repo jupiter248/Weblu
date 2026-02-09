@@ -9,14 +9,14 @@ namespace Weblu.Domain.Entities.Users.Favorites
 {
     public class FavoriteList : BaseEntity
     {
+        // Required properties
         public required string Name { get; set; }
-        public FavoriteListType FavoriteListType { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
-        public List<FavoritePortfolio> FavoritePortfolios { get; set; } = new List<FavoritePortfolio>();
-        public List<FavoriteArticle> FavoriteArticles { get; set; } = new List<FavoriteArticle>();
+        // Relationships
         public string UserId { get; set; } = default!;
-        public void AddFavoritePortfolio(FavoritePortfolio favoritePortfolio)
+        public FavoriteListType FavoriteListType { get; set; }
+        public List<FavoritePortfolio> FavoritePortfolios { get; set; } = new();
+        public List<FavoriteArticle> FavoriteArticles { get; set; } = new();
+        public void AddPortfolio(FavoritePortfolio favoritePortfolio)
         {
             if (!FavoritePortfolios.Any(f => f.UserId == favoritePortfolio.UserId && f.PortfolioId == favoritePortfolio.PortfolioId))
             {
@@ -24,7 +24,7 @@ namespace Weblu.Domain.Entities.Users.Favorites
             }
             FavoritePortfolios.Add(favoritePortfolio);
         }
-        public void DeleteFavoritePortfolio(FavoritePortfolio favoritePortfolio)
+        public void DeletePortfolio(FavoritePortfolio favoritePortfolio)
         {
             if (FavoritePortfolios.Any(f => f.UserId == favoritePortfolio.UserId && f.PortfolioId == favoritePortfolio.PortfolioId))
             {
@@ -32,7 +32,7 @@ namespace Weblu.Domain.Entities.Users.Favorites
             }
             FavoritePortfolios.Add(favoritePortfolio);
         }
-        public void AddFavoriteArticle(FavoriteArticle favoriteArticle)
+        public void AddArticle(FavoriteArticle favoriteArticle)
         {
             if (FavoriteArticles.Any(f => f.UserId == favoriteArticle.UserId && f.ArticleId == favoriteArticle.ArticleId))
             {
@@ -40,7 +40,7 @@ namespace Weblu.Domain.Entities.Users.Favorites
             }
             FavoriteArticles.Add(favoriteArticle);
         }
-        public void DeleteFavoriteArticle(FavoriteArticle favoriteArticle)
+        public void DeleteArticle(FavoriteArticle favoriteArticle)
         {
             if (!FavoriteArticles.Any(f => f.UserId == favoriteArticle.UserId && f.ArticleId == favoriteArticle.ArticleId))
             {

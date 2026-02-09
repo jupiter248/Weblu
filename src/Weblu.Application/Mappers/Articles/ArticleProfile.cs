@@ -24,12 +24,7 @@ namespace Weblu.Application.Mappers.Articles
 
 
             CreateMap<CreateArticleDto, Article>()
-                    .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()))
-                    .ForMember(dest => dest.PublishedAt, opt =>
-                    {
-                        opt.PreCondition(src => src.IsPublished);
-                        opt.MapFrom(_ => DateTimeOffset.Now);
-                    });
+                    .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()));
             CreateMap<UpdateArticleDto, Article>()
                     .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()))
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
@@ -42,7 +37,7 @@ namespace Weblu.Application.Mappers.Articles
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
 
             CreateMap<ArticleImage, ArticleImageDto>()
-                    .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.Image.AddedAt.ToShamsi()))
+                    .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.Image.CreatedAt.ToShamsi()))
                     .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Image.Name))
                     .ForMember(dest => dest.AltText, opt => opt.MapFrom(src => src.Image.AltText))
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Image.Id))

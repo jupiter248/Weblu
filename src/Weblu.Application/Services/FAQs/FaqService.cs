@@ -40,7 +40,7 @@ namespace Weblu.Application.Services.FAQs
         public async Task DeleteAsync(int faqId)
         {
             FAQ faq = await _faqRepository.GetByIdAsync(faqId) ?? throw new NotFoundException(FAQErrorCodes.NotFound);
-
+            if (faq.IsPublished) throw new ConflictException(FAQErrorCodes.IsPublish);
             faq.Delete();
             await _unitOfWork.CommitAsync();
         }
@@ -52,11 +52,27 @@ namespace Weblu.Application.Services.FAQs
             return faqDtos;
         }
 
-        public async Task<FAQDto> GetByIdAsync(int faqId)
+        public async Task<FAQDto> GetByIdAsync(int fAQId)
         {
-            FAQ faq = await _faqRepository.GetByIdAsync(faqId) ?? throw new NotFoundException(FAQErrorCodes.NotFound);
+            FAQ faq = await _faqRepository.GetByIdAsync(fAQId) ?? throw new NotFoundException(FAQErrorCodes.NotFound);
             FAQDto faqDto = _mapper.Map<FAQDto>(faq);
             return faqDto;
+        }
+
+        public async Task Publish(int fAQId)
+        {
+            FAQ fAQ = await _faqRepository.GetByIdAsync(fAQId) ?? throw new NotFoundException(FAQErrorCodes.NotFound);
+
+            fAQ.Publish();
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task Unpublish(int fAQId)
+        {
+            FAQ fAQ = await _faqRepository.GetByIdAsync(fAQId) ?? throw new NotFoundException(FAQErrorCodes.NotFound);
+
+            fAQ.Unpublish();
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task<FAQDto> UpdateAsync(int currentFAQId, UpdateFAQDto updateFAQDto)
@@ -67,19 +83,7 @@ namespace Weblu.Application.Services.FAQs
             FAQCategory faqCategory = await _faqCategoryRepository.GetByIdAsync(updateFAQDto.CategoryId) ?? throw new NotFoundException(FAQCategoryErrorCodes.NotFound);
             currentFAQ.Category = faqCategory;
 
-            if (currentFAQ.IsActive)
-            {
-                if (currentFAQ.ActivatedAt == DateTimeOffset.MinValue || currentFAQ.ActivatedAt == null)
-                {
-                    currentFAQ.ActivatedAt = DateTimeOffset.Now;
-                }
-            }
-            else if (!currentFAQ.IsActive)
-            {
-                currentFAQ.ActivatedAt = DateTimeOffset.MinValue;
-            }
-
-
+            currentFAQ.MarkUpdated();
             _faqRepository.Update(currentFAQ);
             await _unitOfWork.CommitAsync();
 

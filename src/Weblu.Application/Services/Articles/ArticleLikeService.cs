@@ -54,7 +54,7 @@ namespace Weblu.Application.Services.Articles
 
             await _articleRepository.LoadLikesAsync(article);
 
-            article.UnLike(userId);
+            article.Unlike(userId);
             await _unitOfWork.CommitAsync();
         }
     }

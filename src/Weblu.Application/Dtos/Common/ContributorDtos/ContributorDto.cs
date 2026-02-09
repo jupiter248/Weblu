@@ -11,7 +11,8 @@ namespace Weblu.Application.Dtos.Common.ContributorDtos
         public string? GithubUrl { get; set; }
         public string? LinkedInUrl { get; set; }
         public string? ProfileImageUrl { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsPublished { get; set; }
+        public string? PublishedAt { get; set; }
         public string? UpdatedAt { get; set; }
         public required string CreatedAt { get; set; }
         // public List<PortfolioSummaryDto>? Portfolios { get; set; }

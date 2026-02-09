@@ -10,7 +10,7 @@ namespace Weblu.Application.Mappers.Images
         public ImageProfile()
         {
             CreateMap<ImageMedia, ImageDto>()
-                .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.AddedAt.ToShamsi()));
+                .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
         }
     }
 }

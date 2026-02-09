@@ -4,7 +4,7 @@ namespace Weblu.Application.Dtos.Common.MethodDtos
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        public required string Description { get; set; }
+        public string? Description { get; set; }
         public string? ImageUrl { get; set; }
         public string? ImageAltText { get; set; }
         public string? UpdatedAt { get; set; }

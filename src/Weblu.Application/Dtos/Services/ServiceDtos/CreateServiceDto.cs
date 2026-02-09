@@ -7,6 +7,5 @@ namespace Weblu.Application.Dtos.Services.ServiceDtos
         public required string ShortDescription { get; set; }
         public int BaseDurationInDays { get; set; }
         public decimal BasePrice { get; set; }
-        public bool IsActive { get; set; } = false; 
     }
 }

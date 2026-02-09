@@ -14,6 +14,8 @@ namespace Weblu.Application.Interfaces.Services.Articles
         Task<ArticleDetailDto> EditAsync(int articleId, UpdateArticleDto updateArticleDto);
         Task DeleteAsync(int articleId);
         Task ViewAsync(int articleId);
+        Task Publish(int articleId);
+        Task Unpublish(int articleId);
 
     }
 }

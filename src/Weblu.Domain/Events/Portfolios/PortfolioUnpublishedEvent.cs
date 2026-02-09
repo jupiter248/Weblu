@@ -6,11 +6,11 @@ using Weblu.Domain.Events.Common;
 
 namespace Weblu.Domain.Events.Portfolios
 {
-    public class PortfolioAddedEvent : IDomainEvent
+    public class PortfolioUnpublishedEvent : IDomainEvent
     {
         public Guid PortfolioId { get; }
         public DateTimeOffset OccurredOn { get; } = DateTimeOffset.Now;
-        public PortfolioAddedEvent(Guid portfolioId)
+        public PortfolioUnpublishedEvent(Guid portfolioId)
         {
             PortfolioId = portfolioId;
         }

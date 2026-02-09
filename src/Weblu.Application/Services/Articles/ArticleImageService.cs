@@ -46,7 +46,7 @@ namespace Weblu.Application.Services.Articles
             Article article = await _articleRepository.GetByIdWithImagesAsync(articleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             ImageMedia imageMedia = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
-            article.DeleteImage(imageMedia);
+            article.RemoveImage(imageMedia);
             await _unitOfWork.CommitAsync();
         }
     }

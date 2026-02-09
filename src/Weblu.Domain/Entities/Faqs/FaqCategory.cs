@@ -4,10 +4,10 @@ namespace Weblu.Domain.Entities.FAQs
 {
     public class FAQCategory : BaseEntity
     {
+        // Required properties
         public string Name { get; set; } = default!;
         public string? Description { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
-        public List<FAQ> FAQs { get; set; } = new List<FAQ>();
+        // Relationships
+        public List<FAQ> FAQs { get; set; } = new();
     }
 }

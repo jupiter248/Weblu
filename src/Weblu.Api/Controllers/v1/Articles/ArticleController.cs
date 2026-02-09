@@ -83,6 +83,20 @@ namespace Weblu.Api.Controllers.v1.Articles
             return NoContent();
         }
         [Authorize(Policy = Permissions.ManageArticles)]
+        [HttpPut("{articleId:int}/publish")]
+        public async Task<IActionResult> Publish(int articleId)
+        {
+            await _articleService.Publish(articleId);
+            return NoContent();
+        }
+        [Authorize(Policy = Permissions.ManageArticles)]
+        [HttpPut("{articleId:int}/unpublish")]
+        public async Task<IActionResult> Unpublish(int articleId)
+        {
+            await _articleService.Unpublish(articleId);
+            return NoContent();
+        }
+        [Authorize(Policy = Permissions.ManageArticles)]
         [HttpPost("{articleId:int}/image/{imageId:int}")]
         public async Task<IActionResult> AddImage(int articleId, int imageId, [FromBody] AddArticleImageDto addArticleImageDto)
         {

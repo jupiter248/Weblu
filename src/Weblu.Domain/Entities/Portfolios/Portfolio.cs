@@ -16,45 +16,48 @@ namespace Weblu.Domain.Entities.Portfolios
 {
     public class Portfolio : BaseEntity
     {
-        public required string Title { get; set; }
-        public required string Description { get; set; }
-        public required string ShortDescription { get; set; }
-        public required string Slug { get; set; }
+        // Required properties
+        public string Title { get; set; } = default!;
+        public int ReadingTimeMinutes { get; set; }
+        public string Description { get; set; } = default!;
+        public string ShortDescription { get; set; } = default!;
+        public string Slug { get; set; } = default!;
         public string? GithubUrl { get; set; }
         public string? LiveUrl { get; set; }
-        public bool IsActive { get; set; }
-        public DateTimeOffset? ActivatedAt { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
+        // Publishing Info
+        public bool IsPublished { get; private set; }
+        public DateTimeOffset? PublishedAt { get; private set; }
+        // Relationships
         public int PortfolioCategoryId { get; set; }
         public PortfolioCategory PortfolioCategory { get; set; } = default!;
-        public List<Feature> Features { get; set; } = new List<Feature>();
-        public List<Method> Methods { get; set; } = new List<Method>();
-        public List<PortfolioImage> PortfolioImages { get; set; } = new List<PortfolioImage>();
-        public List<Contributor> Contributors { get; set; } = new List<Contributor>();
-        public List<FavoritePortfolio> FavoritePortfolios { get; set; } = new List<FavoritePortfolio>();
+        public List<Feature> Features { get; set; } = new();
+        public List<Method> Methods { get; set; } = new();
+        public List<PortfolioImage> PortfolioImages { get; set; } = new();
+        public List<Contributor> Contributors { get; set; } = new();
+        public List<FavoritePortfolio> FavoritePortfolios { get; set; } = new();
         private readonly List<IDomainEvent> _events = new();
         public IReadOnlyCollection<IDomainEvent> Events => _events;
-        public void Add()
-        {
-            AddDomainEvent(new PortfolioAddedEvent(GuidId));
-        }
-        public override void Delete()
-        {
-            if (IsDeleted) return;
-            IsDeleted = true;
-            DeletedAt = DateTimeOffset.Now;
-            AddDomainEvent(new PortfolioDeletedEvent(GuidId));
-        }
+        // Domain behavior methods
         public void Update()
         {
-            AddDomainEvent(new PortfolioUpdatedEvent(GuidId));
+            MarkUpdated();
+            RaiseEvent(new PortfolioUpdatedEvent(GuidId));
+        }
+        public void Publish()
+        {
+            if (IsPublished) throw new DomainException(PortfolioErrorCodes.AlreadyPublished, 409);
+            IsPublished = true;
+            PublishedAt = DateTimeOffset.Now;
+            RaiseEvent(new PortfolioPublishedEvent(GuidId));
+        }
+        public void Unpublish()
+        {
+            if (!IsPublished) throw new DomainException(PortfolioErrorCodes.DidNotPublish, 409); ;
+            IsPublished = false;
+            PublishedAt = null;
+            RaiseEvent(new PortfolioUnpublishedEvent(GuidId));
         }
 
-        public void AddDomainEvent(IDomainEvent domainEvent)
-            => _events.Add(domainEvent);
-        public void ClearDomainEvents()
-            => _events.Clear();
 
         public void AddMethod(Method method)
         {
@@ -92,7 +95,7 @@ namespace Weblu.Domain.Entities.Portfolios
             }
             PortfolioImages.Add(image);
         }
-        public void DeleteMethod(Method method)
+        public void RemoveMethod(Method method)
         {
             if (!Methods.Any(c => c.Id == method.Id))
             {
@@ -100,7 +103,7 @@ namespace Weblu.Domain.Entities.Portfolios
             }
             Methods.Remove(method);
         }
-        public void DeleteFeature(Feature feature)
+        public void RemoveFeature(Feature feature)
         {
             if (!Features.Any(c => c.Id == feature.Id))
             {
@@ -108,7 +111,7 @@ namespace Weblu.Domain.Entities.Portfolios
             }
             Features.Remove(feature);
         }
-        public void DeleteContributor(Contributor contributor)
+        public void RemoveContributor(Contributor contributor)
         {
             if (!Contributors.Any(c => c.Id == contributor.Id))
             {
@@ -116,7 +119,7 @@ namespace Weblu.Domain.Entities.Portfolios
             }
             Contributors.Remove(contributor);
         }
-        public void DeleteImage(ImageMedia imageMedia)
+        public void RemoveImage(ImageMedia imageMedia)
         {
             PortfolioImage? portfolioImage = PortfolioImages.FirstOrDefault(i => i.ImageMediaId == imageMedia.Id);
             if (portfolioImage == null)
@@ -125,18 +128,9 @@ namespace Weblu.Domain.Entities.Portfolios
             }
             PortfolioImages.Remove(portfolioImage);
         }
-        public void UpdateActivateStatus(bool isActive)
-        {
-            if (IsActive == isActive) return;
-            IsActive = isActive;
-            if (isActive)
-            {
-                ActivatedAt = DateTimeOffset.Now;
-            }
-            else
-            {
-                ActivatedAt = null;
-            }
-        }
+        public void RaiseEvent(IDomainEvent domainEvent)
+            => _events.Add(domainEvent);
+        public void ClearEvents()
+            => _events.Clear();
     }
 }

@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Entities.Common;
 
-namespace Weblu.Domain.Entities.Tags
+namespace Weblu.Domain.Entities.Common.Tags
 {
     public class Tag : BaseEntity
     {
+        // Required properties
         public string Name { get; set; } = default!;
         public string? Description { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.Now;
-        public List<Article> Articles { get; set; } = new List<Article>();
+        // Relationships
+        public List<Article> Articles { get; set; } = new();
 
     }
 }

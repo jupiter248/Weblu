@@ -51,7 +51,7 @@ namespace Weblu.Application.Services.ServiceServices
             Service? service = await _serviceRepository.GetByIdWithImagesAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             ImageMedia? image = await _imageRepository.GetByIdAsync(imageId) ?? throw new NotFoundException(ImageErrorCodes.ImageNotFound);
 
-            service.DeleteImage(image);
+            service.RemoveImage(image);
             await _unitOfWork.CommitAsync();
         }
     }

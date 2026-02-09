@@ -31,10 +31,6 @@ namespace Weblu.Application.Services
         public async Task<ServiceDetailDto> CreateAsync(CreateServiceDto createServiceDto)
         {
             Service newService = _mapper.Map<Service>(createServiceDto);
-            if (newService.IsActive)
-            {
-                newService.ActivatedAt = DateTimeOffset.Now;
-            }
             _serviceRepository.Add(newService);
             await _unitOfWork.CommitAsync();
             ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(newService);
@@ -43,6 +39,7 @@ namespace Weblu.Application.Services
         public async Task DeleteAsync(int serviceId)
         {
             Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+            if (service.IsPublished) throw new ConflictException(ServiceErrorCodes.IsPublish);
             service.Delete();
             await _unitOfWork.CommitAsync();
         }
@@ -73,11 +70,31 @@ namespace Weblu.Application.Services
         {
             Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
             service = _mapper.Map(updateServiceDto, service);
-            service.UpdateActivateStatus(updateServiceDto.IsActive);
+
+            service.MarkUpdated();
             _serviceRepository.Update(service);
             await _unitOfWork.CommitAsync();
+
             ServiceDetailDto serviceDto = _mapper.Map<ServiceDetailDto>(service);
             return serviceDto;
+        }
+
+        public async Task Publish(int serviceId)
+        {
+            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+
+            service.Publish();
+
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task Unpublish(int serviceId)
+        {
+            Service? service = await _serviceRepository.GetByIdAsync(serviceId) ?? throw new NotFoundException(ServiceErrorCodes.ServiceNotFound);
+
+            service.Unpublish();
+
+            await _unitOfWork.CommitAsync();
         }
     }
 }

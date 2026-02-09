@@ -14,6 +14,9 @@ namespace Weblu.Domain.Errors.Common
         public const string ContributorGithubUrlInvalid = "CONTRIBUTOR_GITHUB_URL_INVALID";
         public const string ContributorLinkedInUrlInvalid = "CONTRIBUTOR_LINKED_IN_URL_INVALID";
         public const string ContributorProfileIsEmpty = "CONTRIBUTOR_PROFILE_IS_EMPTY";
+        public const string AlreadyPublished = "CONTRIBUTOR_ALREADY_PUBLISHED";
+        public const string DidNotPublish = "CONTRIBUTOR_DID_NOT_PUBLISH";
+        public const string IsPublish = "CONTRIBUTOR_IS_PUBLISH";
 
 
 

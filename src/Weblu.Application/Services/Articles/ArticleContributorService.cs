@@ -39,7 +39,7 @@ namespace Weblu.Application.Services.Articles
 
             await _articleRepository.LoadContributorsAsync(article);
 
-            article.DeleteContributor(contributor);
+            article.RemoveContributor(contributor);
             await _unitOfWork.CommitAsync();
         }
     }

@@ -11,8 +11,8 @@ namespace Weblu.Application.Dtos.Services.ServiceDtos
         public required string ShortDescription { get; set; }
         public int BaseDurationInDays { get; set; }
         public decimal BasePrice { get; set; }
-        public bool IsActive { get; set; }
-        public string? ActivatedAt { get; set; }
+        public bool IsPublished { get; set; }
+        public string? PublishedAt { get; set; }
         public string? UpdatedAt { get; set; }
         public required string CreatedAt { get; set; }
         public List<ServiceImageDto>? Images { get; set; }

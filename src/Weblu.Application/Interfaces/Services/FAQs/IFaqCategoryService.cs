@@ -5,10 +5,10 @@ namespace Weblu.Application.Interfaces.Services.FAQs
 {
     public interface IFAQCategoryService
     {
-        Task<List<FAQCategoryDto>> GetAllAsync(FAQCategoryParameters faqCategoryParameters);
-        Task<FAQCategoryDto> GetByIdAsync(int faqCategoryId);
+        Task<List<FAQCategoryDto>> GetAllAsync(FAQCategoryParameters fAQCategoryParameters);
+        Task<FAQCategoryDto> GetByIdAsync(int fAQCategoryId);
         Task<FAQCategoryDto> CreateAsync(CreateFAQCategoryDto createFAQCategoryDto);
         Task<FAQCategoryDto> UpdateAsync(int currentFAQCategoryId, UpdateFAQCategoryDto updateFAQCategoryDto);
-        Task DeleteAsync(int faqCategoryId);
+        Task DeleteAsync(int fAQCategoryId);
     }
 }

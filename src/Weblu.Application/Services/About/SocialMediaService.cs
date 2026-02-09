@@ -94,6 +94,7 @@ namespace Weblu.Application.Services.About
             socialMedia.IconUrl = $"uploads/{MediaType.Icon}/{iconName}";
             socialMedia.IconAltText = changeSocialMediaIconDto.AltText;
 
+            socialMedia.MarkUpdated();
             _socialMediaRepository.Update(socialMedia);
             await _unitOfWork.CommitAsync();
 
@@ -106,6 +107,7 @@ namespace Weblu.Application.Services.About
             SocialMedia socialMedia = await _socialMediaRepository.GetByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
             socialMedia = _mapper.Map(updateSocialMediaDto, socialMedia);
 
+            socialMedia.MarkUpdated();
             _socialMediaRepository.Update(socialMedia);
             await _unitOfWork.CommitAsync();
 

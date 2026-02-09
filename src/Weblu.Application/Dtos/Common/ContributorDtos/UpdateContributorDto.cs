@@ -9,6 +9,6 @@ namespace Weblu.Application.Dtos.Common.ContributorDtos
         public string? Email { get; set; }
         public string? GithubUrl { get; set; }
         public string? LinkedInUrl { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsPublished { get; set; }
     }
 }

@@ -11,7 +11,7 @@ using Weblu.Domain.Interfaces;
 
 namespace Weblu.Application.EventHandlers.Portfolios
 {
-    public class PortfolioSearchIndexHandler : IDomainEventHandler<PortfolioAddedEvent>
+    public class PortfolioSearchIndexHandler : IDomainEventHandler<PortfolioPublishedEvent>
     {
         private readonly ISearchRepository _searchRepository;
         private readonly IPortfolioRepository _portfolioRepository;
@@ -22,7 +22,7 @@ namespace Weblu.Application.EventHandlers.Portfolios
             _portfolioRepository = portfolioRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task Handle(PortfolioAddedEvent domainEvent)
+        public async Task Handle(PortfolioPublishedEvent domainEvent)
         {
             Portfolio? portfolio = await _portfolioRepository.GetByGuidIdAsync(domainEvent.PortfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             SearchItem searchItem = new SearchItem()

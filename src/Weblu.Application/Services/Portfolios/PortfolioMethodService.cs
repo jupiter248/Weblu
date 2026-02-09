@@ -41,7 +41,7 @@ namespace Weblu.Application.Services.Portfolios
 
             await _portfolioRepository.LoadMethodsAsync(portfolio);
 
-            portfolio.DeleteMethod(method);
+            portfolio.RemoveMethod(method);
             await _unitOfWork.CommitAsync();
         }
     }

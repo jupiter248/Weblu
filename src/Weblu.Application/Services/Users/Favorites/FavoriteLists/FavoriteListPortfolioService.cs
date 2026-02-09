@@ -46,7 +46,7 @@ namespace Weblu.Application.Services.Users.Favorites.FavoriteLists
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             FavoritePortfolio favoritePortfolio = await _userPortfolioFavoriteRepository.GetByPortfolioIdAsync(userId, portfolio.Id) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
-            favoriteList.AddFavoritePortfolio(favoritePortfolio);
+            favoriteList.AddPortfolio(favoritePortfolio);
             await _unitOfWork.CommitAsync();
         }
         public async Task DeleteAsync(string userId, int favoriteListId, int portfolioId)
@@ -60,7 +60,7 @@ namespace Weblu.Application.Services.Users.Favorites.FavoriteLists
             Portfolio portfolio = await _portfolioRepository.GetByIdAsync(portfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             FavoritePortfolio favoritePortfolio = await _userPortfolioFavoriteRepository.GetByPortfolioIdAsync(userId, portfolio.Id) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
 
-            favoriteList.DeleteFavoritePortfolio(favoritePortfolio);
+            favoriteList.DeletePortfolio(favoritePortfolio);
             await _unitOfWork.CommitAsync();
         }
     }

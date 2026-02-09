@@ -17,5 +17,8 @@ namespace Weblu.Domain.Errors.Portfolios
         public const string InvalidCategoryId = "PORTFOLIO_INVALID_CATEGORY_ID";
         public const string ImageAlreadyAddedToPortfolio = "IMAGE_ALREADY_ADDED_TO_PORTFOLIO";
         public const string PortfolioHasThumbnailImage = "PORTFOLIO_HAS_THUMBNAIL_IMAGE";
+        public const string AlreadyPublished = "PORTFOLIO_ALREADY-PUBLISHED";
+        public const string DidNotPublish = "PORTFOLIO_DID_NOT_PUBLISH";
+        public const string IsPublish = "PORTFOLIO_IS_PUBLISH";
     }
 }

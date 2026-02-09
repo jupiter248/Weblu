@@ -46,7 +46,7 @@ namespace Weblu.Application.Services.Common
         public async Task DeleteAsync(int contributorId)
         {
             Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
-
+            if (contributor.IsPublished) throw new ConflictException(ContributorErrorCodes.IsPublish);
             if (!string.IsNullOrEmpty(contributor.ProfileImageUrl))
             {
                 await MediaManager.DeleteMedia(_webHostPath, contributor.ProfileImageUrl);
@@ -69,7 +69,7 @@ namespace Weblu.Application.Services.Common
 
             contributor.ProfileImageUrl = null;
             contributor.ProfileImageAltText = null;
-
+            contributor.MarkUpdated();
             await _unitOfWork.CommitAsync();
         }
 
@@ -92,6 +92,7 @@ namespace Weblu.Application.Services.Common
             Contributor contributor = await _contributorRepository.GetByIdAsync(currentContributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
             contributor = _mapper.Map(updateContributorDto, contributor);
 
+            contributor.MarkUpdated();
             _contributorRepository.Update(contributor);
             await _unitOfWork.CommitAsync();
 
@@ -124,11 +125,28 @@ namespace Weblu.Application.Services.Common
             contributor.ProfileImageUrl = $"uploads/{MediaType.profile}/{imageName}";
             contributor.ProfileImageAltText = changeProfileImage.AltText;
 
+            contributor.MarkUpdated();
             _contributorRepository.Update(contributor);
             await _unitOfWork.CommitAsync();
 
             ContributorDto contributorDto = _mapper.Map<ContributorDto>(contributor);
             return contributorDto;
+        }
+
+        public async Task Publish(int contributorId)
+        {
+            Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+
+            contributor.Publish();
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task Unpublish(int contributorId)
+        {
+            Contributor contributor = await _contributorRepository.GetByIdAsync(contributorId) ?? throw new NotFoundException(ContributorErrorCodes.ContributorNotFound);
+
+            contributor.Unpublish();
+            await _unitOfWork.CommitAsync();
         }
     }
 }

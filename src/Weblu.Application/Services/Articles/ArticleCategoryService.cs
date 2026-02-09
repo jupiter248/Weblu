@@ -52,6 +52,7 @@ namespace Weblu.Application.Services.Articles
             ArticleCategory articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId) ?? throw new NotFoundException(ArticleCategoryErrorCodes.NotFound);
             articleCategory = _mapper.Map(updateArticleCategoryDto, articleCategory);
 
+            articleCategory.MarkUpdated();
             _articleCategoryRepository.Update(articleCategory);
             await _unitOfWork.CommitAsync();
 

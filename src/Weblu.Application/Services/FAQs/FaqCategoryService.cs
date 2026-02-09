@@ -60,6 +60,7 @@ namespace Weblu.Application.Services.FAQs
             FAQCategory currentFAQCategory = await _faqCategoryRepository.GetByIdAsync(currentFAQCategoryId) ?? throw new NotFoundException(FAQCategoryErrorCodes.NotFound);
             currentFAQCategory = _mapper.Map(updateFAQCategoryDto, currentFAQCategory);
 
+            currentFAQCategory.MarkUpdated();
             _faqCategoryRepository.Update(currentFAQCategory);
             await _unitOfWork.CommitAsync();
 

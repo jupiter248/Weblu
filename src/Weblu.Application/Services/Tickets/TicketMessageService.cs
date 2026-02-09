@@ -102,6 +102,7 @@ namespace Weblu.Application.Services.Tickets
             }
             ticketMessage = _mapper.Map(editTicketMessageDto, ticketMessage);
 
+            ticketMessage.MarkUpdated();
             _ticketMessageRepository.Update(ticketMessage);
             await _unitOfWork.CommitAsync();
 

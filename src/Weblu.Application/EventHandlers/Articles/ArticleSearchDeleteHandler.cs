@@ -12,7 +12,7 @@ using Weblu.Domain.Interfaces;
 
 namespace Weblu.Application.EventHandlers.Articles
 {
-    public class ArticleSearchDeleteHandler : IDomainEventHandler<ArticleDeletedEvent>
+    public class ArticleSearchDeleteHandler : IDomainEventHandler<ArticleUnpublishedEvent>
     {
         private readonly ISearchRepository _searchRepository;
         private readonly IArticleRepository _articleRepository;
@@ -23,7 +23,7 @@ namespace Weblu.Application.EventHandlers.Articles
             _articleRepository = articleRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task Handle(ArticleDeletedEvent domainEvent)
+        public async Task Handle(ArticleUnpublishedEvent domainEvent)
         {
             Article? article = await _articleRepository.GetByGuidIdAsync(domainEvent.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             SearchItem? searchItem = await _searchRepository.GetByEntityIdAsync(article.Id, SearchEntityType.Article) ?? throw new NotFoundException(SearchErrorCodes.NotFound);

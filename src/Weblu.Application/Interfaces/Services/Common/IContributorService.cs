@@ -12,5 +12,7 @@ namespace Weblu.Application.Interfaces.Services.Common
         Task<ContributorDto> ChangeProfileImageAsync(int currentContributorId, ChangeContributorProfileImageDto ChangeProfileImage);
         Task DeleteProfileAsync(int contributorId);
         Task DeleteAsync(int contributorId);
+        Task Publish(int contributorId);
+        Task Unpublish(int contributorId);
     }
 }

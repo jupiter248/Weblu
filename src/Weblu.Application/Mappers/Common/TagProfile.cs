@@ -1,7 +1,7 @@
 using AutoMapper;
 using Weblu.Application.Dtos.Common.TagDtos;
 using Weblu.Application.Helpers;
-using Weblu.Domain.Entities.Tags;
+using Weblu.Domain.Entities.Common.Tags;
 
 namespace Weblu.Application.Mappers.Common
 {

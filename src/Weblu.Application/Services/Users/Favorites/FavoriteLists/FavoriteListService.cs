@@ -88,7 +88,8 @@ namespace Weblu.Application.Services.Users.Favorites.FavoriteLists
                 throw new UnauthorizedException(FavoriteListErrorCodes.UpdateForbidden);
             }
             favoriteList = _mapper.Map(updateFavoriteListDto, favoriteList);
-
+            
+            favoriteList.MarkUpdated();
             _favoriteListRepository.Update(favoriteList);
             await _unitOfWork.CommitAsync();
 

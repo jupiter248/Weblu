@@ -43,7 +43,7 @@ namespace Weblu.Application.Services.Portfolios
 
             await _portfolioRepository.LoadFeaturesAsync(portfolio);
 
-            portfolio.DeleteFeature(feature);
+            portfolio.RemoveFeature(feature);
             await _unitOfWork.CommitAsync();
         }
     }

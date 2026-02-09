@@ -116,6 +116,11 @@ namespace Weblu.Application.Services.Tickets
                 throw new UnauthorizedException(TicketErrorCodes.TicketUpdateForbidden);
             }
             ticket = _mapper.Map(editTicketDto, ticket);
+
+            ticket.MarkUpdated();
+            _ticketRepository.Update(ticket);
+            await _unitOfWork.CommitAsync();
+
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;
         }
@@ -123,8 +128,11 @@ namespace Weblu.Application.Services.Tickets
         public async Task<TicketDetailDto> ChangeStatusAsync(int ticketId, ChangeTicketStatusDto changeTicketStatusDto)
         {
             Ticket ticket = await _ticketRepository.GetByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
+
+            ticket.MarkUpdated();
             ticket = _mapper.Map(changeTicketStatusDto, ticket);
             _ticketRepository.Update(ticket);
+
             await _unitOfWork.CommitAsync();
             TicketDetailDto ticketDetailDto = _mapper.Map<TicketDetailDto>(ticket);
             return ticketDetailDto;

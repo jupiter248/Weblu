@@ -12,7 +12,7 @@ using Weblu.Application.Interfaces.Repositories;
 
 namespace Weblu.Application.EventHandlers.Portfolios
 {
-    public class PortfolioSearchDeleteHandler : IDomainEventHandler<PortfolioDeletedEvent>
+    public class PortfolioSearchDeleteHandler : IDomainEventHandler<PortfolioUnpublishedEvent>
     {
         private readonly ISearchRepository _searchRepository;
         private readonly IPortfolioRepository _portfolioRepository;
@@ -23,7 +23,7 @@ namespace Weblu.Application.EventHandlers.Portfolios
             _portfolioRepository = portfolioRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task Handle(PortfolioDeletedEvent domainEvent)
+        public async Task Handle(PortfolioUnpublishedEvent domainEvent)
         {
             Portfolio? portfolio = await _portfolioRepository.GetByGuidIdAsync(domainEvent.PortfolioId) ?? throw new NotFoundException(PortfolioErrorCodes.PortfolioNotFound);
             SearchItem? searchItem = await _searchRepository.GetByEntityIdAsync(portfolio.Id, SearchEntityType.Portfolio) ?? throw new NotFoundException(SearchErrorCodes.NotFound);

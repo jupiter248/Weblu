@@ -16,17 +16,12 @@ namespace Weblu.Application.Mappers.Portfolios
                             .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.PortfolioImages.FirstOrDefault(i => i.IsThumbnail).ImageMedia.Url ?? string.Empty));
 
             CreateMap<Portfolio, PortfolioDetailDto>()
-                    .ForMember(dest => dest.ActivatedAt, opt => opt.MapFrom(src => src.ActivatedAt.HasValue ? src.ActivatedAt.Value.ToShamsi() : null))
+                    .ForMember(dest => dest.PublishedAt, opt => opt.MapFrom(src => src.PublishedAt.HasValue ? src.PublishedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
                     .ForMember(dest => dest.PortfolioCategoryName, opt => opt.MapFrom(src => src.PortfolioCategory.Name ?? string.Empty));
             CreateMap<CreatePortfolioDto, Portfolio>()
-                    .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()))
-                    .ForMember(dest => dest.ActivatedAt, opt =>
-                    {
-                        opt.PreCondition(src => src.IsActive);
-                        opt.MapFrom(_ => DateTimeOffset.Now);
-                    });
+                    .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()));
             CreateMap<UpdatePortfolioDto, Portfolio>()
                     .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Title.Slugify()))
                     .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
@@ -39,7 +34,7 @@ namespace Weblu.Application.Mappers.Portfolios
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
 
             CreateMap<PortfolioImage, PortfolioImageDto>()
-                    .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.ImageMedia.AddedAt.ToShamsi()))
+                    .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.ImageMedia.CreatedAt.ToShamsi()))
                     .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ImageMedia.Name))
                     .ForMember(dest => dest.AltText, opt => opt.MapFrom(src => src.ImageMedia.AltText))
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ImageMedia.Id))

@@ -62,6 +62,20 @@ namespace Weblu.Api.Controllers.v1.Common
             ));
         }
         [Authorize(Policy = Permissions.ManageContributors)]
+        [HttpPut("{articleId:int}/publish")]
+        public async Task<IActionResult> Publish(int articleId)
+        {
+            await _contributorService.Publish(articleId);
+            return NoContent();
+        }
+        [Authorize(Policy = Permissions.ManageContributors)]
+        [HttpPut("{articleId:int}/unpublish")]
+        public async Task<IActionResult> Unpublish(int articleId)
+        {
+            await _contributorService.Unpublish(articleId);
+            return NoContent();
+        }
+        [Authorize(Policy = Permissions.ManageContributors)]
         [HttpPut("{contributorId:int}/profile-image")]
         public async Task<IActionResult> ChangeImageProfile(int contributorId, [FromForm] ChangeContributorProfileImageDto changeContributorProfileImageDto)
         {

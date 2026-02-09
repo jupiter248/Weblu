@@ -7,11 +7,11 @@ using Weblu.Domain.Entities.Common.Contributors;
 using Weblu.Domain.Entities.Common.Features;
 using Weblu.Domain.Entities.Common.Methods;
 using Weblu.Domain.Entities.Common.Search;
+using Weblu.Domain.Entities.Common.Tags;
 using Weblu.Domain.Entities.FAQs;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Entities.Services;
-using Weblu.Domain.Entities.Tags;
 using Weblu.Domain.Entities.Tickets;
 using Weblu.Domain.Entities.Users.Favorites;
 using Weblu.Domain.Entities.Users.Tokens;
@@ -69,6 +69,7 @@ namespace Weblu.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
             modelBuilder.Entity<Service>()
                 .HasMany(f => f.Features)
                 .WithMany(s => s.Services);

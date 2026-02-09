@@ -5,10 +5,10 @@ namespace Weblu.Domain.Entities.Users.Favorites
 {
     public class FavoriteArticle : BaseEntity
     {
-        public DateTimeOffset AddedAt { get; private set; } = DateTimeOffset.Now;
         public int ArticleId { get; set; }
         public Article Article { get; set; } = default!;
         public string UserId { get; set; } = default!;
+        
         public List<FavoriteList> FavoriteLists { get; set; } = new List<FavoriteList>();
     }
 }

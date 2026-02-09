@@ -14,7 +14,7 @@ namespace Weblu.Application.Mappers.Services
                         CreateMap<Service, ServiceSummaryDto>()
                             .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.ServiceImages.FirstOrDefault(i => i.IsThumbnail).Image.Url ?? string.Empty));
                         CreateMap<Service, ServiceDetailDto>()
-                                .ForMember(dest => dest.ActivatedAt, opt => opt.MapFrom(src => src.ActivatedAt.HasValue ? src.ActivatedAt.Value.ToShamsi() : null))
+                                .ForMember(dest => dest.PublishedAt, opt => opt.MapFrom(src => src.PublishedAt.HasValue ? src.PublishedAt.Value.ToShamsi() : null))
                                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : null))
                                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()));
                         CreateMap<CreateServiceDto, Service>()
@@ -24,7 +24,7 @@ namespace Weblu.Application.Mappers.Services
                                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTimeOffset.Now));
                                 
                         CreateMap<ServiceImage, ServiceImageDto>()
-                                .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.Image.AddedAt.ToShamsi()))
+                                .ForMember(dest => dest.AddedAt, opt => opt.MapFrom(src => src.Image.CreatedAt.ToShamsi()))
                                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Image.Name))
                                 .ForMember(dest => dest.AltText, opt => opt.MapFrom(src => src.Image.AltText))
                                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Image.Id))

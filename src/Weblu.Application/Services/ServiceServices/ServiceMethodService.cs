@@ -44,7 +44,7 @@ namespace Weblu.Application.Services.ServiceServices
 
             await _serviceRepository.LoadMethodsAsync(service);
 
-            service.DeleteMethod(method);
+            service.RemoveMethod(method);
             await _unitOfWork.CommitAsync();
         }
     }

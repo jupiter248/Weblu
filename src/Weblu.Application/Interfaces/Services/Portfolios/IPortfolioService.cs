@@ -13,5 +13,7 @@ namespace Weblu.Application.Interfaces.Services.Portfolios
         Task<PortfolioDetailDto> CreateAsync(CreatePortfolioDto createPortfolioDto);
         Task<PortfolioDetailDto> UpdateAsync(int portfolioId, UpdatePortfolioDto updatePortfolioDto);
         Task DeleteAsync(int portfolioId);
+        Task Publish(int portfolioId);
+        Task Unpublish(int portfolioId);
     }
 }

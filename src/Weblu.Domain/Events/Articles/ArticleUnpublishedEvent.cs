@@ -4,15 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Weblu.Domain.Events.Common;
 
-namespace Weblu.Domain.Events.Portfolios
+namespace Weblu.Domain.Events.Articles
 {
-    public class PortfolioDeletedEvent : IDomainEvent
+    public class ArticleUnpublishedEvent : IDomainEvent
     {
-        public Guid PortfolioId { get; }
+        public Guid ArticleId { get; }
         public DateTimeOffset OccurredOn { get; } = DateTimeOffset.Now;
-        public PortfolioDeletedEvent(Guid portfolioId)
+        public ArticleUnpublishedEvent(Guid articleId)
         {
-            PortfolioId = portfolioId;
+            ArticleId = articleId;
         }
     }
 }

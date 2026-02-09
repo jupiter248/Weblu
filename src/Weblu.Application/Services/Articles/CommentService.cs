@@ -139,6 +139,8 @@ namespace Weblu.Application.Services.Articles
                 throw new NotFoundException(CommentErrorCodes.NotFound);
             }
             comment = _mapper.Map(updateCommentDto, comment);
+            
+            comment.MarkUpdated();
             _commentRepository.Update(comment);
             await _unitOfWork.CommitAsync();
 

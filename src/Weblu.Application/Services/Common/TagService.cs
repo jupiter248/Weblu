@@ -5,7 +5,7 @@ using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Parameters.Common;
-using Weblu.Domain.Entities.Tags;
+using Weblu.Domain.Entities.Common.Tags;
 using Weblu.Domain.Errors.Common;
 
 namespace Weblu.Application.Services.Common
@@ -58,6 +58,7 @@ namespace Weblu.Application.Services.Common
             Tag tag = await _tagRepository.GetByIdAsync(tagId) ?? throw new NotFoundException(TagErrorCodes.NotFound);
             tag = _mapper.Map(updateTagDto, tag);
 
+            tag.MarkUpdated();
             _tagRepository.Update(tag);
             await _unitOfWork.CommitAsync();
 

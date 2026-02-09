@@ -1,4 +1,5 @@
 using Weblu.Application.Dtos.Articles.ArticleDtos.ArticleImageDtos;
+using Weblu.Domain.Events.Articles;
 
 namespace Weblu.Application.Dtos.Articles.ArticleDtos
 {
@@ -6,6 +7,7 @@ namespace Weblu.Application.Dtos.Articles.ArticleDtos
     {
         public int Id { get; set; }
         public string Title { get; set; } = default!;
+        public int ReadingTimeMinutes { get; set; }
         public string? AboveTitle { get; set; }
         public string? BelowTitle { get; set; }
         public string Slug { get; set; } = default!;

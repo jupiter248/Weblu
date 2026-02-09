@@ -7,7 +7,6 @@ using Weblu.Domain.Errors.Users;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Repositories.Users;
 using Weblu.Application.Interfaces.Services.Images;
-using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Repositories.Images;
 using Weblu.Application.Dtos.Images.ProfileDtos;
 using Weblu.Application.Exceptions.CustomExceptions;

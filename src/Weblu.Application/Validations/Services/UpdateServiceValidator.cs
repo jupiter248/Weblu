@@ -33,10 +33,6 @@ namespace Weblu.Application.Validations.Services
             RuleFor(s => s.BasePrice)
                 .NotEmpty()
                 .WithMessage(ServiceErrorCodes.ServiceBasePriceRequired);
-
-            RuleFor(s => s.IsActive)
-                .NotNull()
-                .WithMessage(ServiceErrorCodes.ServiceIsActiveRequired);
         }
     }
 }

@@ -11,11 +11,11 @@ namespace Weblu.Application.Strategies.Images.Profiles
         {
             if (profileMediaParameters.CreatedDateSort == CreatedDateSort.Newest)
             {
-                return profiles.OrderByDescending(s => s.AddedAt);
+                return profiles.OrderByDescending(s => s.CreatedAt);
             }
             else if (profileMediaParameters.CreatedDateSort == CreatedDateSort.Oldest)
             {
-                return profiles.OrderBy(s => s.AddedAt);
+                return profiles.OrderBy(s => s.CreatedAt);
             }
             else
             {

@@ -11,7 +11,7 @@ using Weblu.Domain.Interfaces;
 
 namespace Weblu.Application.EventHandlers.Articles
 {
-    public class ArticleSearchIndexHandler : IDomainEventHandler<ArticleAddedEvent>
+    public class ArticleSearchIndexHandler : IDomainEventHandler<ArticlePublishedEvent>
     {
         private readonly ISearchRepository _searchRepository;
         private readonly IArticleRepository _articleRepository;
@@ -22,7 +22,7 @@ namespace Weblu.Application.EventHandlers.Articles
             _articleRepository = articleRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task Handle(ArticleAddedEvent domainEvent)
+        public async Task Handle(ArticlePublishedEvent domainEvent)
         {
             Article? article = await _articleRepository.GetByGuidIdAsync(domainEvent.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             SearchItem searchItem = new SearchItem()

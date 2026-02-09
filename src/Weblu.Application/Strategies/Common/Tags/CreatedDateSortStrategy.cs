@@ -1,6 +1,6 @@
 using Weblu.Application.Interfaces.Strategies.Common;
 using Weblu.Application.Parameters.Common;
-using Weblu.Domain.Entities.Tags;
+using Weblu.Domain.Entities.Common.Tags;
 using Weblu.Domain.Enums.Common.Parameters;
 
 namespace Weblu.Application.Strategies.Common.Tags

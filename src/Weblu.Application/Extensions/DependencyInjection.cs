@@ -82,13 +82,13 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IPortfolioContributorService, PortfolioContributorService>();
 
             //Event Articles
-            services.AddScoped<IDomainEventHandler<ArticleAddedEvent>, ArticleSearchIndexHandler>();
+            services.AddScoped<IDomainEventHandler<ArticlePublishedEvent>, ArticleSearchIndexHandler>();
             services.AddScoped<IDomainEventHandler<ArticleUpdatedEvent>, ArticleSearchUpdateHandler>();
-            services.AddScoped<IDomainEventHandler<ArticleDeletedEvent>, ArticleSearchDeleteHandler>();
+            services.AddScoped<IDomainEventHandler<ArticleUnpublishedEvent>, ArticleSearchDeleteHandler>();
             //Event Portfolios
-            services.AddScoped<IDomainEventHandler<PortfolioAddedEvent>, PortfolioSearchIndexHandler>();
+            services.AddScoped<IDomainEventHandler<PortfolioPublishedEvent>, PortfolioSearchIndexHandler>();
             services.AddScoped<IDomainEventHandler<PortfolioUpdatedEvent>, PortfolioSearchUpdateHandler>();
-            services.AddScoped<IDomainEventHandler<PortfolioDeletedEvent>, PortfolioSearchDeleteHandler>();
+            services.AddScoped<IDomainEventHandler<PortfolioUnpublishedEvent>, PortfolioSearchDeleteHandler>();
 
 
         }

@@ -52,7 +52,6 @@ namespace Weblu.Application.Services.About
             {
                 await MediaManager.DeleteMedia(_webHostPath, aboutUs.HeadImageUrl);
             }
-
             aboutUs.Delete();
             await _unitOfWork.CommitAsync();
         }
@@ -69,7 +68,7 @@ namespace Weblu.Application.Services.About
 
             aboutUs.HeadImageUrl = null;
             aboutUs.HeadImageAltText = null;
-
+            aboutUs.MarkUpdated();
             await _unitOfWork.CommitAsync();
         }
 
@@ -92,6 +91,7 @@ namespace Weblu.Application.Services.About
             AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
             aboutUs = _mapper.Map(updateAboutUsDto, aboutUs);
 
+            aboutUs.MarkUpdated();
             _aboutUsRepository.Update(aboutUs);
             await _unitOfWork.CommitAsync();
 
@@ -124,6 +124,7 @@ namespace Weblu.Application.Services.About
             aboutUs.HeadImageUrl = $"uploads/{MediaType.picture}/{imageName}";
             aboutUs.HeadImageAltText = changeAboutUsImageDto.AltText;
 
+            aboutUs.MarkUpdated();
             _aboutUsRepository.Update(aboutUs);
             await _unitOfWork.CommitAsync();
 

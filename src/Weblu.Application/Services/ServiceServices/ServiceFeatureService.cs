@@ -43,7 +43,7 @@ namespace Weblu.Application.Services.ServiceServices
 
             await _serviceRepository.LoadFeaturesAsync(service);
 
-            service.DeleteFeature(feature);
+            service.RemoveFeature(feature);
             await _unitOfWork.CommitAsync();
         }
     }

@@ -8,7 +8,9 @@ namespace Weblu.Domain.Errors.FAQs
         public const string AnswerMaximumLength = "FAQ_ANSWER_MAX_LENGTH";
         public const string QuestionMaximumLength = "FAQ_QUESTION_MAX_LENGTH";
         public const string InvalidCategoryId = "FAQ_CATEGORY_ID_INVALID";
-
+        public const string AlreadyPublished = "FAQ-ALREADY-PUBLISHED";
+        public const string DidNotPublish = "FAQ-DID-NOT-PUBLISH";
+        public const string IsPublish = "FAQ_IS_PUBLISH";
 
 
 

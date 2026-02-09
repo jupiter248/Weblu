@@ -16,6 +16,9 @@ namespace Weblu.Domain.Errors.Services
         public const string MethodAlreadyAddedToService = "METHOD_ALREADY_ADDED_TO_SERVICE";
         public const string ImageAlreadyAddedToService = "IMAGE_ALREADY_ADDED_TO_SERVICE";
         public const string ServiceHasThumbnailImage = "SERVICE_HAS_THUMBNAIL_IMAGE";
+        public const string AlreadyPublished = "SERVICE_ALREADY_PUBLISHED";
+        public const string DidNotPublish = "SERVICE_DID_NOT_PUBLISH";
+        public const string IsPublish = "SERVICE_IS_PUBLISH";
 
 
 

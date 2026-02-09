@@ -4,9 +4,9 @@ namespace Weblu.Domain.Entities.Media
 {
     public abstract class Media : BaseEntity
     {
-        public required string Name { get; set; }
-        public required string Url { get; set; }
+        // Required properties
+        public string Name { get; set; } = default!;
+        public string Url { get; set; } = default!;
         public string? AltText { get; set; }
-        public DateTimeOffset AddedAt { get; private set; } = DateTimeOffset.Now;
     }
 }
