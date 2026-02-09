@@ -6,10 +6,8 @@ using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
 using Weblu.Application.Interfaces.Repositories;
 using Weblu.Application.Interfaces.Repositories.About;
-using Weblu.Application.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.About;
 using Weblu.Application.Parameters.About;
-using Weblu.Application.Validations.About.AboutUs;
 using Weblu.Domain.Entities.About;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.About;
@@ -33,28 +31,6 @@ namespace Weblu.Application.Services.About
             _aboutUsRepository = aboutUsRepository;
             _webHostPath = webHost.GetWebRootPath();
         }
-        public async Task<AboutUsDto> CreateAsync(CreateAboutUsDto createAboutUsDto)
-        {
-            AboutUs newAboutUs = _mapper.Map<AboutUs>(createAboutUsDto);
-
-            _aboutUsRepository.Add(newAboutUs);
-            await _unitOfWork.CommitAsync();
-
-            AboutUsDto aboutUsDto = _mapper.Map<AboutUsDto>(newAboutUs);
-            return aboutUsDto;
-        }
-
-        public async Task DeleteAsync(int aboutUsId)
-        {
-            AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
-
-            if (!string.IsNullOrEmpty(aboutUs.HeadImageUrl))
-            {
-                await MediaManager.DeleteMedia(_webHostPath, aboutUs.HeadImageUrl);
-            }
-            aboutUs.Delete();
-            await _unitOfWork.CommitAsync();
-        }
         public async Task DeleteHeadImageAsync(int aboutUsId)
         {
             AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
@@ -70,20 +46,6 @@ namespace Weblu.Application.Services.About
             aboutUs.HeadImageAltText = null;
             aboutUs.MarkUpdated();
             await _unitOfWork.CommitAsync();
-        }
-
-        public async Task<AboutUsDto> GetByIdAsync(int aboutUsId)
-        {
-            AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
-            AboutUsDto aboutUsDto = _mapper.Map<AboutUsDto>(aboutUs);
-            return aboutUsDto;
-        }
-
-        public async Task<List<AboutUsDto>> GetAllAsync(AboutUsParameters aboutUsParameters)
-        {
-            IReadOnlyList<AboutUs> aboutUs = await _aboutUsRepository.GetAllAsync(aboutUsParameters);
-            List<AboutUsDto> aboutUsDtos = _mapper.Map<List<AboutUsDto>>(aboutUs);
-            return aboutUsDtos;
         }
 
         public async Task<AboutUsDto> UpdateAsync(int aboutUsId, UpdateAboutUsDto updateAboutUsDto)
@@ -118,7 +80,7 @@ namespace Weblu.Application.Services.About
                     new MediaUploaderDto
                     {
                         Media = image,
-                        MediaType = Domain.Enums.Common.Media.MediaType.picture
+                        MediaType = MediaType.picture
                     }
             );
             aboutUs.HeadImageUrl = $"uploads/{MediaType.picture}/{imageName}";
@@ -128,6 +90,13 @@ namespace Weblu.Application.Services.About
             _aboutUsRepository.Update(aboutUs);
             await _unitOfWork.CommitAsync();
 
+            AboutUsDto aboutUsDto = _mapper.Map<AboutUsDto>(aboutUs);
+            return aboutUsDto;
+        }
+
+        public async Task<AboutUsDto> GetAsync()
+        {
+            AboutUs aboutUs = await _aboutUsRepository.GetAsync() ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
             AboutUsDto aboutUsDto = _mapper.Map<AboutUsDto>(aboutUs);
             return aboutUsDto;
         }
