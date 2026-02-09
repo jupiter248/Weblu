@@ -6,5 +6,6 @@ namespace Weblu.Application.Interfaces.Repositories.About
 {
     public interface IAboutUsRepository : IGenericRepository<AboutUs, AboutUsParameters>
     {
+        Task<AboutUs?> GetAsync();
     }
 }

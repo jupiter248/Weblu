@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Weblu.Domain.Entities.About;
 using Weblu.Infrastructure.Identity.Authorization;
 using Weblu.Infrastructure.Identity.Entities;
 
@@ -7,6 +8,25 @@ namespace Weblu.Infrastructure.Data
 {
     public class SeedEntities
     {
+        public static async Task SeedAsync(ApplicationDbContext _context)
+        {
+            await SeedRolesWithClaimsAsync(_context);
+            await SeedUserAndAdminAsync(_context);
+            await SeedAboutUsAsync(_context);
+        }
+        public static async Task SeedAboutUsAsync(ApplicationDbContext _context)
+        {
+            if (!_context.AboutUs.Any())
+            {
+                AboutUs aboutUs = new AboutUs()
+                {
+                    Title = "About Us",
+                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur."
+                };
+                _context.AboutUs.Add(aboutUs);
+                await _context.SaveChangesAsync();
+            }
+        }
         public static async Task SeedUserAndAdminAsync(ApplicationDbContext _context)
         {
             //Add a user and an admin
@@ -61,9 +81,11 @@ namespace Weblu.Infrastructure.Data
                     Permissions.ManageImages,
                     Permissions.ManageProfiles,
                     Permissions.ManageSocialMedia,
+                    Permissions.ManageAboutUs
                 ],
                 [Roles.Admin] =
                 [
+                    Permissions.ManageAboutUs,
                     Permissions.ManageUsers,
                     Permissions.ManageComments,
                     Permissions.ManageSocialMedia,

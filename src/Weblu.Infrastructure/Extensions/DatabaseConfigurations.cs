@@ -22,8 +22,7 @@ namespace Weblu.Infrastructure.Extensions
                 var services = scope.ServiceProvider;
                 var dbContext = services.GetRequiredService<ApplicationDbContext>();
                 dbContext.Database.Migrate();
-                await SeedEntities.SeedRolesWithClaimsAsync(dbContext);
-                await SeedEntities.SeedUserAndAdminAsync(dbContext);
+                await SeedEntities.SeedAsync(dbContext);
             }
         }
     }

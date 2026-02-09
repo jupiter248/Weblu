@@ -16,18 +16,10 @@ namespace Weblu.Infrastructure.Repositories.About
         public AboutUsRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public override async Task<PagedList<AboutUs>> GetAllAsync(AboutUsParameters aboutUsParameters)
+
+        public async Task<AboutUs?> GetAsync()
         {
-            IQueryable<AboutUs> aboutUs = _context.AboutUs.Where(a => !a.IsDeleted).AsNoTracking();
-
-            if (aboutUsParameters.CreatedDateSort != CreatedDateSort.All)
-            {
-                aboutUs = new AboutUsQueryHandler(new CreatedDateSortStrategy())
-                .ExecuteAboutUsQuery(aboutUs, aboutUsParameters);
-            }
-
-            return await PaginationExtensions<AboutUs>.GetPagedList(aboutUs, aboutUsParameters.PageNumber, aboutUsParameters.PageSize);
-
+            return await _context.AboutUs.AsNoTracking().FirstOrDefaultAsync();
         }
     }
 }

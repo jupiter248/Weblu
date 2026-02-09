@@ -22,24 +22,13 @@ namespace Weblu.Api.Controllers.v1.About
             _aboutUsService = aboutUsService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] AboutUsParameters aboutUsParameters)
+        public async Task<IActionResult> Get()
         {
-            List<AboutUsDto> aboutUsDtos = await _aboutUsService.GetAllAsync(aboutUsParameters);
-            return Ok(aboutUsDtos);
-        }
-        [HttpGet("{aboutUsId:int}")]
-        public async Task<IActionResult> GetById(int aboutUsId)
-        {
-            AboutUsDto aboutUsDto = await _aboutUsService.GetByIdAsync(aboutUsId);
-            return Ok(aboutUsDto);
-        }
-        [Authorize(Policy = Permissions.ManageAboutUs)]
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateAboutUsDto createAboutUsDto)
-        {
-            Validator.ValidateAndThrow(createAboutUsDto, new CreateAboutUsValidator());
-            AboutUsDto aboutUsDto = await _aboutUsService.CreateAsync(createAboutUsDto);
-            return CreatedAtAction(nameof(GetById), new { aboutUsId = aboutUsDto.Id }, ApiResponse<AboutUsDto>.Success("AboutUs information added successfully", aboutUsDto));
+            AboutUsDto aboutUsDto = await _aboutUsService.GetAsync();
+            return Ok(ApiResponse<AboutUsDto>.Success(
+                "AboutUs information retrieved successfully",
+                aboutUsDto
+            ));
         }
         [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpPut("{aboutUsId:int}")]
@@ -50,15 +39,6 @@ namespace Weblu.Api.Controllers.v1.About
             return Ok(ApiResponse<AboutUsDto>.Success(
                 "AboutUs information updated successfully",
                 aboutUsDto
-            ));
-        }
-        [Authorize(Policy = Permissions.ManageAboutUs)]
-        [HttpDelete("{aboutUsId:int}")]
-        public async Task<IActionResult> Delete(int aboutUsId)
-        {
-            await _aboutUsService.DeleteAsync(aboutUsId);
-            return Ok(ApiResponse.Success(
-                "AboutUs information deleted successfully."
             ));
         }
         [Authorize(Policy = Permissions.ManageAboutUs)]
