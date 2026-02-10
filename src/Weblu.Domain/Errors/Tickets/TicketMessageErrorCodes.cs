@@ -8,5 +8,6 @@ namespace Weblu.Domain.Errors.Tickets
         public const string TicketMessageReplyForbidden = "TICKET_MESSAGE_REPLY_FORBIDDEN";
         public const string MessageRequired = "TICKET_MESSAGE_MASSAGE_REQUIRED";
         public const string MessageMaxLength = "TICKET_MESSAGE_MESSAGE_MAX_LENGTH";
+        public const string ParentMessageNotFound = "TICKET_MESSAGE_PARENT_MESSAGE_NOT_FOUND";
     }
 }

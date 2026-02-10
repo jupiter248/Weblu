@@ -109,8 +109,10 @@ namespace Weblu.Infrastructure.Identity.Services
             {
                 return false;
             }
+
             bool isAdmin = await _userManager.IsInRoleAsync(appUser, UserType.Admin.ToString());
-            return isAdmin;
+            bool isHeadAdmin = await _userManager.IsInRoleAsync(appUser, UserType.HeadAdmin.ToString());
+            return isAdmin || isHeadAdmin;
         }
 
         public async Task<UserDTO> UpdateAsync(string userId, UpdateUserDTO updateUserDTO)
