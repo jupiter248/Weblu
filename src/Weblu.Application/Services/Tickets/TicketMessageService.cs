@@ -72,6 +72,10 @@ namespace Weblu.Application.Services.Tickets
             {
                 throw new UnauthorizedException(TicketMessageErrorCodes.TicketMessageReplyForbidden);
             }
+
+            bool parentMessage = await _ticketMessageRepository.ExistsAsync(replyTicketDTO.ParentMessageId ?? 0);
+            if (!parentMessage) throw new NotFoundException(TicketMessageErrorCodes.ParentMessageNotFound);
+
             TicketMessage ticketMessage = _mapper.Map<TicketMessage>(replyTicketDTO);
             ticketMessage.IsFromAdmin = isAdmin;
             ticketMessage.Ticket = ticket;
@@ -95,11 +99,14 @@ namespace Weblu.Application.Services.Tickets
                 throw new NotFoundException(UserErrorCodes.UserNotFound);
             }
             TicketMessage ticketMessage = await _ticketMessageRepository.GetByIdAsync(messageId) ?? throw new NotFoundException(TicketMessageErrorCodes.TicketMessageNotFound);
-
             if (ticketMessage.SenderId != senderId)
             {
                 throw new UnauthorizedException(TicketMessageErrorCodes.TicketMessageUpdateForbidden);
             }
+
+            bool parentMessage = await _ticketMessageRepository.ExistsAsync(editTicketMessageDTO.ParentMessageId ?? 0);
+            if (!parentMessage) throw new NotFoundException(TicketMessageErrorCodes.ParentMessageNotFound);
+
             ticketMessage = _mapper.Map(editTicketMessageDTO, ticketMessage);
 
             ticketMessage.MarkUpdated();

@@ -7,6 +7,7 @@ namespace Weblu.Domain.Entities.Tickets
         // Required properties
         public string Message { get; set; } = default!;
         public bool IsFromAdmin { get; set; }
+        public int? ParentMessageId { get; set; }
         // Relationships
         public int TicketId { get; set; }
         public Ticket Ticket { get; set; } = default!;

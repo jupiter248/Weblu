@@ -9,5 +9,7 @@ namespace Weblu.Application.DTOs.Tickets.TicketMessageDTOs
         public required string CreatedAt { get; set; }
         public required string SenderId { get; set; }
         public int TicketId { get; set; }
+        public int? ParentMessageId { get; set; }
+
     }
 }
