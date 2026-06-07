@@ -1,4 +1,4 @@
-using Weblu.Application.Common.Responses;
+using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.Common.SearchDTOs;
 using Weblu.Application.Parameters.Common;
 

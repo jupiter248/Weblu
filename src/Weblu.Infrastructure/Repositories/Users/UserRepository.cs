@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.DTOs.Articles.CommentDTOs;
-using Weblu.Application.Interfaces.Repositories.Users;
+using Weblu.Domain.Entities.Users;
+using Weblu.Domain.Interfaces.Repositories.Users;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories.Users
@@ -18,15 +19,15 @@ namespace Weblu.Infrastructure.Repositories.Users
             return await _context.Users.Where(a => !a.IsDeleted).AnyAsync(u => u.PhoneNumber == phoneNumber);
         }
 
-        public async Task<CommentUserDTO?> GetUserForCommentAsync(string userId)
+        public async Task<User?> GetUserAsync(string userId)
         {
-            CommentUserDTO? commentUserDTO = await _context.Users.Where(a => !a.IsDeleted).Where(u => u.Id == userId).Select(c => new CommentUserDTO()
-            {
-                UserId = c.Id,
-                UserName = c.UserName,
-                UserProfileUrl = c.Profiles.Where(P => P.IsMain).Select(u => u.Url).FirstOrDefault(),
-                UserProfileAltText = c.Profiles.Where(P => P.IsMain).Select(u => u.AltText).FirstOrDefault()
-            }).AsNoTracking().FirstOrDefaultAsync();
+            User? commentUserDTO = await _context.Users.Where(a => !a.IsDeleted).Where(u => u.Id == userId).Select(c => new User(
+                c.Id,
+                c.UserName,
+                c.Profiles.Where(P => P.IsMain).Select(u => u.Url).FirstOrDefault(),
+                c.Profiles.Where(P => P.IsMain).Select(u => u.AltText).FirstOrDefault()
+            ))
+            .AsNoTracking().FirstOrDefaultAsync();
 
             return commentUserDTO;
         }

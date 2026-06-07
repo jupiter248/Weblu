@@ -2,7 +2,7 @@ using Weblu.Domain.Entities.FAQs;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
 using Weblu.Application.Parameters.FAQs;
-using Weblu.Application.Interfaces.Repositories.FAQs;
+using Weblu.Domain.Interfaces.Repositories.FAQs;
 
 namespace Weblu.Infrastructure.Repositories
 {

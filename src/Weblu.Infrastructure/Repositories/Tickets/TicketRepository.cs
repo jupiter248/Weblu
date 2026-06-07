@@ -4,10 +4,10 @@ using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Domain.Enums.Tickets.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
-using Weblu.Application.Common.Pagination;
+using Weblu.Domain.Common.Models;
 using Weblu.Infrastructure.Common.Pagination;
 using Weblu.Application.Parameters.Tickets;
-using Weblu.Application.Interfaces.Repositories.Tickets;
+using Weblu.Domain.Interfaces.Repositories.Tickets;
 using Weblu.Application.Strategies.Tickets.TicketStrategies;
 
 namespace Weblu.Infrastructure.Repositories.Tickets

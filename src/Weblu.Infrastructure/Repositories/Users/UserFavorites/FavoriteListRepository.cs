@@ -5,7 +5,7 @@ using Weblu.Domain.Entities.Users.Favorites;
 using Weblu.Application.Parameters.Users;
 using Weblu.Application.Strategies.Favorites.FavoriteLists;
 using Weblu.Domain.Enums.Users.Favorites.Parameters;
-using Weblu.Application.Interfaces.Repositories.Users.Favorites;
+using Weblu.Domain.Interfaces.Repositories.Users.Favorites;
 
 namespace Weblu.Infrastructure.Repositories.Users.UserFavorites
 {

@@ -1,7 +1,7 @@
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Articles;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories.Articles;
+using Weblu.Domain.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Entities.Common.Contributors;

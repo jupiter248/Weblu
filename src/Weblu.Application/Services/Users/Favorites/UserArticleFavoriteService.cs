@@ -1,9 +1,9 @@
 using AutoMapper;
 using Weblu.Application.DTOs.Articles.ArticleDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories.Articles;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Users.UserFavorites;
+using Weblu.Domain.Interfaces.Repositories.Articles;
+using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories.Users.UserFavorites;
 using Weblu.Application.Interfaces.Services.Users.Favorites;
 using Weblu.Application.Parameters.Users;
 using Weblu.Domain.Entities.Articles;

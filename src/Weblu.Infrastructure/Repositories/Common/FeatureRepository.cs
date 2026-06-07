@@ -2,12 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using Weblu.Infrastructure.Data;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Common.Repositories;
-using Weblu.Application.Common.Pagination;
+using Weblu.Domain.Common.Models;
 using Weblu.Infrastructure.Common.Pagination;
 using Weblu.Domain.Entities.Common.Features;
 using Weblu.Application.Parameters.Common;
 using Weblu.Application.Strategies.Common.Features;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Domain.Interfaces.Repositories.Common;
 
 
 namespace Weblu.Infrastructure.Repositories.Common

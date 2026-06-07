@@ -1,4 +1,4 @@
-using Weblu.Application.Interfaces.Repositories.Tickets;
+using Weblu.Domain.Interfaces.Repositories.Tickets;
 using Weblu.Application.Parameters.Tickets;
 using Weblu.Domain.Entities.Tickets;
 using Weblu.Infrastructure.Data;

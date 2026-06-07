@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Weblu.Application.Common.Responses;
+using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.About.SocialMediaDTOs;
 using Weblu.Application.Interfaces.Services.About;
 using Weblu.Application.Parameters.About;

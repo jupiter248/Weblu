@@ -1,9 +1,9 @@
 using AutoMapper;
 using Weblu.Application.DTOs.Users.Favorites.FavoriteListDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Users;
-using Weblu.Application.Interfaces.Repositories.Users.Favorites;
+using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories.Users;
+using Weblu.Domain.Interfaces.Repositories.Users.Favorites;
 using Weblu.Application.Interfaces.Services.Users.UserFavorites.FavoriteLists;
 using Weblu.Application.Parameters.Users;
 using Weblu.Domain.Entities.Users.Favorites;

@@ -1,4 +1,4 @@
-using Weblu.Application.Common.Responses;
+using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.Articles.CommentDTOs;
 using Weblu.Application.Parameters;
 using Weblu.Application.Parameters.Articles;

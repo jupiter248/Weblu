@@ -4,10 +4,10 @@ using Weblu.Domain.Entities.About;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
-using Weblu.Application.Common.Pagination;
+using Weblu.Domain.Common.Models;
 using Weblu.Infrastructure.Common.Pagination;
 using Weblu.Application.Parameters.About;
-using Weblu.Application.Interfaces.Repositories.About;
+using Weblu.Domain.Interfaces.Repositories.About;
 
 namespace Weblu.Infrastructure.Repositories.About
 {

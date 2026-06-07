@@ -5,14 +5,14 @@ using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Errors.Users;
 using Weblu.Application.Common.Interfaces;
-using Weblu.Application.Interfaces.Repositories.Users;
+using Weblu.Domain.Interfaces.Repositories.Users;
 using Weblu.Application.Interfaces.Services.Images;
-using Weblu.Application.Interfaces.Repositories.Images;
+using Weblu.Domain.Interfaces.Repositories.Images;
 using Weblu.Application.DTOs.Images.ProfileDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Parameters.Images;
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories;
 
 
 namespace Weblu.Application.Services.Images

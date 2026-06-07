@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Weblu.Application.Interfaces.Repositories.Services;
+using Weblu.Domain.Interfaces.Repositories.Services;
 using Weblu.Application.Strategies.Services;
 using Weblu.Domain.Entities.Services;
 using Weblu.Application.Parameters.Services;
@@ -7,7 +7,7 @@ using Weblu.Infrastructure.Data;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Domain.Enums.Services.Parameters;
 using Weblu.Infrastructure.Common.Repositories;
-using Weblu.Application.Common.Pagination;
+using Weblu.Domain.Common.Models;
 using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories.Services

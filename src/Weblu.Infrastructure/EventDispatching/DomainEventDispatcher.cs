@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Weblu.Application.Common.Interfaces;
-using Weblu.Domain.Interfaces;
+using Weblu.Domain.Interfaces.Events;
 
 namespace Weblu.Infrastructure.EventDispatching
 {

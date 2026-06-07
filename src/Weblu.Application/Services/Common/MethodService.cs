@@ -6,12 +6,12 @@ using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.Interfaces.Services.Common;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Domain.Interfaces.Repositories.Common;
 using Weblu.Application.DTOs.Common.MethodDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Parameters.Common;
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories;
 
 namespace Weblu.Application.Services.Common
 {

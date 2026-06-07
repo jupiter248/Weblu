@@ -1,9 +1,9 @@
 using Weblu.Application.DTOs.Services.ServiceDTOs.ServiceImageDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Common;
-using Weblu.Application.Interfaces.Repositories.Images;
-using Weblu.Application.Interfaces.Repositories.Services;
+using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories.Common;
+using Weblu.Domain.Interfaces.Repositories.Images;
+using Weblu.Domain.Interfaces.Repositories.Services;
 using Weblu.Application.Interfaces.Services.ServiceServices;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Services;

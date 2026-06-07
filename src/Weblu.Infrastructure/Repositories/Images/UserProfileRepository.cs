@@ -4,10 +4,10 @@ using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
-using Weblu.Application.Common.Pagination;
+using Weblu.Domain.Common.Models;
 using Weblu.Infrastructure.Common.Pagination;
 using Weblu.Application.Parameters.Images;
-using Weblu.Application.Interfaces.Repositories.Images;
+using Weblu.Domain.Interfaces.Repositories.Images;
 using Weblu.Application.Strategies.Images.Profiles;
 
 namespace Weblu.Infrastructure.Repositories.Images

@@ -4,7 +4,7 @@ using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Common.Methods;
 using Weblu.Application.Parameters.Common;
-using Weblu.Application.Common.Responses;
+using Weblu.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Weblu.Infrastructure.Identity.Authorization;

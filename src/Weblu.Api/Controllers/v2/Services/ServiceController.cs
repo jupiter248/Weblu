@@ -1,6 +1,6 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Weblu.Application.Common.Responses;
+using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.Services.ServiceDTOs;
 using Weblu.Application.Interfaces.Services.ServiceServices;
 using Weblu.Application.Parameters.Services;

@@ -2,7 +2,7 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using Weblu.Api.IntegrationTests.Common;
 using Weblu.Api.IntegrationTests.Helpers;
-using Weblu.Application.Common.Responses;
+using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.Auth.AuthDTOs;
 
 namespace Weblu.Api.IntegrationTests.Controllers.v1.Auth

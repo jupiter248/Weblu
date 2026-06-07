@@ -27,7 +27,7 @@ using Weblu.Application.Services.Users.Favorites.FavoriteLists;
 using Weblu.Application.Services.Users.Tokens;
 using Weblu.Domain.Events.Articles;
 using Weblu.Domain.Events.Portfolios;
-using Weblu.Domain.Interfaces;
+using Weblu.Domain.Interfaces.Events;
 
 namespace Weblu.Application.Extensions
 {

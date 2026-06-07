@@ -1,4 +1,4 @@
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories;
 using Weblu.Infrastructure.Data;
 
 namespace Weblu.Infrastructure.Repositories

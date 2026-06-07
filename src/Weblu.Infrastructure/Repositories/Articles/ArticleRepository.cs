@@ -5,10 +5,10 @@ using Weblu.Domain.Enums.Articles.Parameters;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
-using Weblu.Application.Common.Pagination;
+using Weblu.Domain.Common.Models;
 using Weblu.Infrastructure.Common.Pagination;
 using Weblu.Application.Parameters.Articles;
-using Weblu.Application.Interfaces.Repositories.Articles;
+using Weblu.Domain.Interfaces.Repositories.Articles;
 using Weblu.Application.Strategies.Articles.ArticleStrategies;
 
 namespace Weblu.Infrastructure.Repositories.Articles

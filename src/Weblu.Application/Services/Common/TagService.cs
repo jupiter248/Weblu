@@ -1,8 +1,8 @@
 using AutoMapper;
 using Weblu.Application.DTOs.Common.TagDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Parameters.Common;
 using Weblu.Domain.Entities.Common.Tags;

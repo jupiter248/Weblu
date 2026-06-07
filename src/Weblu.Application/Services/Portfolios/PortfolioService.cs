@@ -1,12 +1,12 @@
 using AutoMapper;
 using Weblu.Application.Common.Interfaces;
-using Weblu.Application.Common.Pagination;
-using Weblu.Application.Common.Responses;
+using Weblu.Domain.Common.Models;
+using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.Portfolios.PortfolioDTOs;
 using Weblu.Application.DTOs.Portfolios.PortfolioDTOs.PortfolioImageDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Portfolios;
+using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Parameters.Portfolios;
 using Weblu.Domain.Entities.Portfolios;

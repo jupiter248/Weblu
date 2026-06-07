@@ -4,15 +4,15 @@ using Weblu.Application.DTOs.About.SocialMediaDTOs;
 using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Helpers;
-using Weblu.Application.Interfaces.Repositories.About;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Domain.Interfaces.Repositories.About;
+using Weblu.Domain.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.About;
 using Weblu.Application.Parameters.About;
 using Weblu.Domain.Entities.About;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.About;
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories;
 
 namespace Weblu.Application.Services.About
 {

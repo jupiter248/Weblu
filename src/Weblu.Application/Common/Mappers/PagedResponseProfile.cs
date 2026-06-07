@@ -1,6 +1,6 @@
 using AutoMapper;
-using Weblu.Application.Common.Pagination;
-using Weblu.Application.Common.Responses;
+using Weblu.Domain.Common.Models;
+using Weblu.Application.Common.Models;
 
 namespace Weblu.Application.Common.Mappers
 {

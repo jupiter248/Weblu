@@ -2,13 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
-using Weblu.Application.Common.Pagination;
+using Weblu.Domain.Common.Models;
 using Weblu.Infrastructure.Common.Pagination;
 using Weblu.Application.Parameters.Users;
 using Weblu.Application.Strategies.Tokens;
 using Weblu.Domain.Enums.Users.Tokens;
 using Weblu.Domain.Entities.Users.Tokens;
-using Weblu.Application.Interfaces.Repositories.Users.Tokens;
+using Weblu.Domain.Interfaces.Repositories.Users.Tokens;
 
 namespace Weblu.Infrastructure.Repositories.Users.Tokens
 {

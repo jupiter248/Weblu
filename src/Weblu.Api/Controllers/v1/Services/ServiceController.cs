@@ -4,7 +4,7 @@ using Weblu.Application.DTOs.Services.ServiceDTOs.ServiceImageDTOs;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.Services;
 using Weblu.Application.Parameters.Services;
-using Weblu.Application.Common.Responses;
+using Weblu.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Weblu.Application.Interfaces.Services.ServiceServices;
 using Asp.Versioning;

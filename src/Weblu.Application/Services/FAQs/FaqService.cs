@@ -1,9 +1,9 @@
 using AutoMapper;
 using Weblu.Application.DTOs.FAQs.FAQDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Common;
-using Weblu.Application.Interfaces.Repositories.FAQs;
+using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories.Common;
+using Weblu.Domain.Interfaces.Repositories.FAQs;
 using Weblu.Application.Interfaces.Services.FAQs;
 using Weblu.Application.Parameters.FAQs;
 using Weblu.Domain.Entities.FAQs;

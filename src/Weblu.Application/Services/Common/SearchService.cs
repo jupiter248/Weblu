@@ -1,10 +1,10 @@
 using AutoMapper;
-using Weblu.Application.Common.Pagination;
-using Weblu.Application.Common.Responses;
+using Weblu.Domain.Common.Models;
+using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.Common.SearchDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories.Common;
 using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Parameters.Common;
 using Weblu.Domain.Entities.Common.Search;

@@ -1,9 +1,9 @@
 using AutoMapper;
 using Weblu.Application.DTOs.Users.Tokens.TokenDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Common;
-using Weblu.Application.Interfaces.Repositories.Users.Tokens;
+using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories.Common;
+using Weblu.Domain.Interfaces.Repositories.Users.Tokens;
 using Weblu.Application.Interfaces.Services.Users.Tokens;
 using Weblu.Application.Parameters.Users;
 using Weblu.Domain.Entities.Users.Tokens;

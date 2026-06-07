@@ -1,3 +1,5 @@
+using Weblu.Domain.Entities.Users;
+
 namespace Weblu.Application.DTOs.Articles.CommentDTOs
 {
     public class CommentDTO
@@ -9,6 +11,6 @@ namespace Weblu.Application.DTOs.Articles.CommentDTOs
         public string CreatedAt { get; set; } = default!;
         public int? ParentCommentId { get; set; }
         public int ArticleId { get; set; } = default!;
-        public CommentUserDTO User { get; set; } = default!;
+        public User User { get; set; } = default!;
     }
 }

@@ -1,8 +1,8 @@
 using Weblu.Application.DTOs.Portfolios.PortfolioDTOs.PortfolioImageDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Images;
-using Weblu.Application.Interfaces.Repositories.Portfolios;
+using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories.Images;
+using Weblu.Domain.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Domain.Entities.Media;
 using Weblu.Domain.Entities.Portfolios;

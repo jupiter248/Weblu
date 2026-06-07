@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Weblu.Application.Common.Interfaces;
-using Weblu.Application.Common.Pagination;
+using Weblu.Domain.Common.Models;
 using Weblu.Application.Common.Parameters;
 using Weblu.Domain.Entities.Common;
 using Weblu.Infrastructure.Common.Pagination;

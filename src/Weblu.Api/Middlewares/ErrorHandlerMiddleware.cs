@@ -1,5 +1,5 @@
 using Weblu.Application.Common.Interfaces;
-using Weblu.Application.Common.Responses;
+using Weblu.Application.Common.Models;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Exceptions.Mappers;
 using Weblu.Domain.Exceptions;

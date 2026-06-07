@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Weblu.Application.Common.Responses;
+using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.Articles.ArticleDTOs;
 using Weblu.Application.DTOs.Portfolios.PortfolioDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;

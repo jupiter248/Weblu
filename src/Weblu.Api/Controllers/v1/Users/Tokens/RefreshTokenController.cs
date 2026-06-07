@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Weblu.Application.Common.Responses;
+using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.Users.Tokens.TokenDTOs;
 using Weblu.Application.Interfaces.Services.Users.Tokens;
 using Weblu.Application.Parameters.Users;

@@ -1,14 +1,14 @@
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories;
-using Weblu.Application.Interfaces.Repositories.Articles;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories.Articles;
+using Weblu.Domain.Interfaces.Repositories.Common;
 using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Entities.Common.Search;
 using Weblu.Domain.Enums.Common.Search;
 using Weblu.Domain.Errors.Articles;
 using Weblu.Domain.Errors.Common;
 using Weblu.Domain.Events.Articles;
-using Weblu.Domain.Interfaces;
+using Weblu.Domain.Interfaces.Events;
 
 namespace Weblu.Application.EventHandlers.Articles
 {

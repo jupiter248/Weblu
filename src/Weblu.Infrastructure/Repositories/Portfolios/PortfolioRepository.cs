@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using Weblu.Application.Interfaces.Repositories.Portfolios;
+using Weblu.Domain.Interfaces.Repositories.Portfolios;
 using Weblu.Application.Parameters.Portfolios;
 using Weblu.Application.Strategies.Portfolios;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Enums.Common.Parameters;
 using Weblu.Infrastructure.Data;
 using Weblu.Infrastructure.Common.Repositories;
-using Weblu.Application.Common.Pagination;
+using Weblu.Domain.Common.Models;
 using Weblu.Infrastructure.Common.Pagination;
 
 namespace Weblu.Infrastructure.Repositories.Portfolios

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Weblu.Application.Common.Pagination;
+using Weblu.Domain.Common.Models;
 
 namespace Weblu.Infrastructure.Common.Pagination
 {

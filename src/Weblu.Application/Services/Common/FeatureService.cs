@@ -2,11 +2,11 @@ using AutoMapper;
 using Weblu.Domain.Errors.Common;
 using Weblu.Domain.Entities.Common.Features;
 using Weblu.Application.Interfaces.Services.Common;
-using Weblu.Application.Interfaces.Repositories.Common;
+using Weblu.Domain.Interfaces.Repositories.Common;
 using Weblu.Application.DTOs.Common.FeatureDTOs;
 using Weblu.Application.Parameters.Common;
 using Weblu.Application.Exceptions.CustomExceptions;
-using Weblu.Application.Interfaces.Repositories;
+using Weblu.Domain.Interfaces.Repositories;
 
 namespace Weblu.Application.Services.Common
 {

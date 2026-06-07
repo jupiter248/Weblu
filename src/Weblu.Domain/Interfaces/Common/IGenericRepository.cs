@@ -1,0 +1,18 @@
+using Weblu.Domain.Common.Models;
+using Weblu.Domain.Entities.Common;
+
+namespace Weblu.Application.Common.Interfaces
+{
+    public interface IGenericRepository<TEntity, TEntityParameters>
+     where TEntity : BaseEntity
+     where TEntityParameters : class
+    {
+        Task<PagedList<TEntity>> GetAllAsync(TEntityParameters entityParameters);
+        Task<TEntity?> GetByIdAsync(int id);
+        Task<TEntity?> GetByGuidIdAsync(Guid guidId);
+        Task<bool> ExistsAsync(int id);
+        void Add(TEntity entity);
+        void Update(TEntity entity);
+        void Remove(TEntity entity);
+    }
+}
