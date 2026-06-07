@@ -13,6 +13,7 @@ using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Parameters.Images;
 using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 
 
 namespace Weblu.Application.Services.Images
@@ -36,7 +37,7 @@ namespace Weblu.Application.Services.Images
             _webHostPath = webHost.GetWebRootPath();
         }
 
-        public async Task<ProfileDTO> AddAsync(AddProfileDTO addProfileDTO)
+        public async Task<ProfileDTO> AddAsync(AddProfileDTO addProfileDTO, UploadImageDTO uploadImageDTO)
         {
             if (addProfileDTO.OwnerType == ProfileMediaType.User)
             {
@@ -56,11 +57,11 @@ namespace Weblu.Application.Services.Images
                 throw new ConflictException(UserErrorCodes.UserAlreadyAddedMainProfileImage);
             }
 
-            if (addProfileDTO.Image.Length < 0)
+            if (uploadImageDTO.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
-            var image = addProfileDTO.Image;
+            var image = uploadImageDTO.Image;
             string imageName = await MediaManager.UploadMedia(
                     _webHostPath,
                     new MediaUploaderDTO
@@ -73,7 +74,7 @@ namespace Weblu.Application.Services.Images
             ProfileMedia profileModel = new ProfileMedia()
             {
                 Name = imageName,
-                AltText = addProfileDTO.AltText,
+                AltText = uploadImageDTO.AltText,
                 Url = $"uploads/{MediaType.picture}/{imageName}",
                 OwnerId = addProfileDTO.OwnerId,
                 OwnerType = addProfileDTO.OwnerType,

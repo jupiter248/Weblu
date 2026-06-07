@@ -4,9 +4,9 @@ using Weblu.Domain.Errors.Images;
 
 namespace Weblu.Application.Validations.Images
 {
-    public class AddImageValidator : AbstractValidator<AddImageDTO>
+    public class UploadImageValidator : AbstractValidator<UploadImageDTO>
     {
-        public AddImageValidator()
+        public UploadImageValidator()
         {
             RuleFor(x => x.Image)
                 .NotNull().WithMessage(ImageErrorCodes.ImageFileRequired)

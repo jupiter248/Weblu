@@ -7,7 +7,7 @@ namespace Weblu.Application.Interfaces.Services.Images
     {
         Task<List<ImageDTO>> GetAllAsync(ImageParameters imageParameters);
         Task<ImageDTO> GetByIdAsync(int imageId);
-        Task<ImageDTO> AddAsync(AddImageDTO addImageDTO);
+        Task<ImageDTO> AddAsync(UploadImageDTO uploadImageDTO);
         Task DeleteAsync(int imageId);
     }
 }

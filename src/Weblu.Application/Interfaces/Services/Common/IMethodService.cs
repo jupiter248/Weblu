@@ -1,5 +1,6 @@
 using Weblu.Application.DTOs.Common.ContributorDTOs;
 using Weblu.Application.DTOs.Common.MethodDTOs;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 using Weblu.Application.Parameters.Common;
 
 namespace Weblu.Application.Interfaces.Services.Common
@@ -10,7 +11,7 @@ namespace Weblu.Application.Interfaces.Services.Common
         Task<MethodDTO> GetByIdAsync(int methodId);
         Task<MethodDTO> CreateAsync(CreateMethodDTO createMethodDTO);
         Task<MethodDTO> UpdateAsync(int methodId, UpdateMethodDTO updateMethodDTO);
-        Task<MethodDTO> ChangeImageAsync(int methodId, ChangeMethodImageDTO changeImageDTO);
+        Task<MethodDTO> ChangeImageAsync(int methodId, UploadImageDTO uploadImageDTO);
         Task DeleteImageAsync(int methodId);
         Task DeleteAsync(int methodId);
     }

@@ -12,6 +12,7 @@ using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Parameters.Common;
 using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 
 namespace Weblu.Application.Services.Common
 {
@@ -97,10 +98,10 @@ namespace Weblu.Application.Services.Common
             return methodDTO;
         }
 
-        public async Task<MethodDTO> ChangeImageAsync(int methodId, ChangeMethodImageDTO changeMethodImageDTO)
+        public async Task<MethodDTO> ChangeImageAsync(int methodId, UploadImageDTO uploadImageDTO)
         {
             Method? method = await _methodRepository.GetByIdAsync(methodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
-            if (changeMethodImageDTO.Image.Length < 0)
+            if (uploadImageDTO.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
@@ -109,7 +110,7 @@ namespace Weblu.Application.Services.Common
                 await MediaManager.DeleteMedia(_webHostPath, method.ImageUrl);
             }
 
-            var image = changeMethodImageDTO.Image;
+            var image = uploadImageDTO.Image;
             string imageName = await MediaManager.UploadMedia(_webHostPath, new MediaUploaderDTO()
             {
                 Media = image,
@@ -117,7 +118,7 @@ namespace Weblu.Application.Services.Common
             });
 
             method.ImageUrl = $"uploads/{MediaType.picture}/{imageName}";
-            method.ImageAltText = changeMethodImageDTO.AltText;
+            method.ImageAltText = uploadImageDTO.AltText;
 
             _methodRepository.Update(method);
             await _unitOfWork.CommitAsync();

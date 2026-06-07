@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Weblu.Api.Models;
 using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.Images.ImageDTOs;
 using Weblu.Application.Interfaces.Services.Images;
@@ -35,9 +36,13 @@ namespace Weblu.Api.Controllers.v1.Images
         }
         [Authorize(Policy = Permissions.ManageImages)]
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm] AddImageDTO addImageDTO)
+        public async Task<IActionResult> Add([FromForm] AddImageRequest addImageRequest)
         {
-            ImageDTO imageDTO = await _imageService.AddAsync(addImageDTO);
+            ImageDTO imageDTO = await _imageService.AddAsync(new UploadImageDTO()
+            {
+                Image = addImageRequest.Image.OpenReadStream(),
+                AltText = addImageRequest.AltText
+            });
             return CreatedAtAction(nameof(GetById), new { imageId = imageDTO.Id }, ApiResponse<ImageDTO>.Success
             (
                 "Image uploaded successfully.",

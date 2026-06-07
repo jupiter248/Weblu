@@ -13,6 +13,7 @@ using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.Images;
 using Weblu.Domain.Errors.About;
 using Weblu.Domain.Interfaces.Repositories;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 
 namespace Weblu.Application.Services.About
 {
@@ -70,11 +71,11 @@ namespace Weblu.Application.Services.About
             return socialMediaDTO;
         }
 
-        public async Task<SocialMediaDTO> ChangeIconAsync(int socialMediaId, ChangeSocialMediaIconDTO changeSocialMediaIconDTO)
+        public async Task<SocialMediaDTO> ChangeIconAsync(int socialMediaId, UploadImageDTO uploadImageDTO)
         {
             SocialMedia socialMedia = await _socialMediaRepository.GetByIdAsync(socialMediaId) ?? throw new NotFoundException(SocialMediaErrorCodes.NotFound);
 
-            if (changeSocialMediaIconDTO.Image.Length < 0)
+            if (uploadImageDTO.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
@@ -82,7 +83,7 @@ namespace Weblu.Application.Services.About
             {
                 await MediaManager.DeleteMedia(_webHostPath, socialMedia.IconUrl);
             }
-            var icon = changeSocialMediaIconDTO.Image;
+            var icon = uploadImageDTO.Image;
             string iconName = await MediaManager.UploadMedia(
                     _webHostPath,
                     new MediaUploaderDTO
@@ -92,7 +93,7 @@ namespace Weblu.Application.Services.About
                     }
             );
             socialMedia.IconUrl = $"uploads/{MediaType.Icon}/{iconName}";
-            socialMedia.IconAltText = changeSocialMediaIconDTO.AltText;
+            socialMedia.IconAltText = uploadImageDTO.AltText;
 
             socialMedia.MarkUpdated();
             _socialMediaRepository.Update(socialMedia);

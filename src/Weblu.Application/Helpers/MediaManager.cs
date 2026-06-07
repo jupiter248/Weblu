@@ -27,7 +27,7 @@ namespace Weblu.Application.Helpers
                 Directory.CreateDirectory(mediaTypeFolder);
             }
 
-            string mediaName = $"{Guid.NewGuid()}-{Path.GetFileName(media.FileName)}";
+            string mediaName = $"{Guid.NewGuid()}-{Path.GetFileName(mediaUploaderDTO.FileName)}";
             string mediaPath = Path.Combine(webRootPath, $"uploads/{mediaUploaderDTO.MediaType}", mediaName);
 
             using (var stream = new FileStream(mediaPath, FileMode.Create))

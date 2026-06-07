@@ -1,3 +1,4 @@
+using Weblu.Application.DTOs.Images.ImageDTOs;
 using Weblu.Application.DTOs.Images.ProfileDTOs;
 using Weblu.Application.Parameters.Images;
 namespace Weblu.Application.Interfaces.Services.Images
@@ -6,7 +7,7 @@ namespace Weblu.Application.Interfaces.Services.Images
     {
         Task<List<ProfileDTO>> GetAllAsync(ProfileMediaParameters profileMediaParameters);
         Task<ProfileDTO> GetByIdAsync(int profileId);
-        Task<ProfileDTO> AddAsync(AddProfileDTO addProfileDTO);
+        Task<ProfileDTO> AddAsync(AddProfileDTO addProfileDTO, UploadImageDTO uploadImageDTO);
         Task DeleteAsync(int profileId);
     }
 }

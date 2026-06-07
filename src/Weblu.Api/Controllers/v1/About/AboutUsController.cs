@@ -1,12 +1,16 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Weblu.Api.Extensions;
+using Weblu.Api.Models;
 using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.About.AboutUsDTOs;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 using Weblu.Application.Interfaces.Services.About;
 using Weblu.Application.Parameters.About;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.About.AboutUs;
+using Weblu.Application.Validations.Images;
 using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1.About
@@ -43,10 +47,10 @@ namespace Weblu.Api.Controllers.v1.About
         }
         [Authorize(Policy = Permissions.ManageAboutUs)]
         [HttpPut("{aboutUsId:int}/head-image")]
-        public async Task<IActionResult> UpdateImage(int aboutUsId, [FromForm] ChangeAboutUsImageDTO changeAboutUsImageDTO)
+        public async Task<IActionResult> UpdateImage(int aboutUsId, [FromForm] AddImageRequest imageRequest)
         {
-            Validator.ValidateAndThrow(changeAboutUsImageDTO, new ChangeAboutUsImageValidator());
-            AboutUsDTO aboutUsDTO = await _aboutUsService.ChangeHeadImageAsync(aboutUsId, changeAboutUsImageDTO);
+            Validator.ValidateAndThrow(imageRequest.ToAddImageDTO(), new UploadImageValidator());
+            AboutUsDTO aboutUsDTO = await _aboutUsService.ChangeHeadImageAsync(aboutUsId, imageRequest.ToAddImageDTO());
             return Ok(ApiResponse<AboutUsDTO>.Success(
                 "AboutUs head image updated",
                 aboutUsDTO

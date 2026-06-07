@@ -1,12 +1,15 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Weblu.Api.Extensions;
+using Weblu.Api.Models;
 using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.About.SocialMediaDTOs;
 using Weblu.Application.Interfaces.Services.About;
 using Weblu.Application.Parameters.About;
 using Weblu.Application.Validations;
 using Weblu.Application.Validations.About.SocialMedias;
+using Weblu.Application.Validations.Images;
 using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1.AboutUs
@@ -63,10 +66,10 @@ namespace Weblu.Api.Controllers.v1.AboutUs
         }
         [Authorize(Policy = Permissions.ManageSocialMedia)]
         [HttpPut("{socialMediaId:int}/icon")]
-        public async Task<IActionResult> UpdateIcon(int socialMediaId, [FromForm] ChangeSocialMediaIconDTO changeSocialMediaIconDTO)
+        public async Task<IActionResult> UpdateIcon(int socialMediaId, [FromForm] AddImageRequest imageRequest)
         {
-            Validator.ValidateAndThrow(changeSocialMediaIconDTO, new ChangeSocialMediaIconValidator());
-            SocialMediaDTO socialMediaDTO = await _socialMediaService.ChangeIconAsync(socialMediaId, changeSocialMediaIconDTO);
+            Validator.ValidateAndThrow(imageRequest.ToAddImageDTO(), new UploadImageValidator());
+            SocialMediaDTO socialMediaDTO = await _socialMediaService.ChangeIconAsync(socialMediaId, imageRequest.ToAddImageDTO());
             return Ok(ApiResponse<SocialMediaDTO>.Success(
                 "Social media profile image updated",
                 socialMediaDTO

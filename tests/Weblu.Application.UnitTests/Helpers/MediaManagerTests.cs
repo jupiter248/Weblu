@@ -1,6 +1,5 @@
 using FakeItEasy;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Weblu.Application.Common.Interfaces;
 using Weblu.Application.DTOs.Images.MediaDTOs;
 using Weblu.Application.Helpers;
@@ -23,7 +22,7 @@ namespace Weblu.Application.UnitTests.Helpers
             // Arrange
             MediaUploaderDTO mediaUploaderDTO = new MediaUploaderDTO
             {
-                Media = A.Fake<IFormFile>(),
+                Media = A.Fake<Stream>(),
                 MediaType = Weblu.Domain.Enums.Common.Media.MediaType.picture
             };
             // Act

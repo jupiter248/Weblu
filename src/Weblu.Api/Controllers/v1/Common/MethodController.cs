@@ -8,6 +8,9 @@ using Weblu.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Asp.Versioning;
 using Weblu.Infrastructure.Identity.Authorization;
+using Weblu.Api.Models;
+using Weblu.Api.Extensions;
+using Weblu.Application.Validations.Images;
 
 namespace Weblu.Api.Controllers.v1.Common
 {
@@ -59,10 +62,10 @@ namespace Weblu.Api.Controllers.v1.Common
         }
         [Authorize(Policy = Permissions.ManageMethods)]
         [HttpPut("{methodId:int}/image")]
-        public async Task<IActionResult> ChangeImage(int methodId, [FromForm] ChangeMethodImageDTO changeMethodImageDTO)
+        public async Task<IActionResult> ChangeImage(int methodId, [FromForm] AddImageRequest imageRequest)
         {
-            Validator.ValidateAndThrow(changeMethodImageDTO, new ChangeMethodImageValidator());
-            MethodDTO methodDTO = await _methodService.ChangeImageAsync(methodId, changeMethodImageDTO);
+            Validator.ValidateAndThrow(imageRequest.ToAddImageDTO(), new UploadImageValidator());
+            MethodDTO methodDTO = await _methodService.ChangeImageAsync(methodId, imageRequest.ToAddImageDTO());
             return Ok(ApiResponse<MethodDTO>.Success
             (
                 "Method image updated successfully.",

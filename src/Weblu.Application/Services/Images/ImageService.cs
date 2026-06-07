@@ -30,13 +30,13 @@ namespace Weblu.Application.Services.Images
             _imageRepository = imageRepository;
             _webHostPath = webHost.GetWebRootPath();
         }
-        public async Task<ImageDTO> AddAsync(AddImageDTO addImageDTO)
+        public async Task<ImageDTO> AddAsync(UploadImageDTO uploadImageDTO)
         {
-            if (addImageDTO.Image.Length < 0)
+            if (uploadImageDTO.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
-            var image = addImageDTO.Image;
+            var image = uploadImageDTO.Image;
             string imageName = await MediaManager.UploadMedia(
                     _webHostPath,
                     new MediaUploaderDTO
@@ -49,7 +49,7 @@ namespace Weblu.Application.Services.Images
             ImageMedia imageModel = new ImageMedia()
             {
                 Name = imageName,
-                AltText = addImageDTO.AltText,
+                AltText = uploadImageDTO.AltText,
                 Url = $"uploads/{MediaType.picture}/{imageName}",
             };
 

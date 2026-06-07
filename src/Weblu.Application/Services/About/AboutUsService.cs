@@ -12,6 +12,7 @@ using Weblu.Domain.Entities.About;
 using Weblu.Domain.Enums.Common.Media;
 using Weblu.Domain.Errors.About;
 using Weblu.Domain.Errors.Images;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 
 namespace Weblu.Application.Services.About
 {
@@ -61,12 +62,12 @@ namespace Weblu.Application.Services.About
             return aboutUsDTO;
         }
 
-        public async Task<AboutUsDTO> ChangeHeadImageAsync(int aboutUsId, ChangeAboutUsImageDTO changeAboutUsImageDTO)
+        public async Task<AboutUsDTO> ChangeHeadImageAsync(int aboutUsId, UploadImageDTO uploadImageDTO)
         {
 
             AboutUs aboutUs = await _aboutUsRepository.GetByIdAsync(aboutUsId) ?? throw new NotFoundException(AboutUsErrorCodes.NotFound);
 
-            if (changeAboutUsImageDTO.Image.Length < 0)
+            if (uploadImageDTO.Image.Length < 0)
             {
                 throw new BadRequestException(ImageErrorCodes.ImageFileInvalid);
             }
@@ -74,7 +75,7 @@ namespace Weblu.Application.Services.About
             {
                 await MediaManager.DeleteMedia(_webHostPath, aboutUs.HeadImageUrl);
             }
-            var image = changeAboutUsImageDTO.Image;
+            var image = uploadImageDTO.Image;
             string imageName = await MediaManager.UploadMedia(
                     _webHostPath,
                     new MediaUploaderDTO
@@ -84,7 +85,7 @@ namespace Weblu.Application.Services.About
                     }
             );
             aboutUs.HeadImageUrl = $"uploads/{MediaType.picture}/{imageName}";
-            aboutUs.HeadImageAltText = changeAboutUsImageDTO.AltText;
+            aboutUs.HeadImageAltText = uploadImageDTO.AltText;
 
             aboutUs.MarkUpdated();
             _aboutUsRepository.Update(aboutUs);

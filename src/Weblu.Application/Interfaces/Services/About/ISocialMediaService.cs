@@ -1,4 +1,5 @@
 using Weblu.Application.DTOs.About.SocialMediaDTOs;
+using Weblu.Application.DTOs.Images.ImageDTOs;
 using Weblu.Application.Parameters.About;
 
 namespace Weblu.Application.Interfaces.Services.About
@@ -9,7 +10,7 @@ namespace Weblu.Application.Interfaces.Services.About
         Task<SocialMediaDTO> GetByIdAsync(int socialMediaId);
         Task<SocialMediaDTO> CreateAsync(CreateSocialMediaDTO createSocialMediaDTO);
         Task<SocialMediaDTO> UpdateAsync(int socialMediaId, UpdateSocialMediaDTO updateSocialMediaDTO);
-        Task<SocialMediaDTO> ChangeIconAsync(int socialMediaId, ChangeSocialMediaIconDTO changeSocialMediaIconDTO);
+        Task<SocialMediaDTO> ChangeIconAsync(int socialMediaId, UploadImageDTO uploadImageDTO);
         Task DeleteAsync(int socialMediaId);
     }
 }

@@ -1,10 +1,14 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Weblu.Api.Extensions;
+using Weblu.Api.Models;
 using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.Images.ProfileDTOs;
 using Weblu.Application.Interfaces.Services.Images;
 using Weblu.Application.Parameters.Images;
+using Weblu.Application.Validations;
+using Weblu.Application.Validations.Images;
 using Weblu.Infrastructure.Identity.Authorization;
 
 namespace Weblu.Api.Controllers.v1.Images
@@ -35,9 +39,10 @@ namespace Weblu.Api.Controllers.v1.Images
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm] AddProfileDTO addProfileDTO)
+        public async Task<IActionResult> Add([FromForm] AddProfileDTO addProfileDTO, AddImageRequest imageRequest)
         {
-            ProfileDTO profileDTO = await _profileImageService.AddAsync(addProfileDTO);
+            Validator.ValidateAndThrow(imageRequest.ToAddImageDTO(), new UploadImageValidator());
+            ProfileDTO profileDTO = await _profileImageService.AddAsync(addProfileDTO, imageRequest.ToAddImageDTO());
             return CreatedAtAction(nameof(GetById), new { profileId = profileDTO.Id }, ApiResponse<ProfileDTO>.Success
             (
                 "Profile image uploaded successfully.",
