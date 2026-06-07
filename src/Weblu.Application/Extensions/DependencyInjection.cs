@@ -13,6 +13,14 @@ using Weblu.Application.Interfaces.Services.Users.Favorites;
 using Weblu.Application.Interfaces.Services.Users.Favorites.FavoriteLists;
 using Weblu.Application.Interfaces.Services.Users.Tokens;
 using Weblu.Application.Interfaces.Services.Users.UserFavorites.FavoriteLists;
+using Weblu.Application.Mappers.About;
+using Weblu.Application.Mappers.Common;
+using Weblu.Application.Mappers.FAQs;
+using Weblu.Application.Mappers.Images;
+using Weblu.Application.Mappers.Portfolios;
+using Weblu.Application.Mappers.Services;
+using Weblu.Application.Mappers.Tickets;
+using Weblu.Application.Mappers.Users;
 using Weblu.Application.Services;
 using Weblu.Application.Services.About;
 using Weblu.Application.Services.Articles;
@@ -90,7 +98,22 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IDomainEventHandler<PortfolioUpdatedEvent>, PortfolioSearchUpdateHandler>();
             services.AddScoped<IDomainEventHandler<PortfolioUnpublishedEvent>, PortfolioSearchDeleteHandler>();
 
-
+            // Mappers
+            services.AddAutoMapper(typeof(ServiceProfile));
+            services.AddAutoMapper(typeof(FeatureProfile));
+            services.AddAutoMapper(typeof(MethodProfile));
+            services.AddAutoMapper(typeof(ImageProfile));
+            services.AddAutoMapper(typeof(RefreshTokenProfile));
+            services.AddAutoMapper(typeof(PortfolioProfile));
+            services.AddAutoMapper(typeof(ContributorProfile));
+            services.AddAutoMapper(typeof(TicketProfile));
+            services.AddAutoMapper(typeof(TicketMessageProfile));
+            services.AddAutoMapper(typeof(FAQProfile));
+            services.AddAutoMapper(typeof(FavoriteListProfile));
+            services.AddAutoMapper(typeof(AboutUsProfile));
+            services.AddAutoMapper(typeof(SocialMediaProfile));
+            services.AddAutoMapper(typeof(TagProfile));
+            services.AddAutoMapper(typeof(SearchProfile));
         }
     }
 }

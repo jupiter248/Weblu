@@ -94,22 +94,7 @@ namespace Weblu.Infrastructure.Extensions
 
             // Mappers
             services.AddScoped(typeof(IAppLogger<>), typeof(AppLoggerService<>));
-            services.AddAutoMapper(typeof(UserProfile));
-            services.AddAutoMapper(typeof(ServiceProfile));
-            services.AddAutoMapper(typeof(FeatureProfile));
-            services.AddAutoMapper(typeof(MethodProfile));
-            services.AddAutoMapper(typeof(ImageProfile));
-            services.AddAutoMapper(typeof(RefreshTokenProfile));
-            services.AddAutoMapper(typeof(PortfolioProfile));
-            services.AddAutoMapper(typeof(ContributorProfile));
-            services.AddAutoMapper(typeof(TicketProfile));
-            services.AddAutoMapper(typeof(TicketMessageProfile));
-            services.AddAutoMapper(typeof(FAQProfile));
-            services.AddAutoMapper(typeof(FavoriteListProfile));
-            services.AddAutoMapper(typeof(AboutUsProfile));
-            services.AddAutoMapper(typeof(SocialMediaProfile));
-            services.AddAutoMapper(typeof(TagProfile));
-            services.AddAutoMapper(typeof(SearchProfile));
+
 
             // DisPatcher
             services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
