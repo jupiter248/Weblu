@@ -11,12 +11,8 @@ using Weblu.Domain.Interfaces.Repositories.FAQs;
 
 namespace Weblu.Infrastructure.Repositories.FAQs
 {
-    internal class FAQRepository : GenericRepository<FAQ, FAQParameters>, IFAQRepository
+    internal class FAQRepository(ApplicationDbContext context) : GenericRepository<FAQ, FAQParameters>(context), IFAQRepository
     {
-        public FAQRepository(ApplicationDbContext context) : base(context)
-        {
-        }
-
         public override async Task<PagedList<FAQ>> GetAllAsync(FAQParameters faqParameters)
         {
             IQueryable<FAQ> faqs = _context.FAQs.Where(a => !a.IsDeleted).Include(c => c.Category).AsNoTracking();

@@ -46,6 +46,8 @@ using Weblu.Infrastructure.Repositories.Tickets;
 using Weblu.Infrastructure.Repositories.Users;
 using Weblu.Infrastructure.Repositories.Users.Tokens;
 using Weblu.Infrastructure.Repositories.Users.UserFavorites;
+using Weblu.Domain.Interfaces.Repositories.Orders;
+using Weblu.Infrastructure.Repositories.Orders;
 
 namespace Weblu.Infrastructure.Extensions
 {
@@ -81,6 +83,9 @@ namespace Weblu.Infrastructure.Extensions
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ISearchRepository, SearchRepository>();
+            services.AddScoped<IOrderRepository , OrderRepository>();
+            services.AddScoped<IOrderStatusRepository , OrderStatusRepository>();
+
 
             // Services
             services.AddScoped<IAuthService, AuthService>();

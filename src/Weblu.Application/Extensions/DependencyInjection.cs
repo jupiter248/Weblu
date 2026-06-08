@@ -17,6 +17,7 @@ using Weblu.Application.Mappers.About;
 using Weblu.Application.Mappers.Common;
 using Weblu.Application.Mappers.FAQs;
 using Weblu.Application.Mappers.Images;
+using Weblu.Application.Mappers.Orders;
 using Weblu.Application.Mappers.Portfolios;
 using Weblu.Application.Mappers.Services;
 using Weblu.Application.Mappers.Tickets;
@@ -114,6 +115,8 @@ namespace Weblu.Application.Extensions
             services.AddAutoMapper(typeof(SocialMediaProfile));
             services.AddAutoMapper(typeof(TagProfile));
             services.AddAutoMapper(typeof(SearchProfile));
+            services.AddAutoMapper(typeof(OrderProfile));
+
         }
     }
 }
