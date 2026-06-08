@@ -10,6 +10,7 @@ using Weblu.Domain.Entities.Common.Search;
 using Weblu.Domain.Entities.Common.Tags;
 using Weblu.Domain.Entities.FAQs;
 using Weblu.Domain.Entities.Media;
+using Weblu.Domain.Entities.Orders;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Entities.Services;
 using Weblu.Domain.Entities.Tickets;
@@ -53,6 +54,8 @@ namespace Weblu.Infrastructure.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<FavoriteArticle> FavoriteArticles { get; set; }
         public DbSet<SearchItem> SearchItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
 
 
 
@@ -69,7 +72,7 @@ namespace Weblu.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+
             modelBuilder.Entity<Service>()
                 .HasMany(f => f.Features)
                 .WithMany(s => s.Services);
@@ -149,6 +152,12 @@ namespace Weblu.Infrastructure.Data
                 .HasMany(p => p.Comments)
                 .WithOne()
                 .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.Orders)
+                .WithOne()
+                .HasForeignKey(u => u.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Article>()
