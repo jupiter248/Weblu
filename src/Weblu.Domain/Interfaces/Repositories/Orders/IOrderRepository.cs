@@ -6,5 +6,5 @@ namespace Weblu.Domain.Interfaces.Repositories.Orders;
 
 public interface IOrderRepository : IGenericRepository<Order, OrderParameters>
 {
-
+    Task<Order?> GetByIdWithFeaturesAsync(int id);
 }

@@ -4,5 +4,6 @@ namespace Weblu.Domain.Parameters.Orders;
 
 public class OrderParameters : BaseParameters
 {
-    
+    public string? UserId { get; set; }
+
 }

@@ -25,7 +25,6 @@ namespace Weblu.Infrastructure.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
-
         public DbSet<Service> Services { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<Method> Methods { get; set; }
@@ -56,79 +55,76 @@ namespace Weblu.Infrastructure.Data
         public DbSet<SearchItem> SearchItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            // Service 
             modelBuilder.Entity<Service>()
                 .HasMany(f => f.Features)
                 .WithMany(s => s.Services);
-
             modelBuilder.Entity<Service>()
                 .HasMany(m => m.Methods)
                 .WithMany(s => s.Services);
 
+            // Portfolio
             modelBuilder.Entity<Portfolio>()
                 .HasMany(f => f.Features)
                 .WithMany(s => s.Portfolios);
-
             modelBuilder.Entity<Portfolio>()
                 .HasMany(m => m.Methods)
                 .WithMany(s => s.Portfolios);
-
             modelBuilder.Entity<Portfolio>()
                 .HasMany(m => m.Contributors)
                 .WithMany(s => s.Portfolios);
 
+            // Article
+            modelBuilder.Entity<Article>()
+                .HasMany(m => m.Tags)
+                .WithMany(s => s.Articles);
+
+            // AppUser
             modelBuilder.Entity<AppUser>()
                 .HasMany(t => t.RefreshTokens)
                 .WithOne()
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<AppUser>()
                 .HasMany(p => p.Profiles)
                 .WithOne()
                 .HasForeignKey(u => u.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<AppUser>()
                 .HasMany(t => t.Tickets)
                 .WithOne()
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<AppUser>()
                 .HasMany(p => p.FavoritePortfolios)
                 .WithOne()
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<AppUser>()
                 .HasMany(p => p.FavoriteLists)
                 .WithOne()
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<AppUser>()
                 .HasMany(p => p.ArticleLikes)
                 .WithOne()
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.Comments)
+                .WithOne()
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<AppUser>()
+                .HasMany(p => p.Orders)
+                .WithOne()
+                .HasForeignKey(u => u.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+
+            // Favorite List
             modelBuilder.Entity<FavoriteList>()
                 .HasMany(p => p.FavoritePortfolios)
                 .WithMany(l => l.FavoriteLists)
@@ -148,21 +144,11 @@ namespace Weblu.Infrastructure.Data
                         .HasForeignKey("FavoriteListId")
                         .OnDelete(DeleteBehavior.Restrict)
                 );
-            modelBuilder.Entity<AppUser>()
-                .HasMany(p => p.Comments)
-                .WithOne()
-                .HasForeignKey(u => u.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<AppUser>()
-                .HasMany(p => p.Orders)
-                .WithOne()
-                .HasForeignKey(u => u.OwnerId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Article>()
-                .HasMany(m => m.Tags)
-                .WithMany(s => s.Articles);
+            // Order 
+            modelBuilder.Entity<Order>()
+                .HasMany(x => x.Features)
+                .WithMany(x => x.Orders);
 
             base.OnModelCreating(modelBuilder);
         }

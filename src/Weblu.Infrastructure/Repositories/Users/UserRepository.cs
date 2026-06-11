@@ -24,12 +24,19 @@ namespace Weblu.Infrastructure.Repositories.Users
             User? commentUserDTO = await _context.Users.Where(a => !a.IsDeleted).Where(u => u.Id == userId).Select(c => new User(
                 c.Id,
                 c.UserName,
+                c.PhoneNumber,
+                c.FirstName + " " + c.LastName,
                 c.Profiles.Where(P => P.IsMain).Select(u => u.Url).FirstOrDefault(),
                 c.Profiles.Where(P => P.IsMain).Select(u => u.AltText).FirstOrDefault()
             ))
             .AsNoTracking().FirstOrDefaultAsync();
 
             return commentUserDTO;
+        }
+
+        public async Task<string?> GetUsernameAsync(string userId)
+        {
+            return await _context.Users.Where(u => u.Id == userId).Select(u => u.UserName).FirstOrDefaultAsync();
         }
 
         public async Task<bool> IsAdminAsync(string userId)

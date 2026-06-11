@@ -2,8 +2,8 @@ namespace Weblu.Application.DTOs.Orders.OrderDTOs;
 
 public class CreateOrderDTO
 {
-    public string Name { get; set; } = default!;
+    public int ServiceId { get; set; } 
+    public int StatusId { get; set; }
+    public int MethodId { get; set; }
 
-    public int ServiceId { get; set; } = default!;
-    public int MethodId { get; set; } = default!;
 }

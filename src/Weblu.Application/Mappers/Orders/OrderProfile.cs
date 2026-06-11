@@ -16,16 +16,18 @@ public class OrderProfile : Profile
         CreateMap<Order, OrderDetailDTO>()
             .ForMember(x => x.OrderedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
             .ForMember(x => x.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt.HasValue ? src.UpdatedAt.Value.ToShamsi() : string.Empty))
-            .ForMember(x => x.StatusName, opt => opt.MapFrom(src => src.Status.Name));
+            .ForMember(x => x.StatusName, opt => opt.MapFrom(src => src.Status.Name))
+            .ForMember(x => x.ServiceName, opt => opt.MapFrom(src => src.Service.Title))
+            .ForMember(x => x.MethodName, opt => opt.MapFrom(src => src.Method.Name));
+
         CreateMap<Order, OrderSummeryDTO>()
             .ForMember(x => x.OrderedAt, opt => opt.MapFrom(src => src.CreatedAt.ToShamsi()))
+            .ForMember(x => x.StatusName, opt => opt.MapFrom(src => src.Status.Name))
             .ForMember(x => x.StatusName, opt => opt.MapFrom(src => src.Status.Name));
 
-        CreateMap<CreateOrderDTO, Order>()
-         .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Name.Slugify()));
+        CreateMap<CreateOrderDTO, Order>();
 
-        CreateMap<UpdateOrderDTO, Order>()
-                .ForMember(dest => dest.Slug, opt => opt.MapFrom(src => src.Name.Slugify()));
+        CreateMap<UpdateOrderDTO, Order>();
 
         // Order Status
         CreateMap<OrderStatus, OrderStatusDTO>()

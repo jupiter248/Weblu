@@ -47,6 +47,12 @@ namespace Weblu.Infrastructure.Repositories.Services
             return service;
         }
 
+        public async Task<Service?> GetByIdWithFeaturesAsync(int serviceId)
+        {
+            Service? service = await _context.Services.Where(a => !a.IsDeleted).Include(i => i.Features).FirstOrDefaultAsync(s => s.Id == serviceId);
+            return service;
+        }
+
         public async Task<Service?> GetByIdWithImagesAsync(int serviceId)
         {
             Service? service = await _context.Services.Where(a => !a.IsDeleted).Include(i => i.ServiceImages).ThenInclude(i => i.Image).FirstOrDefaultAsync(s => s.Id == serviceId);
