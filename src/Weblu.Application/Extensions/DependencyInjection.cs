@@ -99,6 +99,7 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IOrderFeatureService, OrderFeatureService>();
 
 
+
             // Events
             //Event Articles
             services.AddScoped<IDomainEventHandler<ArticlePublishedEvent>, ArticleSearchIndexHandler>();

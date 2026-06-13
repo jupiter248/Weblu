@@ -3,9 +3,8 @@ using Weblu.Application.Common.Models;
 using Weblu.Application.DTOs.Orders.OrderDTOs;
 using Weblu.Application.Exceptions.CustomExceptions;
 using Weblu.Application.Extensions;
-using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Interfaces.Services.Orders;
-using Weblu.Application.Interfaces.Services.ServiceServices;
+using Weblu.Application.Helpers;
 using Weblu.Domain.Entities.Orders;
 using Weblu.Domain.Errors.Methods;
 using Weblu.Domain.Errors.Orders;
@@ -17,13 +16,14 @@ using Weblu.Domain.Interfaces.Repositories.Orders;
 using Weblu.Domain.Interfaces.Repositories.Services;
 using Weblu.Domain.Interfaces.Repositories.Users;
 using Weblu.Domain.Parameters.Orders;
+using Weblu.Application.Common.Services;
 
 namespace Weblu.Application.Services.Orders;
 
-public class OrderService : IOrderService
+public class OrderService : BaseService, IOrderService
 {
     private readonly IMapper _mapper;
-    public readonly IUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IOrderRepository _orderRepository;
     private readonly IOrderStatusRepository _orderStatusRepository;
     private readonly IServiceRepository _serviceRepository;
@@ -37,7 +37,7 @@ public class OrderService : IOrderService
         IServiceRepository serviceRepository,
         IMethodRepository methodRepository,
         IUserRepository userRepository
-        )
+        ) : base(userRepository)
     {
         _mapper = mapper;
         _unitOfWork = unitOfWork;
@@ -49,8 +49,7 @@ public class OrderService : IOrderService
     }
     public async Task DeleteAsync(int orderId, string userId)
     {
-        var userExists = await _userRepository.UserExistsAsync(userId);
-        if (!userExists) throw new NotFoundException(UserErrorCodes.UserNotFound);
+        await EnsureUserExistsAsync(userId);
 
         var isAdmin = await _userRepository.IsAdminAsync(userId);
         var order = await _orderRepository.GetByIdAsync(orderId) ?? throw new NotFoundException(OrderErrorCodes.NotFound);
@@ -63,8 +62,7 @@ public class OrderService : IOrderService
 
     public async Task<PagedResponse<OrderSummeryDTO>> GetAllPagedAsync(string userId, OrderParameters orderParameters)
     {
-        var userExists = await _userRepository.UserExistsAsync(userId);
-        if (!userExists) throw new NotFoundException(UserErrorCodes.UserNotFound);
+        await EnsureUserExistsAsync(userId);
 
         var isAdmin = await _userRepository.IsAdminAsync(userId);
         if (!isAdmin && orderParameters.UserId != userId) throw new NotFoundException(OrderErrorCodes.NotFound);
@@ -72,9 +70,15 @@ public class OrderService : IOrderService
         var orders = await _orderRepository.GetAllAsync(orderParameters);
         var orderDtos = _mapper.Map<List<OrderSummeryDTO>>(orders);
 
+        var ownerIds = orderDtos.Select(o => o.OwnerId).Distinct().ToArray();
+        var usernames = await _userRepository.GetUsernamesByIdsAsync(ownerIds);
+
         foreach (var item in orderDtos)
         {
-            item.Username = await _userRepository.GetUsernameAsync(item.OwnerId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
+            if (!usernames.TryGetValue(item.OwnerId, out var username))
+                throw new NotFoundException(UserErrorCodes.UserNotFound);
+
+            item.Username = username;
         }
 
         var pagedOrders = _mapper.Map<PagedResponse<OrderSummeryDTO>>(orders);
@@ -84,8 +88,7 @@ public class OrderService : IOrderService
 
     public async Task<OrderDetailDTO> GetByIdAsync(int orderId, string userId)
     {
-        var userExists = await _userRepository.UserExistsAsync(userId);
-        if (!userExists) throw new NotFoundException(UserErrorCodes.UserNotFound);
+        await EnsureUserExistsAsync(userId);
 
         var isAdmin = await _userRepository.IsAdminAsync(userId);
         var order = await _orderRepository.GetByIdAsync(orderId) ?? throw new NotFoundException(OrderErrorCodes.NotFound);
@@ -99,8 +102,7 @@ public class OrderService : IOrderService
 
     public async Task<OrderDetailDTO> OrderAsync(CreateOrderDTO createOrderDTO, string userId)
     {
-        var userExists = await _userRepository.UserExistsAsync(userId);
-        if (!userExists) throw new NotFoundException(UserErrorCodes.UserNotFound);
+        await EnsureUserExistsAsync(userId);
 
 
         var status = await _orderStatusRepository.GetByIdAsync(createOrderDTO.StatusId) ?? throw new NotFoundException(OrderStatusErrorCodes.NotFound);
@@ -108,7 +110,7 @@ public class OrderService : IOrderService
         var method = await _methodRepository.GetByIdAsync(createOrderDTO.MethodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
 
         var order = _mapper.Map<Order>(createOrderDTO);
-        order.Name = $"{service.Title} + {method.Name}";
+        order.Name = NameBuilder.BuildOrderName(service.Title, method.Name);
         order.Slug = order.Name.Slugify();
         order.Status = status;
         order.Service = service;
@@ -131,22 +133,21 @@ public class OrderService : IOrderService
 
     public async Task<OrderDetailDTO> UpdateAsync(string userId, int orderId, UpdateOrderDTO updateOrderDTO)
     {
-        var userExists = await _userRepository.UserExistsAsync(userId);
-        if (!userExists) throw new NotFoundException(UserErrorCodes.UserNotFound);
+        await EnsureUserExistsAsync(userId);
 
         var order = await _orderRepository.GetByIdAsync(orderId) ?? throw new NotFoundException(OrderErrorCodes.NotFound);
 
         var method = await _methodRepository.GetByIdAsync(updateOrderDTO.MethodId) ?? throw new NotFoundException(MethodErrorCodes.MethodNotFound);
 
-        var updatedOrder = _mapper.Map<Order>(updateOrderDTO);
-        updatedOrder.Name = $"{order.Service.Title} + {method.Name}";
+        _mapper.Map<Order>(updateOrderDTO);
+        order.Name = NameBuilder.BuildOrderName(order.Service.Title, method.Name);
         order.Slug = order.Name.Slugify();
         order.Method = method;
 
-        updatedOrder.MarkUpdated();
+        order.MarkUpdated();
         await _unitOfWork.CommitAsync();
 
-        var orderDTO = _mapper.Map<OrderDetailDTO>(updatedOrder);
+        var orderDTO = _mapper.Map<OrderDetailDTO>(order);
         var username = await _userRepository.GetUsernameAsync(userId);
         if (string.IsNullOrWhiteSpace(username)) throw new UnauthorizedException(UserErrorCodes.UserNotFound);
 

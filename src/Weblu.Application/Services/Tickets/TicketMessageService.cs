@@ -9,10 +9,11 @@ using Weblu.Application.Interfaces.Services.Users;
 using Weblu.Domain.Entities.Tickets;
 using Weblu.Domain.Errors.Tickets;
 using Weblu.Domain.Errors.Users;
+using Weblu.Application.Common.Services;
 
 namespace Weblu.Application.Services.Tickets
 {
-    public class TicketMessageService : ITicketMessageService
+    public class TicketMessageService : BaseService, ITicketMessageService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITicketMessageRepository _ticketMessageRepository;
@@ -25,7 +26,7 @@ namespace Weblu.Application.Services.Tickets
             ITicketMessageRepository ticketMessageRepository,
             ITicketRepository ticketRepository,
             IUserRepository userRepository
-            )
+            ) : base(userRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -36,11 +37,8 @@ namespace Weblu.Application.Services.Tickets
         }
         public async Task DeleteAsync(string senderId, int messageId)
         {
-            bool userExists = await _userRepository.UserExistsAsync(senderId);
-            if (!userExists)
-            {
-                throw new NotFoundException(UserErrorCodes.UserNotFound);
-            }
+            await EnsureUserExistsAsync(senderId);
+
             bool isAdmin = await _userService.IsAdminAsync(senderId);
             TicketMessage ticketMessage = await _ticketMessageRepository.GetByIdAsync(messageId) ?? throw new NotFoundException(TicketMessageErrorCodes.TicketMessageNotFound);
 
@@ -61,11 +59,8 @@ namespace Weblu.Application.Services.Tickets
 
         public async Task<TicketMessageDTO> ReplyAsync(string senderId, int ticketId, ReplyTicketDTO replyTicketDTO)
         {
-            bool userExists = await _userRepository.UserExistsAsync(senderId);
-            if (!userExists)
-            {
-                throw new NotFoundException(UserErrorCodes.UserNotFound);
-            }
+            await EnsureUserExistsAsync(senderId);
+
             bool isAdmin = await _userService.IsAdminAsync(senderId);
             Ticket ticket = await _ticketRepository.GetByIdAsync(ticketId) ?? throw new NotFoundException(TicketErrorCodes.TicketNotFound);
             if (ticket.UserId != senderId && !isAdmin)
@@ -93,11 +88,8 @@ namespace Weblu.Application.Services.Tickets
 
         public async Task<TicketMessageDTO> EditAsync(string senderId, int messageId, EditTicketMessageDTO editTicketMessageDTO)
         {
-            bool userExists = await _userRepository.UserExistsAsync(senderId);
-            if (!userExists)
-            {
-                throw new NotFoundException(UserErrorCodes.UserNotFound);
-            }
+            await EnsureUserExistsAsync(senderId);
+
             TicketMessage ticketMessage = await _ticketMessageRepository.GetByIdAsync(messageId) ?? throw new NotFoundException(TicketMessageErrorCodes.TicketMessageNotFound);
             if (ticketMessage.SenderId != senderId)
             {

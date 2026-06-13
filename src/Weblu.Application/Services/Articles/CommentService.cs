@@ -13,10 +13,11 @@ using Weblu.Domain.Entities.Articles.Comments;
 using Weblu.Domain.Errors.Articles;
 using Weblu.Domain.Errors.Users;
 using Weblu.Domain.Entities.Users;
+using Weblu.Application.Common.Services;
 
 namespace Weblu.Application.Services.Articles
 {
-    public class CommentService : ICommentService
+    public class CommentService : BaseService, ICommentService
     {
         private readonly ICommentRepository _commentRepository;
         private readonly IArticleRepository _articleRepository;
@@ -26,7 +27,7 @@ namespace Weblu.Application.Services.Articles
 
 
 
-        public CommentService(IUnitOfWork unitOfWork, ICommentRepository commentRepository, IMapper mapper, IUserRepository userRepository, IArticleRepository articleRepository)
+        public CommentService(IUnitOfWork unitOfWork, ICommentRepository commentRepository, IMapper mapper, IUserRepository userRepository, IArticleRepository articleRepository) : base(userRepository)
         {
             _commentRepository = commentRepository;
             _mapper = mapper;
@@ -36,7 +37,8 @@ namespace Weblu.Application.Services.Articles
         }
         public async Task<CommentDTO> CreateAsync(string userId, CreateCommentDTO createCommentDTO)
         {
-            Comment comment = _mapper.Map<Comment>(createCommentDTO);
+            await EnsureUserExistsAsync(userId);
+
             Article article = await _articleRepository.GetByIdAsync(createCommentDTO.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
             User user = await _userRepository.GetUserAsync(userId) ?? throw new NotFoundException(UserErrorCodes.UserNotFound);
             if (createCommentDTO.ParentCommentId.HasValue)
@@ -46,27 +48,27 @@ namespace Weblu.Application.Services.Articles
                     throw new NotFoundException(CommentErrorCodes.NotFound);
                 }
             }
+
+            Comment comment = _mapper.Map<Comment>(createCommentDTO);
             comment.Article = article;
-            // comment.UserId = commentUserDTO.UserId;
+            comment.UserId = user.Id;
 
             _commentRepository.Add(comment);
             await _unitOfWork.CommitAsync();
 
             CommentDTO commentDTO = _mapper.Map<CommentDTO>(comment);
-            // commentDTO.User = commentUserDTO;
+            commentDTO.User = user;
 
             return commentDTO;
         }
 
         public async Task DeleteAsync(string userId, int commentId)
         {
+            await EnsureUserExistsAsync(userId);
+
+
             Comment comment = await _commentRepository.GetByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.NotFound);
-            bool userExists = await _userRepository.UserExistsAsync(userId);
             bool isAdmin = await _userRepository.IsAdminAsync(userId);
-            if (!userExists)
-            {
-                throw new NotFoundException(UserErrorCodes.UserNotFound);
-            }
             if (userId != comment.UserId && !isAdmin)
             {
                 throw new UnauthorizedException(CommentErrorCodes.DeleteForbidden);
@@ -77,6 +79,7 @@ namespace Weblu.Application.Services.Articles
         }
         public async Task<List<CommentDTO>> GetAllAsync(CommentParameters commentParameters)
         {
+
             IReadOnlyList<Comment> comments = await _commentRepository.GetAllAsync(commentParameters);
             List<CommentDTO> commentDTOs = _mapper.Map<List<CommentDTO>>(comments);
             foreach (Comment comment in comments)
@@ -124,13 +127,11 @@ namespace Weblu.Application.Services.Articles
 
         public async Task<CommentDTO> EditAsync(string userId, int commentId, UpdateCommentDTO updateCommentDTO)
         {
+            await EnsureUserExistsAsync(userId);
+
             Comment comment = await _commentRepository.GetByIdAsync(commentId) ?? throw new NotFoundException(CommentErrorCodes.NotFound);
             Article article = await _articleRepository.GetByIdAsync(comment.ArticleId) ?? throw new NotFoundException(ArticleErrorCodes.NotFound);
-            bool userExists = await _userRepository.UserExistsAsync(userId);
-            if (!userExists)
-            {
-                throw new NotFoundException(UserErrorCodes.UserNotFound);
-            }
+
             if (userId != comment.UserId)
             {
                 throw new UnauthorizedException(CommentErrorCodes.UpdateForbidden);

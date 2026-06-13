@@ -39,6 +39,12 @@ namespace Weblu.Infrastructure.Repositories.Users
             return await _context.Users.Where(u => u.Id == userId).Select(u => u.UserName).FirstOrDefaultAsync();
         }
 
+        public async Task<Dictionary<string, string>> GetUsernamesByIdsAsync(string[] userIds)
+        {
+            return await _context.Users.Where(u => !u.IsDeleted).Where(u => userIds.Contains(u.Id))
+            .ToDictionaryAsync(u => u.Id, u => u.UserName);
+        }
+
         public async Task<bool> IsAdminAsync(string userId)
         {
             string adminRoleId = await _context.Roles.Where(r => r.Name == "Admin").Select(r => r.Id).FirstOrDefaultAsync() ?? default!;
