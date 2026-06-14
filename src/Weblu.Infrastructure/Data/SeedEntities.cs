@@ -81,7 +81,10 @@ namespace Weblu.Infrastructure.Data
                     Permissions.ManageImages,
                     Permissions.ManageProfiles,
                     Permissions.ManageSocialMedia,
-                    Permissions.ManageAboutUs
+                    Permissions.ManageAboutUs,
+                    Permissions.ManageOrders,
+                    Permissions.ManageOrdersStatus
+
                 ],
                 [Roles.Admin] =
                 [
@@ -93,6 +96,8 @@ namespace Weblu.Infrastructure.Data
                     Permissions.ManageProfiles,
                     Permissions.ManageFAQs,
                     Permissions.ManageTickets,
+                    Permissions.ManageOrders,
+                    Permissions.ManageOrdersStatus
                 ],
                 [Roles.Editor] =
                 [
@@ -107,6 +112,7 @@ namespace Weblu.Infrastructure.Data
                 ],
                 [Roles.User] =
                 [
+                    Permissions.ManageOrders
                 ]
             };
 

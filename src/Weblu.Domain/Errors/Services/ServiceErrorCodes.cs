@@ -19,6 +19,7 @@ namespace Weblu.Domain.Errors.Services
         public const string AlreadyPublished = "SERVICE_ALREADY_PUBLISHED";
         public const string DidNotPublish = "SERVICE_DID_NOT_PUBLISH";
         public const string IsPublish = "SERVICE_IS_PUBLISH";
+        public const string InvalidId = "INVALID_SERVICE_ID";
 
 
 

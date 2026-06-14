@@ -66,6 +66,7 @@ public class OrderService : BaseService, IOrderService
 
         var isAdmin = await _userRepository.IsAdminAsync(userId);
         if (!isAdmin && orderParameters.UserId != userId) throw new NotFoundException(OrderErrorCodes.NotFound);
+        if (!isAdmin) orderParameters.UserId = userId;
 
         var orders = await _orderRepository.GetAllAsync(orderParameters);
         var orderDtos = _mapper.Map<List<OrderSummeryDTO>>(orders);

@@ -20,6 +20,9 @@ namespace Weblu.Infrastructure.Identity.Authorization
         public const string ManageSocialMedia = "Permissions.SocialMedia.Manage";
         public const string ManageTags = "Permissions.Tags.Manage";
         public const string ManageTickets = "Permissions.Tickets.Manage";
+        public const string ManageOrders = "Permissions.Orders.Manage";
+        public const string ManageOrdersStatus = "Permissions.Orders.Statuses.Manage";
+
 
 
 
