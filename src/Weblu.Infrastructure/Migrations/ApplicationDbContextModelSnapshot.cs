@@ -97,6 +97,21 @@ namespace Weblu.Infrastructure.Migrations
                     b.ToTable("FavoriteListFavoritePortfolio");
                 });
 
+            modelBuilder.Entity("FeatureOrder", b =>
+                {
+                    b.Property<int>("FeaturesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FeaturesId", "OrdersId");
+
+                    b.HasIndex("OrdersId");
+
+                    b.ToTable("FeatureOrder");
+                });
+
             modelBuilder.Entity("FeaturePortfolio", b =>
                 {
                     b.Property<int>("FeaturesId")
@@ -1009,6 +1024,105 @@ namespace Weblu.Infrastructure.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Orders.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("GuidId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsUpdated")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MethodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MethodId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Weblu.Domain.Entities.Orders.OrderStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("GuidId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsUpdated")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderStatuses");
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.Portfolio", b =>
                 {
                     b.Property<int>("Id")
@@ -1754,6 +1868,21 @@ namespace Weblu.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FeatureOrder", b =>
+                {
+                    b.HasOne("Weblu.Domain.Entities.Common.Features.Feature", null)
+                        .WithMany()
+                        .HasForeignKey("FeaturesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Weblu.Domain.Entities.Orders.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FeaturePortfolio", b =>
                 {
                     b.HasOne("Weblu.Domain.Entities.Common.Features.Feature", null)
@@ -1940,6 +2069,39 @@ namespace Weblu.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Orders.Order", b =>
+                {
+                    b.HasOne("Weblu.Domain.Entities.Common.Methods.Method", "Method")
+                        .WithMany()
+                        .HasForeignKey("MethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Weblu.Infrastructure.Identity.Entities.AppUser", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Weblu.Domain.Entities.Services.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Weblu.Domain.Entities.Orders.OrderStatus", "Status")
+                        .WithMany("Orders")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Method");
+
+                    b.Navigation("Service");
+
+                    b.Navigation("Status");
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.Portfolio", b =>
                 {
                     b.HasOne("Weblu.Domain.Entities.Portfolios.PortfolioCategory", "PortfolioCategory")
@@ -2087,6 +2249,11 @@ namespace Weblu.Infrastructure.Migrations
                     b.Navigation("FAQs");
                 });
 
+            modelBuilder.Entity("Weblu.Domain.Entities.Orders.OrderStatus", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("Weblu.Domain.Entities.Portfolios.Portfolio", b =>
                 {
                     b.Navigation("FavoritePortfolios");
@@ -2120,6 +2287,8 @@ namespace Weblu.Infrastructure.Migrations
                     b.Navigation("FavoriteLists");
 
                     b.Navigation("FavoritePortfolios");
+
+                    b.Navigation("Orders");
 
                     b.Navigation("Profiles");
 

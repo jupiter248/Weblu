@@ -4,6 +4,7 @@ using Weblu.Domain.Entities.Articles;
 using Weblu.Domain.Entities.Articles.Comments;
 using Weblu.Domain.Entities.Common;
 using Weblu.Domain.Entities.Media;
+using Weblu.Domain.Entities.Orders;
 using Weblu.Domain.Entities.Tickets;
 using Weblu.Domain.Entities.Users.Favorites;
 using Weblu.Domain.Entities.Users.Tokens;
@@ -33,6 +34,8 @@ namespace Weblu.Infrastructure.Identity.Entities
         public List<FavoriteList> FavoriteLists { get; set; } = new();
         public List<Comment> Comments { get; set; } = new();
         public List<ArticleLike> ArticleLikes { get; set; } = new();
+        public List<Order> Orders { get; set; } = new();
+
         public virtual void Delete()
         {
             if (IsDeleted) return;

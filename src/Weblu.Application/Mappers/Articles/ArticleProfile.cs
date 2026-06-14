@@ -13,7 +13,7 @@ namespace Weblu.Application.Mappers.Articles
         public ArticleProfile()
         {
             CreateMap<Article, ArticleSummaryDTO>()
-                    .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.ArticleImages.FirstOrDefault(i => i.IsThumbnail).Image.Url ?? string.Empty));
+                    .ForMember(dest => dest.ThumbnailPictureUrl, opt => opt.MapFrom(src => src.ArticleImages.FirstOrDefault(i => i.IsThumbnail)!.Image.Url ?? string.Empty));
 
             CreateMap<Article, ArticleDetailDTO>()
                     .ForMember(dest => dest.PublishedAt, opt => opt.MapFrom(src => src.PublishedAt.HasValue ? src.PublishedAt.Value.ToShamsi() : null))

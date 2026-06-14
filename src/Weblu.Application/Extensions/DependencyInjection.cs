@@ -6,6 +6,7 @@ using Weblu.Application.Interfaces.Services.Articles;
 using Weblu.Application.Interfaces.Services.Common;
 using Weblu.Application.Interfaces.Services.FAQs;
 using Weblu.Application.Interfaces.Services.Images;
+using Weblu.Application.Interfaces.Services.Orders;
 using Weblu.Application.Interfaces.Services.Portfolios;
 using Weblu.Application.Interfaces.Services.ServiceServices;
 using Weblu.Application.Interfaces.Services.Tickets;
@@ -17,6 +18,7 @@ using Weblu.Application.Mappers.About;
 using Weblu.Application.Mappers.Common;
 using Weblu.Application.Mappers.FAQs;
 using Weblu.Application.Mappers.Images;
+using Weblu.Application.Mappers.Orders;
 using Weblu.Application.Mappers.Portfolios;
 using Weblu.Application.Mappers.Services;
 using Weblu.Application.Mappers.Tickets;
@@ -27,6 +29,7 @@ using Weblu.Application.Services.Articles;
 using Weblu.Application.Services.Common;
 using Weblu.Application.Services.FAQs;
 using Weblu.Application.Services.Images;
+using Weblu.Application.Services.Orders;
 using Weblu.Application.Services.Portfolios;
 using Weblu.Application.Services.ServiceServices;
 using Weblu.Application.Services.Tickets;
@@ -43,6 +46,7 @@ namespace Weblu.Application.Extensions
     {
         public static void AddApplication(this IServiceCollection services)
         {
+            // Services
             // Images
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IProfileImageService, ProfileImageService>();
@@ -89,6 +93,14 @@ namespace Weblu.Application.Extensions
             services.AddScoped<IPortfolioImageService, PortfolioImageService>();
             services.AddScoped<IPortfolioContributorService, PortfolioContributorService>();
 
+            // Orders
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderStatusService, OrderStatusService>();
+            services.AddScoped<IOrderFeatureService, OrderFeatureService>();
+
+
+
+            // Events
             //Event Articles
             services.AddScoped<IDomainEventHandler<ArticlePublishedEvent>, ArticleSearchIndexHandler>();
             services.AddScoped<IDomainEventHandler<ArticleUpdatedEvent>, ArticleSearchUpdateHandler>();
@@ -114,6 +126,8 @@ namespace Weblu.Application.Extensions
             services.AddAutoMapper(typeof(SocialMediaProfile));
             services.AddAutoMapper(typeof(TagProfile));
             services.AddAutoMapper(typeof(SearchProfile));
+            services.AddAutoMapper(typeof(OrderProfile));
+
         }
     }
 }

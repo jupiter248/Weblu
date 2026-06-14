@@ -9,5 +9,7 @@ namespace Weblu.Domain.Interfaces.Repositories.Services
         Task LoadMethodsAsync(Service service);
         Task LoadFeaturesAsync(Service service);
         Task<Service?> GetByIdWithImagesAsync(int serviceId);
+        Task<Service?> GetByIdWithFeaturesAsync(int serviceId);
+
     }
 }

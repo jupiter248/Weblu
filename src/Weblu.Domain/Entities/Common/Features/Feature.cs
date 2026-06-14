@@ -1,3 +1,4 @@
+using Weblu.Domain.Entities.Orders;
 using Weblu.Domain.Entities.Portfolios;
 using Weblu.Domain.Entities.Services;
 
@@ -11,5 +12,6 @@ namespace Weblu.Domain.Entities.Common.Features
         // Relationships
         public List<Service> Services { get; set; } = new();
         public List<Portfolio> Portfolios { get; set; } = new();
+        public List<Order> Orders { get; set; } = new();
     }
 }

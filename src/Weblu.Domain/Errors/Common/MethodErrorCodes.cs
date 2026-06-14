@@ -13,6 +13,7 @@ namespace Weblu.Domain.Errors.Methods
         public const string MethodDescriptionRequired = "METHOD_DESCRIPTION_REQUIRED";
         public const string MethodDescriptionMaxLength = "METHOD_DESCRIPTION_MAX_LENGTH";
         public const string MethodImageIsEmpty = "METHOD_IMAGE_IS_EMPTY";
+        public const string InvalidId = "INVALID_METHOD_ID";
 
     }
 }
